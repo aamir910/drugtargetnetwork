@@ -1,117 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- Include Bootstrap 5 CSS and JavaScript -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-</head>
-<style>
+  </head>
+  <style>
     .selection_box {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .btn-green {
-        background-color: #4CAF50;
-        border-color: #4CAF50;
+      background-color: #4caf50;
+      border-color: #4caf50;
     }
 
     .btn-green:hover {
-        background-color: #45A049;
-        border-color: #45A049;
+      background-color: #45a049;
+      border-color: #45a049;
     }
 
     .rowData {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        width: 100%;
-        justify-content: center;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      width: 100%;
+      justify-content: center;
     }
 
     .searchBar {
-        margin-top: 50px;
-        margin-bottom: 3rem;
+      margin-top: 50px;
+      margin-bottom: 3rem;
     }
 
     .graph_div {
-        margin-top: 40px;
-        border: 2px solid black;
-        border-radius: 1rem;
-        width: 100%;
-        height: 550px;
+      margin-top: 40px;
+      border: 2px solid black;
+      border-radius: 1rem;
+      width: 100%;
+      height: 550px;
     }
-</style>
-<body>
+    .error-border {
+      border: 2px solid red;
+    }
+    .alert2 {
+        display: none;
+    }
+  </style>
+  <body>
     <div>
-        <div class="container searchBar">
-            <form class="selection_box flex" id="searchForm">
-                <div class="form-row rowData">
-                    <!-- First Dropdown -->
-                    <div class="form-group col-md-3">
-                        <select class="form-select" id="dropdown1">
-                            <option value="">Select an option</option>
-                            <option value="option1">Option 1</option>
-                            <option value="option2">Option 2</option>
-                            <option value="option3">Option 3</option>
-                        </select>
-                    </div>
-
-                    <!-- Second Dropdown -->
-                    <div class="form-group col-md-3">
-                        <select class="form-select" id="dropdown2">
-                            <option value="">Select an option</option>
-                            <option value="option1">Option 1</option>
-                            <option value="option2">Option 2</option>
-                            <option value="option3">Option 3</option>
-                        </select>
-                    </div>
-
-                    <!-- Third Dropdown -->
-                    <div class="form-group col-md-3">
-                        <select class="form-select" id="dropdown3">
-                            <option value="">Select an option</option>
-                            <option value="option1">Option 1</option>
-                            <option value="option2">Option 2</option>
-                            <option value="option3">Option 3</option>
-                        </select>
-                    </div>
-                    <!-- button  -->
-                    <button class="btn btn-success" type="submit" id="submitButton" disabled>
-                        <i class="bi bi-search"></i> Search
-                    </button>
-                </div>
-            </form>
-
-            <div class="graph_div container">
-                
+      <div class="container searchBar">
+        <form
+          class="selection_box flex"
+          id="searchForm"
+          method="POST"
+          action="fetchdata.php">
+          <div class="form-row rowData">
+            <!-- First Dropdown -->
+            <div class="form-group col-md-3">
+              <select class="form-select" id="dropdown1">
+                <option value="">Select an option</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+              </select>
+              <!-- Alert message for the first dropdown -->
+              <div class="alert-message alert2"  
+              >
+                <span class="alert alert-danger">Please select an option</span>
+              </div>
             </div>
-        </div>
+
+            <!-- Second Dropdown -->
+            <div class="form-group col-md-3">
+              <select class="form-select" id="dropdown2">
+                <option value="">Select an option</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+              </select>
+              <!-- Alert message for the second dropdown -->
+              <div class="alert-message alert2 " 
+              style="position: absolute; top: 110px; ">
+                <span class="alert alert-danger">Please select an option</span>
+              </div>
+            </div>
+
+            <!-- Third Dropdown -->
+            <div class="form-group col-md-3">
+              <select class="form-select" id="dropdown3">
+                <option value="">Select an option</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+              </select>
+              <!-- Alert message for the third dropdown -->
+              <div
+                class="alert-message alert2 "
+                style="position: absolute; top: 110px; ">
+                <span class="alert alert-danger">Please select an option</span>
+              </div>
+            </div>
+            <!-- button  -->
+            <button class="btn btn-success" type="submit" id="submitButton">
+              <i class="bi bi-search"></i> Search
+            </button>
+          </div>
+        </form>
+
+        <div class="graph_div container" id="div2"></div>
+      </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
     <script>
-        // JavaScript to enable the submit button when all dropdowns are selected
-        const dropdown1 = document.getElementById("dropdown1");
-        const dropdown2 = document.getElementById("dropdown2");
-        const dropdown3 = document.getElementById("dropdown3");
-        const submitButton = document.getElementById("submitButton");
+      $(document).ready(function () {
+        // Attach a click event to the submit button
+        $("#submitButton").click(function (e) {
+          e.preventDefault();
 
-        [dropdown1, dropdown2, dropdown3].forEach((dropdown) => {
-            dropdown.addEventListener("change", () => {
-                if (dropdown1.value && dropdown2.value && dropdown3.value) {
-                    submitButton.removeAttribute("disabled");
-                } else {
-                    submitButton.setAttribute("disabled", "true");
-                }
-            });
+          // Check if all dropdowns are selected
+          if (
+            $("#dropdown1").val() &&
+            $("#dropdown2").val() &&
+            $("#dropdown3").val()
+          ) {
+            $("#searchForm").submit();
+          } else {
+            // Show/hide alert messages and apply custom styling
+            handleDropdownAlert("#dropdown1");
+            handleDropdownAlert("#dropdown2");
+            handleDropdownAlert("#dropdown3");
+          }
         });
 
-        // ended JavaScript to enable the submit button when all dropdowns are selected
+        // Function to handle alert messages
+        function handleDropdownAlert(dropdownId) {
+          const $dropdown = $(dropdownId);
+          const $alertMessage = $dropdown.siblings(".alert-message");
+          if ($dropdown.val() === "") {
+            $alertMessage.find(".alert").css("display", null);
+            $dropdown.addClass("error-border");
+            alert("select the data")
+          } else {
+            $alertMessage.find(".alert").css("display", "none");
+            $dropdown.removeClass("error-border");
+          }
+        }
 
+        // Remove the error-border class when a dropdown is selected
+        $("select").change(function () {
+          if ($(this).val() !== "") {
+            $(this).removeClass("error-border");
+            const $alertMessage = $(this).siblings(".alert-message");
+            $alertMessage.css("display", $(this).val() === "" ? "block" : "none");
+
+            
+          }
+        });
+      });
     </script>
-</body>
+  </body>
 </html>
