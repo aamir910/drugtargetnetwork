@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div>
+    <svg id="forcenetwork" width="100%" height="100vh" style="
+          background-color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "></svg>
+  </div>
+  
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://d3js.org/d3-force.v2.min.js"></script>
+
+  <script>
+    async function fetchData() {
+      try {
+        const response = await fetch("drugdata.json"); // Replace with the correct JSON file path
+        const jsonData = await response.json();
+
+        console.log(jsonData);
+        processData(jsonData);
+      } catch (error) {
+        console.error("Error loading the JSON file:", error);
+      }
+    }
+    fetchData();
+
+    function customDrag(simulation) {
+      function dragstarted(event, d) {
+        // if (d !== selectedNode) return; // Allow dragging only for the selected node
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+      }
+
+      function dragged(event, d) {
+        // if (d !== selectedNode) return; // Allow dragging only for the selected node
+        d.fx = event.x;
+        d.fy = event.y;
+      }
+
+      function dragended(event, d) {
+        // if (d !== selectedNode) return; // Allow dragging only for the selected node
+        if (!event.active) simulation.alphaTarget(0);
+      }
+
+      return d3
+        .drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+    }
+
+    function processData(data) {
+      const svg = d3.select("#forcenetwork");
+
+      const g = svg.append("g");
+
+      let nodes = [];
+
+      const uniqueProteins = new Set();
+
+      data.forEach((item) => {
+        if (!uniqueProteins.has(item.COMPOUND_NAME)) {
+          uniqueProteins.add(item.COMPOUND_NAME);
+
+          nodes.push({
+            id: item.COMPOUND_NAME,
+            type: "parentnode",
+            image: "img1.png"
+          });
+        }
+      });
+      data.forEach((item) => {
+        if (!uniqueProteins.has(item.CELL_LINE_NAME)) {
+          uniqueProteins.add(item.CELL_LINE_NAME);
+
+          nodes.push({
+            id: item.CELL_LINE_NAME,
+            type: "childnode"
+          });
+        }
+      });
+      console.log("nodes", nodes)
+
+      const links = data.map((item) => ({
+        source: item.COMPOUND_NAME,
+        target: item.CELL_LINE_NAME,
+        value: item.VALUE
+      }));
+
+      console.log("links", links);
+      const simulation = d3
+        .forceSimulation(nodes)
+        .force(
+          "link",
+          d3
+            .forceLink(links)
+            .id((d) => d.id)
+            .distance(100)  
+        )
+        .force("charge", d3.forceManyBody().strength(-100))
+        .force("x", d3.forceX(650))
+        .force("y", d3.forceY(330));
+
+        let link = g
+  .selectAll(".link ")
+  .data(links)
+  .enter()
+  .append("line")
+  .attr("class", "link")
+  .style("stroke", "grey")
+  .attr("stroke-width", function(d) {
+
+    if(d.value < 5){
+      return 1
+    }
+    else{
+      
+      return d.value-2;
+    }
+  });
+
+      let node = g
+        .selectAll(".node")
+        .data(nodes)
+        .enter()
+        .append("g")
+        .attr("class", "node").call(customDrag(simulation));
+
+
+      node
+        .append("text")
+        .text((d) => d.id)
+        .attr("dx", 6)
+        .attr("dy", "1.5em")
+        .attr("font-size", "10px")
+        .attr("text-anchor", "middle")
+        .style("fill", "black");
+
+
+        node
+        .filter((d) => d.type === "childnode")
+  .append("circle")
+  .attr("r", 8)
+  .attr("fill", "#b0c86f")
+  
+  .attr("stroke", "#fff")
+      .attr("stroke-width", 1.5)
+  
+      
+      node
+        .filter((d) => d.type === "parentnode")
+        .append("image")
+        .attr("xlink:href", (d) => d.image)
+        .attr("x", -12)
+        .attr("y", -12)
+        .attr("width", 30);
+
+
+
+      simulation.on("tick", () => {
+        link
+          .attr("x1", (d) => d.source.x)
+          .attr("y1", (d) => d.source.y)
+          .attr("x2", (d) => d.target.x)
+          .attr("y2", (d) => d.target.y);
+        node.attr("transform", (d) => `translate(${d.x},${d.y})`);
+      });
+    }
+  </script>
+</body>
+
+</html>
