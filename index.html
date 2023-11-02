@@ -138,8 +138,12 @@
   
 
     <script>
+           function clearGraph() {
+  const svg = d3.select("#forcenetwork");
+  svg.selectAll("*").remove();
+}
        function loadGraph() {
-    
+   clearGraph() ; 
       async function fetchData() {
         try {
           const response = await fetch("drugdata.json"); // Replace with the correct JSON file path
