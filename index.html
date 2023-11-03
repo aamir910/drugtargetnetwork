@@ -8,6 +8,7 @@
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   </head>
   <style>
@@ -41,6 +42,8 @@
     }
 
     .graph_div {
+      display: flex;
+      flex-direction: row;
       margin-top: 40px;
       border: 2px solid black;
       border-radius: 1rem;
@@ -57,188 +60,108 @@
     }
     /* slider css  */
 
-[slider] {
-  position: relative;
-  height: 14px;
+    input[type="range"] {
+      width: 100%;
+    }
+
+  /* csss slider    */
+
+  
+.wrapper{
+  /* width: 400px; */
+  background: #fff;
   border-radius: 10px;
-  text-align: left;
-  margin: 45px 0 10px 0;
+  padding: 20px 25px 40px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.1);
 }
-
-[slider] > div {
-  position: absolute;
-  left: 13px;
-  right: 15px;
-  height: 14px;
+header h2{
+  font-size: 24px;
+  font-weight: 600;
 }
-
-[slider] > div > [inverse-left] {
-  position: absolute;
-  left: 0;
-  height: 14px;
-  border-radius: 10px;
-  background-color: #CCC;
-  margin: 0 7px;
+header p{
+  margin-top: 5px;
+  font-size: 16px;
 }
-
-[slider] > div > [inverse-right] {
-  position: absolute;
-  right: 0;
-  height: 14px;
-  border-radius: 10px;
-  background-color: #CCC;
-  margin: 0 7px;
+.price-input{
+  width: 100%;
+  display: flex;
+  margin: 30px 0 35px;
 }
-
-[slider] > div > [range] {
-  position: absolute;
-  left: 0;
-  height: 14px;
-  border-radius: 14px;
-  background-color: #1ABC9C;
+.price-input .field{
+  display: flex;
+  width: 100%;
+  height: 45px;
+  align-items: center;
 }
-
-[slider] > div > [thumb] {
-  position: absolute;
-  top: -7px;
-  z-index: 2;
-  height: 28px;
-  width: 28px;
-  text-align: left;
-  margin-left: -11px;
-  cursor: pointer;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-  background-color: #FFF;
-  border-radius: 50%;
+.field input{
+  width: 100%;
+  height: 100%;
   outline: none;
+  font-size: 19px;
+  margin-left: 12px;
+  border-radius: 5px;
+  text-align: center;
+  border: 1px solid #999;
+  -moz-appearance: textfield;
 }
-
-[slider] > input[type=range] {
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.price-input .separator{
+  width: 130px;
+  display: flex;
+  font-size: 19px;
+  align-items: center;
+  justify-content: center;
+}
+.slider{
+  height: 5px;
+  position: relative;
+  background: #ddd;
+  border-radius: 5px;
+}
+.slider .progress{
+  height: 100%;
+  left:  0%;
+  right: 0%;
   position: absolute;
+  border-radius: 5px;
+  background: #17A2B8;
+}
+.range-input{
+  position: relative;
+}
+.range-input input{
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -5px;
+  background: none;
   pointer-events: none;
   -webkit-appearance: none;
-  z-index: 3;
-  height: 14px;
-  top: -2px;
-  width: 100%;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: alpha(opacity=0);
-  -moz-opacity: 0;
-  -khtml-opacity: 0;
-  opacity: 0;
-}
-
-div[slider] > input[type=range]::-ms-track {
-  -webkit-appearance: none;
-  background: transparent;
-  color: transparent;
-}
-
-div[slider] > input[type=range]::-moz-range-track {
   -moz-appearance: none;
-  background: transparent;
-  color: transparent;
 }
-
-div[slider] > input[type=range]:focus::-webkit-slider-runnable-track {
-  background: transparent;
-  border: transparent;
-}
-
-div[slider] > input[type=range]:focus {
-  outline: none;
-}
-
-div[slider] > input[type=range]::-ms-thumb {
-  pointer-events: all;
-  width: 28px;
-  height: 28px;
-  border-radius: 0px;
-  border: 0 none;
-  background: red;
-}
-
-div[slider] > input[type=range]::-moz-range-thumb {
-  pointer-events: all;
-  width: 28px;
-  height: 28px;
-  border-radius: 0px;
-  border: 0 none;
-  background: red;
-}
-
-div[slider] > input[type=range]::-webkit-slider-thumb {
-  pointer-events: all;
-  width: 28px;
-  height: 28px;
-  border-radius: 0px;
-  border: 0 none;
-  background: red;
+input[type="range"]::-webkit-slider-thumb{
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  background: #17A2B8;
+  pointer-events: auto;
   -webkit-appearance: none;
+  box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+input[type="range"]::-moz-range-thumb{
+  height: 17px;
+  width: 17px;
+  border: none;
+  border-radius: 50%;
+  background: #17A2B8;
+  pointer-events: auto;
+  -moz-appearance: none;
+  box-shadow: 0 0 6px rgba(0,0,0,0.05);
 }
 
-div[slider] > input[type=range]::-ms-fill-lower {
-  background: transparent;
-  border: 0 none;
-}
-
-div[slider] > input[type=range]::-ms-fill-upper {
-  background: transparent;
-  border: 0 none;
-}
-
-div[slider] > input[type=range]::-ms-tooltip {
-  display: none;
-}
-
-[slider] > div > [sign] {
-  opacity: 0;
-  position: absolute;
-  margin-left: -11px;
-  top: -39px;
-  z-index:3;
-  background-color: #1ABC9C;
-  color: #fff;
-  width: 28px;
-  height: 28px;
-  border-radius: 28px;
-  -webkit-border-radius: 28px;
-  align-items: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  text-align: center;
-}
-
-[slider] > div > [sign]:after {
-  position: absolute;
-  content: '';
-  left: 0;
-  border-radius: 16px;
-  top: 19px;
-  border-left: 14px solid transparent;
-  border-right: 14px solid transparent;
-  border-top-width: 16px;
-  border-top-style: solid;
-  border-top-color: #1ABC9C;
-}
-
-[slider] > div > [sign] > span {
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 28px;
-}
-
-[slider]:hover > div > [sign] {
-  opacity: 1;
-}
-.legend1{
-  width: 15%;
-  position: absolute;
-  border-radius: 1rem;
-  border: 1px solid black;
-  top: 20%;
-  height: 90%;
-}
     /* slider css ended here */
   </style>
   <body>
@@ -304,44 +227,33 @@ div[slider] > input[type=range]::-ms-tooltip {
           </div>
         </form>
 
-        <div class="graph_div container" id="div2">
+        <div class="graph_div container flex col-12 " id="div2">
           
-            <div class="legend1" >
-              <div slider id="slider-distance">
-                <div>
-                  <div inverse-left style="width:60%;"></div>
-                  <div inverse-right style="width:60%;"></div>
-                  <div range style="left:30%;right:40%;"></div>
-                  <span thumb style="left:30%;"></span>
-                  <span thumb style="left:60%;"></span>
-                  <div sign style="left:30%;">
-                    <span id="value">4</span>
+               <div class="wrapper col-3">
+                <header>
+                  <h2>links value</h2>
+                  <p>Use the slider or enter a link range </p>
+                </header>
+                <div class="price-input">
+                  <div class="field">
+                    <span>Min</span>
+                    <input type="number" class="input-min" value="4.0" step="0.1">
                   </div>
-                  <div sign style="left:60%;">
-                    <span id="value">9</span>
+                  <div class="separator">-</div>
+                  <div class="field">
+                    <span>Max</span>
+                    <input type="number" class="input-max" value="9.0" step="0.1">
                   </div>
                 </div>
-                <input type="range" tabindex="0" value="6" max="9" min="4" step="1" oninput="
-                  this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);
-                  var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);
-                  var children = this.parentNode.childNodes[1].childNodes;
-                  children[1].style.width=value+'%';
-                  children[5].style.left=value+'%';
-                  children[7].style.left=value+'%';children[11].style.left=value+'%';
-                  children[11].childNodes[1].innerHTML=this.value;" />
-              
-                <input type="range" tabindex="0" value="9" max="9" min="4" step="1" oninput="
-                  this.value=Math.max(this.value,this.parentNode.childNodes[3].value-(-1));
-                  var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);
-                  var children = this.parentNode.childNodes[1].childNodes;
-                  children[3].style.width=(100-value)+'%';
-                  children[5].style.right=(100-value)+'%';
-                  children[9].style.left=value+'%';children[13].style.left=value+'%';
-                  children[13].childNodes[1].innerHTML=this.value;" />
+                <div class="slider">
+                  <div class="progress"></div>
+                </div>
+                <div class="range-input">
+                  <input type="range" class="range-min" min="4.0" max="9.0" step="0.1" value="4.0">
+                  <input type="range" class="range-max" min="4.0" max="9.0" step="0.1" value="9.0">
+                </div>
               </div>
-                           
-            
-            </div>
+           
           
 
             <svg id="forcenetwork" width="100%"  style="
@@ -350,7 +262,8 @@ div[slider] > input[type=range]::-ms-tooltip {
                   justify-content: center;
                   align-items: center;
                   height:540px;
-                "></svg>
+                "
+                class="col-9"></svg>
             
           </div>
           
@@ -367,7 +280,7 @@ div[slider] > input[type=range]::-ms-tooltip {
   const svg = d3.select("#forcenetwork");
   svg.selectAll("*").remove();
 }
-       function loadGraph() {
+       function loadGraph(value) {
    clearGraph() ; 
       async function fetchData() {
         try {
@@ -523,6 +436,13 @@ div[slider] > input[type=range]::-ms-tooltip {
           node.attr("transform", (d) => `translate(${d.x},${d.y})`);
         });
       }
+     
+       if(value > 4 && value <0)
+       {
+
+       }
+
+
 
     }
     </script>
@@ -569,7 +489,7 @@ div[slider] > input[type=range]::-ms-tooltip {
           {
             
             event.preventDefault();
-            loadGraph();
+            loadGraph(4);
             document.getElementById("dropdown1").value = "" ;
               document.getElementById("dropdown2").value = "" ;
               document.getElementById("dropdown3").value = "";
@@ -599,8 +519,48 @@ div[slider] > input[type=range]::-ms-tooltip {
         
     });
       
+   
+    const rangeInput = document.querySelectorAll(".range-input input");
+const priceInput = document.querySelectorAll(".price-input input");
+const range = document.querySelector(".slider .progress");
+let priceGap = 0.1; // Change the step to 0.1
 
-  
+priceInput.forEach(input => {
+    input.addEventListener("input", (e) => {
+        let minPrice = parseFloat(priceInput[0].value);
+        let maxPrice = parseFloat(priceInput[1].value);
+
+        if (maxPrice - minPrice >= priceGap && maxPrice <= parseFloat(rangeInput[1].max)) {
+            if (e.target.className === "input-min") {
+                rangeInput[0].value = minPrice;
+                range.style.left = ((minPrice / parseFloat(rangeInput[0].max)) * 100) + "%";
+            } else {
+                rangeInput[1].value = maxPrice;
+                range.style.right = 100 - (maxPrice / parseFloat(rangeInput[1].max)) * 100 + "%";
+            }
+        }
+    });
+});
+
+rangeInput.forEach(input => {
+    input.addEventListener("input", (e) => {
+        let minVal = parseFloat(rangeInput[0].value);
+        let maxVal = parseFloat(rangeInput[1].value);
+
+        if (maxVal - minVal < priceGap) {
+            if (e.target.className === "range-min") {
+                rangeInput[0].value = maxVal - priceGap;
+            } else {
+                rangeInput[1].value = minVal + priceGap;
+            }
+        } else {
+            priceInput[0].value = minVal;
+            priceInput[1].value = maxVal;
+            range.style.left = ((minVal / parseFloat(rangeInput[0].max)) * 100) + "%";
+            range.style.right = 100 - (maxVal / parseFloat(rangeInput[1].max)) * 100 + "%";
+        }
+    });
+});
 
   
 </script>
