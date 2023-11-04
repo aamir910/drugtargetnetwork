@@ -468,10 +468,7 @@
     }
 
     
-   function range_of_links(min_range){
-       
-    
-    
+   function range_of_links(min_range , max_range ){
 link.style("display", null);
 
 node.style("display", null);
@@ -480,7 +477,7 @@ node.style("display", null);
 
 const filteredLinks = link.filter(link => {
   // Filter links with a value greater than 5
-  return link.value < min_range  // && link.value <= 7.0;
+  return link.value < min_range  ||  link.value > max_range 
 });
 
 // Extract the target nodes associated with the filtered links
@@ -511,11 +508,13 @@ filterNodes.style("display", "none");
 
   // Function to log the values of both sliders
   function logSliderValues() {
+
+    
     const minValue = parseFloat(minSlider.value);
     const maxValue = parseFloat(maxSlider.value);
     console.log("Min Slider Value: " + minValue);
     console.log("Max Slider Value: " + maxValue);
-   range_of_links(minValue) ; 
+   range_of_links(minValue , maxValue) ; 
 
   }
 
