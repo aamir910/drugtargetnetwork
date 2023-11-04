@@ -127,7 +127,7 @@ input[type="number"]::-webkit-inner-spin-button {
   right: 0%;
   position: absolute;
   border-radius: 5px;
-  background: #17A2B8;
+  background:#ddd;
 }
 .range-input{
   position: relative;
@@ -146,7 +146,7 @@ input[type="range"]::-webkit-slider-thumb{
   height: 17px;
   width: 17px;
   border-radius: 50%;
-  background: #17A2B8;
+  background: black;
   pointer-events: auto;
   -webkit-appearance: none;
   box-shadow: 0 0 6px rgba(0,0,0,0.05);
@@ -246,11 +246,12 @@ input[type="range"]::-moz-range-thumb{
                   </div>
                 </div>
                 <div class="slider">
+
                   <div class="progress"></div>
                 </div>
                 <div class="range-input">
-                  <input type="range" class="range-min" min="4.0" max="9.0" step="0.1" value="4.0">
-                  <input type="range" class="range-max" min="4.0" max="9.0" step="0.1" value="9.0">
+                  <input  id="min_slider" type="range" class="range-min" min="4.0" max="9.0" step="0.1" value="4.0">
+                  <input id="max_slider" type="range" class="range-max" min="4.0" max="9.0" step="0.1" value="9.0">
                 </div>
               </div>
            
@@ -262,17 +263,18 @@ input[type="range"]::-moz-range-thumb{
                   justify-content: center;
                   align-items: center;
                   height:540px;
-                "
-                class="col-9"></svg>
-            
+                  "
+                  class="col-9"></svg>
+                  
+                </div>
+                
+                
+              </div>
+            </div>
           </div>
-          
-
-        </div>
-      </div>
-    </div>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://d3js.org/d3-force.v2.min.js"></script>
+          <script src="https://d3js.org/d3.v7.min.js"></script>
+          <script src="https://d3js.org/d3-force.v2.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   
 
     <script>
@@ -280,8 +282,14 @@ input[type="range"]::-moz-range-thumb{
   const svg = d3.select("#forcenetwork");
   svg.selectAll("*").remove();
 }
-       function loadGraph(value) {
+
+
+
+       function loadGraph() {
    clearGraph() ; 
+
+
+
       async function fetchData() {
         try {
           const response = await fetch("drugdata.json"); // Replace with the correct JSON file path
@@ -318,13 +326,16 @@ input[type="range"]::-moz-range-thumb{
           .on("drag", dragged)
           .on("end", dragended);
       }
-  
+
+      let nodes = [];
+      let links = [] ;
+
       function processData(data) {
         const svg = d3.select("#forcenetwork");
   
         const g = svg.append("g");
   
-        let nodes = [];
+      
   
         const uniqueProteins = new Set();
   
@@ -351,7 +362,7 @@ input[type="range"]::-moz-range-thumb{
         });
         console.log("nodes", nodes)
   
-        const links = data.map((item) => ({
+         links = data.map((item) => ({
           source: item.COMPOUND_NAME,
           target: item.CELL_LINE_NAME,
           value: item.VALUE
@@ -435,21 +446,17 @@ input[type="range"]::-moz-range-thumb{
             .attr("y2", (d) => d.target.y);
           node.attr("transform", (d) => `translate(${d.x},${d.y})`);
         });
-      }
      
-       if(value > 4 && value <0)
-       {
+        
+      }
+    } 
+  
+    function link_range_filter(min , max ){
+           console.log("MIN VLAUE WILL BE " , min) ; 
+           console.log("max value will be" ,  max) ; 
+          }
 
-       }
 
-
-
-    }
-    </script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-     <script>
 
   document.getElementById("submitButton").addEventListener("click", function (event) {
 
@@ -489,10 +496,12 @@ input[type="range"]::-moz-range-thumb{
           {
             
             event.preventDefault();
-            loadGraph(4);
+            loadGraph();
             document.getElementById("dropdown1").value = "" ;
               document.getElementById("dropdown2").value = "" ;
               document.getElementById("dropdown3").value = "";
+
+          
             
           }
 
@@ -561,7 +570,24 @@ rangeInput.forEach(input => {
         }
     });
 });
+  
+const minSlider = document.getElementById("min_slider");
+  const maxSlider = document.getElementById("max_slider");
 
+  // Function to log the values of both sliders
+  function logSliderValues() {
+    const minValue = parseFloat(minSlider.value);
+    const maxValue = parseFloat(maxSlider.value);
+    link_range_filter(minValue , maxValue) ; 
+
+  }
+
+  // Add onchange event listeners to both sliders
+  minSlider.addEventListener("change", logSliderValues);
+  maxSlider.addEventListener("change", logSliderValues);
+
+  // Log the initial values
+  logSliderValues();
   
 </script>
     
