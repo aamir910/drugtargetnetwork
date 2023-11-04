@@ -137,7 +137,7 @@
     right: 0%;
     position: absolute;
     border-radius: 5px;
-    background: #17A2B8;
+    background: #ddd;
   }
 
   .range-input {
@@ -159,7 +159,7 @@
     height: 17px;
     width: 17px;
     border-radius: 50%;
-    background: #17A2B8;
+    background: green;
     pointer-events: auto;
     -webkit-appearance: none;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
@@ -170,7 +170,7 @@
     width: 17px;
     border: none;
     border-radius: 50%;
-    background: #17A2B8;
+    background: #ddd;
     pointer-events: auto;
     -moz-appearance: none;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
@@ -283,7 +283,8 @@
   <script>
     let nodes = [];  // unique nodes   
     let links = [];   // links  from the json files
-
+    let node = [];  // DOM element    
+    let link = [];   // DOM ELEMENT 
     // fetching the json file  
     async function fetchData() {
       try {
@@ -396,7 +397,7 @@
         .force("x", d3.forceX(650))
         .force("y", d3.forceY(330));
       
-      let link = g
+       link = g
         .selectAll(".link ")
         .data(links)
         .enter()
@@ -414,7 +415,7 @@
           }
         });
 
-      let node = g
+       node = g
         .selectAll(".node")
         .data(nodes)
         .enter()
@@ -463,11 +464,18 @@
 
 
 
-      let filterNodes;
+
+    }
+
+    
+   function range_of_links(min_range){
+    
+    
+    let filterNodes;
 
 const filteredLinks = link.filter(link => {
   // Filter links with a value greater than 5
-  return link.value < 6;
+  return link.value < min_range  // && link.value <= 7.0;
 });
 
 // Extract the target nodes associated with the filtered links
@@ -480,9 +488,7 @@ filteredLinks.style("display", "none");
 
 // Hide the associated target nodes
 filterNodes.style("display", "none");
-
-    }
-   
+   }
     
     
     //  initialize the graph for the first time  
@@ -504,6 +510,8 @@ filterNodes.style("display", "none");
     const maxValue = parseFloat(maxSlider.value);
     console.log("Min Slider Value: " + minValue);
     console.log("Max Slider Value: " + maxValue);
+   range_of_links(minValue) ; 
+
   }
 
   // Add onchange event listeners to both sliders
@@ -511,7 +519,6 @@ filterNodes.style("display", "none");
   maxSlider.addEventListener("change", logSliderValues);
 
   
-  logSliderValues();
 
    
 
@@ -555,7 +562,7 @@ filterNodes.style("display", "none");
 
         event.preventDefault();
         // loadGraph(4);
-        force_network_grapgh() ; 
+        force_network_grapgh(6) ; 
 
         document.getElementById("dropdown1").value = "";
         document.getElementById("dropdown2").value = "";
