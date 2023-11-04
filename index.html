@@ -467,11 +467,11 @@
 
 const filteredLinks = link.filter(link => {
   // Filter links with a value greater than 5
-  return link.value > 5;
+  return link.value < 6;
 });
 
 // Extract the target nodes associated with the filtered links
-filterNodes = nodes.filter(node => {
+filterNodes = node.filter(node => {
   return filteredLinks.data().some(link => link.target === node);
 });
 
@@ -480,6 +480,7 @@ filteredLinks.style("display", "none");
 
 // Hide the associated target nodes
 filterNodes.style("display", "none");
+
     }
    
     
