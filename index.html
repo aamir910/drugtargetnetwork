@@ -184,10 +184,14 @@
       margin: 1rem;
       border-radius: 1rem; 
 
+
      }
-     .fieldset{
-      
-     }
+
+     .marked {
+      text-decoration: line-through;
+
+      text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+    }
      .rect {
       display: inline-block;
       width: 20px;
@@ -589,17 +593,38 @@
           listItems
           .append("div")
           .attr("class", "rect")
-          .style("background-color", "#ce7e00"
-          )
+          .style("background-color", (d) => {
+            if (d.category === "PHASE 1") {
+              return "purple";
+            } else if (d.category === "Approved") {
+              return "#ce7e00";
+            } else if (d.category === "PHASE 2") {
+              return "#000080";
+            } else if (d.category === "PHASE 3") {
+              return "blue";
+            } 
+             else {
+              return "#ce7e00";
+            }
+          });
+          
        
           listItems.append("span").text((d) => d.category);
-          
-
+        listItems.on("click",onclickmax_phase)
     }
     legendinfo() ;
-    //  initialize the graph for the first time  
 
+    function onclickmax_phase()
 
+    {
+      
+      d3.select(this)
+              .select("span")
+              .classed("marked", function () {
+                return !d3.select(this).classed("marked");
+              });
+
+    }
 
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
