@@ -257,6 +257,10 @@
             <input id="min_slider" type="range" class="range-min" min="4.0" max="9.0" step="0.1" value="4.0">
             <input id="max_slider" type="range" class="range-max" min="4.0" max="9.0" step="0.1" value="9.0">
           </div>
+
+
+
+          
         </div>
 
 
@@ -311,10 +315,20 @@
         if (!uniqueProteins.has(item.COMPOUND_NAME)) {
           uniqueProteins.add(item.COMPOUND_NAME);
 
+          let calsoleimage;
+             
+          if (item.MAX_PHASE === "Approved") {
+              calsoleimage = "img3.png"
+            }
+            else{
+              calsoleimage = "img4.png"
+            } 
+
+
           nodes.push({
             id: item.COMPOUND_NAME,
             type: "parentnode",
-            image: "img1.png"
+            image: calsoleimage 
           });
         }
       });
@@ -451,7 +465,7 @@
         .append("image")
         .attr("xlink:href", (d) => d.image)
         .attr("x", -12)
-        .attr("y", -12)
+        .attr("y", -8)
         .attr("width", 30);
 
 
