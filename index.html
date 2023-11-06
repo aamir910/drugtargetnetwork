@@ -288,7 +288,7 @@
     // fetching the json file  
     async function fetchData() {
       try {
-        const response = await fetch("drugdata.json"); // Replace with the correct JSON file path
+        const response = await fetch("drugdata2.json"); // Replace with the correct JSON file path
         const jsonData = await response.json();
 
         console.log(jsonData);
@@ -393,7 +393,7 @@
             .id((d) => d.id)
             .distance(50)
         )
-        .force("charge", d3.forceManyBody().strength(-100))
+        .force("charge", d3.forceManyBody().strength(-10))
         .force("x", d3.forceX(650))
         .force("y", d3.forceY(330));
       
@@ -480,16 +480,32 @@ const filteredLinks = link.filter(link => {
   return link.value < min_range  ||  link.value > max_range 
 });
 
-// Extract the target nodes associated with the filtered links
+
 filterNodes = node.filter(node => {
-  return filteredLinks.data().some(link => link.target === node);
+
+  return filteredLinks.data().some(link => link.target === node );
 });
 
+
+
 // Hide the filtered links
+
 filteredLinks.style("display", "none");
 
 // Hide the associated target nodes
 filterNodes.style("display", "none");
+
+let filterNodes2 = filterNodes.filter(node => {
+  // Check if there's at least one link connected to the node that is not in filteredLinks
+  const isLinkedToHiddenLink = link.data().some(link => {
+    return link.target === node && !filteredLinks.data().includes(link);
+  });
+
+  return isLinkedToHiddenLink;
+});
+
+// Reset the display style for the filtered nodes
+filterNodes2.style("display", null);
    }
     
     

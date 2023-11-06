@@ -4,7 +4,7 @@ try {
     $pdo = new PDO("mysql:host=localhost;dbname=drugtargetnetwork", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "SELECT * FROM drugresponsefile LIMIT 500";
+    $sql = "SELECT * FROM drugresponsefile ORDER BY RAND() LIMIT 500";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
 
