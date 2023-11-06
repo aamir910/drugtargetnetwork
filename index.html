@@ -188,6 +188,17 @@
      .fieldset{
       
      }
+     .rect {
+      display: inline-block;
+      width: 20px;
+      height: 10px;
+      border-radius: 2rem;
+      margin-right: 5px;
+    }
+ ul {
+  list-style-type: none;
+ }
+
 
   /* LEGEND CSS ENDED HERE  */
 
@@ -575,10 +586,11 @@
           .enter()
           .append("li");
           
-        listItems
+          listItems
           .append("div")
-          .attr("class", "circle")
-          .style("fill", "red").attr("r" , 10) ; 
+          .attr("class", "rect")
+          .style("background-color", "#ce7e00"
+          )
        
           listItems.append("span").text((d) => d.category);
           
