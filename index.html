@@ -256,7 +256,7 @@
           <div class="range-input">
             <input id="min_slider" type="range" class="range-min" min="4.0" max="9.0" step="0.1" value="4.0">
             <input id="max_slider" type="range" class="range-max" min="4.0" max="9.0" step="0.1" value="9.0">
-            </div>
+          </div>
         </div>
 
 
@@ -278,7 +278,7 @@
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://d3js.org/d3-force.v2.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
- 
+
 
   <script>
     let nodes = [];  // unique nodes   
@@ -297,7 +297,7 @@
         console.error("Error loading the JSON file:", error);
       }
     }
-   
+
     fetchData();
 
     // fetching the data ended here 
@@ -330,48 +330,51 @@
       });
 
       //  creating the links  
-      
+
       links = data.map((item) => ({
         source: item.COMPOUND_NAME,
         target: item.CELL_LINE_NAME,
         value: item.VALUE
       }));
-      
-      console.log("nodes", nodes)
-      
-      console.log("links", links);
-      
-    }
-    
 
-// custom drag function
+      console.log("nodes", nodes)
+
+      console.log("links", links);
+
+    }
+
+
+    // custom drag function
 
     function customDrag(simulation) {
-        function dragstarted(event, d) {
-          // if (d !== selectedNode) return; // Allow dragging only for the selected node
-          if (!event.active) simulation.alphaTarget(0.3).restart();
-        }
-
-        function dragged(event, d) {
-          // if (d !== selectedNode) return; // Allow dragging only for the selected node
-          d.fx = event.x;
-          d.fy = event.y;
-        }
-
-        function dragended(event, d) {
-          // if (d !== selectedNode) return; // Allow dragging only for the selected node
-          if (!event.active) simulation.alphaTarget(0);
-        }
-
-        return d3
-          .drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended);
+      function dragstarted(event, d) {
+        // if (d !== selectedNode) return; // Allow dragging only for the selected node
+        if (!event.active) simulation.alphaTarget(0.3).restart();
       }
 
+      function dragged(event, d) {
+        // if (d !== selectedNode) return; // Allow dragging only for the selected node
+        d.fx = event.x;
+        d.fy = event.y;
+      }
 
-      // custom drag function ended
+      function dragended(event, d) {
+        // if (d !== selectedNode) return; // Allow dragging only for the selected node
+        if (!event.active) simulation.alphaTarget(0);
+      }
+
+      return d3
+        .drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+    }
+
+
+    // custom drag function ended
+
+
+
 
 
     //  initialize the graph for the first time  
@@ -391,13 +394,13 @@
           d3
             .forceLink(links)
             .id((d) => d.id)
-            .distance(50)
+            .distance(70)
         )
-        .force("charge", d3.forceManyBody().strength(-10))
-        .force("x", d3.forceX(650))
-        .force("y", d3.forceY(330));
-      
-       link = g
+        .force("charge", d3.forceManyBody().strength(-15))
+        .force("x", d3.forceX(500))
+        .force("y", d3.forceY(270));
+
+      link = g
         .selectAll(".link ")
         .data(links)
         .enter()
@@ -415,7 +418,7 @@
           }
         });
 
-       node = g
+      node = g
         .selectAll(".node")
         .data(nodes)
         .enter()
@@ -467,48 +470,48 @@
 
     }
 
-    
-   function range_of_links(min_range , max_range ){
-link.style("display", null);
 
-node.style("display", null);
-    
-    let filterNodes;
+    function range_of_links(min_range, max_range) {
 
-const filteredLinks = link.filter(link => {
-  // Filter links with a value greater than 5
-  return link.value < min_range  ||  link.value > max_range 
-});
+      link.style("display", null);
+      node.style("display", null);
 
+      let filterNodes;
 
-filterNodes = node.filter(node => {
-
-  return filteredLinks.data().some(link => link.target === node );
-});
+      const filteredLinks = link.filter(link => {
+        // Filter links with a value greater than 5
+        return link.value < min_range || link.value > max_range
+      });
 
 
+      filterNodes = node.filter(node => {
 
-// Hide the filtered links
+        return filteredLinks.data().some(link => (link.target === node ||link.source === node ));
+      });
 
-filteredLinks.style("display", "none");
 
-// Hide the associated target nodes
-filterNodes.style("display", "none");
 
-let filterNodes2 = filterNodes.filter(node => {
-  // Check if there's at least one link connected to the node that is not in filteredLinks
-  const isLinkedToHiddenLink = link.data().some(link => {
-    return link.target === node && !filteredLinks.data().includes(link);
-  });
+      // Hide the filtered links
 
-  return isLinkedToHiddenLink;
-});
+      filteredLinks.style("display", "none");
 
-// Reset the display style for the filtered nodes
-filterNodes2.style("display", null);
-   }
-    
-    
+      // Hide the associated target nodes
+      filterNodes.style("display", "none");
+
+      let filterNodes2 = filterNodes.filter(node => {
+        // Check if there's at least one link connected to the node that is not in filteredLinks
+        const isLinkedToHiddenLink = link.data().some(link => {
+          return     (link.target === node ||link.source === node )&& !filteredLinks.data().includes(link);
+        });
+
+        return isLinkedToHiddenLink;
+      });
+
+      // Reset the display style for the filtered nodes
+      filterNodes2.style("display", null);
+    }
+
+
     //  initialize the graph for the first time  
 
 
@@ -517,30 +520,30 @@ filterNodes2.style("display", null);
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
     }
-     
+
     // setting the sidler valus 
     const minSlider = document.getElementById("min_slider");
-  const maxSlider = document.getElementById("max_slider");
+    const maxSlider = document.getElementById("max_slider");
 
-  // Function to log the values of both sliders
-  function logSliderValues() {
+    // Function to log the values of both sliders
+    function logSliderValues() {
 
-    
-    const minValue = parseFloat(minSlider.value);
-    const maxValue = parseFloat(maxSlider.value);
-    console.log("Min Slider Value: " + minValue);
-    console.log("Max Slider Value: " + maxValue);
-   range_of_links(minValue , maxValue) ; 
 
-  }
+      const minValue = parseFloat(minSlider.value);
+      const maxValue = parseFloat(maxSlider.value);
+      console.log("Min Slider Value: " + minValue);
+      console.log("Max Slider Value: " + maxValue);
+      range_of_links(minValue, maxValue);
 
-  // Add onchange event listeners to both sliders
-  minSlider.addEventListener("change", logSliderValues);
-  maxSlider.addEventListener("change", logSliderValues);
+    }
 
-  
+    // Add onchange event listeners to both sliders
+    minSlider.addEventListener("change", logSliderValues);
+    maxSlider.addEventListener("change", logSliderValues);
 
-   
+
+
+
 
     // slider value ended here 
 
@@ -582,7 +585,7 @@ filterNodes2.style("display", null);
 
         event.preventDefault();
         // loadGraph(4);
-        force_network_grapgh(6) ; 
+        force_network_grapgh(6);
 
         document.getElementById("dropdown1").value = "";
         document.getElementById("dropdown2").value = "";
