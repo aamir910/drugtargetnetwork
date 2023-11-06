@@ -177,6 +177,21 @@
   }
 
   /* slider css ended here */
+
+  /* LEGEND CSS STARTED HERE  */
+     .legend{
+      border: 2px solid black;
+      margin: 1rem;
+      border-radius: 1rem; 
+
+     }
+     .fieldset{
+      
+     }
+
+  /* LEGEND CSS ENDED HERE  */
+
+  
 </style>
 
 <body>
@@ -259,7 +274,14 @@
           </div>
 
 
+          <div class="legend">
+          <fieldset  class="fieldset" >  
+             <legend >max_phase</legend>
+        <ul id="myList"></ul>
+            
 
+          </fieldset>
+        </div>
           
         </div>
 
@@ -320,9 +342,16 @@
           if (item.MAX_PHASE === "Approved") {
               calsoleimage = "img3.png"
             }
-            else{
+            else if(item.MAX_PHASE === "PHASE 1"){ 
+              calsoleimage = "img2.png"
+            }  else if(item.MAX_PHASE === "PHASE 2"){ 
               calsoleimage = "img4.png"
+            }  else if(item.MAX_PHASE === "PHASE 3"){ 
+              calsoleimage = "img5.png"
             } 
+            else{
+              calsoleimage = "unknown.png"
+            }
 
 
           nodes.push({
@@ -483,6 +512,7 @@
 
 
     }
+      // slider range value limitation 
 
 
     function range_of_links(min_range, max_range) {
@@ -526,6 +556,35 @@
     }
 
 
+
+
+    // legenddata
+    function legendinfo()
+    {
+      const max_phase_caterogies = [
+          { category: "PHASE 1" },
+          { category: "PHASE 2"},
+          { category: "PHASE 3" },
+          { category: "Approved" }
+        ];
+        
+        const ul = d3.select("#myList");
+        const listItems = ul
+          .selectAll("li")
+          .data(max_phase_caterogies)
+          .enter()
+          .append("li");
+          
+        listItems
+          .append("div")
+          .attr("class", "circle")
+          .style("fill", "red").attr("r" , 10) ; 
+       
+          listItems.append("span").text((d) => d.category);
+          
+
+    }
+    legendinfo() ;
     //  initialize the graph for the first time  
 
 
