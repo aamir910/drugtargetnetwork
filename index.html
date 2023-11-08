@@ -326,11 +326,18 @@
     let links = [];   // links  from the json files
     let node = [];  // DOM element    
     let link = [];   // DOM ELEMENT 
-
+    
+    let filteredLinks = [] ;
+    let filterNodes = []  ; 
     let listItems = [];  // onclick on the legend 
     let clicked;
     let list_hidden = [];
     let remove_maxPhase = [] ; 
+
+
+    let minValue ; 
+    let maxValue ; 
+
 
     // fetching the json file  
     async function fetchData() {
@@ -370,8 +377,12 @@
           } else if (item.MAX_PHASE === "PHASE 3") {
             calsoleimage = "img5.png"
           }
-          else {
+          else  if (item.MAX_PHASE === "") {
             calsoleimage = "unknown.png"
+          } 
+          else{
+            calsoleimage = "black.png"
+
           }
 
 
@@ -389,7 +400,8 @@
 
           nodes.push({
             id: item.CELL_LINE_NAME,
-            type: "childnode"
+            type: "childnode",
+
           });
         }
       });
@@ -539,12 +551,14 @@
 
     function range_of_links(min_range, max_range) {
 
+      
       link.style("display", null);
       node.style("display", null);
 
-      let filterNodes;
+      
 
-      const filteredLinks = link.filter(link => {
+      
+       filteredLinks = link.filter(link => {
         // Filter links with a value greater than 5
         return link.value < min_range || link.value > max_range
       });
@@ -578,6 +592,46 @@
 
 
 
+      node.each(function (d) {
+    // Check if the node's MAX_PHASE is in the list_hidden
+    if (list_hidden.includes(d.MAX_PHASE)) {
+      // Node is in list_hidden, set display to "none"
+      d3.select(this).style("display", "none");
+    } 
+  });
+   let matchingchild =[] ; 
+  const matchinglink = link.filter(function (link) {
+                  if (list_hidden.includes(link.source.MAX_PHASE)) {
+                       
+                    return (
+                      link
+                    );
+                  }
+
+                });
+
+
+                matchinglink.style("display" , "none") ; 
+                // // matchingchild.style("display" , "none") ;
+        
+                //   node.filter(childnodes => {
+                         
+                //     link.fitler( link=>{
+                //       if(matchinglink.target === childnodes ){
+                        
+                //           childnodes.style("display" , "none") ;
+                //       } 
+                //     })
+                  
+                //   })      
+
+
+                matchinglink.each(function(templink) {
+  node.filter(function(childnodes) {
+
+    return templink.target === childnodes ;
+  }).style("display", "none");
+});
 
     }
 
@@ -590,7 +644,8 @@
         { category: "PHASE 1" },
         { category: "PHASE 2" },
         { category: "PHASE 3" },
-        { category: "Approved" }
+        { category: "Approved" },
+        { category: "" }
       ];
 
       const ul = d3.select("#myList");
@@ -605,21 +660,26 @@
         .attr("class", "rect")
         .style("background-color", (d) => {
           if (d.category === "PHASE 1") {
-            return "purple";
-          } else if (d.category === "Approved") {
-            return "#ce7e00";
-          } else if (d.category === "PHASE 2") {
             return "#000080";
+          } else if (d.category === "Approved") {
+            return "grey";
+          } else if (d.category === "PHASE 2") {
+            return "yellow";
           } else if (d.category === "PHASE 3") {
             return "blue";
+          }else if (d.category === "") {
+            return "#ce7e00";
           }
           else {
-            return "#ce7e00";
+            return "black";
           }
         });
 
 
-      listItems.append("span").text((d) => d.category);
+      // listItems.append("span").text((d) => d.category);
+
+      listItems.append("span").text((d) => (d.category === "" ? "Unknown" : d.category));
+
 
     }
     legendinfo();
@@ -640,19 +700,11 @@
         list_hidden.push(clicked);
       } else {
         list_hidden.splice(index, 1);
-      }
+      } 
       
-      node.each(function (d) {
-    // Check if the node's MAX_PHASE is in the list_hidden
-    if (list_hidden.includes(d.MAX_PHASE)) {
-      // Node is in list_hidden, set display to "none"
-      d3.select(this).style("display", "none");
-    } else {
-      // Node is not in list_hidden, remove the display style
-      d3.select(this).style("display", null);
-    }
-  });
-    }
+      
+      range_of_links(minValue, maxValue);
+     }
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
@@ -666,13 +718,13 @@
     function logSliderValues() {
 
 
-      const minValue = parseFloat(minSlider.value);
-      const maxValue = parseFloat(maxSlider.value);
+      minValue = parseFloat(minSlider.value);
+      maxValue = parseFloat(maxSlider.value);
       console.log("Min Slider Value: " + minValue);
       console.log("Max Slider Value: " + maxValue);
+      listItems.on("click", onclickmax_phase);
       range_of_links(minValue, maxValue);
 
-      listItems.on("click", onclickmax_phase);
     }
 
 
