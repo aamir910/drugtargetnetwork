@@ -179,34 +179,34 @@
   /* slider css ended here */
 
   /* LEGEND CSS STARTED HERE  */
-     .legend{
-      border: 2px solid black;
-      margin: 1rem;
-      border-radius: 1rem; 
+  .legend {
+    border: 2px solid black;
+    margin: 1rem;
+    border-radius: 1rem;
 
 
-     }
+  }
 
-     .marked {
-      text-decoration: line-through;
+  .marked {
+    text-decoration: line-through;
 
-      text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
-    }
-     .rect {
-      display: inline-block;
-      width: 20px;
-      height: 10px;
-      border-radius: 2rem;
-      margin-right: 5px;
-    }
- ul {
-  list-style-type: none;
- }
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  .rect {
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+    border-radius: 2rem;
+    margin-right: 5px;
+  }
+
+  ul {
+    list-style-type: none;
+  }
 
 
   /* LEGEND CSS ENDED HERE  */
-
-  
 </style>
 
 <body>
@@ -290,14 +290,14 @@
 
 
           <div class="legend">
-          <fieldset  class="fieldset" >  
-             <legend >max_phase</legend>
-        <ul id="myList"></ul>
-            
+            <fieldset class="fieldset">
+              <legend>max_phase</legend>
+              <ul id="myList"></ul>
 
-          </fieldset>
-        </div>
-          
+
+            </fieldset>
+          </div>
+
         </div>
 
 
@@ -326,6 +326,12 @@
     let links = [];   // links  from the json files
     let node = [];  // DOM element    
     let link = [];   // DOM ELEMENT 
+
+    let listItems = [];  // onclick on the legend 
+    let clicked;
+    let list_hidden = [];
+    let remove_maxPhase = [] ; 
+
     // fetching the json file  
     async function fetchData() {
       try {
@@ -353,26 +359,27 @@
           uniqueProteins.add(item.COMPOUND_NAME);
 
           let calsoleimage;
-             
+
           if (item.MAX_PHASE === "Approved") {
-              calsoleimage = "img3.png"
-            }
-            else if(item.MAX_PHASE === "PHASE 1"){ 
-              calsoleimage = "img2.png"
-            }  else if(item.MAX_PHASE === "PHASE 2"){ 
-              calsoleimage = "img4.png"
-            }  else if(item.MAX_PHASE === "PHASE 3"){ 
-              calsoleimage = "img5.png"
-            } 
-            else{
-              calsoleimage = "unknown.png"
-            }
+            calsoleimage = "img3.png"
+          }
+          else if (item.MAX_PHASE === "PHASE 1") {
+            calsoleimage = "img2.png"
+          } else if (item.MAX_PHASE === "PHASE 2") {
+            calsoleimage = "img4.png"
+          } else if (item.MAX_PHASE === "PHASE 3") {
+            calsoleimage = "img5.png"
+          }
+          else {
+            calsoleimage = "unknown.png"
+          }
 
 
           nodes.push({
             id: item.COMPOUND_NAME,
             type: "parentnode",
-            image: calsoleimage 
+            image: calsoleimage,
+            MAX_PHASE : item.MAX_PHASE 
           });
         }
       });
@@ -527,7 +534,7 @@
 
 
     }
-      // slider range value limitation 
+    // slider range value limitation 
 
 
     function range_of_links(min_range, max_range) {
@@ -545,7 +552,7 @@
 
       filterNodes = node.filter(node => {
 
-        return filteredLinks.data().some(link => (link.target === node ||link.source === node ));
+        return filteredLinks.data().some(link => (link.target === node || link.source === node));
       });
 
 
@@ -560,7 +567,7 @@
       let filterNodes2 = filterNodes.filter(node => {
         // Check if there's at least one link connected to the node that is not in filteredLinks
         const isLinkedToHiddenLink = link.data().some(link => {
-          return     (link.target === node ||link.source === node )&& !filteredLinks.data().includes(link);
+          return (link.target === node || link.source === node) && !filteredLinks.data().includes(link);
         });
 
         return isLinkedToHiddenLink;
@@ -568,64 +575,84 @@
 
       // Reset the display style for the filtered nodes
       filterNodes2.style("display", null);
+
+
+
+
     }
 
 
 
 
     // legenddata
-    function legendinfo()
-    {
+    function legendinfo() {
       const max_phase_caterogies = [
-          { category: "PHASE 1" },
-          { category: "PHASE 2"},
-          { category: "PHASE 3" },
-          { category: "Approved" }
-        ];
-        
-        const ul = d3.select("#myList");
-        const listItems = ul
-          .selectAll("li")
-          .data(max_phase_caterogies)
-          .enter()
-          .append("li");
-          
-          listItems
-          .append("div")
-          .attr("class", "rect")
-          .style("background-color", (d) => {
-            if (d.category === "PHASE 1") {
-              return "purple";
-            } else if (d.category === "Approved") {
-              return "#ce7e00";
-            } else if (d.category === "PHASE 2") {
-              return "#000080";
-            } else if (d.category === "PHASE 3") {
-              return "blue";
-            } 
-             else {
-              return "#ce7e00";
-            }
-          });
-          
-       
-          listItems.append("span").text((d) => d.category);
-        listItems.on("click",onclickmax_phase)
+        { category: "PHASE 1" },
+        { category: "PHASE 2" },
+        { category: "PHASE 3" },
+        { category: "Approved" }
+      ];
+
+      const ul = d3.select("#myList");
+      listItems = ul
+        .selectAll("li")
+        .data(max_phase_caterogies)
+        .enter()
+        .append("li");
+
+      listItems
+        .append("div")
+        .attr("class", "rect")
+        .style("background-color", (d) => {
+          if (d.category === "PHASE 1") {
+            return "purple";
+          } else if (d.category === "Approved") {
+            return "#ce7e00";
+          } else if (d.category === "PHASE 2") {
+            return "#000080";
+          } else if (d.category === "PHASE 3") {
+            return "blue";
+          }
+          else {
+            return "#ce7e00";
+          }
+        });
+
+
+      listItems.append("span").text((d) => d.category);
+
     }
-    legendinfo() ;
+    legendinfo();
 
-    function onclickmax_phase()
+    function onclickmax_phase(event ) {
 
-    {
-      
       d3.select(this)
-              .select("span")
-              .classed("marked", function () {
-                return !d3.select(this).classed("marked");
-              });
+        .select("span")
+        .classed("marked", function () {
+          return !d3.select(this).classed("marked");
+        });
 
+      clicked = event.target.textContent;
+
+      const index = list_hidden.indexOf(clicked);
+
+      if (index === -1) {
+        list_hidden.push(clicked);
+      } else {
+        list_hidden.splice(index, 1);
+      }
+      
+      node.each(function (d) {
+    // Check if the node's MAX_PHASE is in the list_hidden
+    if (list_hidden.includes(d.MAX_PHASE)) {
+      // Node is in list_hidden, set display to "none"
+      d3.select(this).style("display", "none");
+    } else {
+      // Node is not in list_hidden, remove the display style
+      d3.select(this).style("display", null);
     }
-
+  });
+    }
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
@@ -645,12 +672,13 @@
       console.log("Max Slider Value: " + maxValue);
       range_of_links(minValue, maxValue);
 
+      listItems.on("click", onclickmax_phase);
     }
+
 
     // Add onchange event listeners to both sliders
     minSlider.addEventListener("change", logSliderValues);
     maxSlider.addEventListener("change", logSliderValues);
-
 
 
 
