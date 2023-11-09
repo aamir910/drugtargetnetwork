@@ -423,13 +423,11 @@
       data.forEach((item) => {
         if (!uniqueProteins.has(item.CELL_LINE_NAME)) {
           uniqueProteins.add(item.CELL_LINE_NAME);
-
           nodes.push({
             id: item.CELL_LINE_NAME,
             type: "childnode",
-            MAX_PHASE : item.MAX_PHASE
-            
- 
+            MAX_PHASE : item.MAX_PHASE , 
+            childchange : item.ONCOTREE_LINEAGE
           });
         }
       });
@@ -562,7 +560,28 @@
         .filter((d) => d.type === "childnode")
         .append("circle")
         .attr("r", 8)
-        .attr("fill", "#b0c86f")
+        .attr("fill", function (d) {
+            if(d.childchange === "bone")
+            {
+              return "#FF5733"
+            }
+            else  if(d.childchange === "Esophagus")
+            {
+              return "#33FF57"
+            }
+            else  if(d.childchange === "Lung")
+            {
+              return "orange"
+            }  else  if(d.childchange === "Haematopoietic and Lymphoid")
+            {
+              return "#33A2FF"
+            }
+            else{
+              return "green"
+            }
+
+
+        })
 
         .attr("stroke", "#fff")
         .attr("stroke-width", 1.5)
@@ -720,9 +739,10 @@ console.log("remove child are " ,  removechild) ;
     const data_Set_child = [
   { category: "Bone", color: "#FF5733" },
   { category: "Esophagus", color: "#33FF57" },
-  { category: "Lung", color: "#5733FF" },
+  { category: "Lung", color: "orange" },
   { category: "Haematopoietic and Lymphoid", color: "#33A2FF" },
 ];
+
 
       const ul = d3.select("#myList");
       listItems = ul
@@ -836,7 +856,29 @@ console.log("remove child are " ,  removechild) ;
  console.log(list_hidden_dataset);
    }
 
+ function onclick_childnodes(event){
 
+  d3.select(this)
+        .select("span")
+        .classed("marked", function () {
+          return !d3.select(this).classed("marked");
+        });
+
+        clicked3= event.target.textContent;
+
+      const index = list_hidden_childnode.indexOf(clicked3);
+
+   
+         if (index === -1) {
+        list_hidden_childnode.push(clicked3);
+      } else {
+        list_hidden_childnode.splice(index, 1);
+      }
+
+    
+ console.log(list_hidden_childnode);
+
+ }
 
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
@@ -856,6 +898,9 @@ console.log("remove child are " ,  removechild) ;
       listItems.on("click", onclickmax_phase);
       
       dataSet_link.on("click", onclick_dataSet);
+
+      dataSet_child.on("click", onclick_childnodes);
+
       range_of_links(minValue, maxValue);
 
     }
