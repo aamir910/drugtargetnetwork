@@ -427,7 +427,7 @@
             id: item.CELL_LINE_NAME,
             type: "childnode",
             MAX_PHASE : item.MAX_PHASE , 
-            childchange : item.ONCOTREE_LINEAGE
+            oncotree_change : item.ONCOTREE_LINEAGE
           });
         }
       });
@@ -561,18 +561,18 @@
         .append("circle")
         .attr("r", 8)
         .attr("fill", function (d) {
-            if(d.childchange === "bone")
+            if(d.oncotree_change === "bone")
             {
               return "#FF5733"
             }
-            else  if(d.childchange === "Esophagus")
+            else  if(d.oncotree_change === "Esophagus")
             {
               return "#33FF57"
             }
-            else  if(d.childchange === "Lung")
+            else  if(d.oncotree_change === "Lung")
             {
               return "orange"
-            }  else  if(d.childchange === "Haematopoietic and Lymphoid")
+            }  else  if(d.oncotree_change === "Haematopoietic and Lymphoid")
             {
               return "#33A2FF"
             }
@@ -711,10 +711,28 @@ console.log("remove child are " ,  removechild) ;
         }).style("display", "none");
       });
 
+      //    child nodes will be filter here 
 
+      
+      let childnodefilteration  = node.filter(function (childNode) {
+                  if (list_hidden_childnode.includes(childNode.oncotree_change)) {
+                    return childNode;
+                  }
+                });
+
+                childnodefilteration.style("display", "none");
+
+
+                let matchinglinkpart = link.filter(function (link) {
+                              if (list_hidden_childnode.includes(link.target.oncotree_change)) {
+                                return (
+                                  link
+                                );
+                              }
+                            });
+                    console.log( "matching link of the childnode " , matchinglinkpart)  ; 
+                    matchinglinkpart.style("display" , "none")  ;
     }
-
-
 
 
     // legenddata
@@ -876,7 +894,9 @@ console.log("remove child are " ,  removechild) ;
       }
 
     
- console.log(list_hidden_childnode);
+
+      range_of_links(minValue, maxValue);
+
 
  }
 
