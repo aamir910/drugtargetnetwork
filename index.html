@@ -204,6 +204,13 @@
     border-radius: 2rem;
     margin-right: 5px;
   }
+  .circle {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 2rem;
+    margin-right: 5px;
+  }
 
   ul {
     list-style-type: none;
@@ -693,13 +700,15 @@ console.log("remove child are " ,  removechild) ;
 
     // legenddata
     function legendinfo() {
-      const max_phase_caterogies = [
-        { category: "PHASE 1" },
-        { category: "PHASE 2" },
-        { category: "PHASE 3" },
-        { category: "Approved" },
-        { category: "" }
-      ];
+      const max_phase_categories = [
+  { category: "PHASE 1", color: "#000080" },
+  { category: "PHASE 2", color: "yellow" },
+  { category: "PHASE 3", color: "blue" },
+  { category: "Approved", color: "grey" },
+  { category: "", color: "#ce7e00" }
+];
+
+
 
       const data_Set = [
         { category: "GDSC1" },
@@ -707,46 +716,33 @@ console.log("remove child are " ,  removechild) ;
   
 
       ];
-      const data_Set_child = [
-        { category: "Bone" },
-        { category: "Esophagus" },
-        { category: "Lung" },
-        { category: "Haematopoietic and Lymphoid" },
-      ];
+
+    const data_Set_child = [
+  { category: "Bone", color: "#FF5733" },
+  { category: "Esophagus", color: "#33FF57" },
+  { category: "Lung", color: "#5733FF" },
+  { category: "Haematopoietic and Lymphoid", color: "#33A2FF" },
+];
 
       const ul = d3.select("#myList");
       listItems = ul
         .selectAll("li")
-        .data(max_phase_caterogies)
+        .data(max_phase_categories)
         .enter()
         .append("li");
 
-      
-
-      listItems
-        .append("div")
-        .attr("class", "rect")
-        .style("background-color", (d) => {
-          if (d.category === "PHASE 1") {
-            return "#000080";
-          } else if (d.category === "Approved") {
-            return "grey";
-          } else if (d.category === "PHASE 2") {
-            return "yellow";
-          } else if (d.category === "PHASE 3") {
-            return "blue";
-          } else if (d.category === "") {
-            return "#ce7e00";
-          }
-          else {
-            return "black";
-          }
-        });
-
-
-      // listItems.append("span").text((d) => d.category);
-
-      listItems.append("span").text((d) => (d.category === "" ? "Unknown" : d.category));
+        listItems
+  .append("div")
+  .attr("class", "rect")
+  .style("background-color", (d) => {
+    for (const categoryObj of max_phase_categories) {
+      if (d.category === categoryObj.category) {
+        return categoryObj.color;
+      }
+    }
+    return "black"; 
+  });
+   listItems.append("span").text((d) => (d.category === "" ? "Unknown" : d.category));
 
       const ul2 = d3.select("#dataset");
       dataSet_link = ul2
@@ -763,9 +759,23 @@ console.log("remove child are " ,  removechild) ;
         .data(data_Set_child)
         .enter()
         .append("li");
+        dataSet_child.append("div")
+        .attr("class" , "circle")
+        .style( "background-color" , (d)=>{
+          for(const categoryObj of data_Set_child){
+            if(d.category === categoryObj.category){
+               return categoryObj.color
+            }
+          }
+          return "black" 
+        }) 
 
         dataSet_child.append("span").text((d) => d.category);
     } 
+
+
+
+
     legendinfo();
 
     function onclickmax_phase(event) {
