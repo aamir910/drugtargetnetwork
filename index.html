@@ -183,8 +183,12 @@
     border: 2px solid black;
     margin: 1rem;
     border-radius: 1rem;
-
-
+    background-color: white;
+  
+  }
+  .legenddata {
+    font-size: 20px;
+    padding-left: 1rem;
   }
 
   .marked {
@@ -291,9 +295,12 @@
 
           <div class="legend">
             <fieldset class="fieldset">
-              <legend>max_phase</legend>
+              <legend class="legenddata">max_phase</legend>
               <ul id="myList"></ul>
-
+              <legend class="legenddata">data_set</legend>
+              <ul id="dataset"></ul>
+              <legend class="legenddata">child nodes</legend>
+              <ul id="child_node"></ul>
 
             </fieldset>
           </div>
@@ -326,17 +333,29 @@
     let links = [];   // links  from the json files
     let node = [];  // DOM element    
     let link = [];   // DOM ELEMENT 
-    
-    let filteredLinks = [] ;
-    let filterNodes = []  ; 
+
+    let filteredLinks = [];
+    let filterNodes = [];
     let listItems = [];  // onclick on the legend 
+
     let clicked;
     let list_hidden = [];
-    let remove_maxPhase = [] ; 
+    let remove_maxPhase = [];
 
+    //  onclick data set 
 
-    let minValue ; 
-    let maxValue ; 
+    let dataSet_link =   []
+    let clicked2;
+    let list_hidden_dataset = []; 
+//  onclick child nodes 
+
+    let dataSet_child =   []
+    let clicked3;
+    let list_hidden_childnode = []; 
+
+   
+    let minValue;
+    let maxValue;
 
 
     // fetching the json file  
@@ -377,10 +396,10 @@
           } else if (item.MAX_PHASE === "PHASE 3") {
             calsoleimage = "img5.png"
           }
-          else  if (item.MAX_PHASE === "") {
+          else if (item.MAX_PHASE === "") {
             calsoleimage = "unknown.png"
-          } 
-          else{
+          }
+          else {
             calsoleimage = "black.png"
 
           }
@@ -390,7 +409,7 @@
             id: item.COMPOUND_NAME,
             type: "parentnode",
             image: calsoleimage,
-            MAX_PHASE : item.MAX_PHASE 
+            MAX_PHASE: item.MAX_PHASE
           });
         }
       });
@@ -401,7 +420,9 @@
           nodes.push({
             id: item.CELL_LINE_NAME,
             type: "childnode",
-
+            MAX_PHASE : item.MAX_PHASE
+            
+ 
           });
         }
       });
@@ -411,14 +432,31 @@
       links = data.map((item) => ({
         source: item.COMPOUND_NAME,
         target: item.CELL_LINE_NAME,
-        value: item.VALUE
+        value: item.VALUE,
+        max_range_link : item.MAX_PHASE ,
+        dataset : item.DATASET
       }));
 
       console.log("nodes", nodes)
 
       console.log("links", links);
 
+
+      let tempdata = [];
+
+
+      data.filter( data =>
+      {
+          if(!tempdata.includes(data.ONCOTREE_LINEAGE))
+          tempdata.push(data.ONCOTREE_LINEAGE)
+      } )
+
+
+
+      console.log(tempdata) ;
     }
+    
+
 
 
     // custom drag function
@@ -551,14 +589,14 @@
 
     function range_of_links(min_range, max_range) {
 
-      
+
       link.style("display", null);
       node.style("display", null);
 
-      
 
-      
-       filteredLinks = link.filter(link => {
+
+
+      filteredLinks = link.filter(link => {
         // Filter links with a value greater than 5
         return link.value < min_range || link.value > max_range
       });
@@ -593,45 +631,60 @@
 
 
       node.each(function (d) {
-    // Check if the node's MAX_PHASE is in the list_hidden
-    if (list_hidden.includes(d.MAX_PHASE)) {
-      // Node is in list_hidden, set display to "none"
-      d3.select(this).style("display", "none");
-    } 
-  });
-   let matchingchild =[] ; 
-  const matchinglink = link.filter(function (link) {
-                  if (list_hidden.includes(link.source.MAX_PHASE)) {
-                       
-                    return (
-                      link
-                    );
-                  }
+        // Check if the node's MAX_PHASE is in the list_hidden
+        if (list_hidden.includes(d.MAX_PHASE) && d.type === "parentnode") {
+          // Node is in list_hidden, set display to "none"
+          d3.select(this).style("display", "none");
+        }
+      });
 
-                });
+       
+      let matchingchild = [];
 
+      let removechild = [];
+const matchinglink = link.filter(function (link) {
+  if (list_hidden.includes(link.source.MAX_PHASE)) {
+//     console.log(link.max_range_link) ; 
 
-                matchinglink.style("display" , "none") ; 
-                // // matchingchild.style("display" , "none") ;
-        
-                //   node.filter(childnodes => {
-                         
-                //     link.fitler( link=>{
-                //       if(matchinglink.target === childnodes ){
-                        
-                //           childnodes.style("display" , "none") ;
-                //       } 
-                //     })
-                  
-                //   })      
+// console.log("targert node " ,  link.target.MAX_PHASE) ;
+// console.log("source link" ,  link.source.MAX_PHASE) ;
 
+//     if (link.source.MAX_PHASE === link.target.MAX_PHASE) {
 
-                matchinglink.each(function(templink) {
-  node.filter(function(childnodes) {
-
-    return templink.target === childnodes ;
-  }).style("display", "none");
+//       if (!removechild.includes(link.target)){
+//         removechild.push(link.target);
+//       }
+//     }
+    return link;
+  }
 });
+
+
+console.log("remove child are " ,  removechild) ;  
+
+
+      matchinglink.style("display", "none");
+      // // matchingchild.style("display" , "none") ;
+
+      //   node.filter(childnodes => {
+
+      //     link.fitler( link=>{
+      //       if(matchinglink.target === childnodes ){
+
+      //           childnodes.style("display" , "none") ;
+      //       } 
+      //     })
+
+      //   })      
+
+
+      matchinglink.each(function (templink) {
+        node.filter(function (childnodes) {
+
+          return templink.target === childnodes ;
+        }).style("display", "none");
+      });
+
 
     }
 
@@ -648,12 +701,27 @@
         { category: "" }
       ];
 
+      const data_Set = [
+        { category: "GDSC1" },
+        { category: "soon" },
+  
+
+      ];
+      const data_Set_child = [
+        { category: "Bone" },
+        { category: "Esophagus" },
+        { category: "Lung" },
+        { category: "Haematopoietic and Lymphoid" },
+      ];
+
       const ul = d3.select("#myList");
       listItems = ul
         .selectAll("li")
         .data(max_phase_caterogies)
         .enter()
         .append("li");
+
+      
 
       listItems
         .append("div")
@@ -667,7 +735,7 @@
             return "yellow";
           } else if (d.category === "PHASE 3") {
             return "blue";
-          }else if (d.category === "") {
+          } else if (d.category === "") {
             return "#ce7e00";
           }
           else {
@@ -680,11 +748,27 @@
 
       listItems.append("span").text((d) => (d.category === "" ? "Unknown" : d.category));
 
+      const ul2 = d3.select("#dataset");
+      dataSet_link = ul2
+        .selectAll("li")
+        .data(data_Set)
+        .enter()
+        .append("li");
 
-    }
+        dataSet_link.append("span").text((d) => d.category);
+
+        const ul3 = d3.select("#child_node");
+      dataSet_child = ul3
+        .selectAll("li")
+        .data(data_Set_child)
+        .enter()
+        .append("li");
+
+        dataSet_child.append("span").text((d) => d.category);
+    } 
     legendinfo();
 
-    function onclickmax_phase(event ) {
+    function onclickmax_phase(event) {
 
       d3.select(this)
         .select("span")
@@ -697,28 +781,51 @@
       const index = list_hidden.indexOf(clicked);
 
       if (clicked === "Unknown") {
-  // If 'clicked' is "unknown", check if an empty string ("") is in 'list_hidden'
-  const emptyStringIndex = list_hidden.indexOf("");
-  if (emptyStringIndex === -1) {
-    // If an empty string is not in the array, push it
-    list_hidden.push("");
-  } else {
-    // If an empty string is already in the array, splice it (remove)
-    list_hidden.splice(emptyStringIndex, 1);
-  }
-} else if (index === -1) {
-  // If 'clicked' is not in 'list_hidden', push it
-  list_hidden.push(clicked);
-} else {
-  // If 'clicked' is already in 'list_hidden', splice it
-  list_hidden.splice(index, 1);
-}
-console.log(list_hidden)  ; 
+        // If 'clicked' is "unknown", check if an empty string ("") is in 'list_hidden'
+        const emptyStringIndex = list_hidden.indexOf("");
+        if (emptyStringIndex === -1) {
+          // If an empty string is not in the array, push it
+          list_hidden.push("");
+        } else {
+          // If an empty string is already in the array, splice it (remove)
+          list_hidden.splice(emptyStringIndex, 1);
+        }
+      } else if (index === -1) {
+        // If 'clicked' is not in 'list_hidden', push it
+        list_hidden.push(clicked);
+      } else {
+        // If 'clicked' is already in 'list_hidden', splice it
+        list_hidden.splice(index, 1);
+      }
 
 
       range_of_links(minValue, maxValue);
 
-     }
+    }
+
+  
+   function  onclick_dataSet(event){
+    d3.select(this)
+        .select("span")
+        .classed("marked", function () {
+          return !d3.select(this).classed("marked");
+        });
+
+        clicked2= event.target.textContent;
+
+      const index = list_hidden_dataset.indexOf(clicked2);
+
+   
+         if (index === -1) {
+        list_hidden_dataset.push(clicked2);
+      } else {
+        list_hidden_dataset.splice(index, 1);
+      }
+
+    
+ console.log(list_hidden_dataset);
+   }
+
 
 
     function clearGraph() {
@@ -736,9 +843,9 @@ console.log(list_hidden)  ;
 
       minValue = parseFloat(minSlider.value);
       maxValue = parseFloat(maxSlider.value);
-      console.log("Min Slider Value: " + minValue);
-      console.log("Max Slider Value: " + maxValue);
       listItems.on("click", onclickmax_phase);
+      
+      dataSet_link.on("click", onclick_dataSet);
       range_of_links(minValue, maxValue);
 
     }
