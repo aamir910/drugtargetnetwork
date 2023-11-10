@@ -184,8 +184,9 @@
     margin: 1rem;
     border-radius: 1rem;
     background-color: white;
-  
+
   }
+
   .legenddata {
     font-size: 20px;
     padding-left: 1rem;
@@ -204,6 +205,7 @@
     border-radius: 2rem;
     margin-right: 5px;
   }
+
   .circle {
     display: inline-block;
     width: 14px;
@@ -351,16 +353,16 @@
 
     //  onclick data set 
 
-    let dataSet_link =   []
+    let dataSet_link = []
     let clicked2;
-    let list_hidden_dataset = []; 
-//  onclick child nodes 
+    let list_hidden_dataset = [];
+    //  onclick child nodes 
 
-    let dataSet_child =   []
+    let dataSet_child = []
     let clicked3;
-    let list_hidden_childnode = []; 
+    let list_hidden_childnode = [];
 
-   
+
     let minValue;
     let maxValue;
 
@@ -416,7 +418,8 @@
             id: item.COMPOUND_NAME,
             type: "parentnode",
             image: calsoleimage,
-            MAX_PHASE: item.MAX_PHASE
+            MAX_PHASE: item.MAX_PHASE,
+            flag: true
           });
         }
       });
@@ -426,8 +429,8 @@
           nodes.push({
             id: item.CELL_LINE_NAME,
             type: "childnode",
-            MAX_PHASE : item.MAX_PHASE , 
-            oncotree_change : item.ONCOTREE_LINEAGE
+            MAX_PHASE: item.MAX_PHASE,
+            oncotree_change: item.ONCOTREE_LINEAGE
           });
         }
       });
@@ -438,8 +441,8 @@
         source: item.COMPOUND_NAME,
         target: item.CELL_LINE_NAME,
         value: item.VALUE,
-        max_range_link : item.MAX_PHASE ,
-        dataset : item.DATASET
+        max_range_link: item.MAX_PHASE,
+        dataset: item.DATASET
       }));
 
       console.log("nodes", nodes)
@@ -450,17 +453,16 @@
       let tempdata = [];
 
 
-      data.filter( data =>
-      {
-          if(!tempdata.includes(data.ONCOTREE_LINEAGE))
+      data.filter(data => {
+        if (!tempdata.includes(data.ONCOTREE_LINEAGE))
           tempdata.push(data.ONCOTREE_LINEAGE)
-      } )
+      })
 
 
 
-      console.log(tempdata) ;
+      console.log(tempdata);
     }
-    
+
 
 
 
@@ -561,24 +563,20 @@
         .append("circle")
         .attr("r", 8)
         .attr("fill", function (d) {
-            if(d.oncotree_change === "bone")
-            {
-              return "#FF5733"
-            }
-            else  if(d.oncotree_change === "Esophagus")
-            {
-              return "#33FF57"
-            }
-            else  if(d.oncotree_change === "Lung")
-            {
-              return "orange"
-            }  else  if(d.oncotree_change === "Haematopoietic and Lymphoid")
-            {
-              return "#33A2FF"
-            }
-            else{
-              return "green"
-            }
+          if (d.oncotree_change === "Bone") {
+            return "red"
+          }
+          else if (d.oncotree_change === "Esophagus") {
+            return "#33FF57"
+          }
+          else if (d.oncotree_change === "Lung") {
+            return "orange"
+          } else if (d.oncotree_change === "Haematopoietic and Lymphoid") {
+            return "#33A2FF"
+          }
+          else {
+            return "green"
+          }
 
 
         })
@@ -660,106 +658,121 @@
         // Check if the node's MAX_PHASE is in the list_hidden
         if (list_hidden.includes(d.MAX_PHASE) && d.type === "parentnode") {
           // Node is in list_hidden, set display to "none"
+          
           d3.select(this).style("display", "none");
         }
       });
 
-       
+
       let matchingchild = [];
 
       let removechild = [];
-const matchinglink = link.filter(function (link) {
-  if (list_hidden.includes(link.source.MAX_PHASE)) {
-//     console.log(link.max_range_link) ; 
-
-// console.log("targert node " ,  link.target.MAX_PHASE) ;
-// console.log("source link" ,  link.source.MAX_PHASE) ;
-
-//     if (link.source.MAX_PHASE === link.target.MAX_PHASE) {
-
-//       if (!removechild.includes(link.target)){
-//         removechild.push(link.target);
-//       }
-//     }
-    return link;
-  }
-});
-
-
-console.log("remove child are " ,  removechild) ;  
-
+      const matchinglink = link.filter(function (link) {
+        if (list_hidden.includes(link.source.MAX_PHASE)) {
+          return link;
+        }
+      });
 
       matchinglink.style("display", "none");
-      // // matchingchild.style("display" , "none") ;
-
-      //   node.filter(childnodes => {
-
-      //     link.fitler( link=>{
-      //       if(matchinglink.target === childnodes ){
-
-      //           childnodes.style("display" , "none") ;
-      //       } 
-      //     })
-
-      //   })      
-
 
       matchinglink.each(function (templink) {
         node.filter(function (childnodes) {
 
-          return templink.target === childnodes ;
+          return templink.target === childnodes;
         }).style("display", "none");
       });
 
       //    child nodes will be filter here 
 
+
+      let childnodefilteration = node.filter(function (childNode) {
+        if (list_hidden_childnode.includes(childNode.oncotree_change)) {
+          return childNode;
+        }
+      });
+
+      childnodefilteration.style("display", "none");
+
+      let source_node = [];
+
+      let matchinglinkpart = link.filter(function (link) {
+        if (list_hidden_childnode.includes(link.target.oncotree_change)) {
+
+          
+          source_node.push(link.source.id)
+
+          return (
+            link
+          );
+        }
+      });
+
+      matchinglinkpart.style("display", "none");
+
+      console.log(" source node of the target node" ,  source_node) ;
+
       
-      let childnodefilteration  = node.filter(function (childNode) {
-                  if (list_hidden_childnode.includes(childNode.oncotree_change)) {
-                    return childNode;
-                  }
-                });
+      node.each(function (d) { 
+        // d3.select(this).style("display", "none");   
+        if (source_node.includes(d.id)) {
+          console.log("fgdf")
 
-                childnodefilteration.style("display", "none");
+    const connectedLinks = link.filter(
+      (link) => link.source.id === d.id
+    );
+    
+console.log(connectedLinks) ; 
 
+    const data = connectedLinks.data().map((link) => link.target.oncotree_change);
+      
 
-                let matchinglinkpart = link.filter(function (link) {
-                              if (list_hidden_childnode.includes(link.target.oncotree_change)) {
-                                return (
-                                  link
-                                );
-                              }
-                            });
-                    console.log( "matching link of the childnode " , matchinglinkpart)  ; 
-                    matchinglinkpart.style("display" , "none")  ;
+    const flag2 = data.every((item) => list_hidden_childnode.includes(item));
+          
+    console.log(flag2) ; 
+    if (flag2) {
+      
+      console.log("pre")
+      d3.select(this).style("display", "none");
+
+    } else {
+      console.log("pre")
+      
+
+      console.log("post") ;
+    }
+  }
+});
+
+        
+
     }
 
 
     // legenddata
     function legendinfo() {
       const max_phase_categories = [
-  { category: "PHASE 1", color: "#000080" },
-  { category: "PHASE 2", color: "yellow" },
-  { category: "PHASE 3", color: "blue" },
-  { category: "Approved", color: "grey" },
-  { category: "", color: "#ce7e00" }
-];
+        { category: "PHASE 1", color: "#000080" },
+        { category: "PHASE 2", color: "yellow" },
+        { category: "PHASE 3", color: "blue" },
+        { category: "Approved", color: "grey" },
+        { category: "", color: "#ce7e00" }
+      ];
 
 
 
       const data_Set = [
         { category: "GDSC1" },
         { category: "soon" },
-  
+
 
       ];
 
-    const data_Set_child = [
-  { category: "Bone", color: "#FF5733" },
-  { category: "Esophagus", color: "#33FF57" },
-  { category: "Lung", color: "orange" },
-  { category: "Haematopoietic and Lymphoid", color: "#33A2FF" },
-];
+      const data_Set_child = [
+        { category: "Bone", color: "red" },
+        { category: "Esophagus", color: "#33FF57" },
+        { category: "Lung", color: "orange" },
+        { category: "Haematopoietic and Lymphoid", color: "#33A2FF" },
+      ];
 
 
       const ul = d3.select("#myList");
@@ -769,18 +782,18 @@ console.log("remove child are " ,  removechild) ;
         .enter()
         .append("li");
 
-        listItems
-  .append("div")
-  .attr("class", "rect")
-  .style("background-color", (d) => {
-    for (const categoryObj of max_phase_categories) {
-      if (d.category === categoryObj.category) {
-        return categoryObj.color;
-      }
-    }
-    return "black"; 
-  });
-   listItems.append("span").text((d) => (d.category === "" ? "Unknown" : d.category));
+      listItems
+        .append("div")
+        .attr("class", "rect")
+        .style("background-color", (d) => {
+          for (const categoryObj of max_phase_categories) {
+            if (d.category === categoryObj.category) {
+              return categoryObj.color;
+            }
+          }
+          return "black";
+        });
+      listItems.append("span").text((d) => (d.category === "" ? "Unknown" : d.category));
 
       const ul2 = d3.select("#dataset");
       dataSet_link = ul2
@@ -789,27 +802,27 @@ console.log("remove child are " ,  removechild) ;
         .enter()
         .append("li");
 
-        dataSet_link.append("span").text((d) => d.category);
+      dataSet_link.append("span").text((d) => d.category);
 
-        const ul3 = d3.select("#child_node");
+      const ul3 = d3.select("#child_node");
       dataSet_child = ul3
         .selectAll("li")
         .data(data_Set_child)
         .enter()
         .append("li");
-        dataSet_child.append("div")
-        .attr("class" , "circle")
-        .style( "background-color" , (d)=>{
-          for(const categoryObj of data_Set_child){
-            if(d.category === categoryObj.category){
-               return categoryObj.color
+      dataSet_child.append("div")
+        .attr("class", "circle")
+        .style("background-color", (d) => {
+          for (const categoryObj of data_Set_child) {
+            if (d.category === categoryObj.category) {
+              return categoryObj.color
             }
           }
-          return "black" 
-        }) 
+          return "black"
+        })
 
-        dataSet_child.append("span").text((d) => d.category);
-    } 
+      dataSet_child.append("span").text((d) => d.category);
+    }
 
 
 
@@ -851,54 +864,54 @@ console.log("remove child are " ,  removechild) ;
 
     }
 
-  
-   function  onclick_dataSet(event){
-    d3.select(this)
+
+    function onclick_dataSet(event) {
+      d3.select(this)
         .select("span")
         .classed("marked", function () {
           return !d3.select(this).classed("marked");
         });
 
-        clicked2= event.target.textContent;
+      clicked2 = event.target.textContent;
 
       const index = list_hidden_dataset.indexOf(clicked2);
 
-   
-         if (index === -1) {
+
+      if (index === -1) {
         list_hidden_dataset.push(clicked2);
       } else {
         list_hidden_dataset.splice(index, 1);
       }
 
-    
- console.log(list_hidden_dataset);
-   }
 
- function onclick_childnodes(event){
+      console.log(list_hidden_dataset);
+    }
 
-  d3.select(this)
+    function onclick_childnodes(event) {
+
+      d3.select(this)
         .select("span")
         .classed("marked", function () {
           return !d3.select(this).classed("marked");
         });
 
-        clicked3= event.target.textContent;
+      clicked3 = event.target.textContent;
 
       const index = list_hidden_childnode.indexOf(clicked3);
 
-   
-         if (index === -1) {
+
+      if (index === -1) {
         list_hidden_childnode.push(clicked3);
       } else {
         list_hidden_childnode.splice(index, 1);
       }
 
-    
+
 
       range_of_links(minValue, maxValue);
 
 
- }
+    }
 
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
@@ -916,7 +929,7 @@ console.log("remove child are " ,  removechild) ;
       minValue = parseFloat(minSlider.value);
       maxValue = parseFloat(maxSlider.value);
       listItems.on("click", onclickmax_phase);
-      
+
       dataSet_link.on("click", onclick_dataSet);
 
       dataSet_child.on("click", onclick_childnodes);
