@@ -715,7 +715,7 @@
       node.each(function (d) { 
         // d3.select(this).style("display", "none");   
         if (source_node.includes(d.id)) {
-          console.log("fgdf")
+         
 
     const connectedLinks = link.filter(
       (link) => link.source.id === d.id
@@ -728,22 +728,16 @@ console.log(connectedLinks) ;
 
     const flag2 = data.every((item) => list_hidden_childnode.includes(item));
           
-    console.log(flag2) ; 
     if (flag2) {
       
       console.log("pre")
       d3.select(this).style("display", "none");
 
-    } else {
-      console.log("pre")
-      
-
-      console.log("post") ;
     }
+
   }
 });
 
-        
 
     }
 
