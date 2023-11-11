@@ -652,14 +652,17 @@
       // Reset the display style for the filtered nodes
       filterNodes2.style("display", null);
 
-
+      //
 
       node.each(function (d) {
+
+        
         // Check if the node's MAX_PHASE is in the list_hidden
         if (list_hidden.includes(d.MAX_PHASE) && d.type === "parentnode") {
           // Node is in list_hidden, set display to "none"
-          
+
           d3.select(this).style("display", "none");
+
         }
       });
 
@@ -698,7 +701,7 @@
       let matchinglinkpart = link.filter(function (link) {
         if (list_hidden_childnode.includes(link.target.oncotree_change)) {
 
-          
+
           source_node.push(link.source.id)
 
           return (
@@ -709,39 +712,65 @@
 
       matchinglinkpart.style("display", "none");
 
-      console.log(" source node of the target node" ,  source_node) ;
+      console.log(" source node of the target node", source_node);
 
-      
-      node.each(function (d) { 
+
+      node.each(function (d) {
         // d3.select(this).style("display", "none");   
         if (source_node.includes(d.id)) {
-         
 
-    const connectedLinks = link.filter(
-      (link) => link.source.id === d.id
-    );
+
+          const connectedLinks = link.filter(
+            (link) => link.source.id === d.id
+          );
+
+          console.log(connectedLinks);
+
+          const data = connectedLinks.data().map((link) => link.target.oncotree_change);
+
+
+          const flag2 = data.every((item) => list_hidden_childnode.includes(item));
+
+          if (flag2) {
+
+            console.log("pre")
+            d3.select(this).style("display", "none");
+
+            var displayStyle = d3.select(this).style("display");
+            console.log("none will be ", displayStyle);
+          }
+          // else{
+
+          //   d3.select(this).style("display", null);
+          // }
+
+        }
+      });
     
-console.log(connectedLinks) ; 
+      node.each(function(d) {
+  if (d.type === "parentnode") {
+    var nodestyle = d3.select(this).style("display");
 
-    const data = connectedLinks.data().map((link) => link.target.oncotree_change);
-      
+    const connectedLinks = link.filter(link => link.source.id === d.id);
 
-    const flag2 = data.every((item) => list_hidden_childnode.includes(item));
-          
-    if (flag2) {
+    // Array to store styles of connected links
+    var linkStyles = [];
+
+    connectedLinks.each(function(link) {
+      var linkStyle = d3.select(this).style("display");
       
-      console.log("pre")
+      linkStyles.push(linkStyle);
+    });
+console.log(linkStyles) ;
+    // Check if every style in the array is "none"
+    var allLinksNone = linkStyles.every(style => style === "none");
+
+    if (allLinksNone) {
+      // Set node style to "display: none"
       d3.select(this).style("display", "none");
-
     }
-    else{
-      
-      d3.select(this).style("display", null);
-    }
-
   }
 });
-
 
     }
 
