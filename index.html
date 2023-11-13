@@ -459,8 +459,6 @@
       })
 
 
-
-      console.log(tempdata);
     }
 
 
@@ -624,19 +622,34 @@
         // Filter links with a value greater than 5
         return link.value < min_range || link.value > max_range
       });
+     
 
-
+      
       filterNodes = node.filter(node => {
-
+        
         return filteredLinks.data().some(link => (link.target === node || link.source === node));
       });
-
-
-
+      
+      
+      
       // Hide the filtered links
-
+      
       filteredLinks.style("display", "none");
+      
+      
+      
+      var filterlinks2 = link.filter(function (templink) {
+        // Filter links with a value greater than 5
+        let visible = d3.select(this).style("display") ;
+        console.log( visible)
+        if(visible ==="inline"){
 
+          return templink ;
+        }
+      });
+      
+      console.log(filteredLinks, "here are ",filterlinks2 )
+      
       // Hide the associated target nodes
       filterNodes.style("display", "none");
 
@@ -656,7 +669,7 @@
 
       node.each(function (d) {
 
-        
+
         // Check if the node's MAX_PHASE is in the list_hidden
         if (list_hidden.includes(d.MAX_PHASE) && d.type === "parentnode") {
           // Node is in list_hidden, set display to "none"
@@ -666,10 +679,6 @@
         }
       });
 
-
-      let matchingchild = [];
-
-      let removechild = [];
       const matchinglink = link.filter(function (link) {
         if (list_hidden.includes(link.source.MAX_PHASE)) {
           return link;
@@ -677,13 +686,72 @@
       });
 
       matchinglink.style("display", "none");
+   
+      let connectedNodes ; 
+      let allconnedtednodes = [] ;
+      
+      // matchinglink.each(function (templink) {
+      //   node.filter(function (childnodes) {
 
-      matchinglink.each(function (templink) {
-        node.filter(function (childnodes) {
+      //     return templink.target === childnodes;
+      //   }).style("display", "none");
+      // });
 
-          return templink.target === childnodes;
-        }).style("display", "none");
-      });
+      let childNode2 =   node.filter(node =>{
+        if(node.type === "childnode"){
+          return node ; 
+        }
+      })
+      childNode2.style("display" , "none" ) ; 
+ 
+      let visiblenode =[] ; 
+      node.filter(function (node) {
+        if (node.type === "parentnode") {
+          let maxnode = d3.select(this).style("display");
+          if (maxnode === "inline")  {
+            filterlinks2.filter(link => {
+                if(link.source === node ){
+                    visiblenode.push(link.target.id) ; 
+              }
+            })
+          }
+        }})
+        
+        node.filter(function (node){
+          if(visiblenode.includes(node.id)){
+              d3.select(this).style("display", null);
+          }
+        })
+
+
+//       node.filter(function (node) {
+//         if (node.type === "parentnode") {
+//           let maxnode = d3.select(this).style("display");
+
+//           if (maxnode === "inline") {
+//              connectedNodes = link.data()
+//               .filter(link => link.source === node)
+//               .map(link => link.target.id && 
+//        allconnedtednodes.push(link.target.id) );
+//  ; 
+//             // connectedNodes.style("display", "none");
+//             console.log("here are the connectednodes", connectedNodes);
+//           }
+
+//         }
+//       });
+//       console.log(allconnedtednodes , "akk")
+//       node.filter(function (d) {
+//         if (allconnedtednodes.includes(d.id)) {
+//           console.log( "machingasd are ")
+//           d3.select(this).style("display", null);
+//         }
+
+//       }
+//       )
+
+
+   
 
       //    child nodes will be filter here 
 
@@ -712,7 +780,6 @@
 
       matchinglinkpart.style("display", "none");
 
-      console.log(" source node of the target node", source_node);
 
 
       node.each(function (d) {
@@ -724,7 +791,6 @@
             (link) => link.source.id === d.id
           );
 
-          console.log(connectedLinks);
 
           const data = connectedLinks.data().map((link) => link.target.oncotree_change);
 
@@ -733,11 +799,9 @@
 
           if (flag2) {
 
-            console.log("pre")
             d3.select(this).style("display", "none");
 
             var displayStyle = d3.select(this).style("display");
-            console.log("none will be ", displayStyle);
           }
           // else{
 
@@ -746,31 +810,30 @@
 
         }
       });
-    
-      node.each(function(d) {
-  if (d.type === "parentnode") {
-    var nodestyle = d3.select(this).style("display");
 
-    const connectedLinks = link.filter(link => link.source.id === d.id);
+      node.each(function (d) {
+        if (d.type === "parentnode") {
+          var nodestyle = d3.select(this).style("display");
 
-    // Array to store styles of connected links
-    var linkStyles = [];
+          const connectedLinks = link.filter(link => link.source.id === d.id);
 
-    connectedLinks.each(function(link) {
-      var linkStyle = d3.select(this).style("display");
-      
-      linkStyles.push(linkStyle);
-    });
-console.log(linkStyles) ;
-    // Check if every style in the array is "none"
-    var allLinksNone = linkStyles.every(style => style === "none");
+          // Array to store styles of connected links
+          var linkStyles = [];
 
-    if (allLinksNone) {
-      // Set node style to "display: none"
-      d3.select(this).style("display", "none");
-    }
-  }
-});
+          connectedLinks.each(function (link) {
+            var linkStyle = d3.select(this).style("display");
+
+            linkStyles.push(linkStyle);
+          });
+          // Check if every style in the array is "none"
+          var allLinksNone = linkStyles.every(style => style === "none");
+
+          if (allLinksNone) {
+            // Set node style to "display: none"
+            d3.select(this).style("display", "none");
+          }
+        }
+      });
 
     }
 
@@ -910,8 +973,6 @@ console.log(linkStyles) ;
         list_hidden_dataset.splice(index, 1);
       }
 
-
-      console.log(list_hidden_dataset);
     }
 
     function onclick_childnodes(event) {
