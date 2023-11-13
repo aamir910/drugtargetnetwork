@@ -641,14 +641,12 @@
       var filterlinks2 = link.filter(function (templink) {
         // Filter links with a value greater than 5
         let visible = d3.select(this).style("display") ;
-        console.log( visible)
         if(visible ==="inline"){
 
           return templink ;
         }
       });
       
-      console.log(filteredLinks, "here are ",filterlinks2 )
       
       // Hide the associated target nodes
       filterNodes.style("display", "none");
@@ -722,37 +720,6 @@
               d3.select(this).style("display", null);
           }
         })
-
-
-//       node.filter(function (node) {
-//         if (node.type === "parentnode") {
-//           let maxnode = d3.select(this).style("display");
-
-//           if (maxnode === "inline") {
-//              connectedNodes = link.data()
-//               .filter(link => link.source === node)
-//               .map(link => link.target.id && 
-//        allconnedtednodes.push(link.target.id) );
-//  ; 
-//             // connectedNodes.style("display", "none");
-//             console.log("here are the connectednodes", connectedNodes);
-//           }
-
-//         }
-//       });
-//       console.log(allconnedtednodes , "akk")
-//       node.filter(function (d) {
-//         if (allconnedtednodes.includes(d.id)) {
-//           console.log( "machingasd are ")
-//           d3.select(this).style("display", null);
-//         }
-
-//       }
-//       )
-
-
-   
-
       //    child nodes will be filter here 
 
 
