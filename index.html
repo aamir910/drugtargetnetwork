@@ -346,6 +346,8 @@
     let filteredLinks = [];
     let filterNodes = [];
     let listItems = [];  // onclick on the legend 
+    let max_phase_cliked  = [] ; 
+
 
     let clicked;
     let list_hidden = [];
@@ -839,7 +841,7 @@
         .enter()
         .append("li");
 
-      listItems
+     listItems
         .append("div")
         .attr("class", "rect")
         .style("background-color", (d) => {
@@ -849,8 +851,17 @@
             }
           }
           return "black";
-        });
-      listItems.append("span").text((d) => (d.category === "" ? "Unknown" : d.category));
+        }) .on("click", function (event, d) {
+    // Handle click on the span element
+    console.log("Clicked on span:", d);
+  });
+;
+
+
+pax_phasecliked =    listItems
+  .append("span")
+  .text((d) => (d.category === "" ? "Unknown" : d.category))
+ 
 
       const ul2 = d3.select("#dataset");
       dataSet_link = ul2
@@ -889,7 +900,6 @@
     function onclickmax_phase(event) {
 
       d3.select(this)
-        .select("span")
         .classed("marked", function () {
           return !d3.select(this).classed("marked");
         });
@@ -983,7 +993,7 @@
 
       minValue = parseFloat(minSlider.value);
       maxValue = parseFloat(maxSlider.value);
-      listItems.on("click", onclickmax_phase);
+      pax_phasecliked.on("click", onclickmax_phase);
 
       dataSet_link.on("click", onclick_dataSet);
 
