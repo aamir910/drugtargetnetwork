@@ -217,8 +217,8 @@
   ul {
     list-style-type: none;
   }
-   
-  
+
+
   /* LEGEND CSS ENDED HERE  */
   /* here is the styling of the color picker */
 
@@ -231,19 +231,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: absolute; 
+    position: absolute;
     top: 55%;
     left: 20%;
-}
+  }
 
-.cl-picker{
+  .cl-picker {
     text-transform: uppercase;
     /* letter-spacing: 1px; */
     font-weight: bold;
     margin: 1px;
-}
+  }
 
-.card ul {
+  .card ul {
     list-style: none;
     /* padding: 24px; */
     display: grid;
@@ -251,135 +251,140 @@
     grid-gap: 10px;
     padding-left: 0;
     margin: 1px;
-}
- 
- .card ul li {
+  }
+
+  .card ul li {
     width: 24px;
-    height: 24px;    
+    height: 24px;
     border-radius: 50%;
     cursor: pointer;
     transition: transform 0.3s;
-}
+  }
 
-.card ul li:hover {
+  .card ul li:hover {
     transform: scale(1.1);
-}
+  }
 
-#red {
+  #red {
     background-color: #ef5350;
-}
-#green {
+  }
+
+  #green {
     background-color: #66bb6a;
-}
-#amber {
+  }
+
+  #amber {
     background-color: #ffca28;
-}
-#blue {
+  }
+
+  #blue {
     background-color: #42a5f5;
-}
-#gray {
+  }
+
+  #gray {
     background-color: #bdbdbd;
-}
+  }
+
   /* here is the styling of the color picker ended  */
 </style>
 
 <body>
-  <div>
-    <div class="container searchBar">
-      <form class="selection_box flex" id="searchForm">
-        <div class="form-row rowData">
-          <!-- First Dropdown -->
-          <div class="form-group col-md-3">
-            <select class="form-select" id="dropdown1">
-              <option value="1">Select an option</option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </select>
-            <!-- Alert message for the first dropdown -->
-            <div class="alert-message alert2" style="position: absolute; top: 110px; ">
-              <span class="alert alert-danger">Please select an option</span>
-            </div>
-          </div>
 
-          <!-- Second Dropdown -->
-          <div class="form-group col-md-3">
-            <select class="form-select" id="dropdown2">
-              <option value="2">Select an option</option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </select>
-            <!-- Alert message for the second dropdown -->
-            <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
-              <span class="alert alert-danger">Please select an option</span>
-            </div>
+  <div class="container searchBar">
+    <form class="selection_box flex" id="searchForm">
+      <div class="form-row rowData">
+        <!-- First Dropdown -->
+        <div class="form-group col-md-3">
+          <select class="form-select" id="dropdown1">
+            <option value="1">Select an option</option>
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </select>
+          <!-- Alert message for the first dropdown -->
+          <div class="alert-message alert2" style="position: absolute; top: 110px; ">
+            <span class="alert alert-danger">Please select an option</span>
           </div>
-
-          <!-- Third Dropdown -->
-          <div class="form-group col-md-3">
-            <select class="form-select" id="dropdown3">
-              <option value="3">Select an option</option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </select>
-            <!-- Alert message for the third dropdown -->
-            <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
-              <span class="alert alert-danger">Please select an option</span>
-            </div>
-          </div>
-          <!-- button  -->
-          <button class="btn btn-success" id="submitButton">
-            <i class="bi bi-search"></i> Search
-          </button>
         </div>
-      </form>
 
-      <div class="graph_div container flex col-12 " id="div2">
-
-        <div class="wrapper col-3">
-          <header>
-            <h2>links value</h2>
-            <p>Use the slider or enter a link range </p>
-          </header>
-          <div class="price-input">
-            <div class="field">
-              <span>Min</span>
-              <input type="number" class="input-min" value="4.0" step="0.1">
-            </div>
-            <div class="separator">-</div>
-            <div class="field">
-              <span>Max</span>
-              <input type="number" class="input-max" value="9.0" step="0.1">
-            </div>
+        <!-- Second Dropdown -->
+        <div class="form-group col-md-3">
+          <select class="form-select" id="dropdown2">
+            <option value="2">Select an option</option>
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </select>
+          <!-- Alert message for the second dropdown -->
+          <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
+            <span class="alert alert-danger">Please select an option</span>
           </div>
-          <div class="slider">
-            <div class="progress"></div>
+        </div>
+
+        <!-- Third Dropdown -->
+        <div class="form-group col-md-3">
+          <select class="form-select" id="dropdown3">
+            <option value="3">Select an option</option>
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </select>
+          <!-- Alert message for the third dropdown -->
+          <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
+            <span class="alert alert-danger">Please select an option</span>
           </div>
-          <div class="range-input">
-            <input id="min_slider" type="range" class="range-min" min="4.0" max="9.0" step="0.1" value="4.0">
-            <input id="max_slider" type="range" class="range-max" min="4.0" max="9.0" step="0.1" value="9.0">
+        </div>
+        <!-- button  -->
+        <button class="btn btn-success" id="submitButton">
+          <i class="bi bi-search"></i> Search
+        </button>
+      </div>
+    </form>
+
+    <div class="graph_div container flex col-12 " id="div2">
+
+      <div class="wrapper col-3">
+        <header>
+          <h2>links value</h2>
+          <p>Use the slider or enter a link range </p>
+        </header>
+        <div class="price-input">
+          <div class="field">
+            <span>Min</span>
+            <input type="number" class="input-min" value="4.0" step="0.1">
           </div>
-
-
-          <div class="legend">
-            <fieldset class="fieldset">
-              <legend class="legenddata">max_phase</legend>
-              <ul id="myList"></ul>
-              <legend class="legenddata">data_set</legend>
-              <ul id="dataset"></ul>
-              <legend class="legenddata">child nodes</legend>
-              <ul id="child_node"></ul>
-
-            </fieldset>
+          <div class="separator">-</div>
+          <div class="field">
+            <span>Max</span>
+            <input type="number" class="input-max" value="9.0" step="0.1">
           </div>
-
+        </div>
+        <div class="slider">
+          <div class="progress"></div>
+        </div>
+        <div class="range-input">
+          <input id="min_slider" type="range" class="range-min" min="4.0" max="9.0" step="0.1" value="4.0">
+          <input id="max_slider" type="range" class="range-max" min="4.0" max="9.0" step="0.1" value="9.0">
         </div>
 
 
+        <div class="legend">
+          <fieldset class="fieldset">
+            <legend class="legenddata">max_phase</legend>
+            <ul id="myList"></ul>
+            <legend class="legenddata">data_set</legend>
+            <ul id="dataset"></ul>
+            <legend class="legenddata">child nodes</legend>
+            <ul id="child_node"></ul>
 
-        <svg id="forcenetwork" width="100%" style="
+          </fieldset>
+        </div>
+
+      </div>
+
+
+
+      <svg id="forcenetwork" width="100%" style="
                   background-color: white;
                   display: flex;
                   justify-content: center;
@@ -387,23 +392,23 @@
                   height:540px;
                 " class="col-9"></svg>
 
-      </div>
+    </div>
 
-      <div class="card">
-        <p class="cl-picker">change color</p>
-        <ul class="ul_of_color_picker">
-            <li class="color-item" id="red"></li>
-            <li class="color-item" id="green"></li>
-            <li class="color-item" id="amber"></li>
-            <li class="color-item" id="blue"></li>
-            <li class="color-item" id="gray"></li>
-        </ul>
+    <div class="card" id="cardid" style="display: none;">
+      <p class="cl-picker">change color</p>
+      <ul class="ul_of_color_picker">
+        <li class="color-item" id="red"></li>
+        <li class="color-item" id="green"></li>
+        <li class="color-item" id="amber"></li>
+        <li class="color-item" id="blue"></li>
+        <li class="color-item" id="gray"></li>
+      </ul>
     </div>
 
 
-    </div>
   </div>
   </div>
+
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://d3js.org/d3-force.v2.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
@@ -418,7 +423,7 @@
     let filteredLinks = [];
     let filterNodes = [];
     let listItems = [];  // onclick on the legend 
-    let max_phase_cliked  = [] ; 
+    let max_phase_cliked = [];
 
 
     let clicked;
@@ -696,32 +701,32 @@
         // Filter links with a value greater than 5
         return link.value < min_range || link.value > max_range
       });
-     
 
-      
+
+
       filterNodes = node.filter(node => {
-        
+
         return filteredLinks.data().some(link => (link.target === node || link.source === node));
       });
-      
-      
-      
+
+
+
       // Hide the filtered links
-      
+
       filteredLinks.style("display", "none");
-      
-      
-      
+
+
+
       var filterlinks2 = link.filter(function (templink) {
         // Filter links with a value greater than 5
-        let visible = d3.select(this).style("display") ;
-        if(visible ==="inline"){
+        let visible = d3.select(this).style("display");
+        if (visible === "inline") {
 
-          return templink ;
+          return templink;
         }
       });
-      
-      
+
+
       // Hide the associated target nodes
       filterNodes.style("display", "none");
 
@@ -758,42 +763,42 @@
       });
 
       matchinglink.style("display", "none");
-   
-      let connectedNodes ; 
-      let allconnedtednodes = [] ;
-      
-      // matchinglink.each(function (templink) {
-      //   node.filter(function (childnodes) {
 
-      //     return templink.target === childnodes;
-      //   }).style("display", "none");
-      // });
+      let connectedNodes;
+      let allconnedtednodes = [];
 
-      let childNode2 =   node.filter(node =>{
-        if(node.type === "childnode"){
-          return node ; 
+
+      // here is the removing and show of the max_phase child nodes 
+
+      let childNode2 = node.filter(node => {
+        if (node.type === "childnode") {
+          return node;
         }
       })
-      childNode2.style("display" , "none" ) ; 
- 
-      let visiblenode =[] ; 
+      childNode2.style("display", "none");
+
+      let visiblenode = [];
       node.filter(function (node) {
         if (node.type === "parentnode") {
           let maxnode = d3.select(this).style("display");
-          if (maxnode === "inline")  {
+          if (maxnode === "inline") {
             filterlinks2.filter(link => {
-                if(link.source === node ){
-                    visiblenode.push(link.target.id) ; 
+              if (link.source === node) {
+                visiblenode.push(link.target.id);
               }
             })
           }
-        }})
-        
-        node.filter(function (node){
-          if(visiblenode.includes(node.id)){
-              d3.select(this).style("display", null);
-          }
-        })
+        }
+      })
+
+      node.filter(function (node) {
+        if (visiblenode.includes(node.id)) {
+          d3.select(this).style("display", null);
+        }
+      })
+
+      // ended    
+
       //    child nodes will be filter here 
 
 
@@ -913,7 +918,7 @@
         .enter()
         .append("li");
 
-     listItems
+      listItems
         .append("div")
         .attr("class", "rect")
         .style("background-color", (d) => {
@@ -923,17 +928,14 @@
             }
           }
           return "black";
-        }) .on("click", function (event, d) {
-    // Handle click on the span element
-    console.log("Clicked on span:", d);
-  });
-;
+        }).on("click", color_click_onchange);
+      ;
 
 
-pax_phasecliked =    listItems
-  .append("span")
-  .text((d) => (d.category === "" ? "Unknown" : d.category))
- 
+      pax_phasecliked = listItems
+        .append("span")
+        .text((d) => (d.category === "" ? "Unknown" : d.category))
+
 
       const ul2 = d3.select("#dataset");
       dataSet_link = ul2
@@ -964,7 +966,19 @@ pax_phasecliked =    listItems
       dataSet_child.append("span").text((d) => d.category);
     }
 
+    // on clock of the color change 
+    function color_click_onchange(event, d) {
 
+      console.log("Clicked on span:", d); 
+      
+      
+      let cardshow = document.getElementById("cardid");
+
+cardshow.style.display = (cardshow.style.display === "none") ? "block" : "none";
+
+
+
+    }
 
 
     legendinfo();
@@ -1054,7 +1068,7 @@ pax_phasecliked =    listItems
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
     }
-  
+
     // setting the sidler valus 
     const minSlider = document.getElementById("min_slider");
     const maxSlider = document.getElementById("max_slider");
@@ -1084,7 +1098,7 @@ pax_phasecliked =    listItems
 
 
     // slider value ended here 
-  
+
 
     document.getElementById("submitButton").addEventListener("click", function (event) {
 
@@ -1127,11 +1141,11 @@ pax_phasecliked =    listItems
         force_network_grapgh();
         pax_phasecliked.on("click", onclickmax_phase);
 
-dataSet_link.on("click", onclick_dataSet);
+        dataSet_link.on("click", onclick_dataSet);
 
-dataSet_child.on("click", onclick_childnodes);
+        dataSet_child.on("click", onclick_childnodes);
 
-range_of_links(minValue, maxValue);
+        range_of_links(minValue, maxValue);
 
 
         document.getElementById("dropdown1").value = "";
@@ -1206,10 +1220,7 @@ range_of_links(minValue, maxValue);
         }
       });
     });
-
-
   </script>
-
 </body>
 
 </html>
