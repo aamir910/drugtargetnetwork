@@ -217,9 +217,70 @@
   ul {
     list-style-type: none;
   }
-
-
+   
+  
   /* LEGEND CSS ENDED HERE  */
+  /* here is the styling of the color picker */
+
+  .card {
+    background-color: #fff;
+    border-radius: 1rem;
+    padding: 5px;
+    box-shadow: 0 30px 30px -15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute; 
+    top: 55%;
+    left: 20%;
+}
+
+.cl-picker{
+    text-transform: uppercase;
+    /* letter-spacing: 1px; */
+    font-weight: bold;
+    margin: 1px;
+}
+
+.card ul {
+    list-style: none;
+    /* padding: 24px; */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
+    padding-left: 0;
+    margin: 1px;
+}
+ 
+ .card ul li {
+    width: 24px;
+    height: 24px;    
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.card ul li:hover {
+    transform: scale(1.1);
+}
+
+#red {
+    background-color: #ef5350;
+}
+#green {
+    background-color: #66bb6a;
+}
+#amber {
+    background-color: #ffca28;
+}
+#blue {
+    background-color: #42a5f5;
+}
+#gray {
+    background-color: #bdbdbd;
+}
+  /* here is the styling of the color picker ended  */
 </style>
 
 <body>
@@ -327,6 +388,17 @@
                 " class="col-9"></svg>
 
       </div>
+
+      <div class="card">
+        <p class="cl-picker">change color</p>
+        <ul class="ul_of_color_picker">
+            <li class="color-item" id="red"></li>
+            <li class="color-item" id="green"></li>
+            <li class="color-item" id="amber"></li>
+            <li class="color-item" id="blue"></li>
+            <li class="color-item" id="gray"></li>
+        </ul>
+    </div>
 
 
     </div>
