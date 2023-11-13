@@ -1054,7 +1054,7 @@ pax_phasecliked =    listItems
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
     }
-
+  
     // setting the sidler valus 
     const minSlider = document.getElementById("min_slider");
     const maxSlider = document.getElementById("max_slider");
@@ -1084,6 +1084,7 @@ pax_phasecliked =    listItems
 
 
     // slider value ended here 
+  
 
     document.getElementById("submitButton").addEventListener("click", function (event) {
 
@@ -1123,7 +1124,15 @@ pax_phasecliked =    listItems
 
         event.preventDefault();
         // loadGraph(4);
-        force_network_grapgh(6);
+        force_network_grapgh();
+        pax_phasecliked.on("click", onclickmax_phase);
+
+dataSet_link.on("click", onclick_dataSet);
+
+dataSet_child.on("click", onclick_childnodes);
+
+range_of_links(minValue, maxValue);
+
 
         document.getElementById("dropdown1").value = "";
         document.getElementById("dropdown2").value = "";
