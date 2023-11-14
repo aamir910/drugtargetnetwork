@@ -482,7 +482,7 @@
             calsoleimage = "yellow.png"
           } else if (item.MAX_PHASE === "PHASE 3") {
             calsoleimage = "lightblue.png"
-          } 
+          }
           else if (item.MAX_PHASE === "") {
             calsoleimage = "unknown.png"
           }
@@ -879,6 +879,7 @@
           }
         }
       });
+  
 
     }
 
@@ -975,11 +976,11 @@
     var colorpick;
     let li;
     let ul_color;
-    let count = 0 ; 
-    let cardshow ; 
+    let count = 0;
+    let cardshow;
     let clickedDiv = '';
     ul_color = document.getElementById('colorList');
-    
+
     function addColor(color) {
       li = document.createElement('li');
       li.className = 'color-item';
@@ -996,27 +997,49 @@
       console.log("check d3", d3.select(this));
       cardshow = document.getElementById("cardid");
       cardshow.style.display = "block";
-     count = 0 ; 
-  
+      count = 0;
+
 
     }
 
-      ul_color.addEventListener("click", function (event) {
-      
-      let clickedLi = "";
-  
-      clickedLi = event.target;
-  
-      if (clickedLi.tagName === 'LI') {
-    colorpick = clickedLi.style.backgroundColor;
-    console.log(colorpick);
+    ul_color.addEventListener("click", function (event) {
 
-    clickedDiv.style("background-color", colorpick || "black");
-    cardshow.style.display = "none";
-  }
+      let clickedLi = "";
+
+      clickedLi = event.target;
+
+      if (clickedLi.tagName === 'LI') {
+        colorpick = clickedLi.style.backgroundColor;
+        console.log(colorpick);
+
+        clickedDiv.style("background-color", colorpick || "black");
+        cardshow.style.display = "none";
+      }
+
+      node.filter((d) => d.type === 'parentnode')
+  .each(function (node) {
+    if(node.MAX_PHASE  === "Approved") {
+
+     if(colorpick === "yellow" ){
+      node.image = 'yellow.png';
+     }else if (colorpick === "grey" ){
+      node.image = 'grey.png';
+     }else{
+       node.image = 'black.png';
+
+     }
+    }
+
+
+  });
+
+  node.filter((d) => d.type === 'parentnode')
+  .select('image')
+  .attr('xlink:href', (d) => d.image);
+
     });
-   
-    
+
+
     legendinfo();
 
     function onclickmax_phase(event) {
@@ -1105,11 +1128,11 @@
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
     }
-     
 
-  /// here is the code of applying the logic of the maxphase 
 
-  // node.filter("")
+    /// here is the code of applying the logic of the maxphase 
+
+
 
 
 
