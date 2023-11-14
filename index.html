@@ -396,12 +396,8 @@
 
     <div class="card" id="cardid" style="display: none;">
       <p class="cl-picker">change color</p>
-      <ul class="ul_of_color_picker">
-        <li class="color-item" id="red"></li>
-        <li class="color-item" id="green"></li>
-        <li class="color-item" id="amber"></li>
-        <li class="color-item" id="blue"></li>
-        <li class="color-item" id="gray"></li>
+      <ul class="ul_of_color_picker" id="colorList">
+        
       </ul>
     </div>
 
@@ -415,6 +411,9 @@
 
 
   <script>
+
+
+
     let nodes = [];  // unique nodes   
     let links = [];   // links  from the json files
     let node = [];  // DOM element    
@@ -964,7 +963,31 @@
         })
 
       dataSet_child.append("span").text((d) => d.category);
+
+ // color picker 
+    // Example: Add a new color dynamically
+
+    for (const categoryObj of max_phase_categories) {
+              addColor( categoryObj.color) ;
+          }
+
     }
+
+
+
+//colorpicker 
+function addColor(color) {
+      var ul = document.getElementById('colorList');
+      var li = document.createElement('li');
+      li.className = 'color-item';
+      li.id = color;
+      li.style.backgroundColor = color; // Set background color
+      ul.appendChild(li);
+    }
+
+  
+
+
 
     // on clock of the color change 
     function color_click_onchange(event, d) {
