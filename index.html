@@ -884,7 +884,7 @@
 
 
     // legenddata
-    function legendinfo() {
+    function legendinfo( ) {
       const max_phase_categories = [
         { category: "PHASE 1", color: "#000080" },
         { category: "PHASE 2", color: "yellow" },
@@ -917,7 +917,7 @@
         .enter()
         .append("li");
 
-      listItems
+     max_phase_color =    listItems
         .append("div")
         .attr("class", "rect")
         .style("background-color", (d) => {
@@ -964,44 +964,71 @@
 
       dataSet_child.append("span").text((d) => d.category);
 
- // color picker 
-    // Example: Add a new color dynamically
-
+ // color picker
     for (const categoryObj of max_phase_categories) {
               addColor( categoryObj.color) ;
           }
-
     }
-
-
-
-//colorpicker 
+    
+    //colorpicker 
+    
+    
+    
+    
+    var colorpick;
+    let li ; 
 function addColor(color) {
       var ul = document.getElementById('colorList');
-      var li = document.createElement('li');
+       li = document.createElement('li');
       li.className = 'color-item';
       li.id = color;
       li.style.backgroundColor = color; // Set background color
       ul.appendChild(li);
-    }
 
+   
   
-
-
+    }
 
     // on clock of the color change 
     function color_click_onchange(event, d) {
 
-      console.log("Clicked on span:", d); 
+      console.log("Clicked on span:", d);
+
+      const clickedDiv = d3.select(this);
+    
+    let cardshow = document.getElementById("cardid");
+    cardshow.style.display = "block";
+
+    li.addEventListener("click", function() {
       
+      console.log("check ")
+      colorpick = li.style.backgroundColor
+      console.log(colorpick);
       
-      let cardshow = document.getElementById("cardid");
+      clickedDiv.style("background-color", colorpick || "black");
 
-cardshow.style.display = (cardshow.style.display === "none") ? "block" : "none";
+});
 
+    // colorpick = selectedColor;
+    // Wait for color selection and div background color change, then hide the div
+  
+}
 
+// Function to open the color picker
+// function openColorPicker(callback) {
+//   var colorPickerInput = document.createElement("input");
+//   colorPickerInput.type = "color";
 
-    }
+//   // Attach an event listener to handle color selection
+//   colorPickerInput.addEventListener("input", function() {
+//     // Call the callback function with the selected color
+//     callback(colorPickerInput.value);
+//   });
+
+//   // Trigger a click on the color picker input to open it
+//   colorPickerInput.click();
+// }
+
 
 
     legendinfo();
@@ -1037,6 +1064,7 @@ cardshow.style.display = (cardshow.style.display === "none") ? "block" : "none";
 
 
       range_of_links(minValue, maxValue);
+
 
     }
 
