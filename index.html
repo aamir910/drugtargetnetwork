@@ -397,7 +397,7 @@
     <div class="card" id="cardid" style="display: none;">
       <p class="cl-picker">change color</p>
       <ul class="ul_of_color_picker" id="colorList">
-        
+
       </ul>
     </div>
 
@@ -474,15 +474,15 @@
           let calsoleimage;
 
           if (item.MAX_PHASE === "Approved") {
-            calsoleimage = "img3.png"
+            calsoleimage = "grey.png"
           }
           else if (item.MAX_PHASE === "PHASE 1") {
-            calsoleimage = "img2.png"
+            calsoleimage = "blue.png"
           } else if (item.MAX_PHASE === "PHASE 2") {
-            calsoleimage = "img4.png"
+            calsoleimage = "yellow.png"
           } else if (item.MAX_PHASE === "PHASE 3") {
-            calsoleimage = "img5.png"
-          }
+            calsoleimage = "lightblue.png"
+          } 
           else if (item.MAX_PHASE === "") {
             calsoleimage = "unknown.png"
           }
@@ -884,7 +884,7 @@
 
 
     // legenddata
-    function legendinfo( ) {
+    function legendinfo() {
       const max_phase_categories = [
         { category: "PHASE 1", color: "#000080" },
         { category: "PHASE 2", color: "yellow" },
@@ -917,7 +917,7 @@
         .enter()
         .append("li");
 
-     max_phase_color =    listItems
+      max_phase_color = listItems
         .append("div")
         .attr("class", "rect")
         .style("background-color", (d) => {
@@ -964,73 +964,59 @@
 
       dataSet_child.append("span").text((d) => d.category);
 
- // color picker
-    for (const categoryObj of max_phase_categories) {
-              addColor( categoryObj.color) ;
-          }
+      // color picker
+      for (const categoryObj of max_phase_categories) {
+        addColor(categoryObj.color);
+      }
     }
-    
+
     //colorpicker 
-    
-    
-    
-    
+
     var colorpick;
-    let li ; 
-function addColor(color) {
-      var ul = document.getElementById('colorList');
-       li = document.createElement('li');
+    let li;
+    let ul_color;
+    let count = 0 ; 
+    let cardshow ; 
+    let clickedDiv = '';
+    ul_color = document.getElementById('colorList');
+    
+    function addColor(color) {
+      li = document.createElement('li');
       li.className = 'color-item';
       li.id = color;
       li.style.backgroundColor = color; // Set background color
-      ul.appendChild(li);
+      ul_color.appendChild(li);
 
-   
-  
     }
 
-    // on clock of the color change 
+
     function color_click_onchange(event, d) {
-
       console.log("Clicked on span:", d);
-
-      const clickedDiv = d3.select(this);
-    
-    let cardshow = document.getElementById("cardid");
-    cardshow.style.display = "block";
-
-    li.addEventListener("click", function() {
-      
-      console.log("check ")
-      colorpick = li.style.backgroundColor
-      console.log(colorpick);
-      
-      clickedDiv.style("background-color", colorpick || "black");
-
-});
-
-    // colorpick = selectedColor;
-    // Wait for color selection and div background color change, then hide the div
+      clickedDiv = d3.select(this);
+      console.log("check d3", d3.select(this));
+      cardshow = document.getElementById("cardid");
+      cardshow.style.display = "block";
+     count = 0 ; 
   
-}
 
-// Function to open the color picker
-// function openColorPicker(callback) {
-//   var colorPickerInput = document.createElement("input");
-//   colorPickerInput.type = "color";
+    }
 
-//   // Attach an event listener to handle color selection
-//   colorPickerInput.addEventListener("input", function() {
-//     // Call the callback function with the selected color
-//     callback(colorPickerInput.value);
-//   });
+      ul_color.addEventListener("click", function (event) {
+      
+      let clickedLi = "";
+  
+      clickedLi = event.target;
+  
+      if (clickedLi.tagName === 'LI') {
+    colorpick = clickedLi.style.backgroundColor;
+    console.log(colorpick);
 
-//   // Trigger a click on the color picker input to open it
-//   colorPickerInput.click();
-// }
-
-
-
+    clickedDiv.style("background-color", colorpick || "black");
+    cardshow.style.display = "none";
+  }
+    });
+   
+    
     legendinfo();
 
     function onclickmax_phase(event) {
@@ -1119,6 +1105,14 @@ function addColor(color) {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
     }
+     
+
+  /// here is the code of applying the logic of the maxphase 
+
+  // node.filter("")
+
+
+
 
     // setting the sidler valus 
     const minSlider = document.getElementById("min_slider");
