@@ -1015,19 +1015,30 @@
         clickedDiv.style("background-color", colorpick || "black");
         cardshow.style.display = "none";
       }
-
+  console.log(clickedDiv , "check ") ; 
+  console.log(colorpick , "pickcolor ") ;  
+  
       node.filter((d) => d.type === 'parentnode')
   .each(function (node) {
+  // if()
     if(node.MAX_PHASE  === "Approved") {
 
      if(colorpick === "yellow" ){
       node.image = 'yellow.png';
      }else if (colorpick === "grey" ){
       node.image = 'grey.png';
+     }else if (colorpick === "rgb(206, 126, 0)" ){
+      node.image = 'unknown.png';
+     }else if (colorpick === "rgb(0, 0, 128)" ){
+      node.image = 'blue.png';
+     }else if (colorpick === "blue" ){
+      node.image = 'lightblue.png';
      }else{
        node.image = 'black.png';
 
      }
+
+
     }
 
 
