@@ -980,7 +980,7 @@
     let cardshow;
     let clickedDiv = '';
     ul_color = document.getElementById('colorList');
-
+     let selected_maxphase ;
     function addColor(color) {
       li = document.createElement('li');
       li.className = 'color-item';
@@ -993,8 +993,9 @@
 
     function color_click_onchange(event, d) {
       console.log("Clicked on span:", d);
+      selected_maxphase = d.category ; 
       clickedDiv = d3.select(this);
-      console.log("check d3", d3.select(this));
+      console.log("selected_maxphase", selected_maxphase);
       cardshow = document.getElementById("cardid");
       cardshow.style.display = "block";
       count = 0;
@@ -1015,13 +1016,13 @@
         clickedDiv.style("background-color", colorpick || "black");
         cardshow.style.display = "none";
       }
-  console.log(clickedDiv , "check ") ; 
+  console.log(clickedDiv.category , "check ") ; 
   console.log(colorpick , "pickcolor ") ;  
   
       node.filter((d) => d.type === 'parentnode')
   .each(function (node) {
-  // if()
-    if(node.MAX_PHASE  === "Approved") {
+
+    if(node.MAX_PHASE  === selected_maxphase) {
 
      if(colorpick === "yellow" ){
       node.image = 'yellow.png';
@@ -1037,7 +1038,6 @@
        node.image = 'black.png';
 
      }
-
 
     }
 
