@@ -656,7 +656,6 @@
 
 
         })
-
         .attr("stroke", "#fff")
         .attr("stroke-width", 1.5)
 
@@ -952,6 +951,7 @@
         .data(data_Set_child)
         .enter()
         .append("li");
+
       dataSet_child.append("div")
         .attr("class", "circle")
         .style("background-color", (d) => {
@@ -961,9 +961,9 @@
             }
           }
           return "black"
-        })
+        }).on("click", color_click_onchange);
 
-      dataSet_child.append("span").text((d) => d.category);
+       child_clicked = dataSet_child.append("span").text((d) => d.category);
 
       // color picker
       for (const categoryObj of max_phase_categories) {
@@ -999,8 +999,6 @@
       cardshow = document.getElementById("cardid");
       cardshow.style.display = "block";
       count = 0;
-
-
     }
 
     ul_color.addEventListener("click", function (event) {
@@ -1015,14 +1013,11 @@
 
         clickedDiv.style("background-color", colorpick || "black");
         cardshow.style.display = "none";
+        
       }
-  console.log(clickedDiv.category , "check ") ; 
-  console.log(colorpick , "pickcolor ") ;  
-  
-      node.filter((d) => d.type === 'parentnode')
-  .each(function (node) {
+      node.each(function (node) {
 
-    if(node.MAX_PHASE  === selected_maxphase) {
+    if(node.MAX_PHASE  === selected_maxphase && node.type === "parentnode" ) {
 
      if(colorpick === "yellow" ){
       node.image = 'yellow.png';
@@ -1040,15 +1035,32 @@
      }
 
     }
-
-
+    else {
+      if (
+        node.oncotree_change === selected_maxphase &&
+        node.type === "childnode"
+      ) {
+        if (colorpick === "yellow") {
+          console.log(d3.select(this)   , "this will change ")
+          d3.select(this).style("fill", "blue");
+        } else if (colorpick === "red") {
+          d3.select(this).style("fill", "black");
+        }
+        // Add other color conditions here as needed
+      }
+    }
   });
+
+
+
+
 
   node.filter((d) => d.type === 'parentnode')
   .select('image')
   .attr('xlink:href', (d) => d.image);
 
     });
+    
 
 
     legendinfo();
@@ -1112,7 +1124,6 @@
     function onclick_childnodes(event) {
 
       d3.select(this)
-        .select("span")
         .classed("marked", function () {
           return !d3.select(this).classed("marked");
         });
@@ -1162,7 +1173,7 @@
 
       dataSet_link.on("click", onclick_dataSet);
 
-      dataSet_child.on("click", onclick_childnodes);
+      child_clicked.on("click", onclick_childnodes);
 
       range_of_links(minValue, maxValue);
 
@@ -1222,7 +1233,7 @@
 
         dataSet_link.on("click", onclick_dataSet);
 
-        dataSet_child.on("click", onclick_childnodes);
+        child_clicked.on("click", onclick_childnodes);
 
         range_of_links(minValue, maxValue);
 
