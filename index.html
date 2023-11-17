@@ -520,7 +520,7 @@
             calsoleimage = "black.png"
 
           }  else {
-            calsoleimage = "black.png"
+            // calsoleimage = "black.png"
 
           }
 
@@ -1106,20 +1106,7 @@ console.log(data_Set);
      }
 
     }
-    else {
-      if (
-        node.oncotree_change === selected_maxphase &&
-        node.type === "childnode"
-      ) {
-        if (colorpick === "yellow") {
-          console.log(d3.select(this)   , "this will change ")
-          d3.select(this).style("fill", "blue");
-        } else if (colorpick === "red") {
-          d3.select(this).style("fill", "black");
-        }
-        // Add other color conditions here as needed
-      }
-    }
+   
   });
 
 
