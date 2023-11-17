@@ -471,7 +471,9 @@
 
     let minValue;
     let maxValue;
-
+   // onclick dataset   
+   
+   let list_hidden_links = [];
 
     // fetching the json file  
     async function fetchData() {
@@ -910,7 +912,11 @@
           }
         }
       });
-  
+       // link filter nodes here  
+    
+        
+      //  link filter nodes ended here 
+
 
     }
 
@@ -1043,16 +1049,27 @@ console.log(data_Set);
 
     }
 
-
     function color_click_onchange(event, d) {
-      console.log("Clicked on span:", d);
-      selected_maxphase = d.category ; 
-      clickedDiv = d3.select(this);
-      console.log("selected_maxphase", selected_maxphase);
-      cardshow = document.getElementById("cardid");
-      cardshow.style.display = "block";
-      count = 0;
-    }
+  console.log("Clicked on span:", d);
+  selected_maxphase = d.category; 
+  clickedDiv = d3.select(this);
+  console.log("selected_maxphase", selected_maxphase);
+
+  // Get the coordinates of the click event
+  var clickX = event.clientX;
+  var clickY = event.clientY;
+
+  cardshow = document.getElementById("cardid");
+  cardshow.style.display = "block";
+
+  // Set the position of cardshow based on the click coordinates
+  cardshow.style.left = clickX  + "px";
+  cardshow.style.top = clickY + "px";
+
+  count = 0;
+}
+
+
 
     ul_color.addEventListener("click", function (event) {
 
