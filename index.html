@@ -638,24 +638,24 @@
         .append("line")
         .attr("class", "link")
         .style("stroke", function (d) {
-  // Manually set colors based on the dataset value
-  switch (d.dataset) {
-    case "GDSC1":
-      return "red";
-    case "GDSC2":
-      return "grey";
-    case "CCLE_NP24":
-      return "green";
-    case "NCI-60":
-      return "pink";
-    case "gCSI":
-      return "purple";
-    case "FIMM":
-      return "orange";
-    default:
-      // Default color if the dataset doesn't match any specific case
-      return "black";
-  }
+    // Manually set colors based on the dataset value
+    switch (d.dataset) {
+        case "GDSC1":
+            return "#000080";
+        case "GDSC2":
+            return "yellow";
+        case "CCLE_NP24":
+            return "blue";
+        case "NCI-60":
+            return "grey";
+        case "gCSI":
+            return "#ce7e00";
+        case "FIMM":
+            return "black";
+        default:
+            // Default color if the dataset doesn't match any specific case
+            return "black";
+    }
 })
         .attr("stroke-width", function (d) {
 
@@ -935,12 +935,12 @@
 
 
       const data_Set = [
-  { category: "GDSC1", color: "red" },
-  { category: "GDSC2", color: "grey" },
-  { category: "CCLE_NP24", color: "green" },
-  { category: "NCI-60", color: "pink" },
-  { category: "gCSI", color: "purple" },
-  { category: "FIMM", color: "orange" }
+  { category: "GDSC1", color: "#000080"},
+  { category: "GDSC2",  color: "yellow"  },
+  { category: "CCLE_NP24",  color: "blue" },
+  { category: "NCI-60", color: "grey" },
+  { category: "gCSI", color: "#ce7e00" },
+  { category: "FIMM", color: "black" }
 ];
 
 console.log(data_Set);
