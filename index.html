@@ -89,7 +89,7 @@
   .price-input {
     width: 100%;
     display: flex;
-    margin: 30px 0 35px;
+    margin: 10px 0 10px;
   }
 
   .price-input .field {
@@ -205,6 +205,13 @@
     border-radius: 2rem;
     margin-right: 5px;
   }
+  .line {
+    display: inline-block;
+    width: 30px;
+    height: 5px;
+    border-radius: 0.5rem;
+    margin-right: 5px;
+  }
 
   .circle {
     display: inline-block;
@@ -296,11 +303,33 @@
         <!-- First Dropdown -->
         <div class="form-group col-md-3">
           <select class="form-select" id="dropdown1">
-            <option value="1">Select an option</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            <option value="1">Select an ONCOTREE_LINEAGE</option>
+            <option value="Bone">Bone</option>
+            <option value="Skin">Skin</option>
+            <option value="Central Nervous System">Central Nervous System</option>
+            <option value="Lung">Lung</option>
+            <option value="Peripheral Nervous System">Peripheral Nervous System</option>
+            <option value="Soft Tissue">Soft Tissue</option>
+            <option value="Esophagus">Esophagus</option>
+            <option value="Breast">Breast</option>
+            <option value="Head and Neck">Head and Neck</option>
+            <option value="Haematopoietic and Lymphoid">Haematopoietic and Lymphoid</option>
+            <option value="Bladder">Bladder</option>
+            <option value="Kidney">Kidney</option>
+            <option value="Pancreas">Pancreas</option>
+            <option value="Large Intestine">Large Intestine</option>
+            <option value="Ovary">Ovary</option>
+            <option value="Stomach">Stomach</option>
+            <option value="Biliary Tract">Biliary Tract</option>
+            <option value="Small Intestine">Small Intestine</option>
+            <option value="Placenta">Placenta</option>
+            <option value="Prostate">Prostate</option>
+            <option value="Testis">Testis</option>
+            <option value="Uterus">Uterus</option>
+            <option value="Vulva">Vulva</option>
+            <option value="Thyroid">Thyroid</option>
           </select>
+          
           <!-- Alert message for the first dropdown -->
           <div class="alert-message alert2" style="position: absolute; top: 110px; ">
             <span class="alert alert-danger">Please select an option</span>
@@ -346,7 +375,6 @@
       <div class="wrapper col-3">
         <header>
           <h2>links value</h2>
-          <p>Use the slider or enter a link range </p>
         </header>
         <div class="price-input">
           <div class="field">
@@ -374,8 +402,8 @@
             <ul id="myList"></ul>
             <legend class="legenddata">data_set</legend>
             <ul id="dataset"></ul>
-            <legend class="legenddata">child nodes</legend>
-            <ul id="child_node"></ul>
+            <!-- <legend class="legenddata">child nodes</legend>
+            <ul id="child_node"></ul> -->
 
           </fieldset>
         </div>
@@ -607,7 +635,26 @@
         .enter()
         .append("line")
         .attr("class", "link")
-        .style("stroke", "grey")
+        .style("stroke", function (d) {
+  // Manually set colors based on the dataset value
+  switch (d.dataset) {
+    case "GDSC1":
+      return "red";
+    case "GDSC2":
+      return "grey";
+    case "CCLE_NP24":
+      return "green";
+    case "NCI-60":
+      return "pink";
+    case "gCSI":
+      return "purple";
+    case "FIMM":
+      return "orange";
+    default:
+      // Default color if the dataset doesn't match any specific case
+      return "black";
+  }
+})
         .attr("stroke-width", function (d) {
 
           if (d.value < 5) {
@@ -641,24 +688,7 @@
         .filter((d) => d.type === "childnode")
         .append("circle")
         .attr("r", 8)
-        .attr("fill", function (d) {
-          if (d.oncotree_change === "Bone") {
-            return "red"
-          }
-          else if (d.oncotree_change === "Esophagus") {
-            return "#33FF57"
-          }
-          else if (d.oncotree_change === "Lung") {
-            return "orange"
-          } else if (d.oncotree_change === "Haematopoietic and Lymphoid") {
-            return "#33A2FF"
-          }
-          else {
-            return "green"
-          }
-
-
-        })
+        .attr("fill", "green")
         .attr("stroke", "#fff")
         .attr("stroke-width", 1.5)
 
@@ -899,18 +929,23 @@
 
 
       const data_Set = [
-        { category: "GDSC1" },
-        { category: "soon" },
+  { category: "GDSC1", color: "red" },
+  { category: "GDSC2", color: "grey" },
+  { category: "CCLE_NP24", color: "green" },
+  { category: "NCI-60", color: "pink" },
+  { category: "gCSI", color: "purple" },
+  { category: "FIMM", color: "orange" }
+];
+
+console.log(data_Set);
 
 
-      ];
-
-      const data_Set_child = [
-        { category: "Bone", color: "red" },
-        { category: "Esophagus", color: "#33FF57" },
-        { category: "Lung", color: "orange" },
-        { category: "Haematopoietic and Lymphoid", color: "#33A2FF" },
-      ];
+      // const data_Set_child = [
+      //   { category: "Bone", color: "red" },
+      //   { category: "Esophagus", color: "#33FF57" },
+      //   { category: "Lung", color: "orange" },
+      //   { category: "Haematopoietic and Lymphoid", color: "#33A2FF" },
+      // ];
 
 
       const ul = d3.select("#myList");
@@ -946,27 +981,42 @@
         .enter()
         .append("li");
 
-      dataSet_link.append("span").text((d) => d.category);
 
-      const ul3 = d3.select("#child_node");
-      dataSet_child = ul3
-        .selectAll("li")
-        .data(data_Set_child)
-        .enter()
-        .append("li");
-
-      dataSet_child.append("div")
-        .attr("class", "circle")
+        data_set_color = dataSet_link
+        .append("div")
+        .attr("class", "line")
         .style("background-color", (d) => {
-          for (const categoryObj of data_Set_child) {
+          for (const categoryObj of data_Set) {
             if (d.category === categoryObj.category) {
-              return categoryObj.color
+              return categoryObj.color;
             }
           }
-          return "black"
+          return "black";
         }).on("click", color_click_onchange);
+      ;
 
-       child_clicked = dataSet_child.append("span").text((d) => d.category);
+
+       datasettext_click  =  dataSet_link.append("span").text((d) => d.category);
+
+      // const ul3 = d3.select("#child_node");
+      // dataSet_child = ul3
+      //   .selectAll("li")
+      //   .data(data_Set_child)
+      //   .enter()
+      //   .append("li");
+
+      // dataSet_child.append("div")
+      //   .attr("class", "circle")
+      //   .style("background-color", (d) => {
+      //     for (const categoryObj of data_Set_child) {
+      //       if (d.category === categoryObj.category) {
+      //         return categoryObj.color
+      //       }
+      //     }
+      //     return "black"
+      //   }).on("click", color_click_onchange);
+
+      //  child_clicked = dataSet_child.append("span").text((d) => d.category);
 
       // color picker
       for (const categoryObj of max_phase_categories) {
@@ -1106,7 +1156,6 @@
 
     function onclick_dataSet(event) {
       d3.select(this)
-        .select("span")
         .classed("marked", function () {
           return !d3.select(this).classed("marked");
         });
@@ -1174,9 +1223,9 @@
       maxValue = parseFloat(maxSlider.value);
       pax_phasecliked.on("click", onclickmax_phase);
 
-      dataSet_link.on("click", onclick_dataSet);
+      datasettext_click.on("click", onclick_dataSet);
 
-      child_clicked.on("click", onclick_childnodes);
+      // child_clicked.on("click", onclick_childnodes);
 
       range_of_links(minValue, maxValue);
 
@@ -1234,9 +1283,9 @@
         force_network_grapgh();
         pax_phasecliked.on("click", onclickmax_phase);
 
-        dataSet_link.on("click", onclick_dataSet);
+        datasettext_click.on("click", onclick_dataSet);
 
-        child_clicked.on("click", onclick_childnodes);
+        // child_clicked.on("click", onclick_childnodes);
 
         range_of_links(minValue, maxValue);
 
