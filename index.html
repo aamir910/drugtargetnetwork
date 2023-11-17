@@ -27,7 +27,7 @@
     border-color: #45a049;
   }
 
-  .rowData {
+  .rowData { 
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -486,7 +486,10 @@
           else if (item.MAX_PHASE === "") {
             calsoleimage = "unknown.png"
           }
-          else {
+          else if(item.MAX_PHASE === "Preclinical"){
+            calsoleimage = "black.png"
+
+          }  else {
             calsoleimage = "black.png"
 
           }
@@ -678,7 +681,6 @@
           .attr("y2", (d) => d.target.y);
         node.attr("transform", (d) => `translate(${d.x},${d.y})`);
       });
-
 
 
 
@@ -890,7 +892,8 @@
         { category: "PHASE 2", color: "yellow" },
         { category: "PHASE 3", color: "blue" },
         { category: "Approved", color: "grey" },
-        { category: "", color: "#ce7e00" }
+        { category: "", color: "#ce7e00" },  
+        { category: "Preclinical", color: "black" }
       ];
 
 
