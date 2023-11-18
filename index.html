@@ -516,7 +516,8 @@
           }
           else if (item.MAX_PHASE === "") {
             calsoleimage = "unknown.png"
-          }
+          }else if (item.MAX_PHASE === "Unknown") {
+            calsoleimage = "unknown.png"}
           else if (item.MAX_PHASE === "Preclinical") {
             calsoleimage = "black.png"
 
@@ -986,14 +987,14 @@
         }).on("click", color_click_onchange);
       ;
 
-
+//tag3
       pax_phasecliked = listItems
         .append("span")
-        .text((d) => (d.category === "" ? "Unknown" : d.category))
+        .text((d) => (d.category === ""  ? "Unknown" : d.category))
 
 
       const ul2 = d3.select("#dataset");
-      dataSet_link = ul2
+      dataSet_link = ul2 
         .selectAll("li")
         .data(data_Set)
         .enter()
@@ -1161,9 +1162,10 @@
         if (emptyStringIndex === -1) {
           // If an empty string is not in the array, push it
           list_hidden.push("");
+          list_hidden.push("Unknown")
         } else {
           // If an empty string is already in the array, splice it (remove)
-          list_hidden.splice(emptyStringIndex, 1);
+          list_hidden.splice(emptyStringIndex, 2);
         }
       } else if (index === -1) {
         // If 'clicked' is not in 'list_hidden', push it
