@@ -913,10 +913,17 @@
           }
         }
       });
-      // link filter nodes here  
+      // link filter nodes here    tag2
           link.filter(  function (templink) {
              if(list_hidden_dataset.includes(templink.dataset)){
               d3.select(this).style("display" , "none")  ; 
+
+              node.filter(function (tempnode){
+                if (tempnode === templink.target || tempnode === templink.source ){
+                  d3.select(this).style("display" , "none") ; 
+
+                }
+              })
              }
           })
 
