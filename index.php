@@ -958,7 +958,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
               node.filter(function (tempnode){
                 if (tempnode === templink.target || tempnode === templink.source ){
-                  d3.select(this).style("display" , "none") ; 
+                  var nodestyle = d3.select(this).style("display");
+
+          const connectedLinks = link.filter(link => link.source.id === tempnode.id || link.target.id === tempnode.id);
+
+          // Array to store styles of connected links
+          var linkStyles = [];
+
+          connectedLinks.each(function (link) {
+            var linkStyle = d3.select(this).style("display");
+
+            linkStyles.push(linkStyle);
+          });
+          // Check if every style in the array is "none"
+          var allLinksNone = linkStyles.every(style => style === "none");
+
+          if (allLinksNone) {
+            // Set node style to "display: none"
+            d3.select(this).style("display", "none");
+          }
                  
                 }
               })
