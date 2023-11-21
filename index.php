@@ -1,3 +1,38 @@
+<?php
+include("fetchdata.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Check if all dropdown values are set
+    if (isset($_POST['dropdown1']) && isset($_POST['dropdown2']) && isset($_POST['dropdown3'])) {
+        $dropdown1 = $_POST['dropdown1'];
+        $dropdown2 = $_POST['dropdown2'];
+        $dropdown3 = $_POST['dropdown3'];
+
+        // Query the database based on the selected dropdown values
+       // $sql = "SELECT * FROM Drug_response WHERE ONCOTREE_LINEAGE = '$dropdown1' AND column2 = '$dropdown2' AND column3 = '$dropdown3'";
+       $sql = "SELECT * FROM drugresponse WHERE ONCOTREE_LINEAGE = '$dropdown1' ORDER BY RAND() LIMIT 500";
+
+        
+       $result = $conn->query($sql);
+
+        // Fetch the result into an associative array
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        // Convert the result to JSON format
+        $json_result = json_encode($data);
+        header('Content-Type: application/json');
+
+        // Echo the JSON-encoded data
+        echo $json_result;
+        exit(); // Stop further execution
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -365,7 +400,7 @@
           </div>
         </div>
         <!-- button  -->
-        <button class="btn btn-success" id="submitButton">
+        <button class="btn btn-success" id="submitButton" type ='submit' >
           <i class="bi bi-search"></i> Search
         </button>
       </div>
@@ -476,23 +511,24 @@
     
     let list_hidden_links = [];
 
+     let jsondata2; 
+// tag5
     // fetching the json file  
-    async function fetchData() {
+    async function fetchData(data) {
       try {
-        const response = await fetch("drugdata2.json"); // Replace with the correct JSON file path
-        const jsonData = await response.json();
+        const response = data ;// Replace with the correct JSON file path
+        // const jsonData = await response.json();
 
-        console.log(jsonData);
-        processData(jsonData);
+        console.log(response);
+        processData (response);
       } catch (error) {
         console.error("Error loading the JSON file:", error);
       }
     }
 
-    fetchData();
 
     // fetching the data ended here 
-
+    
     function processData(data) {
       // creating the array of the codes 
 
@@ -615,7 +651,7 @@
 
     function force_network_grapgh() {
 
-
+    console.log("check1")  ; 
       const svg = d3.select("#forcenetwork");
 
       const g = svg.append("g");
@@ -717,6 +753,7 @@
       });
 
 
+      console.log("check2")  ; 
 
     }
     // slider range value limitation 
@@ -922,7 +959,7 @@
               node.filter(function (tempnode){
                 if (tempnode === templink.target || tempnode === templink.source ){
                   d3.select(this).style("display" , "none") ; 
-
+                 
                 }
               })
              }
@@ -1053,6 +1090,8 @@
     let clickedDiv = '';
     ul_color = document.getElementById('colorList');
     let selected_maxphase;
+
+
     function addColor(color) {
       li = document.createElement('li');
       li.className = 'color-item';
@@ -1170,9 +1209,11 @@
       } else if (index === -1) {
         // If 'clicked' is not in 'list_hidden', push it
         list_hidden.push(clicked);
-      } else {
+      } else 
+      {
         // If 'clicked' is already in 'list_hidden', splice it
         list_hidden.splice(index, 1);
+
       }
 
 
@@ -1303,16 +1344,10 @@ console.log(list_hidden_dataset);
       else {
 
         event.preventDefault();
-        // loadGraph(4);
-        force_network_grapgh();
-        pax_phasecliked.on("click", onclickmax_phase);
+       
 
-        datasettext_click.on("click", onclick_dataSet);
-
-        // child_clicked.on("click", onclick_childnodes);
-
-        range_of_links(minValue, maxValue);
-
+ 
+     ajax()  ; 
 
         document.getElementById("dropdown1").value = "";
         document.getElementById("dropdown2").value = "";
@@ -1387,6 +1422,57 @@ console.log(list_hidden_dataset);
       });
     });
   </script>
+
+  <!---Script to fetch data  from php script --->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- JavaScript for handling form submission and AJAX -->
+<script>
+ function ajax(){
+ 
+          // Prevent the default form submission
+          event.preventDefault();
+      console.log("checik ajax")
+          // Get the selected values from the dropdowns
+          var dropdown1Value = $("#dropdown1").val();
+          var dropdown2Value = $("#dropdown2").val();
+          var dropdown3Value = $("#dropdown3").val();
+
+          // Make an AJAX request to the current PHP script
+          $.ajax({
+              type: "POST",
+              url: "", // Leave it empty to target the current page
+              data: {
+                  dropdown1: dropdown1Value,
+                  dropdown2: dropdown2Value,
+                  dropdown3: dropdown3Value
+              },
+              success: function (response) {
+                  // Handle the JSON response here
+                  //alert("Got data printed on log")
+                  console.log(response) ;
+                  jsondata2=response;
+
+             fetchData(jsondata2);
+
+             
+        force_network_grapgh();
+
+pax_phasecliked.on("click", onclickmax_phase);
+
+datasettext_click.on("click", onclick_dataSet);
+
+range_of_links(minValue, maxValue);
+                  // processData(jsondata2);
+                  // You can parse the JSON and use the data as needed
+              },
+              error: function (xhr, status, error) {
+                  console.error("AJAX Error: " + status + " - " + error);
+              }
+          });
+    
+}
+</script>
 </body>
 
 </html>

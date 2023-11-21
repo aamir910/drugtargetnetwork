@@ -1,21 +1,14 @@
 <?php
-try {
-   
-    $pdo = new PDO("mysql:host=localhost;dbname=drugtargetnetwork", "root", "");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "drugtargetnetwork";
 
-    $sql = "SELECT * FROM drugresponsefile ORDER BY RAND() LIMIT 500";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    $results = array();
-
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $results[] = $row;
-    }
-
-    echo json_encode($results);
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>
