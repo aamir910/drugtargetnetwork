@@ -329,6 +329,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   /* here is the styling of the color picker ended  */
+     
+     /* svg loader  */
+     .loader {
+      margin: 25% 38%;
+      display: none ; 
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid  green;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 </style>
 
 <body>
@@ -447,6 +470,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
 
 
+<!-- //tag1 -->
 
       <svg id="forcenetwork" width="100%" style="
                   background-color: white;
@@ -454,7 +478,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   justify-content: center;
                   align-items: center;
                   height:540px;
-                " class="col-9"></svg>
+                " class="col-9">
+              <!-- Loader embedded inside SVG -->
+  <foreignObject width="100%" height="100%">
+    <div class="loader"  id = "loader" ></div>
+  </foreignObject></svg>
 
     </div>
 
@@ -951,7 +979,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           }
         }
       });
-      // link filter nodes here    tag2
+      // link filter nodes here 
           link.filter(  function (templink) {
              if(list_hidden_dataset.includes(templink.dataset)){
               d3.select(this).style("display" , "none")  ; 
@@ -1042,7 +1070,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }).on("click", color_click_onchange);
       ;
 
-//tag3
+
       pax_phasecliked = listItems
         .append("span")
         .text((d) => (d.category === ""  ? "Unknown" : d.category))
@@ -1178,7 +1206,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
       })
 
-      //tag1 
+      
       console.log("pickcolor" , colorpick)
       link.filter( function(templink){
           if( templink.dataset === selected_maxphase ){
@@ -1455,7 +1483,11 @@ console.log(list_hidden_dataset);
           var dropdown1Value = $("#dropdown1").val();
           var dropdown2Value = $("#dropdown2").val();
           var dropdown3Value = $("#dropdown3").val();
-
+          
+         
+         
+    document.getElementById('loader').style.display = 'block';  
+     
           // Make an AJAX request to the current PHP script
           $.ajax({
               type: "POST",
@@ -1472,8 +1504,10 @@ console.log(list_hidden_dataset);
                   jsondata2=response;
 
              fetchData(jsondata2);
-
-             
+    console.log("check loader  ") ; 
+                 
+    
+    document.getElementById('loader').style.display = 'none';  
         force_network_grapgh();
 
 pax_phasecliked.on("click", onclickmax_phase);
