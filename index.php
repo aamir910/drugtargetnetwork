@@ -555,7 +555,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           }else if (item.MAX_PHASE === "Unknown") {
             calsoleimage = "unknown.png"}
           else if (item.MAX_PHASE === "Preclinical") {
-            calsoleimage = "black.png"
+            calsoleimage = "purple.png"
 
           } else {
             // calsoleimage = "black.png"
@@ -689,7 +689,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             case "gCSI":
               return "#ce7e00";
             case "FIMM":
-              return "black";
+              return "#6a329f";
             default:
               // Default color if the dataset doesn't match any specific case
               return "black";
@@ -997,7 +997,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         { category: "PHASE 3", color: "blue" },
         { category: "Approved", color: "grey" },
         { category: "", color: "#ce7e00" },
-        { category: "Preclinical", color: "black" }
+        { category: "Preclinical", color: "#6a329f" }
       ];
 
 
@@ -1008,7 +1008,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         { category: "CCLE_NP24", color: "blue" },
         { category: "NCI-60", color: "grey" },
         { category: "gCSI", color: "#ce7e00" },
-        { category: "FIMM", color: "black" }
+        { category: "FIMM", color: "#6a329f" }
       ];
 
       console.log(data_Set);
@@ -1038,7 +1038,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               return categoryObj.color;
             }
           }
-          return "black";
+          return "#6a329f";
         }).on("click", color_click_onchange);
       ;
 
@@ -1065,7 +1065,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               return categoryObj.color;
             }
           }
-          return "black";
+          return "#6a329f";
         }).on("click", color_click_onchange);
       ;
 
@@ -1152,7 +1152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         colorpick = clickedLi.style.backgroundColor;
         console.log(colorpick);
 
-        clickedDiv.style("background-color", colorpick || "black");
+        clickedDiv.style("background-color", colorpick || "#6a329f");
         cardshow.style.display = "none";
 
       }
@@ -1171,7 +1171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           } else if (colorpick === "blue") {
             node.image = 'lightblue.png';
           } else {
-            node.image = 'black.png';
+            node.image = 'purple.png';
 
           }
 
