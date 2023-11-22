@@ -841,6 +841,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return d.value - 2;
           }
         });
+  var zoom = d3.zoom()
+             .scaleExtent([0.1, 10]) // Set the zoom scale extent as needed
+             .on("zoom", zoomed);
+
+
+g.call(zoom);  
+function zoomed() {
+    g.attr("transform", console.log("hello"));
+}    
 
       node = g
         .selectAll(".node")
@@ -877,6 +886,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .attr("y", -8)
         .attr("width", 30);
 
+      
 
 
       simulation.on("tick", () => {
@@ -888,8 +898,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         node.attr("transform", (d) => `translate(${d.x},${d.y})`);
       });
 
- 
-
+    
     }
     // slider range value limitation 
 
