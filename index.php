@@ -334,8 +334,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      
      /* svg loader  */
      .loader {
-      margin: 22% 56%;
-
+  
+      position: absolute;
+    margin: 15% -27%;
       display: none ; 
       border: 16px solid #f3f3f3;
       border-radius: 50%;
@@ -483,10 +484,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   height:540px;
                 " class="col-9">
               <!-- Loader embedded inside SVG -->
+  </svg>
   <foreignObject width="100%" height="100%">
     <div class="loader"  id = "loader" ></div>
-  </foreignObject></svg>
-
+  </foreignObject>
     </div>
 
     <div class="card" id="cardid" style="display: none;">
@@ -561,8 +562,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // fetching the data ended here 
     
     function processData(data) {
-      // creating the array of the codes 
-                clearGraph() ;   
  
       const uniqueProteins = new Set();
 
@@ -1317,7 +1316,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       nodes = [];
       links = [] ; 
     }   
-    
+
 
 
     /// here is the code of applying the logic of the maxphase 
@@ -1392,12 +1391,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         event.preventDefault();
         
         
-        ajax()  ; 
-        
+        ajax(); 
+                 
         document.getElementById("dropdown1").value = "";
         document.getElementById("dropdown2").value = "";
         document.getElementById("dropdown3").value = "";
-        //  clearGraph() ; 
+  
        
 
       }
@@ -1486,7 +1485,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            
 
          
-    // document.getElementById('loader').style.display = 'block';  
+    document.getElementById('loader').style.display = 'block';  
+     clearGraph() ; 
+     
+    document.getElementById('wrapper').style.display = 'none';  
      
           // Make an AJAX request to the current PHP script
           $.ajax({
@@ -1507,7 +1509,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     document.getElementById('wrapper').style.display = 'block';
 
 
-    // document.getElementById('loader').style.display = 'none'; 
+    document.getElementById('loader').style.display = 'none'; 
 
         force_network_grapgh();
 
