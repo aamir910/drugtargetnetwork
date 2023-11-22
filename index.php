@@ -355,7 +355,95 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }    
+    /* loader css ended  */
+
+    /* slider2  */
+
+    .slider2 {
+      position: absolute;
+      top: 85%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 650px;
+      height: 60px;
+      padding: 10px;
+      padding-left: 40px;
+      background: #fffefe;
+      /* border-radius: 20px; */
+      display: flex;
+      align-items: center;
+      /* box-shadow: 0px 5px 20px #7e6d5766; */
     }
+
+    .slider2 p {
+      font-size: 20px;
+      font-weight: 600;
+      font-family: Open Sans;
+      padding-left: 30px;
+      color: black;
+    }
+
+    .slider2 input[type="range"] {
+      -webkit-appearance: none !important;
+      width: 420px;
+      height: 2px;
+      background: black;
+      border: none;
+      outline: none;
+    }
+
+    .fieldset {
+      background: white;
+      border-radius: 2rem;
+    }
+
+    .slider2 input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none !important;
+      width: 20px;
+      height: 20px;
+      background: black;
+      border: 2px solid black;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .slider2 input[type="range"]::-webkit-slider-thumb:hover {
+      background: black;
+    }
+
+   
+
+    .btn1 {
+      background-color: rgb(190, 190, 190);
+      /* Background color */
+      color: black;
+      /* Text color */
+      border: none;
+      /* Remove the border */
+      padding: 10px 20px;
+      /* Add padding to the button */
+      text-align: center;
+      /* Center the text horizontally */
+      text-decoration: none;
+      /* Remove underlines from links */
+      display: inline-block;
+      /* Make it an inline block element */
+      font-size: 16px;
+      /* Font size */
+      margin: 4px 2px;
+      /* Add margin to the button */
+      cursor: pointer;
+      /* Add a pointer cursor on hover */
+      border-radius: 4px;
+      /* Rounded corners */
+    }
+
+    /* Change the button background color on hover */
+    .btn1:hover {
+      background-color: #45a049;
+    }
+
 </style>
 
 <body>
@@ -489,6 +577,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="loader"  id = "loader" ></div>
   </foreignObject>
     </div>
+
+
+<!-- second slider and btns  -->
+
+<div class="buttonbar">
+      <div class="slider2">
+        <button class="btn1" id="zoom-in-button">zoom-in</button>
+        <button class="btn1" id="zoom-out-button">zoom out</button>
+        <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
+        <p id="rangeValue">50</p>
+
+        <button class="btn1" id="redraw">redraw</button>
+        <button class="btn1">download</button>
+      </div>
+    </div>
+
+
+
 
     <div class="card" id="cardid" style="display: none;">
       <p class="cl-picker">change color</p>
