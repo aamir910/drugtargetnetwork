@@ -73,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   .searchBar {
     margin-top: 50px;
     margin-bottom: 3rem;
+    
   }
 
   .graph_div {
@@ -109,6 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     border-radius: 10px;
     padding: 20px 25px 40px;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    display : none ;
   }
 
   header h2 {
@@ -332,7 +334,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      
      /* svg loader  */
      .loader {
-      margin: 25% 38%;
+      margin: 22% 56%;
+
       display: none ; 
       border: 16px solid #f3f3f3;
       border-radius: 50%;
@@ -362,7 +365,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- First Dropdown -->
         <div class="form-group col-md-3">
           <select class="form-select" id="dropdown1">
-            <option value="1">Select an ONCOTREE_LINEAGE</option>
+            <option value="">Select an ONCOTREE_LINEAGE</option>
             <option value="Bone">Bone</option>
             <option value="Skin">Skin</option>
             <option value="Central Nervous System">Central Nervous System</option>
@@ -398,7 +401,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Second Dropdown -->
         <div class="form-group col-md-3">
           <select class="form-select" id="dropdown2">
-            <option value="2">Select an option</option>
+            <option value="">Select an option</option>
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>
@@ -412,7 +415,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Third Dropdown -->
         <div class="form-group col-md-3">
           <select class="form-select" id="dropdown3">
-            <option value="3">Select an option</option>
+            <option value="">Select an option</option>
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>
@@ -431,7 +434,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="graph_div container flex col-12 " id="div2">
 
-      <div class="wrapper col-3">
+      <div class="wrapper col-3" id = 'wrapper'>
         <header>
           <h2>links value</h2>
         </header>
@@ -547,7 +550,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const response = data ;// Replace with the correct JSON file path
         // const jsonData = await response.json();
 
-        console.log(response);
+        console.log('data coming from the'  ,  response);
         processData (response);
       } catch (error) {
         console.error("Error loading the JSON file:", error);
@@ -559,7 +562,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     function processData(data) {
       // creating the array of the codes 
-
+                clearGraph() ;   
+ 
       const uniqueProteins = new Set();
 
       data.forEach((item) => {
@@ -678,8 +682,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     function force_network_grapgh() {
-
-    console.log("check1")  ; 
+     
       const svg = d3.select("#forcenetwork");
 
       const g = svg.append("g");
@@ -780,8 +783,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         node.attr("transform", (d) => `translate(${d.x},${d.y})`);
       });
 
-
-      console.log("check2")  ; 
+ 
 
     }
     // slider range value limitation 
@@ -1039,7 +1041,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         { category: "FIMM", color: "#6a329f" }
       ];
 
-      console.log(data_Set);
 
 
       // const data_Set_child = [
@@ -1132,6 +1133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     let li;
     let ul_color;
     let count = 0;
+    let count1 = 0 ; 
     let cardshow;
     let clickedDiv = '';
     ul_color = document.getElementById('colorList');
@@ -1148,12 +1150,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     function color_click_onchange(event, d) {
-      console.log("Clicked on span:", d);
       selected_maxphase = d.category;
       clickedDiv = d3.select(this);
-      console.log("selected_maxphase", selected_maxphase);
 
-      // Get the coordinates of the click event
       var clickX = event.clientX;
       var clickY = event.clientY;
 
@@ -1178,7 +1177,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       if (clickedLi.tagName === 'LI') {
         colorpick = clickedLi.style.backgroundColor;
-        console.log(colorpick);
 
         clickedDiv.style("background-color", colorpick || "#6a329f");
         cardshow.style.display = "none";
@@ -1207,7 +1205,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       })
 
       
-      console.log("pickcolor" , colorpick)
       link.filter( function(templink){
           if( templink.dataset === selected_maxphase ){
             d3.select(this).style("stroke" , colorpick) ; 
@@ -1285,7 +1282,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       } else {
         list_hidden_dataset.splice(index, 1);
       }
-console.log(list_hidden_dataset);
+
       range_of_links(minValue, maxValue);
     }
 
@@ -1317,7 +1314,10 @@ console.log(list_hidden_dataset);
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
-    }
+      nodes = [];
+      links = [] ; 
+    }   
+    
 
 
     /// here is the code of applying the logic of the maxphase 
@@ -1390,14 +1390,15 @@ console.log(list_hidden_dataset);
       else {
 
         event.preventDefault();
-       
-
- 
-     ajax()  ; 
-
+        
+        
+        ajax()  ; 
+        
         document.getElementById("dropdown1").value = "";
         document.getElementById("dropdown2").value = "";
         document.getElementById("dropdown3").value = "";
+        //  clearGraph() ; 
+       
 
       }
 
@@ -1478,15 +1479,14 @@ console.log(list_hidden_dataset);
  
           // Prevent the default form submission
           event.preventDefault();
-      console.log("checik ajax")
           // Get the selected values from the dropdowns
           var dropdown1Value = $("#dropdown1").val();
           var dropdown2Value = $("#dropdown2").val();
           var dropdown3Value = $("#dropdown3").val();
-          
+           
+
          
-         
-    document.getElementById('loader').style.display = 'block';  
+    // document.getElementById('loader').style.display = 'block';  
      
           // Make an AJAX request to the current PHP script
           $.ajax({
@@ -1498,16 +1498,17 @@ console.log(list_hidden_dataset);
                   dropdown3: dropdown3Value
               },
               success: function (response) {
-                  // Handle the JSON response here
-                  //alert("Got data printed on log")
-                  console.log(response) ;
+
                   jsondata2=response;
 
              fetchData(jsondata2);
-    console.log("check loader  ") ; 
-                 
-    
-    document.getElementById('loader').style.display = 'none';  
+                      
+
+    document.getElementById('wrapper').style.display = 'block';
+
+
+    // document.getElementById('loader').style.display = 'none'; 
+
         force_network_grapgh();
 
 pax_phasecliked.on("click", onclickmax_phase);
@@ -1515,7 +1516,10 @@ pax_phasecliked.on("click", onclickmax_phase);
 datasettext_click.on("click", onclick_dataSet);
 
 range_of_links(minValue, maxValue);
-                  // processData(jsondata2);
+
+          
+
+// processData(jsondata2);
                   // You can parse the JSON and use the data as needed
               },
               error: function (xhr, status, error) {
