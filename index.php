@@ -608,7 +608,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="https://d3js.org/d3-force.v2.min.js"></script>
+  <script src="https://d3js.org/d3-force.v3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
 
@@ -841,15 +841,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return d.value - 2;
           }
         });
-  var zoom = d3.zoom()
-             .scaleExtent([0.1, 10]) // Set the zoom scale extent as needed
-             .on("zoom", zoomed);
-
-
-g.call(zoom);  
-function zoomed() {
-    g.attr("transform", console.log("hello"));
-}    
 
       node = g
         .selectAll(".node")
@@ -886,7 +877,27 @@ function zoomed() {
         .attr("y", -8)
         .attr("width", 30);
 
-      
+        var zoom = d3.zoom()
+             .scaleExtent([0.1, 10]) // Set the zoom scale extent as needed
+             .on("zoom", zoomed);
+
+
+g.call(zoom);  
+function zoomed() 
+{if (g) {
+  // console.log(d3.event.transform)
+    // g.attr("transform", d3.event.transform);
+
+    var transform = d3.zoomTransform(this);
+    // Access the current zoom state using d3.zoomTransform
+    // It returns an object with properties: k (scale), x (translateX), and y (translateY)
+
+    // Apply the zoom transformation directly to the SVG elements
+    g.attr("transform", "translate(" + transform.x + "," + transform.y + ") scale(" + transform.k + ")");
+
+  }
+}    
+
 
 
       simulation.on("tick", () => {
