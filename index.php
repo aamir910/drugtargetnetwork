@@ -932,7 +932,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
       const g = svg.append("g");
-
+// simulationtag
       const simulation = d3
         .forceSimulation(nodes)
         .force(
@@ -1884,6 +1884,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        const section = document.querySelector("section"),
       overlay = document.querySelector(".overlay"),
       showBtn = document.querySelector("#export"),
+
       closeBtn = document.querySelector(".close-btn");
       showBtn.addEventListener("click", () => section.classList.add("active"));
       overlay.addEventListener("click", () =>
@@ -1923,6 +1924,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     });
 </script> -->
 <script>
+
+document.getElementById('redraw').addEventListener('click', function() {
+        // Request screen capture permission
+        const simulation = d3
+        .forceSimulation(nodes)
+        .force(
+          "link",
+          d3
+          .forceLink(links)
+          .id((d) => d.id)
+          .distance(70)
+        )
+        .force("charge", d3.forceManyBody().strength(-25))
+        .force("x", d3.forceX(500))
+        .force("y", d3.forceY(270));
+});
+
+
+
+
     document.getElementById('png').addEventListener('click', function() {
         // Request screen capture permission
 
