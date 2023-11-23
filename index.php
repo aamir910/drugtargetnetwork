@@ -1519,11 +1519,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       svg.selectAll("*").remove();
       nodes = [];
       links = [];
+      slider_range = 50; 
+      slider2.max  = 50 ; 
+
+      rangeValue.textContent = 50;
     }
 
 
 
-    /// here is the code of applying the logic of the maxphase 
+    /// here is the code of applying the logic of theslider_rangeclear maxphase 
 
     // setting the sidler valus 
     const minSlider = document.getElementById("min_slider");
@@ -1547,7 +1551,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       range_of_links(minValue, maxValue, slider_range);
 
-      // rangetext.innerText = slider_range;
     }
 
 
