@@ -464,7 +464,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- First Dropdown -->
         <div class="form-group col-md-3">
           <select class="form-select" id="dropdown1">
-            <option value="">Select an ONCOTREE_LINEAGE</option>
+            <option value="Central Nervous System">Select an ONCOTREE_LINEAGE</option>
             <option value="Bone">Bone</option>
             <option value="Skin">Skin</option>
             <option value="Central Nervous System">Central Nervous System</option>
@@ -500,7 +500,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Second Dropdown -->
         <div class="form-group col-md-3">
           <select class="form-select" id="dropdown2">
-            <option value="">Select an option</option>
+            <option value="Option 1">Select an option</option>
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>
@@ -514,7 +514,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Third Dropdown -->
         <div class="form-group col-md-3">
           <select class="form-select" id="dropdown3">
-            <option value="">Select an option</option>
+            <option value="Option 1">Select an option</option>
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>
@@ -596,9 +596,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button class="btn1" id="zoom-out-button">zoom out</button>
         <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
         <p id="rangeValue">50</p>
-
+        <!-- btntag -->
         <button class="btn1" id="redraw">redraw</button>
-        <button class="btn1">download</button>
+        <button class="btn1">Export</button>
       </div>
     </div>
 
@@ -651,13 +651,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     let minValue;
     let maxValue;
-    let slider_range ; 
+    let slider_range = 50;
+    const slider2 = document.getElementById("nodeCountSlider2");
     // onclick dataset   
 
     let list_hidden_links = [];
 
     let jsondata2;
-    // tag5
+
     // fetching the json file  
     async function fetchData(data) {
       try {
@@ -930,38 +931,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     }
 
-    function range_of_links(min_range, max_range , valueofslider ) {
+    function range_of_links(min_range, max_range, valueofslider) {
 
 
       link.style("display", null);
       node.style("display", null);
 
       //  fitleration of the threshold value sidler 
-      // tag1
+      // sildertag
       let parentnodes = node.filter(function(node) {
         if (node.type === "parentnode") {
           return node;
         }
       })
-      console.log(parentnodes, "parentnodes are ");
-     let filternodes3 =  parentnodes.each(function (drugNode, i) 
-     {
-              if (i < valueofslider) {
-                  d3.select(this).style("display" , null) ; 
-                  console.log("check") 
-              }
-            else{
-              d3.select(this).style("display" , "none") ; 
-                link.filter( function (linktemp){
-                if( linktemp.source === drugNode ){
-                  d3.select(this).style("display" , "none") 
-                }
-            })
+      console.log(parentnodes.size()  , "parentnodes are ");
 
+      slider2.max =parentnodes.size() ; 
+      let filternodes3 = parentnodes.each(function(drugNode, i) {
+        if (i < valueofslider) {
+          d3.select(this).style("display", null);
+          console.log("check")
+        } else {
+          d3.select(this).style("display", "none");
+          link.filter(function(linktemp) {
+            if (linktemp.source === drugNode) {
+              d3.select(this).style("display", "none")
             }
-            
-            }) ;
-              console.log(filternodes3 , "filernodes are") ; 
+          })
+
+        }
+
+      });
+      console.log(filternodes3, "filernodes are");
 
 
 
@@ -1462,7 +1463,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       }
 
 
-      range_of_links(minValue, maxValue , 50 );
+      range_of_links(minValue, maxValue, slider_range);
 
 
     }
@@ -1485,7 +1486,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         list_hidden_dataset.splice(index, 1);
       }
 
-      range_of_links(minValue, maxValue , 50 );
+      range_of_links(minValue, maxValue, slider_range);
     }
 
     function onclick_childnodes(event) {
@@ -1508,7 +1509,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-      range_of_links(minValue, maxValue , 50 );
+      range_of_links(minValue, maxValue, slider_range);
 
 
     }
@@ -1527,14 +1528,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // setting the sidler valus 
     const minSlider = document.getElementById("min_slider");
     const maxSlider = document.getElementById("max_slider");
-   const slider2 =  document.getElementById("nodeCountSlider2"); 
+    const rangetext = document.getElementById("rangeValue");
     // Function to log the values of both sliders
     function logSliderValues() {
 
-// tag2
+      // tag2
+      rangeValue.textContent = slider2.value;
       minValue = parseFloat(minSlider.value);
       maxValue = parseFloat(maxSlider.value);
-      
+
       slider_range = parseFloat(slider2.value);
 
       pax_phasecliked.on("click", onclickmax_phase);
@@ -1543,9 +1545,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       // child_clicked.on("click", onclick_childnodes);
 
-      range_of_links(minValue, maxValue , slider_range);
+      range_of_links(minValue, maxValue, slider_range);
 
+      // rangetext.innerText = slider_range;
     }
+
 
 
     // Add onchange event listeners to both sliders
@@ -1723,7 +1727,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
           datasettext_click.on("click", onclick_dataSet);
 
-          range_of_links(minValue, maxValue , 50 );
+          range_of_links(minValue, maxValue, slider_range);
 
 
 
