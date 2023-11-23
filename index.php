@@ -56,14 +56,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     background-color: red;
     border-color: #4caf50;
   }
+
   .btn {
     margin-right: 0.5rem;
     margin-left: 0.5rem;
-    
+
     background-color: green;
     /* border-color: #4caf50; */
-    
-}
+
+  }
+
   .btn-green:hover {
     background-color: #45a049;
     border-color: #45a049;
@@ -462,99 +464,111 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     background-color: #45a049;
   }
 
-/* overlay css  */
-section {
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  background: #e3f2fd;
-}
-button {
-  font-size: 18px;
-  font-weight: 400;
-  color: #fff;
-  padding: 14px 22px;
-  border: none;
-  background: #4070f4;
-  border-radius: 6px;
-  cursor: pointer;
-}
-button:hover {
-  background-color: #265df2;
-}
-button.show-modal,
-.modal-box {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
-section.active .show-modal {
-  display: none;
-}
-.overlay {
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  pointer-events: none;
-}
-section.active .overlay {
-  opacity: 1;
-  pointer-events: auto;
-}
-.modal-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 380px;
-  width: 100%;
-  padding: 30px 20px;
-  border-radius: 24px;
-  background-color: #fff;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  transform: translate(-50%, -50%) scale(1.2);
-}
-section.active .modal-box {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
-.modal-box h2 {
-  margin-top: 20px;
-  font-size: 25px;
-  font-weight: 500;
-  color: #333;
-}
-.modal-box h3 {
-  font-size: 16px;
-  font-weight: 400;
-  color: #333;
-  text-align: center;
-}
-.modal-box .buttons {
-  margin-top: 25px;
-}
-.modal-box button {
-  font-size: 14px;
-  padding: 6px 12px;
-  margin: 0 10px;
-  
-  background-color: green;
+  /* overlay css  */
+  section {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: #e3f2fd;
+  }
 
-}
-.exportbtn{
-  display: flex;
-flex-direction: column;
-padding: 1rem;  
-gap: 20px;
-}
+  button {
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    padding: 14px 22px;
+    border: none;
+    background: #4070f4;
+    border-radius: 6px;
+    cursor: pointer;
+  }
 
+  button:hover {
+    background-color: #265df2;
+  }
 
+  button.show-modal,
+  .modal-box {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  section.active .show-modal {
+    display: none;
+  }
+
+  .overlay {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  section.active .overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 380px;
+    width: 100%;
+    padding: 30px 20px;
+    border-radius: 24px;
+    background-color: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+
+  section.active .modal-box {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .modal-box h2 {
+    margin-top: 20px;
+    font-size: 25px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .modal-box h3 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    text-align: center;
+  }
+
+  .modal-box .buttons {
+    margin-top: 25px;
+  }
+
+  .modal-box button {
+    font-size: 14px;
+    padding: 6px 12px;
+    margin: 0 10px;
+
+    background-color: green;
+
+  }
+
+  .exportbtn {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 20px;
+
+  }
 </style>
 
 <body>
@@ -699,7 +713,7 @@ gap: 20px;
         <p id="rangeValue">50</p>
         <!-- btntag -->
         <button class="btn btn-success" id="redraw">redraw</button>
-        <button class="btn btn-success"  id="export">Export</button>
+        <button class="btn btn-success" id="export">Export</button>
       </div>
     </div>
 
@@ -719,25 +733,25 @@ gap: 20px;
 
   <!-- overlay  -->
   <section>
-      <span class="overlay"></span>
-      <div class="modal-box">
-        <h2>Export Chart as</h2>
+    <span class="overlay"></span>
+    <div class="modal-box">
+      <h2>Export Chart as</h2>
 
-        <div class="buttons exportbtn">
-          
-          <button class=""> Download PNG </button>
-          <button class=""> Download JPEG </button>
-          <button class=""> Download XLS </button>
-          <button class="close-btn"> Close</button>
+      <div class="buttons exportbtn">
 
-        </div>
+        <button class="png" id = 'png'> Download PNG </button>
+        <button class=""> Download JPEG </button>
+        <button class=""> Download XLS </button>
+        <button class="close-btn"> Close</button>
+
       </div>
-    </section>
+    </div>
+  </section>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://d3js.org/d3-force.v3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-        
+
 
 
 
@@ -1064,9 +1078,9 @@ gap: 20px;
           return node;
         }
       })
-      console.log(parentnodes.size()  , "parentnodes are ");
+      console.log(parentnodes.size(), "parentnodes are ");
 
-      slider2.max =parentnodes.size() ; 
+      slider2.max = parentnodes.size();
       let filternodes3 = parentnodes.each(function(drugNode, i) {
         if (i < valueofslider) {
           d3.select(this).style("display", null);
@@ -1639,8 +1653,8 @@ gap: 20px;
       svg.selectAll("*").remove();
       nodes = [];
       links = [];
-      slider_range = 50; 
-      slider2.max  = 50 ; 
+      slider_range = 50;
+      slider2.max = 50;
 
       rangeValue.textContent = 50;
     }
@@ -1865,22 +1879,107 @@ gap: 20px;
     }
   </script>
 
-<!-- overlayascript?  -->
-<script>
-      const section = document.querySelector("section"),
-        overlay = document.querySelector(".overlay"),
-        showBtn = document.querySelector("#export"),
-        closeBtn = document.querySelector(".close-btn");
+  <!-- overlayascript?  -->
+  <script>
+       const section = document.querySelector("section"),
+      overlay = document.querySelector(".overlay"),
+      showBtn = document.querySelector("#export"),
+      closeBtn = document.querySelector(".close-btn");
       showBtn.addEventListener("click", () => section.classList.add("active"));
       overlay.addEventListener("click", () =>
-        section.classList.remove("active")
-      );
-      closeBtn.addEventListener("click", () =>
-        section.classList.remove("active")
-      );
+      section.classList.remove("active")
+    );
+    closeBtn.addEventListener("click", () =>
+      section.classList.remove("active")
+    );
+
+    
+    
+    
     </script>
+<!-- // capture picture  -->
+<!-- <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script>
+  document.getElementById('png').addEventListener('click', function() {
+      section.classList.remove("active")
 
+   
+      html2canvas(document.body, {
+            allowTaint: true,
+            useCors: true,
+            windowWidth: window.innerWidth,
+            windowHeight: window.innerHeight,
+            scrollX: window.scrollX,
+            scrollY: window.scrollY
+        }).then(function(canvas) {
+            var link = document.createElement('a');
+            link.href = canvas.toDataURL();
+            link.download = 'screenshot.png';
 
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    });
+</script> -->
+<script>
+    document.getElementById('png').addEventListener('click', function() {
+        // Request screen capture permission
+
+        section.classList.remove("active") ; 
+        navigator.mediaDevices.getDisplayMedia({ video: true })
+            .then(stream => {
+                // Wait for the user to grant permission before capturing the screen
+                setTimeout(() => captureScreenAndDownload(stream), 2000);
+            })
+            .catch(error => {
+                console.error('Error getting display media:', error);
+            });
+    });
+
+    function captureScreenAndDownload(stream) {
+        // Use the provided stream to capture the screen
+        const videoTrack = stream.getVideoTracks()[0];
+        const imageCapture = new ImageCapture(videoTrack);
+
+        // Capture a frame from the video stream
+        imageCapture.grabFrame()
+        .then(imageBitmap => {
+            // Create a canvas element with reduced height to crop from both top and bottom
+            const canvas = document.createElement('canvas');
+            const cropTop = 100; // Adjust this value to crop more or less from the top
+            const cropBottom = 50; // Adjust this value to crop more or less from the bottom
+            canvas.width = imageBitmap.width;
+            canvas.height = imageBitmap.height - cropTop - cropBottom; // Crop from both top and bottom
+
+            const ctx = canvas.getContext('2d');
+
+            // Draw the captured frame on the canvas, skipping both top and bottom parts
+            ctx.drawImage(
+                imageBitmap,
+                0, cropTop,
+                imageBitmap.width, imageBitmap.height - cropTop - cropBottom,
+                0, 0,
+                imageBitmap.width, imageBitmap.height - cropTop - cropBottom
+            );
+
+            // Convert the canvas content to a data URL
+            const dataURL = canvas.toDataURL();
+                // Create a link element to trigger the download
+                const link = document.createElement('a');
+                link.href = dataURL;
+                link.download = 'screenshot.png';
+
+                // Simulate a click on the link to trigger the download
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            })
+            .catch(error => {
+                console.error('Error capturing screen:', error);
+            });
+    }
+</script>
 
 </body>
 
