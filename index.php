@@ -2,33 +2,33 @@
 include("fetchdata.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if all dropdown values are set
-    if (isset($_POST['dropdown1']) && isset($_POST['dropdown2']) && isset($_POST['dropdown3'])) {
-        $dropdown1 = $_POST['dropdown1'];
-        $dropdown2 = $_POST['dropdown2'];
-        $dropdown3 = $_POST['dropdown3'];
+  // Check if all dropdown values are set
+  if (isset($_POST['dropdown1']) && isset($_POST['dropdown2']) && isset($_POST['dropdown3'])) {
+    $dropdown1 = $_POST['dropdown1'];
+    $dropdown2 = $_POST['dropdown2'];
+    $dropdown3 = $_POST['dropdown3'];
 
-        // Query the database based on the selected dropdown values
-       // $sql = "SELECT * FROM Drug_response WHERE ONCOTREE_LINEAGE = '$dropdown1' AND column2 = '$dropdown2' AND column3 = '$dropdown3'";
-       $sql = "SELECT * FROM drugresponse WHERE ONCOTREE_LINEAGE = '$dropdown1' ORDER BY RAND() LIMIT 500";
+    // Query the database based on the selected dropdown values
+    // $sql = "SELECT * FROM Drug_response WHERE ONCOTREE_LINEAGE = '$dropdown1' AND column2 = '$dropdown2' AND column3 = '$dropdown3'";
+    $sql = "SELECT * FROM drugresponse WHERE ONCOTREE_LINEAGE = '$dropdown1' ORDER BY RAND() LIMIT 500";
 
-        
-       $result = $conn->query($sql);
 
-        // Fetch the result into an associative array
-        $data = array();
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
+    $result = $conn->query($sql);
 
-        // Convert the result to JSON format
-        $json_result = json_encode($data);
-        header('Content-Type: application/json');
-
-        // Echo the JSON-encoded data
-        echo $json_result;
-        exit(); // Stop further execution
+    // Fetch the result into an associative array
+    $data = array();
+    while ($row = $result->fetch_assoc()) {
+      $data[] = $row;
     }
+
+    // Convert the result to JSON format
+    $json_result = json_encode($data);
+    header('Content-Type: application/json');
+
+    // Echo the JSON-encoded data
+    echo $json_result;
+    exit(); // Stop further execution
+  }
 }
 ?>
 
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   .searchBar {
     margin-top: 50px;
     margin-bottom: 3rem;
-    
+
   }
 
   .graph_div {
@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     border-radius: 10px;
     padding: 20px 25px 40px;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
-    display : none ;
+    display: none;
   }
 
   header h2 {
@@ -331,119 +331,129 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   /* here is the styling of the color picker ended  */
-     
-     /* svg loader  */
-     .loader {
-  
-      position: absolute;
+
+  /* svg loader  */
+  .loader {
+
+    position: absolute;
     margin: 15% -27%;
-      display: none ; 
-      border: 16px solid #f3f3f3;
-      border-radius: 50%;
-      border-top: 16px solid  green;
-      width: 120px;
-      height: 120px;
-      -webkit-animation: spin 2s linear infinite;
-      animation: spin 2s linear infinite;
+    display: none;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid green;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
     }
 
-    @-webkit-keyframes spin {
-      0% { -webkit-transform: rotate(0deg); }
-      100% { -webkit-transform: rotate(360deg); }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }    
-    /* loader css ended  */
-
-    /* slider2  */
-
-    .slider2 {
-      position: absolute;
-      top: 85%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 650px;
-      height: 60px;
-      padding: 10px;
-      padding-left: 40px;
-      background: #fffefe;
-      /* border-radius: 20px; */
-      display: flex;
-      align-items: center;
-      /* box-shadow: 0px 5px 20px #7e6d5766; */
+    100% {
+      transform: rotate(360deg);
     }
+  }
 
-    .slider2 p {
-      font-size: 20px;
-      font-weight: 600;
-      font-family: Open Sans;
-      padding-left: 30px;
-      color: black;
-    }
+  /* loader css ended  */
 
-    .slider2 input[type="range"] {
-      -webkit-appearance: none !important;
-      width: 420px;
-      height: 2px;
-      background: black;
-      border: none;
-      outline: none;
-    }
+  /* slider2  */
 
-    .fieldset {
-      background: white;
-      border-radius: 2rem;
-    }
+  .slider2 {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 650px;
+    height: 60px;
+    padding: 10px;
+    padding-left: 40px;
+    background: #fffefe;
+    /* border-radius: 20px; */
+    display: flex;
+    align-items: center;
+    /* box-shadow: 0px 5px 20px #7e6d5766; */
+  }
 
-    .slider2 input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none !important;
-      width: 20px;
-      height: 20px;
-      background: black;
-      border: 2px solid black;
-      border-radius: 50%;
-      cursor: pointer;
-    }
+  .slider2 p {
+    font-size: 20px;
+    font-weight: 600;
+    font-family: Open Sans;
+    padding-left: 30px;
+    color: black;
+  }
 
-    .slider2 input[type="range"]::-webkit-slider-thumb:hover {
-      background: black;
-    }
+  .slider2 input[type="range"] {
+    -webkit-appearance: none !important;
+    width: 420px;
+    height: 2px;
+    background: black;
+    border: none;
+    outline: none;
+  }
 
-   
+  .fieldset {
+    background: white;
+    border-radius: 2rem;
+  }
 
-    .btn1 {
-      background-color: rgb(190, 190, 190);
-      /* Background color */
-      color: black;
-      /* Text color */
-      border: none;
-      /* Remove the border */
-      padding: 10px 20px;
-      /* Add padding to the button */
-      text-align: center;
-      /* Center the text horizontally */
-      text-decoration: none;
-      /* Remove underlines from links */
-      display: inline-block;
-      /* Make it an inline block element */
-      font-size: 16px;
-      /* Font size */
-      margin: 4px 2px;
-      /* Add margin to the button */
-      cursor: pointer;
-      /* Add a pointer cursor on hover */
-      border-radius: 4px;
-      /* Rounded corners */
-    }
+  .slider2 input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    width: 20px;
+    height: 20px;
+    background: black;
+    border: 2px solid black;
+    border-radius: 50%;
+    cursor: pointer;
+  }
 
-    /* Change the button background color on hover */
-    .btn1:hover {
-      background-color: #45a049;
-    }
+  .slider2 input[type="range"]::-webkit-slider-thumb:hover {
+    background: black;
+  }
 
+
+
+  .btn1 {
+    background-color: rgb(190, 190, 190);
+    /* Background color */
+    color: black;
+    /* Text color */
+    border: none;
+    /* Remove the border */
+    padding: 10px 20px;
+    /* Add padding to the button */
+    text-align: center;
+    /* Center the text horizontally */
+    text-decoration: none;
+    /* Remove underlines from links */
+    display: inline-block;
+    /* Make it an inline block element */
+    font-size: 16px;
+    /* Font size */
+    margin: 4px 2px;
+    /* Add margin to the button */
+    cursor: pointer;
+    /* Add a pointer cursor on hover */
+    border-radius: 4px;
+    /* Rounded corners */
+  }
+
+  /* Change the button background color on hover */
+  .btn1:hover {
+    background-color: #45a049;
+  }
 </style>
 
 <body>
@@ -515,7 +525,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </div>
         </div>
         <!-- button  -->
-        <button class="btn btn-success" id="submitButton" type ='submit' >
+        <button class="btn btn-success" id="submitButton" type='submit'>
           <i class="bi bi-search"></i> Search
         </button>
       </div>
@@ -523,7 +533,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="graph_div container flex col-12 " id="div2">
 
-      <div class="wrapper col-3" id = 'wrapper'>
+      <div class="wrapper col-3" id='wrapper'>
         <header>
           <h2>links value</h2>
         </header>
@@ -562,7 +572,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
 
 
-<!-- //tag1 -->
 
       <svg id="forcenetwork" width="100%" style="
                   background-color: white;
@@ -571,17 +580,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   align-items: center;
                   height:540px;
                 " class="col-9">
-              <!-- Loader embedded inside SVG -->
-  </svg>
-  <foreignObject width="100%" height="100%">
-    <div class="loader"  id = "loader" ></div>
-  </foreignObject>
+        <!-- Loader embedded inside SVG -->
+      </svg>
+      <foreignObject width="100%" height="100%">
+        <div class="loader" id="loader"></div>
+      </foreignObject>
     </div>
 
 
-<!-- second slider and btns  -->
+    <!-- second slider and btns  -->
 
-<div class="buttonbar">
+    <div class="buttonbar">
       <div class="slider2">
         <button class="btn1" id="zoom-in-button">zoom-in</button>
         <button class="btn1" id="zoom-out-button">zoom out</button>
@@ -613,17 +622,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
   <script>
-
-
-
-    let nodes = [];  // unique nodes   
-    let links = [];   // links  from the json files
-    let node = [];  // DOM element    
-    let link = [];   // DOM ELEMENT 
+    let nodes = []; // unique nodes   
+    let links = []; // links  from the json files
+    let node = []; // DOM element    
+    let link = []; // DOM ELEMENT 
 
     let filteredLinks = [];
     let filterNodes = [];
-    let listItems = [];  // onclick on the legend 
+    let listItems = []; // onclick on the legend 
     let max_phase_cliked = [];
 
 
@@ -645,20 +651,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     let minValue;
     let maxValue;
+    let slider_range ; 
     // onclick dataset   
-    
+
     let list_hidden_links = [];
 
-     let jsondata2; 
-// tag5
+    let jsondata2;
+    // tag5
     // fetching the json file  
     async function fetchData(data) {
       try {
-        const response = data ;// Replace with the correct JSON file path
+        const response = data; // Replace with the correct JSON file path
         // const jsonData = await response.json();
 
-        console.log('data coming from the'  ,  response);
-        processData (response);
+        console.log('data coming from the', response);
+        processData(response);
       } catch (error) {
         console.error("Error loading the JSON file:", error);
       }
@@ -666,9 +673,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // fetching the data ended here 
-    
+
     function processData(data) {
- 
+
       const uniqueProteins = new Set();
 
       data.forEach((item) => {
@@ -679,19 +686,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
           if (item.MAX_PHASE === "Approved") {
             calsoleimage = "grey.png"
-          }
-          else if (item.MAX_PHASE === "PHASE 1") {
+          } else if (item.MAX_PHASE === "PHASE 1") {
             calsoleimage = "blue.png"
           } else if (item.MAX_PHASE === "PHASE 2") {
             calsoleimage = "yellow.png"
           } else if (item.MAX_PHASE === "PHASE 3") {
             calsoleimage = "lightblue.png"
-          }
-          else if (item.MAX_PHASE === "") {
+          } else if (item.MAX_PHASE === "") {
             calsoleimage = "unknown.png"
-          }else if (item.MAX_PHASE === "Unknown") {
-            calsoleimage = "unknown.png"}
-          else if (item.MAX_PHASE === "Preclinical") {
+          } else if (item.MAX_PHASE === "Unknown") {
+            calsoleimage = "unknown.png"
+          } else if (item.MAX_PHASE === "Preclinical") {
             calsoleimage = "purple.png"
 
           } else {
@@ -787,8 +792,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     const svg = d3.select("#forcenetwork");
+
     function force_network_grapgh() {
-     
+
 
       const g = svg.append("g");
 
@@ -797,9 +803,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .force(
           "link",
           d3
-            .forceLink(links)
-            .id((d) => d.id)
-            .distance(70)
+          .forceLink(links)
+          .id((d) => d.id)
+          .distance(70)
         )
         .force("charge", d3.forceManyBody().strength(-15))
         .force("x", d3.forceX(500))
@@ -811,7 +817,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .enter()
         .append("line")
         .attr("class", "link")
-        .style("stroke", function (d) {
+        .style("stroke", function(d) {
           // Manually set colors based on the dataset value
           switch (d.dataset) {
             case "GDSC1":
@@ -831,12 +837,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               return "black";
           }
         })
-        .attr("stroke-width", function (d) {
+        .attr("stroke-width", function(d) {
 
           if (d.value < 5) {
             return 1
-          }
-          else {
+          } else {
 
             return d.value - 2;
           }
@@ -877,30 +882,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .attr("y", -8)
         .attr("width", 30);
 
-        var zoom = d3.zoom()
-             .scaleExtent([0.1, 10]) // Set the zoom scale extent as needed
-             .on("zoom", zoomed);
-
-
-g.call(zoom);  
-function zoomed() 
-{if (g) {
-  // console.log(d3.event.transform)
-    // g.attr("transform", d3.event.transform);
-
-    var transform = d3.zoomTransform(this);
-    // Access the current zoom state using d3.zoomTransform
-    // It returns an object with properties: k (scale), x (translateX), and y (translateY)
-
-    // Apply the zoom transformation directly to the SVG elements
-    g.attr("transform", "translate(" + transform.x + "," + transform.y + ") scale(" + transform.k + ")");
-
-  }
-      
-  
-}    
-
-
       simulation.on("tick", () => {
         link
           .attr("x1", (d) => d.source.x)
@@ -910,34 +891,77 @@ function zoomed()
         node.attr("transform", (d) => `translate(${d.x},${d.y})`);
       });
 
+
+
+
+
+      var zoom = d3.zoom()
+        .scaleExtent([0.1, 10]) // Set the zoom scale extent as needed
+        .on("zoom", zoomed);
+
+
+      g.call(zoom);
+
+      function zoomed() {
+        if (g) {
+          // console.log(d3.event.transform)
+          // g.attr("transform", d3.event.transform);
+
+          var transform = d3.zoomTransform(this);
+          // Access the current zoom state using d3.zoomTransform
+          // It returns an object with properties: k (scale), x (translateX), and y (translateY)
+
+          // Apply the zoom transformation directly to the SVG elements
+          g.attr("transform", "translate(" + transform.x + "," + transform.y + ") scale(" + transform.k + ")");
+
+        }
+      }
       var zoomInButton = document.getElementById("zoom-in-button");
-var zoomOutButton = document.getElementById("zoom-out-button");
+      var zoomOutButton = document.getElementById("zoom-out-button");
 
-zoomInButton.addEventListener("click", function() {
-    svg.transition().call(zoom.scaleBy, 1.2);
-});
+      zoomInButton.addEventListener("click", function() {
+        svg.transition().call(zoom.scaleBy, 1.2);
+      });
 
-zoomOutButton.addEventListener("click", function() {
-    svg.transition().call(zoom.scaleBy, 0.8);
-});
-    
+      zoomOutButton.addEventListener("click", function() {
+        svg.transition().call(zoom.scaleBy, 0.8);
+      });
+
+
     }
-    // slider range value limitation 
-//     function zoomIn() {
-//     svg.transition().call(zoom.scaleBy, 1.2);
-// }
 
-// function zoomOut() {
-//     svg.transition().call(zoom.scaleBy, 0.8);
-// }
-
-
-    function range_of_links(min_range, max_range) {
+    function range_of_links(min_range, max_range , valueofslider ) {
 
 
       link.style("display", null);
       node.style("display", null);
 
+      //  fitleration of the threshold value sidler 
+      // tag1
+      let parentnodes = node.filter(function(node) {
+        if (node.type === "parentnode") {
+          return node;
+        }
+      })
+      console.log(parentnodes, "parentnodes are ");
+     let filternodes3 =  parentnodes.each(function (drugNode, i) 
+     {
+              if (i < valueofslider) {
+                  d3.select(this).style("display" , null) ; 
+                  console.log("check") 
+              }
+            else{
+              d3.select(this).style("display" , "none") ; 
+                link.filter( function (linktemp){
+                if( linktemp.source === drugNode ){
+                  d3.select(this).style("display" , "none") 
+                }
+            })
+
+            }
+            
+            }) ;
+              console.log(filternodes3 , "filernodes are") ; 
 
 
 
@@ -961,7 +985,7 @@ zoomOutButton.addEventListener("click", function() {
 
 
 
-      var filterlinks2 = link.filter(function (templink) {
+      var filterlinks2 = link.filter(function(templink) {
         // Filter links with a value greater than 5
         let visible = d3.select(this).style("display");
         if (visible === "inline") {
@@ -988,7 +1012,7 @@ zoomOutButton.addEventListener("click", function() {
 
       //
 
-      node.each(function (d) {
+      node.each(function(d) {
 
 
         // Check if the node's MAX_PHASE is in the list_hidden
@@ -1000,7 +1024,7 @@ zoomOutButton.addEventListener("click", function() {
         }
       });
 
-      const matchinglink = link.filter(function (link) {
+      const matchinglink = link.filter(function(link) {
         if (list_hidden.includes(link.source.MAX_PHASE)) {
           return link;
         }
@@ -1022,7 +1046,7 @@ zoomOutButton.addEventListener("click", function() {
       childNode2.style("display", "none");
 
       let visiblenode = [];
-      node.filter(function (node) {
+      node.filter(function(node) {
         if (node.type === "parentnode") {
           let maxnode = d3.select(this).style("display");
           if (maxnode === "inline") {
@@ -1035,7 +1059,7 @@ zoomOutButton.addEventListener("click", function() {
         }
       })
 
-      node.filter(function (node) {
+      node.filter(function(node) {
         if (visiblenode.includes(node.id)) {
           d3.select(this).style("display", null);
         }
@@ -1046,7 +1070,7 @@ zoomOutButton.addEventListener("click", function() {
       //    child nodes will be filter here 
 
 
-      let childnodefilteration = node.filter(function (childNode) {
+      let childnodefilteration = node.filter(function(childNode) {
         if (list_hidden_childnode.includes(childNode.oncotree_change)) {
           return childNode;
         }
@@ -1056,7 +1080,7 @@ zoomOutButton.addEventListener("click", function() {
 
       let source_node = [];
 
-      let matchinglinkpart = link.filter(function (link) {
+      let matchinglinkpart = link.filter(function(link) {
         if (list_hidden_childnode.includes(link.target.oncotree_change)) {
 
 
@@ -1072,7 +1096,7 @@ zoomOutButton.addEventListener("click", function() {
 
 
 
-      node.each(function (d) {
+      node.each(function(d) {
         // d3.select(this).style("display", "none");   
         if (source_node.includes(d.id)) {
 
@@ -1101,7 +1125,7 @@ zoomOutButton.addEventListener("click", function() {
         }
       });
 
-      node.each(function (d) {
+      node.each(function(d) {
         if (d.type === "parentnode") {
           var nodestyle = d3.select(this).style("display");
 
@@ -1110,7 +1134,7 @@ zoomOutButton.addEventListener("click", function() {
           // Array to store styles of connected links
           var linkStyles = [];
 
-          connectedLinks.each(function (link) {
+          connectedLinks.each(function(link) {
             var linkStyle = d3.select(this).style("display");
 
             linkStyles.push(linkStyle);
@@ -1125,38 +1149,42 @@ zoomOutButton.addEventListener("click", function() {
         }
       });
       // link filter nodes here 
-          link.filter(  function (templink) {
-             if(list_hidden_dataset.includes(templink.dataset)){
-              d3.select(this).style("display" , "none")  ; 
+      link.filter(function(templink) {
+        if (list_hidden_dataset.includes(templink.dataset)) {
+          d3.select(this).style("display", "none");
 
-              node.filter(function (tempnode){
-                if (tempnode === templink.target || tempnode === templink.source ){
-                  var nodestyle = d3.select(this).style("display");
+          node.filter(function(tempnode) {
+            if (tempnode === templink.target || tempnode === templink.source) {
+              var nodestyle = d3.select(this).style("display");
 
-          const connectedLinks = link.filter(link => link.source.id === tempnode.id || link.target.id === tempnode.id);
+              const connectedLinks = link.filter(link => link.source.id === tempnode.id || link.target.id === tempnode.id);
 
-          // Array to store styles of connected links
-          var linkStyles = [];
+              // Array to store styles of connected links
+              var linkStyles = [];
 
-          connectedLinks.each(function (link) {
-            var linkStyle = d3.select(this).style("display");
+              connectedLinks.each(function(link) {
+                var linkStyle = d3.select(this).style("display");
 
-            linkStyles.push(linkStyle);
-          });
-          // Check if every style in the array is "none"
-          var allLinksNone = linkStyles.every(style => style === "none");
+                linkStyles.push(linkStyle);
+              });
+              // Check if every style in the array is "none"
+              var allLinksNone = linkStyles.every(style => style === "none");
 
-          if (allLinksNone) {
-            // Set node style to "display: none"
-            d3.select(this).style("display", "none");
-          }
-                 
-                }
-              })
-             }
+              if (allLinksNone) {
+                // Set node style to "display: none"
+                d3.select(this).style("display", "none");
+              }
+
+            }
           })
+        }
+      })
 
       //  link filter nodes ended here 
+
+      // 
+
+
 
 
     }
@@ -1164,24 +1192,58 @@ zoomOutButton.addEventListener("click", function() {
 
     // legenddata
     function legendinfo() {
-      const max_phase_categories = [
-        { category: "PHASE 1", color: "#000080" },
-        { category: "PHASE 2", color: "yellow" },
-        { category: "PHASE 3", color: "blue" },
-        { category: "Approved", color: "grey" },
-        { category: "", color: "#ce7e00" },
-        { category: "Preclinical", color: "#6a329f" }
+      const max_phase_categories = [{
+          category: "PHASE 1",
+          color: "#000080"
+        },
+        {
+          category: "PHASE 2",
+          color: "yellow"
+        },
+        {
+          category: "PHASE 3",
+          color: "blue"
+        },
+        {
+          category: "Approved",
+          color: "grey"
+        },
+        {
+          category: "",
+          color: "#ce7e00"
+        },
+        {
+          category: "Preclinical",
+          color: "#6a329f"
+        }
       ];
 
 
 
-      const data_Set = [
-        { category: "GDSC1", color: "#000080" },
-        { category: "GDSC2", color: "yellow" },
-        { category: "CCLE_NP24", color: "blue" },
-        { category: "NCI-60", color: "grey" },
-        { category: "gCSI", color: "#ce7e00" },
-        { category: "FIMM", color: "#6a329f" }
+      const data_Set = [{
+          category: "GDSC1",
+          color: "#000080"
+        },
+        {
+          category: "GDSC2",
+          color: "yellow"
+        },
+        {
+          category: "CCLE_NP24",
+          color: "blue"
+        },
+        {
+          category: "NCI-60",
+          color: "grey"
+        },
+        {
+          category: "gCSI",
+          color: "#ce7e00"
+        },
+        {
+          category: "FIMM",
+          color: "#6a329f"
+        }
       ];
 
 
@@ -1211,17 +1273,16 @@ zoomOutButton.addEventListener("click", function() {
             }
           }
           return "#6a329f";
-        }).on("click", color_click_onchange);
-      ;
+        }).on("click", color_click_onchange);;
 
 
       pax_phasecliked = listItems
         .append("span")
-        .text((d) => (d.category === ""  ? "Unknown" : d.category))
+        .text((d) => (d.category === "" ? "Unknown" : d.category))
 
 
       const ul2 = d3.select("#dataset");
-      dataSet_link = ul2 
+      dataSet_link = ul2
         .selectAll("li")
         .data(data_Set)
         .enter()
@@ -1238,8 +1299,7 @@ zoomOutButton.addEventListener("click", function() {
             }
           }
           return "#6a329f";
-        }).on("click", color_click_onchange);
-      ;
+        }).on("click", color_click_onchange);;
 
 
       datasettext_click = dataSet_link.append("span").text((d) => d.category);
@@ -1276,7 +1336,7 @@ zoomOutButton.addEventListener("click", function() {
     let li;
     let ul_color;
     let count = 0;
-    let count1 = 0 ; 
+    let count1 = 0;
     let cardshow;
     let clickedDiv = '';
     ul_color = document.getElementById('colorList');
@@ -1312,7 +1372,7 @@ zoomOutButton.addEventListener("click", function() {
 
 
 
-    ul_color.addEventListener("click", function (event) {
+    ul_color.addEventListener("click", function(event) {
 
       let clickedLi = "";
 
@@ -1325,7 +1385,7 @@ zoomOutButton.addEventListener("click", function() {
         cardshow.style.display = "none";
 
       }
-      node.each(function (node) {
+      node.each(function(node) {
 
         if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
 
@@ -1347,12 +1407,12 @@ zoomOutButton.addEventListener("click", function() {
         }
       })
 
-      
-      link.filter( function(templink){
-          if( templink.dataset === selected_maxphase ){
-            d3.select(this).style("stroke" , colorpick) ; 
-                 
-          }
+
+      link.filter(function(templink) {
+        if (templink.dataset === selected_maxphase) {
+          d3.select(this).style("stroke", colorpick);
+
+        }
 
       });
 
@@ -1373,7 +1433,7 @@ zoomOutButton.addEventListener("click", function() {
     function onclickmax_phase(event) {
 
       d3.select(this)
-        .classed("marked", function () {
+        .classed("marked", function() {
           return !d3.select(this).classed("marked");
         });
 
@@ -1395,15 +1455,14 @@ zoomOutButton.addEventListener("click", function() {
       } else if (index === -1) {
         // If 'clicked' is not in 'list_hidden', push it
         list_hidden.push(clicked);
-      } else 
-      {
+      } else {
         // If 'clicked' is already in 'list_hidden', splice it
         list_hidden.splice(index, 1);
 
       }
 
 
-      range_of_links(minValue, maxValue);
+      range_of_links(minValue, maxValue , 50 );
 
 
     }
@@ -1411,7 +1470,7 @@ zoomOutButton.addEventListener("click", function() {
 
     function onclick_dataSet(event) {
       d3.select(this)
-        .classed("marked", function () {
+        .classed("marked", function() {
           return !d3.select(this).classed("marked");
         });
 
@@ -1426,13 +1485,13 @@ zoomOutButton.addEventListener("click", function() {
         list_hidden_dataset.splice(index, 1);
       }
 
-      range_of_links(minValue, maxValue);
+      range_of_links(minValue, maxValue , 50 );
     }
 
     function onclick_childnodes(event) {
 
       d3.select(this)
-        .classed("marked", function () {
+        .classed("marked", function() {
           return !d3.select(this).classed("marked");
         });
 
@@ -1449,7 +1508,7 @@ zoomOutButton.addEventListener("click", function() {
 
 
 
-      range_of_links(minValue, maxValue);
+      range_of_links(minValue, maxValue , 50 );
 
 
     }
@@ -1458,8 +1517,8 @@ zoomOutButton.addEventListener("click", function() {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
       nodes = [];
-      links = [] ; 
-    }   
+      links = [];
+    }
 
 
 
@@ -1468,20 +1527,23 @@ zoomOutButton.addEventListener("click", function() {
     // setting the sidler valus 
     const minSlider = document.getElementById("min_slider");
     const maxSlider = document.getElementById("max_slider");
-
+   const slider2 =  document.getElementById("nodeCountSlider2"); 
     // Function to log the values of both sliders
     function logSliderValues() {
 
-
+// tag2
       minValue = parseFloat(minSlider.value);
       maxValue = parseFloat(maxSlider.value);
+      
+      slider_range = parseFloat(slider2.value);
+
       pax_phasecliked.on("click", onclickmax_phase);
 
       datasettext_click.on("click", onclick_dataSet);
 
       // child_clicked.on("click", onclick_childnodes);
 
-      range_of_links(minValue, maxValue);
+      range_of_links(minValue, maxValue , slider_range);
 
     }
 
@@ -1490,20 +1552,21 @@ zoomOutButton.addEventListener("click", function() {
     minSlider.addEventListener("change", logSliderValues);
     maxSlider.addEventListener("change", logSliderValues);
 
+    slider2.addEventListener("change", logSliderValues);
 
 
 
     // slider value ended here 
 
 
-    document.getElementById("submitButton").addEventListener("click", function (event) {
+    document.getElementById("submitButton").addEventListener("click", function(event) {
 
 
       // Reset error messages
-      document.querySelectorAll(".alert2").forEach(function (alert) {
+      document.querySelectorAll(".alert2").forEach(function(alert) {
         alert.style.display = "none";
       });
-      document.querySelectorAll(".error-border").forEach(function (element) {
+      document.querySelectorAll(".error-border").forEach(function(element) {
         element.classList.remove("error-border");
       });
 
@@ -1529,33 +1592,32 @@ zoomOutButton.addEventListener("click", function() {
         // Prevent form submission
         event.preventDefault();
 
-      }
-      else {
+      } else {
 
         event.preventDefault();
-        
-        
-        ajax(); 
-                 
+
+
+        ajax();
+
         document.getElementById("dropdown1").value = "";
         document.getElementById("dropdown2").value = "";
         document.getElementById("dropdown3").value = "";
-  
-       
+
+
 
       }
 
 
 
-      document.getElementById("dropdown1").addEventListener("change", function () {
+      document.getElementById("dropdown1").addEventListener("change", function() {
         removeError(this);
       });
 
-      document.getElementById("dropdown2").addEventListener("change", function () {
+      document.getElementById("dropdown2").addEventListener("change", function() {
         removeError(this);
       });
 
-      document.getElementById("dropdown3").addEventListener("change", function () {
+      document.getElementById("dropdown3").addEventListener("change", function() {
         removeError(this);
       });
 
@@ -1616,65 +1678,65 @@ zoomOutButton.addEventListener("click", function() {
   <!---Script to fetch data  from php script --->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-<!-- JavaScript for handling form submission and AJAX -->
-<script>
- function ajax(){
- 
-          // Prevent the default form submission
-          event.preventDefault();
-          // Get the selected values from the dropdowns
-          var dropdown1Value = $("#dropdown1").val();
-          var dropdown2Value = $("#dropdown2").val();
-          var dropdown3Value = $("#dropdown3").val();
-           
+  <!-- JavaScript for handling form submission and AJAX -->
+  <script>
+    function ajax() {
 
-         
-    document.getElementById('loader').style.display = 'block';  
-     clearGraph() ; 
-     
-    document.getElementById('wrapper').style.display = 'none';  
-     
-          // Make an AJAX request to the current PHP script
-          $.ajax({
-              type: "POST",
-              url: "", // Leave it empty to target the current page
-              data: {
-                  dropdown1: dropdown1Value,
-                  dropdown2: dropdown2Value,
-                  dropdown3: dropdown3Value
-              },
-              success: function (response) {
-
-                  jsondata2=response;
-
-             fetchData(jsondata2);
-                      
-
-    document.getElementById('wrapper').style.display = 'block';
+      // Prevent the default form submission
+      event.preventDefault();
+      // Get the selected values from the dropdowns
+      var dropdown1Value = $("#dropdown1").val();
+      var dropdown2Value = $("#dropdown2").val();
+      var dropdown3Value = $("#dropdown3").val();
 
 
-    document.getElementById('loader').style.display = 'none'; 
 
-        force_network_grapgh();
+      document.getElementById('loader').style.display = 'block';
+      clearGraph();
 
-pax_phasecliked.on("click", onclickmax_phase);
+      document.getElementById('wrapper').style.display = 'none';
 
-datasettext_click.on("click", onclick_dataSet);
+      // Make an AJAX request to the current PHP script
+      $.ajax({
+        type: "POST",
+        url: "", // Leave it empty to target the current page
+        data: {
+          dropdown1: dropdown1Value,
+          dropdown2: dropdown2Value,
+          dropdown3: dropdown3Value
+        },
+        success: function(response) {
 
-range_of_links(minValue, maxValue);
+          jsondata2 = response;
 
-          
+          fetchData(jsondata2);
 
-// processData(jsondata2);
-                  // You can parse the JSON and use the data as needed
-              },
-              error: function (xhr, status, error) {
-                  console.error("AJAX Error: " + status + " - " + error);
-              }
-          });
-    
-}
-</script>
+
+          document.getElementById('wrapper').style.display = 'block';
+
+
+          document.getElementById('loader').style.display = 'none';
+
+          force_network_grapgh();
+
+          pax_phasecliked.on("click", onclickmax_phase);
+
+          datasettext_click.on("click", onclick_dataSet);
+
+          range_of_links(minValue, maxValue , 50 );
+
+
+
+          // processData(jsondata2);
+          // You can parse the JSON and use the data as needed
+        },
+        error: function(xhr, status, error) {
+          console.error("AJAX Error: " + status + " - " + error);
+        }
+      });
+
+    }
+  </script>
 </body>
 
 </html>
