@@ -53,10 +53,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   .btn-green {
-    background-color: #4caf50;
+    background-color: red;
     border-color: #4caf50;
   }
-
+  .btn {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+    
+    background-color: green;
+    /* border-color: #4caf50; */
+    
+}
   .btn-green:hover {
     background-color: #45a049;
     border-color: #45a049;
@@ -454,6 +461,100 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   .btn1:hover {
     background-color: #45a049;
   }
+
+/* overlay css  */
+section {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: #e3f2fd;
+}
+button {
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+  padding: 14px 22px;
+  border: none;
+  background: #4070f4;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #265df2;
+}
+button.show-modal,
+.modal-box {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+section.active .show-modal {
+  display: none;
+}
+.overlay {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+}
+section.active .overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 380px;
+  width: 100%;
+  padding: 30px 20px;
+  border-radius: 24px;
+  background-color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  transform: translate(-50%, -50%) scale(1.2);
+}
+section.active .modal-box {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+.modal-box h2 {
+  margin-top: 20px;
+  font-size: 25px;
+  font-weight: 500;
+  color: #333;
+}
+.modal-box h3 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  text-align: center;
+}
+.modal-box .buttons {
+  margin-top: 25px;
+}
+.modal-box button {
+  font-size: 14px;
+  padding: 6px 12px;
+  margin: 0 10px;
+  
+  background-color: green;
+
+}
+.exportbtn{
+  display: flex;
+flex-direction: column;
+padding: 1rem;  
+gap: 20px;
+}
+
+
 </style>
 
 <body>
@@ -592,13 +693,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="buttonbar">
       <div class="slider2">
-        <button class="btn1" id="zoom-in-button">zoom-in</button>
-        <button class="btn1" id="zoom-out-button">zoom out</button>
+        <button class="btn btn-success" id="zoom-in-button">zoom-in</button>
+        <button class="btn btn-success" id="zoom-out-button">zoom out</button>
         <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
         <p id="rangeValue">50</p>
         <!-- btntag -->
-        <button class="btn1" id="redraw">redraw</button>
-        <button class="btn1">Export</button>
+        <button class="btn btn-success" id="redraw">redraw</button>
+        <button class="btn btn-success"  id="export">Export</button>
       </div>
     </div>
 
@@ -616,9 +717,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
   </div>
 
+  <!-- overlay  -->
+  <section>
+      <span class="overlay"></span>
+      <div class="modal-box">
+        <h2>Export Chart as</h2>
+
+        <div class="buttons exportbtn">
+          
+          <button class=""> Download PNG </button>
+          <button class=""> Download JPEG </button>
+          <button class=""> Download XLS </button>
+          <button class="close-btn"> Close</button>
+
+        </div>
+      </div>
+    </section>
+
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://d3js.org/d3-force.v3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        
+
 
 
   <script>
@@ -1744,6 +1864,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     }
   </script>
+
+<!-- overlayascript?  -->
+<script>
+      const section = document.querySelector("section"),
+        overlay = document.querySelector(".overlay"),
+        showBtn = document.querySelector("#export"),
+        closeBtn = document.querySelector(".close-btn");
+      showBtn.addEventListener("click", () => section.classList.add("active"));
+      overlay.addEventListener("click", () =>
+        section.classList.remove("active")
+      );
+      closeBtn.addEventListener("click", () =>
+        section.classList.remove("active")
+      );
+    </script>
+
+
+
 </body>
 
 </html>
