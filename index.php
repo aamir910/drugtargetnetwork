@@ -786,9 +786,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //  initialize the graph for the first time  
 
 
+    const svg = d3.select("#forcenetwork");
     function force_network_grapgh() {
      
-      const svg = d3.select("#forcenetwork");
 
       const g = svg.append("g");
 
@@ -896,8 +896,9 @@ function zoomed()
     g.attr("transform", "translate(" + transform.x + "," + transform.y + ") scale(" + transform.k + ")");
 
   }
+      
+  
 }    
-
 
 
       simulation.on("tick", () => {
@@ -909,9 +910,26 @@ function zoomed()
         node.attr("transform", (d) => `translate(${d.x},${d.y})`);
       });
 
+      var zoomInButton = document.getElementById("zoom-in-button");
+var zoomOutButton = document.getElementById("zoom-out-button");
+
+zoomInButton.addEventListener("click", function() {
+    svg.transition().call(zoom.scaleBy, 1.2);
+});
+
+zoomOutButton.addEventListener("click", function() {
+    svg.transition().call(zoom.scaleBy, 0.8);
+});
     
     }
     // slider range value limitation 
+//     function zoomIn() {
+//     svg.transition().call(zoom.scaleBy, 1.2);
+// }
+
+// function zoomOut() {
+//     svg.transition().call(zoom.scaleBy, 0.8);
+// }
 
 
     function range_of_links(min_range, max_range) {
