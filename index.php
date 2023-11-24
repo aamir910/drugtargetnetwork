@@ -381,6 +381,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   /* slider2  */
 
   .slider2 {
+    display: none;
     position: absolute;
     top: 85%;
     left: 50%;
@@ -569,6 +570,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     gap: 20px;
 
   }
+  .buttonbar{}
 </style>
 
 <body>
@@ -1898,6 +1900,8 @@ console.log(csvfile);
       clearGraph();
 
       document.getElementById('wrapper').style.display = 'none';
+      
+      // document.getElementsByClassName("slider2").style.display = 'none'; 
 
       // Make an AJAX request to the current PHP script
       $.ajax({
@@ -1916,6 +1920,8 @@ console.log(csvfile);
 
 
           document.getElementById('wrapper').style.display = 'block';
+
+          // document.getElementsByClassName("slider2").style.display = 'block'; 
 
 
           document.getElementById('loader').style.display = 'none';
@@ -1975,7 +1981,7 @@ console.log(csvfile);
         .force("charge", d3.forceManyBody().strength(-15))
         .force("x", d3.forceX(500))
         .force("y", d3.forceY(270));
-        
+
         nodes.forEach(function (d) {
     d.fx = null;
     d.fy = null;
@@ -1998,8 +2004,11 @@ d3.select("#redraw").on("click", redraw);
 <script>
   // downlaodPNG
   document.getElementById('png').addEventListener('click', function() {
-      // section.classList.remove("active")
+      section.classList.remove("active")
+      // document.getElementsByClassName("slider2").style("display" , "none"); 
       downlaodPNG("png");  
+      
+      // document.getElementsByClassName("slider2").style("display" , "block"); 
      
     });
     // downlaodJPEG
