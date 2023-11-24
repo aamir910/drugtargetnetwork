@@ -785,7 +785,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     let minValue;
     let maxValue;
-    let slider_range = 50;
+    let slider_range = 100;
     const slider2 = document.getElementById("nodeCountSlider2");
     // onclick dataset   
 
@@ -1711,10 +1711,10 @@ console.log(csvfile);
       svg.selectAll("*").remove();
       nodes = [];
       links = [];
-      slider_range = 50;
-      slider2.max = 50;
+      slider_range = 100;
+      slider2.max = 100;
 
-      rangeValue.textContent = 50;
+      rangeValue.textContent = 100;
     }
 
 
