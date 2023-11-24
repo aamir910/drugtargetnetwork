@@ -741,7 +741,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <button class="png" id = 'png'> Download PNG </button>
         <button class="jpeg" id ="jpeg"> Download JPEG </button>
-        <button class=""> Download XLS </button>
+        <button class="csv" id="csv" >  Download XLS </button>
         <button class="close-btn"> Close</button>
 
       </div>
@@ -1958,18 +1958,29 @@ console.log(csvfile);
     </script>
 <!-- // capture picture  -->
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script> -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+
 <script>
+  // downlaodPNG
   document.getElementById('png').addEventListener('click', function() {
-      section.classList.remove("active")
-      downlaodPNG("png"); 
-   
+      // section.classList.remove("active")
+      downlaodPNG("png");  
      
     });
+    // downlaodJPEG
     document.getElementById('jpeg').addEventListener('click', function() {
       section.classList.remove("active")
       downlaodPNG("jpeg");  
-   
-     
+    });
+
+    //  downloadCSV 
+    document.getElementById('csv').addEventListener('click', function() {
+      section.classList.remove("active")
+       console.log(csvfile);
+
+      // downloadCSV(csvfile);  
+      cenvertxlsx(csvfile) ; 
     });
 
    function downlaodPNG(typeochart){
@@ -1990,6 +2001,41 @@ console.log(csvfile);
             document.body.removeChild(link);
         });
    }
+
+   function downloadCSV(jsonData){
+    const csvContent = "data:text/csv;charset=utf-8," +
+                     jsonData.map(row => Object.values(row).join(',')).join('\n');
+
+  // Create a Blob containing the CSV data
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+
+  // Create a link element and trigger the download
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'Chart-data.csv';
+
+  // Append the link to the document and trigger the click event
+  document.body.appendChild(link);
+  link.click();
+
+  // Remove the link from the document
+  document.body.removeChild(link);
+
+   }
+
+   function  cenvertxlsx(dataArray){
+    const ws = XLSX.utils.json_to_sheet(dataArray);
+
+// Create a workbook
+const wb = XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
+
+// Save the workbook to an XLSX file
+XLSX.writeFile(wb, 'output.xlsx');
+
+alert('XLSX file created successfully');
+    
+    }
 </script>
 
 </body>
