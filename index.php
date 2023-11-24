@@ -1012,13 +1012,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .attr("stroke-width", 1.5)
 
 
-      node
-        .filter((d) => d.type === "parentnode")
-        .append("image")
-        .attr("xlink:href", (d) => d.image)
-        .attr("x", -12)
-        .attr("y", -8)
-        .attr("width", 30);
+      // node
+      //   .filter((d) => d.type === "parentnode")
+      //   .append("image")
+      //   .attr("fill", "green")
+      //   .attr("x", -12)
+      //   .attr("y", -8)
+      //   .attr("width", 30);
+
+        node.filter((d) => d.type === "parentnode")
+    .append("rect")
+    .attr("width", 30) // Set the width of the rectangle
+    .attr("height", 12) // Set the height of the rectangle
+    .attr("fill", function(node){
+          if (node.MAX_PHASE === "Approved") {
+            return  "grey" ; 
+          } else if (node.MAX_PHASE === "PHASE 1") {
+            return  "#000080" ; 
+          } else if (node.MAX_PHASE === "PHASE 2") {
+            return  "yellow" ; 
+          } else if (node.MAX_PHASE === "PHASE 3") {
+            return  "blue" ; 
+          } else if (node.MAX_PHASE === "") {
+            return  "#ce7e00" ; 
+          } else if (node.MAX_PHASE === "Unknown") {
+            return  "#ce7e00" ; 
+          } else if (node.MAX_PHASE === "Preclinical") {
+            return  "#6a329f" ; 
+
+          } 
+        })
+    .attr("x", -12)
+    .attr("y", -8)
+    .attr("rx", 5) // Set the x-axis border radius
+    .attr("ry", 5) // Set the y-axis border radius
+    .attr("stroke", "#fff")
+    .attr("stroke-width", 1.5);
+
 
       simulation.on("tick", () => {
         link
@@ -1544,26 +1574,31 @@ console.log(csvfile);
 
       }
       node.each(function(node) {
+    if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
+        if (colorpick === "yellow") {
+            d3.select(this).select("rect") // Assuming the shape is a rectangle, adjust as needed
+                .attr("fill", "yellow");
 
-        if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
+        } else if (colorpick === "grey") {
+            d3.select(this).select("rect")
+                .attr("fill", "grey");
 
-          if (colorpick === "yellow") {
-            node.image = 'yellow.png';
-          } else if (colorpick === "grey") {
-            node.image = 'grey.png';
-          } else if (colorpick === "rgb(206, 126, 0)") {
-            node.image = 'unknown.png';
-          } else if (colorpick === "rgb(0, 0, 128)") {
-            node.image = 'blue.png';
-          } else if (colorpick === "blue") {
-            node.image = 'lightblue.png';
-          } else {
-            node.image = 'purple.png';
-
-          }
-
+              } else if (colorpick === "rgb(206, 126, 0)") {
+            d3.select(this).select("rect")
+                .attr("fill", "rgb(206, 126, 0)");
+                
+        } else if (colorpick === "rgb(0, 0, 128)") {
+            d3.select(this).select("rect")
+                .attr("fill", "rgb(0, 0, 128)");
+        } else if (colorpick === "blue") {
+            d3.select(this).select("rect")
+                .attr("fill", "blue");
+        } else {
+            d3.select(this).select("rect")
+                .attr("fill", "purple.png");
         }
-      })
+    }
+});
 
 
       link.filter(function(templink) {
@@ -1922,7 +1957,7 @@ console.log(csvfile);
     
     </script>
 <!-- // capture picture  -->
-<!-- <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script>
   document.getElementById('png').addEventListener('click', function() {
       section.classList.remove("active")
@@ -1945,8 +1980,8 @@ console.log(csvfile);
             document.body.removeChild(link);
         });
     });
-</script> -->
-<script>
+</script>
+<!-- <script>
 
 document.getElementById('redraw').addEventListener('click', function() {
         // Request screen capture permission
@@ -2024,8 +2059,185 @@ document.getElementById('redraw').addEventListener('click', function() {
                 console.error('Error capturing screen:', error);
             });
     }
-</script>
+</script> -->
 
+<!-- <script>
+ document.getElementById('png').addEventListener('click', function() {
+      section.classList.remove("active")
+      downloadPNG();
+
+ })
+function getFilteredSvgContent(svgElement) {
+    // Clone the original SVG to avoid altering it
+    var clonedSvg = svgElement.cloneNode(true);
+    var d3ClonedSvg = d3.select(clonedSvg);
+
+    // Remove hidden links first
+    d3ClonedSvg.selectAll(".link")
+        .filter(function() {
+            return this.style.visibility === 'hidden' || this.style.display === 'none';
+        })
+        .remove();
+
+    // Remove hidden parent nodes
+    d3ClonedSvg.selectAll(".node-parent")
+        .filter(function() {
+            return this.style.visibility === 'hidden' || this.style.display === 'none';
+        })
+        .remove();
+
+    // Remove hidden child nodes. This checks if both the circle and text children are hidden.
+    d3ClonedSvg.selectAll(".node:not(.node-parent)")
+        .filter(function() {
+            var circleVisibility = d3.select(this).select('circle').style('visibility');
+            var textVisibility = d3.select(this).select('text').style('visibility');
+            return circleVisibility === 'hidden' && textVisibility === 'hidden';
+        })
+        .remove();
+
+    return new XMLSerializer().serializeToString(clonedSvg);
+}
+
+  function downloadPNG() {
+  var svgElement = document.querySelector("#forcenetwork");
+  var svgData = getFilteredSvgContent(svgElement);
+  svgData = addWhiteBackground(svgData);
+
+  // First convert the SVG to canvas
+  svgToCanvas(svgData, function(chartCanvas) {
+    // Convert the HTML legends to canvas
+    html2canvas(document.querySelector(".legends")).then(function(legendCanvas) {
+      // Calculate the scale factor to match the height of the chart
+      var scaleFactor = chartCanvas.height / legendCanvas.height;
+
+      // Adjust the final canvas width to consider the scaled width of the legends
+      var finalCanvas = document.createElement("canvas");
+      finalCanvas.width = chartCanvas.width + (legendCanvas.width * scaleFactor); // sum of the chart width and the scaled legend width
+      finalCanvas.height = chartCanvas.height; // using chart's height
+
+      var context = finalCanvas.getContext("2d");
+      context.drawImage(chartCanvas, 0, 0);
+      context.drawImage(legendCanvas, chartCanvas.width, 0, legendCanvas.width * scaleFactor, chartCanvas.height);
+
+      // Now you can save the combined canvas as PNG
+      var a = document.createElement("a");
+      a.href = finalCanvas.toDataURL("image/png");
+      a.download = "chart.png";
+      a.click();
+    });
+  });
+}
+
+
+
+
+
+function svgToCanvas(svgData, callback) {
+  var canvas = document.createElement("canvas");
+  var context = canvas.getContext("2d");
+  var image = new Image();
+
+  // Load all images before rendering SVG onto canvas
+  var images = document.querySelector("#forcenetwork").querySelectorAll("image");
+  var loadedCount = 0;
+
+  images.forEach(function(img) {
+    var xlinkHref = img.getAttribute("href");
+    var imgObj = new Image();
+    imgObj.onload = function() {
+      loadedCount++;
+      if (loadedCount === images.length) {
+        renderCanvas();
+      }
+    };
+
+    if (xlinkHref) {
+      imgObj.src = "https://entertainmentbuz.com/visual/d3/" + xlinkHref;
+    } else {
+      loadedCount++;
+    }
+  });
+
+  function renderCanvas() {
+    var scale = 2;
+    var width = document.querySelector("#forcenetwork").clientWidth * scale;
+    var height = document.querySelector("#forcenetwork").clientHeight * scale;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.width = width;
+    canvas.height = height;
+    context.fillStyle = "white";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "black";
+
+    canvg(canvas, svgData, {
+      ignoreMouse: true,
+      ignoreAnimation: true,
+      ignoreDimensions: true,
+      scaleWidth: width,
+      scaleHeight: height,
+      renderCallback: function() {
+        callback(canvas);
+      }
+    });
+  }
+}
+
+
+
+// Download JPEG
+// function downloadJPEG() {
+//   var svgElement = document.querySelector("#chart svg");
+//   var svgData = getFilteredSvgContent(svgElement);
+//   svgData = addWhiteBackground(svgData);
+
+//   // First convert the SVG to canvas
+//   svgToCanvas(svgData, function(chartCanvas) {
+//     // Convert the HTML legends to canvas
+//     html2canvas(document.querySelector("#all-legends")).then(function(legendCanvas) {
+//       // Calculate the scale factor to match the height of the chart
+//       var scaleFactor = chartCanvas.height / legendCanvas.height;
+
+//       // Adjust the final canvas width to consider the scaled width of the legends
+//       var finalCanvas = document.createElement("canvas");
+//       finalCanvas.width = chartCanvas.width + (legendCanvas.width * scaleFactor);
+//       finalCanvas.height = chartCanvas.height;
+
+//       var context = finalCanvas.getContext("2d");
+//       context.drawImage(chartCanvas, 0, 0);
+//       context.drawImage(legendCanvas, chartCanvas.width, 0, legendCanvas.width * scaleFactor, chartCanvas.height);
+
+//       // Now you can save the combined canvas as JPEG
+//       var a = document.createElement("a");
+//       a.href = finalCanvas.toDataURL("image/jpeg", 0.9);  // 0.9 is the quality factor (0 to 1)
+//       a.download = "chart.jpeg";
+//       a.click();
+//     });
+//   });
+// }
+
+
+
+
+
+// Helper function to add a white background rectangle to the SVG
+function addWhiteBackground(svgData) {
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(svgData, "image/svg+xml");
+  var svg = doc.documentElement;
+
+  var backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  backgroundRect.setAttribute("width", "100%");
+  backgroundRect.setAttribute("height", "100%");
+  backgroundRect.setAttribute("fill", "white");
+
+  svg.insertBefore(backgroundRect, svg.firstChild);
+
+  return new XMLSerializer().serializeToString(doc);
+}
+
+
+</script> -->
 </body>
 
 </html>
