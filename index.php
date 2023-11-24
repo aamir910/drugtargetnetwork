@@ -740,7 +740,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="buttons exportbtn">
 
         <button class="png" id = 'png'> Download PNG </button>
-        <button class=""> Download JPEG </button>
+        <button class="jpeg" id ="jpeg"> Download JPEG </button>
         <button class=""> Download XLS </button>
         <button class="close-btn"> Close</button>
 
@@ -1586,7 +1586,7 @@ console.log(csvfile);
               } else if (colorpick === "rgb(206, 126, 0)") {
             d3.select(this).select("rect")
                 .attr("fill", "rgb(206, 126, 0)");
-                
+
         } else if (colorpick === "rgb(0, 0, 128)") {
             d3.select(this).select("rect")
                 .attr("fill", "rgb(0, 0, 128)");
@@ -1961,9 +1961,19 @@ console.log(csvfile);
 <script>
   document.getElementById('png').addEventListener('click', function() {
       section.classList.remove("active")
-
+      downlaodPNG("png"); 
    
-      html2canvas(document.body, {
+     
+    });
+    document.getElementById('jpeg').addEventListener('click', function() {
+      section.classList.remove("active")
+      downlaodPNG("jpeg");  
+   
+     
+    });
+
+   function downlaodPNG(typeochart){
+    html2canvas(document.body, {
             allowTaint: true,
             useCors: true,
             windowWidth: window.innerWidth,
@@ -1973,271 +1983,15 @@ console.log(csvfile);
         }).then(function(canvas) {
             var link = document.createElement('a');
             link.href = canvas.toDataURL();
-            link.download = 'screenshot.png';
+            link.download = `chart.${typeochart}`;
 
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         });
-    });
+   }
 </script>
-<!-- <script>
 
-document.getElementById('redraw').addEventListener('click', function() {
-        // Request screen capture permission
-         simulation = d3
-        .forceSimulation(nodes)
-        .force(
-          "link",
-          d3
-          .forceLink(links)
-          .id((d) => d.id)
-          .distance(70)
-        )
-        .force("charge", d3.forceManyBody().strength(-25))
-        .force("x", d3.forceX(500))
-        .force("y", d3.forceY(270));
-     
-});
-
-
-
-
-    document.getElementById('png').addEventListener('click', function() {
-        // Request screen capture permission
-
-        section.classList.remove("active") ; 
-        navigator.mediaDevices.getDisplayMedia({ video: true })
-            .then(stream => {
-                // Wait for the user to grant permission before capturing the screen
-                setTimeout(() => captureScreenAndDownload(stream), 2000);
-            })
-            .catch(error => {
-                console.error('Error getting display media:', error);
-            });
-    });
-
-    function captureScreenAndDownload(stream) {
-        // Use the provided stream to capture the screen
-        const videoTrack = stream.getVideoTracks()[0];
-        const imageCapture = new ImageCapture(videoTrack);
-
-        // Capture a frame from the video stream
-        imageCapture.grabFrame()
-        .then(imageBitmap => {
-            // Create a canvas element with reduced height to crop from both top and bottom
-            const canvas = document.createElement('canvas');
-            const cropTop = 100; // Adjust this value to crop more or less from the top
-            const cropBottom = 50; // Adjust this value to crop more or less from the bottom
-            canvas.width = imageBitmap.width;
-            canvas.height = imageBitmap.height - cropTop - cropBottom; // Crop from both top and bottom
-
-            const ctx = canvas.getContext('2d');
-
-            // Draw the captured frame on the canvas, skipping both top and bottom parts
-            ctx.drawImage(
-                imageBitmap,
-                0, cropTop,
-                imageBitmap.width, imageBitmap.height - cropTop - cropBottom,
-                0, 0,
-                imageBitmap.width, imageBitmap.height - cropTop - cropBottom
-            );
-
-            // Convert the canvas content to a data URL
-            const dataURL = canvas.toDataURL();
-                // Create a link element to trigger the download
-                const link = document.createElement('a');
-                link.href = dataURL;
-                link.download = 'screenshot.png';
-
-                // Simulate a click on the link to trigger the download
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            })
-            .catch(error => {
-                console.error('Error capturing screen:', error);
-            });
-    }
-</script> -->
-
-<!-- <script>
- document.getElementById('png').addEventListener('click', function() {
-      section.classList.remove("active")
-      downloadPNG();
-
- })
-function getFilteredSvgContent(svgElement) {
-    // Clone the original SVG to avoid altering it
-    var clonedSvg = svgElement.cloneNode(true);
-    var d3ClonedSvg = d3.select(clonedSvg);
-
-    // Remove hidden links first
-    d3ClonedSvg.selectAll(".link")
-        .filter(function() {
-            return this.style.visibility === 'hidden' || this.style.display === 'none';
-        })
-        .remove();
-
-    // Remove hidden parent nodes
-    d3ClonedSvg.selectAll(".node-parent")
-        .filter(function() {
-            return this.style.visibility === 'hidden' || this.style.display === 'none';
-        })
-        .remove();
-
-    // Remove hidden child nodes. This checks if both the circle and text children are hidden.
-    d3ClonedSvg.selectAll(".node:not(.node-parent)")
-        .filter(function() {
-            var circleVisibility = d3.select(this).select('circle').style('visibility');
-            var textVisibility = d3.select(this).select('text').style('visibility');
-            return circleVisibility === 'hidden' && textVisibility === 'hidden';
-        })
-        .remove();
-
-    return new XMLSerializer().serializeToString(clonedSvg);
-}
-
-  function downloadPNG() {
-  var svgElement = document.querySelector("#forcenetwork");
-  var svgData = getFilteredSvgContent(svgElement);
-  svgData = addWhiteBackground(svgData);
-
-  // First convert the SVG to canvas
-  svgToCanvas(svgData, function(chartCanvas) {
-    // Convert the HTML legends to canvas
-    html2canvas(document.querySelector(".legends")).then(function(legendCanvas) {
-      // Calculate the scale factor to match the height of the chart
-      var scaleFactor = chartCanvas.height / legendCanvas.height;
-
-      // Adjust the final canvas width to consider the scaled width of the legends
-      var finalCanvas = document.createElement("canvas");
-      finalCanvas.width = chartCanvas.width + (legendCanvas.width * scaleFactor); // sum of the chart width and the scaled legend width
-      finalCanvas.height = chartCanvas.height; // using chart's height
-
-      var context = finalCanvas.getContext("2d");
-      context.drawImage(chartCanvas, 0, 0);
-      context.drawImage(legendCanvas, chartCanvas.width, 0, legendCanvas.width * scaleFactor, chartCanvas.height);
-
-      // Now you can save the combined canvas as PNG
-      var a = document.createElement("a");
-      a.href = finalCanvas.toDataURL("image/png");
-      a.download = "chart.png";
-      a.click();
-    });
-  });
-}
-
-
-
-
-
-function svgToCanvas(svgData, callback) {
-  var canvas = document.createElement("canvas");
-  var context = canvas.getContext("2d");
-  var image = new Image();
-
-  // Load all images before rendering SVG onto canvas
-  var images = document.querySelector("#forcenetwork").querySelectorAll("image");
-  var loadedCount = 0;
-
-  images.forEach(function(img) {
-    var xlinkHref = img.getAttribute("href");
-    var imgObj = new Image();
-    imgObj.onload = function() {
-      loadedCount++;
-      if (loadedCount === images.length) {
-        renderCanvas();
-      }
-    };
-
-    if (xlinkHref) {
-      imgObj.src = "https://entertainmentbuz.com/visual/d3/" + xlinkHref;
-    } else {
-      loadedCount++;
-    }
-  });
-
-  function renderCanvas() {
-    var scale = 2;
-    var width = document.querySelector("#forcenetwork").clientWidth * scale;
-    var height = document.querySelector("#forcenetwork").clientHeight * scale;
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    canvas.width = width;
-    canvas.height = height;
-    context.fillStyle = "white";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = "black";
-
-    canvg(canvas, svgData, {
-      ignoreMouse: true,
-      ignoreAnimation: true,
-      ignoreDimensions: true,
-      scaleWidth: width,
-      scaleHeight: height,
-      renderCallback: function() {
-        callback(canvas);
-      }
-    });
-  }
-}
-
-
-
-// Download JPEG
-// function downloadJPEG() {
-//   var svgElement = document.querySelector("#chart svg");
-//   var svgData = getFilteredSvgContent(svgElement);
-//   svgData = addWhiteBackground(svgData);
-
-//   // First convert the SVG to canvas
-//   svgToCanvas(svgData, function(chartCanvas) {
-//     // Convert the HTML legends to canvas
-//     html2canvas(document.querySelector("#all-legends")).then(function(legendCanvas) {
-//       // Calculate the scale factor to match the height of the chart
-//       var scaleFactor = chartCanvas.height / legendCanvas.height;
-
-//       // Adjust the final canvas width to consider the scaled width of the legends
-//       var finalCanvas = document.createElement("canvas");
-//       finalCanvas.width = chartCanvas.width + (legendCanvas.width * scaleFactor);
-//       finalCanvas.height = chartCanvas.height;
-
-//       var context = finalCanvas.getContext("2d");
-//       context.drawImage(chartCanvas, 0, 0);
-//       context.drawImage(legendCanvas, chartCanvas.width, 0, legendCanvas.width * scaleFactor, chartCanvas.height);
-
-//       // Now you can save the combined canvas as JPEG
-//       var a = document.createElement("a");
-//       a.href = finalCanvas.toDataURL("image/jpeg", 0.9);  // 0.9 is the quality factor (0 to 1)
-//       a.download = "chart.jpeg";
-//       a.click();
-//     });
-//   });
-// }
-
-
-
-
-
-// Helper function to add a white background rectangle to the SVG
-function addWhiteBackground(svgData) {
-  var parser = new DOMParser();
-  var doc = parser.parseFromString(svgData, "image/svg+xml");
-  var svg = doc.documentElement;
-
-  var backgroundRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  backgroundRect.setAttribute("width", "100%");
-  backgroundRect.setAttribute("height", "100%");
-  backgroundRect.setAttribute("fill", "white");
-
-  svg.insertBefore(backgroundRect, svg.firstChild);
-
-  return new XMLSerializer().serializeToString(doc);
-}
-
-
-</script> -->
 </body>
 
 </html>
