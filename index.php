@@ -796,6 +796,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     let  csvfile =[] ; 
     let response ; 
 
+    let simulation  ;
+
     // fetching the json file  
     async function fetchData(data) {
       try {
@@ -921,7 +923,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // custom drag function ended
+    
 
+    
 
 
 
@@ -936,7 +940,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       const g = svg.append("g");
 // simulationtag
-      const simulation = d3
+       simulation = d3
         .forceSimulation(nodes)
         .force(
           "link",
@@ -1952,7 +1956,37 @@ console.log(csvfile);
       section.classList.remove("active")
     );
 
-    
+    const redraw = () => {
+
+  // Implement your custom logic to update node positions or anything else before restarting the simulation
+  // For example, you can change the positions of nodes randomly here
+ 
+
+  // Restart the simulation
+  simulation = d3
+        .forceSimulation(nodes)
+        .force(
+          "link",
+          d3
+          .forceLink(links)
+          .id((d) => d.id)
+          .distance(70)
+        )
+        .force("charge", d3.forceManyBody().strength(-15))
+        .force("x", d3.forceX(500))
+        .force("y", d3.forceY(270));
+        
+        nodes.forEach(function (d) {
+    d.fx = null;
+    d.fy = null;
+  });
+
+
+};
+
+// Event listener for the redraw button
+d3.select("#redraw").on("click", redraw);
+
     
     
     </script>
@@ -2002,26 +2036,26 @@ console.log(csvfile);
         });
    }
 
-   function downloadCSV(jsonData){
-    const csvContent = "data:text/csv;charset=utf-8," +
-                     jsonData.map(row => Object.values(row).join(',')).join('\n');
+  //  function downloadCSV(jsonData){
+  //   const csvContent = "data:text/csv;charset=utf-8," +
+  //                    jsonData.map(row => Object.values(row).join(',')).join('\n');
 
-  // Create a Blob containing the CSV data
-  const blob = new Blob([csvContent], { type: 'text/csv' });
+  // // Create a Blob containing the CSV data
+  // const blob = new Blob([csvContent], { type: 'text/csv' });
 
-  // Create a link element and trigger the download
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = 'Chart-data.csv';
+  // // Create a link element and trigger the download
+  // const link = document.createElement('a');
+  // link.href = URL.createObjectURL(blob);
+  // link.download = 'Chart-data.csv';
 
-  // Append the link to the document and trigger the click event
-  document.body.appendChild(link);
-  link.click();
+  // // Append the link to the document and trigger the click event
+  // document.body.appendChild(link);
+  // link.click();
 
-  // Remove the link from the document
-  document.body.removeChild(link);
+  // // Remove the link from the document
+  // document.body.removeChild(link);
 
-   }
+  //  }
 
    function  cenvertxlsx(dataArray){
     const ws = XLSX.utils.json_to_sheet(dataArray);
