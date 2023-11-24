@@ -792,11 +792,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     let list_hidden_links = [];
 
     let jsondata2;
+  
+    let  csvfile =[] ; 
+    let response ; 
 
     // fetching the json file  
     async function fetchData(data) {
       try {
-        const response = data; // Replace with the correct JSON file path
+         response = data; // Replace with the correct JSON file path
         // const jsonData = await response.json();
 
         console.log('data coming from the', response);
@@ -1319,8 +1322,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       // 
 
+      // export csv 
+      csvfile = [] ;
+      node.filter(function (node) {
+  // Select the current node using D3 and get its "display" property
+  let visibility = d3.select(this).style("display");
 
+  // Check if the display property is "inline"
+  if (visibility === "inline") {
+    response.filter( function (maindata){
 
+      if(maindata.COMPOUND_NAME  === node.id){
+        //  if(!csvfile.includes(maindata))
+        csvfile.push(maindata);
+      }
+    }
+    )
+    // If true, push the node into the csvfile array
+  }
+});
+
+// Log the contents of csvfile to the console
+console.log(csvfile);
 
     }
 
@@ -1927,7 +1950,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 document.getElementById('redraw').addEventListener('click', function() {
         // Request screen capture permission
-        const simulation = d3
+         simulation = d3
         .forceSimulation(nodes)
         .force(
           "link",
@@ -1939,6 +1962,7 @@ document.getElementById('redraw').addEventListener('click', function() {
         .force("charge", d3.forceManyBody().strength(-25))
         .force("x", d3.forceX(500))
         .force("y", d3.forceY(270));
+     
 });
 
 
