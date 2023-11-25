@@ -486,7 +486,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     cursor: pointer;
   }
 
-  
+
 
   button.show-modal,
   .modal-box {
@@ -570,22 +570,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     gap: 20px;
 
   }
-  #buttonbar{
-    display :none ; 
+
+  #buttonbar {
+    display: none;
   }
-.alignitems{
-  display: flex;
+
+  .alignitems {
+    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     margin: 20px;
-}
-.sliderbtn{
-  background: green;
+  }
+
+  .sliderbtn {
+    background: green;
     margin: 5px;
     height: 72px;
-}
-
+  }
 </style>
 
 <body>
@@ -722,9 +724,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- second slider and btns  -->
 
-      <div class="sliderpart2" id ='buttonbar'>
+    <div class="sliderpart2" id='buttonbar'>
 
-      <div class ='alignitems'>
+      <div class='alignitems'>
         <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
         <button class="sliderbtn " id="zoom-out-button">zoom out</button>
         <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
@@ -734,8 +736,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button class="sliderbtn " id="export">Export</button>
 
       </div>
-      </div>
-   
+    </div>
+
 
 
 
@@ -965,9 +967,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .force(
           "link",
           d3
-            .forceLink(links)
-            .id((d) => d.id)
-            .distance(70)
+          .forceLink(links)
+          .id((d) => d.id)
+          .distance(70)
         )
         .force("charge", d3.forceManyBody().strength(-15))
         .force("x", d3.forceX(500))
@@ -979,7 +981,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .enter()
         .append("line")
         .attr("class", "link")
-        .style("stroke", function (d) {
+        .style("stroke", function(d) {
           // Manually set colors based on the dataset value
           switch (d.dataset) {
             case "GDSC1":
@@ -999,7 +1001,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               return "black";
           }
         })
-        .attr("stroke-width", function (d) {
+        .attr("stroke-width", function(d) {
 
           if (d.value < 5) {
             return 1
@@ -1015,34 +1017,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .enter()
         .append("g")
         .attr("class", "node").call(customDrag(simulation));
-     
-
-// Add tooltips
-const tooltip = node
-  .append("text")
-  .text((d) => d.id)
-  .attr("dx", 6)
-  .attr("dy", "1.5em")
-  .attr("font-size", "10px")
-  .attr("text-anchor", "middle")
-  .style("fill", "black")
-  .style("opacity", (d) => ((  d.type === "parentnode" &&    (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown")  )? 0 : 1)); // hide initially for specific nodes
-
-node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
-
-function handleMouseOver(d) {
-  // Show tooltip only for the hovered node
-  d3.select(this).select("text").style("opacity", 1);
-
-  // You might want to adjust the tooltip position based on your visualization
-  // tooltip.attr("x", d.x).attr("y", d.y);
-}
-
-function handleMouseOut(d) {
-  // Hide tooltip when the mouse is out  
-    d3.select(this).select("text").style("opacity", (d) => (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown") &&  d.type === "parentnode"   ? 0 : 1);
+      node.on("click", handleClick);
+   // wokplace
+      function handleClick(event) {
+  // Access the data from the event object
+  var d = event.target.__data__;
   
+  // Check if data is available before accessing properties
+  if (d) {
+    console.log(d) ; 
+    alert("Node ID: " + d.id + "\nNode Name: " + d.MAX_PHASE);
+  } else {
+    console.log("Clicked element has no associated data.");
+  }
 }
+
+      // Add tooltips
+      const tooltip = node
+        .append("text")
+        .text((d) => d.id)
+        .attr("dx", 6)
+        .attr("dy", "1.5em")
+        .attr("font-size", "10px")
+        .attr("text-anchor", "middle")
+        .style("fill", "black")
+        .style("opacity", (d) => ((d.type === "parentnode" && (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown")) ? 0 : 1)); // hide initially for specific nodes
+
+      node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
+   
+
+
+
+      function handleMouseOver(d) {
+        // Show tooltip only for the hovered node
+        d3.select(this).select("text").style("opacity", 1);
+
+        // You might want to adjust the tooltip position based on your visualization
+        // tooltip.attr("x", d.x).attr("y", d.y);
+      }
+
+
+      function handleMouseOut(d) {
+        // Hide tooltip when the mouse is out  
+        d3.select(this).select("text").style("opacity", (d) => (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown") && d.type === "parentnode" ? 0 : 1);
+
+      }
+
 
 
       node
@@ -1058,7 +1078,7 @@ function handleMouseOut(d) {
         .append("rect")
         .attr("width", 30) // Set the width of the rectangle
         .attr("height", 12) // Set the height of the rectangle
-        .attr("fill", function (node) {
+        .attr("fill", function(node) {
           if (node.MAX_PHASE === "Approved") {
             return "grey";
           } else if (node.MAX_PHASE === "PHASE 1") {
@@ -1121,11 +1141,11 @@ function handleMouseOut(d) {
       var zoomInButton = document.getElementById("zoom-in-button");
       var zoomOutButton = document.getElementById("zoom-out-button");
 
-      zoomInButton.addEventListener("click", function () {
+      zoomInButton.addEventListener("click", function() {
         svg.transition().call(zoom.scaleBy, 1.2);
       });
 
-      zoomOutButton.addEventListener("click", function () {
+      zoomOutButton.addEventListener("click", function() {
         svg.transition().call(zoom.scaleBy, 0.8);
       });
 
@@ -1140,19 +1160,19 @@ function handleMouseOut(d) {
 
       //  fitleration of the threshold value sidler 
       // sildertag
-      let parentnodes = node.filter(function (node) {
+      let parentnodes = node.filter(function(node) {
         if (node.type === "parentnode") {
           return node;
         }
       })
-      
+
       slider2.max = parentnodes.size();
-      let filternodes3 = parentnodes.each(function (drugNode, i) {
+      let filternodes3 = parentnodes.each(function(drugNode, i) {
         if (i < valueofslider) {
           d3.select(this).style("display", null);
         } else {
           d3.select(this).style("display", "none");
-          link.filter(function (linktemp) {
+          link.filter(function(linktemp) {
             if (linktemp.source === drugNode) {
               d3.select(this).style("display", "none")
             }
@@ -1184,7 +1204,7 @@ function handleMouseOut(d) {
 
 
 
-      var filterlinks2 = link.filter(function (templink) {
+      var filterlinks2 = link.filter(function(templink) {
         // Filter links with a value greater than 5
         let visible = d3.select(this).style("display");
         if (visible === "inline") {
@@ -1211,7 +1231,7 @@ function handleMouseOut(d) {
 
       //
 
-      node.each(function (d) {
+      node.each(function(d) {
 
 
         // Check if the node's MAX_PHASE is in the list_hidden
@@ -1223,7 +1243,7 @@ function handleMouseOut(d) {
         }
       });
 
-      const matchinglink = link.filter(function (link) {
+      const matchinglink = link.filter(function(link) {
         if (list_hidden.includes(link.source.MAX_PHASE)) {
           return link;
         }
@@ -1245,7 +1265,7 @@ function handleMouseOut(d) {
       childNode2.style("display", "none");
 
       let visiblenode = [];
-      node.filter(function (node) {
+      node.filter(function(node) {
         if (node.type === "parentnode") {
           let maxnode = d3.select(this).style("display");
           if (maxnode === "inline") {
@@ -1258,7 +1278,7 @@ function handleMouseOut(d) {
         }
       })
 
-      node.filter(function (node) {
+      node.filter(function(node) {
         if (visiblenode.includes(node.id)) {
           d3.select(this).style("display", null);
         }
@@ -1269,7 +1289,7 @@ function handleMouseOut(d) {
       //    child nodes will be filter here 
 
 
-      let childnodefilteration = node.filter(function (childNode) {
+      let childnodefilteration = node.filter(function(childNode) {
         if (list_hidden_childnode.includes(childNode.oncotree_change)) {
           return childNode;
         }
@@ -1279,7 +1299,7 @@ function handleMouseOut(d) {
 
       let source_node = [];
 
-      let matchinglinkpart = link.filter(function (link) {
+      let matchinglinkpart = link.filter(function(link) {
         if (list_hidden_childnode.includes(link.target.oncotree_change)) {
 
 
@@ -1295,7 +1315,7 @@ function handleMouseOut(d) {
 
 
 
-      node.each(function (d) {
+      node.each(function(d) {
         // d3.select(this).style("display", "none");   
         if (source_node.includes(d.id)) {
 
@@ -1324,7 +1344,7 @@ function handleMouseOut(d) {
         }
       });
 
-      node.each(function (d) {
+      node.each(function(d) {
         if (d.type === "parentnode") {
           var nodestyle = d3.select(this).style("display");
 
@@ -1333,7 +1353,7 @@ function handleMouseOut(d) {
           // Array to store styles of connected links
           var linkStyles = [];
 
-          connectedLinks.each(function (link) {
+          connectedLinks.each(function(link) {
             var linkStyle = d3.select(this).style("display");
 
             linkStyles.push(linkStyle);
@@ -1348,11 +1368,11 @@ function handleMouseOut(d) {
         }
       });
       // link filter nodes here 
-      link.filter(function (templink) {
+      link.filter(function(templink) {
         if (list_hidden_dataset.includes(templink.dataset)) {
           d3.select(this).style("display", "none");
 
-          node.filter(function (tempnode) {
+          node.filter(function(tempnode) {
             if (tempnode === templink.target || tempnode === templink.source) {
               var nodestyle = d3.select(this).style("display");
 
@@ -1361,7 +1381,7 @@ function handleMouseOut(d) {
               // Array to store styles of connected links
               var linkStyles = [];
 
-              connectedLinks.each(function (link) {
+              connectedLinks.each(function(link) {
                 var linkStyle = d3.select(this).style("display");
 
                 linkStyles.push(linkStyle);
@@ -1385,26 +1405,25 @@ function handleMouseOut(d) {
 
       // export csv 
       csvfile = [];
-      node.filter(function (node) {
+      node.filter(function(node) {
         // Select the current node using D3 and get its "display" property
         let visibility = d3.select(this).style("display");
 
         // Check if the display property is "inline"
         if (visibility === "inline") {
-          response.filter(function (maindata) {
+          response.filter(function(maindata) {
 
             if (maindata.COMPOUND_NAME === node.id) {
               //  if(!csvfile.includes(maindata))
               csvfile.push(maindata);
             }
-          }
-          )
+          })
           // If true, push the node into the csvfile array
         }
       });
 
       // Log the contents of csvfile to the console
-      console.log("csvfile" ,  csvfile);
+      console.log("csvfile", csvfile);
 
     }
 
@@ -1412,57 +1431,57 @@ function handleMouseOut(d) {
     // legenddata
     function legendinfo() {
       const max_phase_categories = [{
-        category: "PHASE 1",
-        color: "#000080"
-      },
-      {
-        category: "PHASE 2",
-        color: "yellow"
-      },
-      {
-        category: "PHASE 3",
-        color: "blue"
-      },
-      {
-        category: "Approved",
-        color: "grey"
-      },
-      {
-        category: "",
-        color: "#ce7e00"
-      },
-      {
-        category: "Preclinical",
-        color: "#6a329f"
-      }
+          category: "PHASE 1",
+          color: "#000080"
+        },
+        {
+          category: "PHASE 2",
+          color: "yellow"
+        },
+        {
+          category: "PHASE 3",
+          color: "blue"
+        },
+        {
+          category: "Approved",
+          color: "grey"
+        },
+        {
+          category: "",
+          color: "#ce7e00"
+        },
+        {
+          category: "Preclinical",
+          color: "#6a329f"
+        }
       ];
 
 
 
       const data_Set = [{
-        category: "GDSC1",
-        color: "#000080"
-      },
-      {
-        category: "GDSC2",
-        color: "yellow"
-      },
-      {
-        category: "CCLE_NP24",
-        color: "blue"
-      },
-      {
-        category: "NCI-60",
-        color: "grey"
-      },
-      {
-        category: "gCSI",
-        color: "#ce7e00"
-      },
-      {
-        category: "FIMM",
-        color: "#6a329f"
-      }
+          category: "GDSC1",
+          color: "#000080"
+        },
+        {
+          category: "GDSC2",
+          color: "yellow"
+        },
+        {
+          category: "CCLE_NP24",
+          color: "blue"
+        },
+        {
+          category: "NCI-60",
+          color: "grey"
+        },
+        {
+          category: "gCSI",
+          color: "#ce7e00"
+        },
+        {
+          category: "FIMM",
+          color: "#6a329f"
+        }
       ];
 
 
@@ -1591,7 +1610,7 @@ function handleMouseOut(d) {
 
 
 
-    ul_color.addEventListener("click", function (event) {
+    ul_color.addEventListener("click", function(event) {
 
       let clickedLi = "";
 
@@ -1604,7 +1623,7 @@ function handleMouseOut(d) {
         cardshow.style.display = "none";
 
       }
-      node.each(function (node) {
+      node.each(function(node) {
         if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
           if (colorpick === "yellow") {
             d3.select(this).select("rect") // Assuming the shape is a rectangle, adjust as needed
@@ -1632,7 +1651,7 @@ function handleMouseOut(d) {
       });
 
 
-      link.filter(function (templink) {
+      link.filter(function(templink) {
         if (templink.dataset === selected_maxphase) {
           d3.select(this).style("stroke", colorpick);
 
@@ -1657,7 +1676,7 @@ function handleMouseOut(d) {
     function onclickmax_phase(event) {
 
       d3.select(this)
-        .classed("marked", function () {
+        .classed("marked", function() {
           return !d3.select(this).classed("marked");
         });
 
@@ -1694,7 +1713,7 @@ function handleMouseOut(d) {
 
     function onclick_dataSet(event) {
       d3.select(this)
-        .classed("marked", function () {
+        .classed("marked", function() {
           return !d3.select(this).classed("marked");
         });
 
@@ -1715,7 +1734,7 @@ function handleMouseOut(d) {
     function onclick_childnodes(event) {
 
       d3.select(this)
-        .classed("marked", function () {
+        .classed("marked", function() {
           return !d3.select(this).classed("marked");
         });
 
@@ -1789,14 +1808,14 @@ function handleMouseOut(d) {
     // slider value ended here 
 
 
-    document.getElementById("submitButton").addEventListener("click", function (event) {
+    document.getElementById("submitButton").addEventListener("click", function(event) {
 
 
       // Reset error messages
-      document.querySelectorAll(".alert2").forEach(function (alert) {
+      document.querySelectorAll(".alert2").forEach(function(alert) {
         alert.style.display = "none";
       });
-      document.querySelectorAll(".error-border").forEach(function (element) {
+      document.querySelectorAll(".error-border").forEach(function(element) {
         element.classList.remove("error-border");
       });
 
@@ -1839,15 +1858,15 @@ function handleMouseOut(d) {
 
 
 
-      document.getElementById("dropdown1").addEventListener("change", function () {
+      document.getElementById("dropdown1").addEventListener("change", function() {
         removeError(this);
       });
 
-      document.getElementById("dropdown2").addEventListener("change", function () {
+      document.getElementById("dropdown2").addEventListener("change", function() {
         removeError(this);
       });
 
-      document.getElementById("dropdown3").addEventListener("change", function () {
+      document.getElementById("dropdown3").addEventListener("change", function() {
         removeError(this);
       });
 
@@ -1937,7 +1956,7 @@ function handleMouseOut(d) {
           dropdown2: dropdown2Value,
           dropdown3: dropdown3Value
         },
-        success: function (response) {
+        success: function(response) {
 
           jsondata2 = response;
 
@@ -1966,7 +1985,7 @@ function handleMouseOut(d) {
           // processData(jsondata2);
           // You can parse the JSON and use the data as needed
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           console.error("AJAX Error: " + status + " - " + error);
         }
       });
@@ -2001,15 +2020,15 @@ function handleMouseOut(d) {
         .force(
           "link",
           d3
-            .forceLink(links)
-            .id((d) => d.id)
-            .distance(70)
+          .forceLink(links)
+          .id((d) => d.id)
+          .distance(70)
         )
         .force("charge", d3.forceManyBody().strength(-15))
         .force("x", d3.forceX(500))
         .force("y", d3.forceY(270));
 
-      nodes.forEach(function (d) {
+      nodes.forEach(function(d) {
         d.fx = null;
         d.fy = null;
       });
@@ -2019,9 +2038,6 @@ function handleMouseOut(d) {
 
     // Event listener for the redraw button
     d3.select("#redraw").on("click", redraw);
-
-
-
   </script>
   <!-- // capture picture  -->
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -2030,29 +2046,29 @@ function handleMouseOut(d) {
 
   <script>
     // downlaodPNG
-    document.getElementById('png').addEventListener('click', function () {
-      
+    document.getElementById('png').addEventListener('click', function() {
+
       document.getElementById('buttonbar').style.display = 'none';
       section.classList.remove("active")
-      
-      
+
+
       downlaodPNG("png");
       document.getElementById('buttonbar').style.display = 'block';
 
 
     });
     // downlaodJPEG
-    document.getElementById('jpeg').addEventListener('click', function () {
-      
+    document.getElementById('jpeg').addEventListener('click', function() {
+
       document.getElementById('buttonbar').style.display = 'none';
       section.classList.remove("active")
       downlaodPNG("jpeg");
-      
+
       document.getElementById('buttonbar').style.display = 'block';
     });
 
     //  downloadCSV 
-    document.getElementById('csv').addEventListener('click', function () {
+    document.getElementById('csv').addEventListener('click', function() {
       section.classList.remove("active")
 
       // downloadCSV(csvfile);  
@@ -2067,7 +2083,7 @@ function handleMouseOut(d) {
         windowHeight: window.innerHeight,
         scrollX: window.scrollX,
         scrollY: window.scrollY
-      }).then(function (canvas) {
+      }).then(function(canvas) {
         var link = document.createElement('a');
         link.href = canvas.toDataURL();
         link.download = `chart.${typeochart}`;
