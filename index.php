@@ -380,14 +380,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   /* slider2  */
 
-  .slider2 {
-    display: none;
+  .sliderpart2 {
+    display: flex;
+    flex-direction: row;
+
     position: absolute;
-    top: 85%;
+    top: 83%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 650px;
-    height: 60px;
+    height: 124px;
     padding: 10px;
     padding-left: 40px;
     background: #fffefe;
@@ -397,7 +399,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     /* box-shadow: 0px 5px 20px #7e6d5766; */
   }
 
-  .slider2 p {
+  .sliderpart2 p {
     font-size: 20px;
     font-weight: 600;
     font-family: Open Sans;
@@ -405,7 +407,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     color: black;
   }
 
-  .slider2 input[type="range"] {
+  .sliderpart2 input[type="range"] {
     -webkit-appearance: none !important;
     width: 420px;
     height: 2px;
@@ -419,7 +421,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     border-radius: 2rem;
   }
 
-  .slider2 input[type="range"]::-webkit-slider-thumb {
+  .sliderpart2 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none !important;
     width: 20px;
     height: 20px;
@@ -429,7 +431,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     cursor: pointer;
   }
 
-  .slider2 input[type="range"]::-webkit-slider-thumb:hover {
+  .sliderpart2 input[type="range"]::-webkit-slider-thumb:hover {
     background: black;
   }
 
@@ -484,9 +486,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     cursor: pointer;
   }
 
-  button:hover {
-    background-color: #265df2;
-  }
+  
 
   button.show-modal,
   .modal-box {
@@ -570,7 +570,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     gap: 20px;
 
   }
-  .buttonbar{}
+  #buttonbar{
+    display :none ; 
+  }
+.alignitems{
+  display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+.sliderbtn{
+  background: green;
+    margin: 5px;
+    height: 72px;
+}
+
 </style>
 
 <body>
@@ -707,17 +722,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- second slider and btns  -->
 
-    <div class="buttonbar">
-      <div class="slider2">
-        <button class="btn btn-success" id="zoom-in-button">zoom-in</button>
-        <button class="btn btn-success" id="zoom-out-button">zoom out</button>
+      <div class="sliderpart2" id ='buttonbar'>
+
+      <div class ='alignitems'>
+        <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
+        <button class="sliderbtn " id="zoom-out-button">zoom out</button>
         <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
         <p id="rangeValue">50</p>
         <!-- btntag -->
-        <button class="btn btn-success" id="redraw">redraw</button>
-        <button class="btn btn-success" id="export">Export</button>
+        <button class="sliderbtn" id="redraw">redraw</button>
+        <button class="sliderbtn " id="export">Export</button>
+
       </div>
-    </div>
+      </div>
+   
 
 
 
@@ -741,9 +759,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <div class="buttons exportbtn">
 
-        <button class="png" id = 'png'> Download PNG </button>
-        <button class="jpeg" id ="jpeg"> Download JPEG </button>
-        <button class="csv" id="csv" >  Download XLS </button>
+        <button class="png" id='png'> Download PNG </button>
+        <button class="jpeg" id="jpeg"> Download JPEG </button>
+        <button class="csv" id="csv"> Download XLS </button>
         <button class="close-btn"> Close</button>
 
       </div>
@@ -794,16 +812,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     let list_hidden_links = [];
 
     let jsondata2;
-  
-    let  csvfile =[] ; 
-    let response ; 
 
-    let simulation  ;
+    let csvfile = [];
+    let response;
+
+    let simulation;
 
     // fetching the json file  
     async function fetchData(data) {
       try {
-         response = data; // Replace with the correct JSON file path
+        response = data; // Replace with the correct JSON file path
         // const jsonData = await response.json();
 
         console.log('data coming from the', response);
@@ -925,9 +943,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // custom drag function ended
-    
 
-    
+
+
 
 
 
@@ -941,15 +959,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
       const g = svg.append("g");
-// simulationtag
-       simulation = d3
+      // simulationtag
+      simulation = d3
         .forceSimulation(nodes)
         .force(
           "link",
           d3
-          .forceLink(links)
-          .id((d) => d.id)
-          .distance(70)
+            .forceLink(links)
+            .id((d) => d.id)
+            .distance(70)
         )
         .force("charge", d3.forceManyBody().strength(-15))
         .force("x", d3.forceX(500))
@@ -961,7 +979,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .enter()
         .append("line")
         .attr("class", "link")
-        .style("stroke", function(d) {
+        .style("stroke", function (d) {
           // Manually set colors based on the dataset value
           switch (d.dataset) {
             case "GDSC1":
@@ -981,7 +999,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               return "black";
           }
         })
-        .attr("stroke-width", function(d) {
+        .attr("stroke-width", function (d) {
 
           if (d.value < 5) {
             return 1
@@ -997,16 +1015,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .enter()
         .append("g")
         .attr("class", "node").call(customDrag(simulation));
+     
 
+// Add tooltips
+const tooltip = node
+  .append("text")
+  .text((d) => d.id)
+  .attr("dx", 6)
+  .attr("dy", "1.5em")
+  .attr("font-size", "10px")
+  .attr("text-anchor", "middle")
+  .style("fill", "black")
+  .style("opacity", (d) => (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown" ? 0 : 1)); // hide initially for specific nodes
 
-      node
-        .append("text")
-        .text((d) => d.id)
-        .attr("dx", 6)
-        .attr("dy", "1.5em")
-        .attr("font-size", "10px")
-        .attr("text-anchor", "middle")
-        .style("fill", "black");
+node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
+
+function handleMouseOver(d) {
+  // Show tooltip only for the hovered node
+  d3.select(this).select("text").style("opacity", 1);
+
+  // You might want to adjust the tooltip position based on your visualization
+  // tooltip.attr("x", d.x).attr("y", d.y);
+}
+
+function handleMouseOut(d) {
+  // Hide tooltip when the mouse is out
+  d3.select(this).select("text").style("opacity", 0);
+}
 
 
       node
@@ -1018,42 +1053,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .attr("stroke-width", 1.5)
 
 
-      // node
-      //   .filter((d) => d.type === "parentnode")
-      //   .append("image")
-      //   .attr("fill", "green")
-      //   .attr("x", -12)
-      //   .attr("y", -8)
-      //   .attr("width", 30);
-
-        node.filter((d) => d.type === "parentnode")
-    .append("rect")
-    .attr("width", 30) // Set the width of the rectangle
-    .attr("height", 12) // Set the height of the rectangle
-    .attr("fill", function(node){
+      node.filter((d) => d.type === "parentnode")
+        .append("rect")
+        .attr("width", 30) // Set the width of the rectangle
+        .attr("height", 12) // Set the height of the rectangle
+        .attr("fill", function (node) {
           if (node.MAX_PHASE === "Approved") {
-            return  "grey" ; 
+            return "grey";
           } else if (node.MAX_PHASE === "PHASE 1") {
-            return  "#000080" ; 
+            return "#000080";
           } else if (node.MAX_PHASE === "PHASE 2") {
-            return  "yellow" ; 
+            return "yellow";
           } else if (node.MAX_PHASE === "PHASE 3") {
-            return  "blue" ; 
+            return "blue";
           } else if (node.MAX_PHASE === "") {
-            return  "#ce7e00" ; 
+            return "#ce7e00";
           } else if (node.MAX_PHASE === "Unknown") {
-            return  "#ce7e00" ; 
+            return "#ce7e00";
           } else if (node.MAX_PHASE === "Preclinical") {
-            return  "#6a329f" ; 
+            return "#6a329f";
 
-          } 
+          }
         })
-    .attr("x", -12)
-    .attr("y", -8)
-    .attr("rx", 5) // Set the x-axis border radius
-    .attr("ry", 5) // Set the y-axis border radius
-    .attr("stroke", "#fff")
-    .attr("stroke-width", 1.5);
+        .attr("x", -12)
+        .attr("y", -8)
+        .attr("rx", 5) // Set the x-axis border radius
+        .attr("ry", 5) // Set the y-axis border radius
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1.5);
 
 
       simulation.on("tick", () => {
@@ -1093,11 +1120,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       var zoomInButton = document.getElementById("zoom-in-button");
       var zoomOutButton = document.getElementById("zoom-out-button");
 
-      zoomInButton.addEventListener("click", function() {
+      zoomInButton.addEventListener("click", function () {
         svg.transition().call(zoom.scaleBy, 1.2);
       });
 
-      zoomOutButton.addEventListener("click", function() {
+      zoomOutButton.addEventListener("click", function () {
         svg.transition().call(zoom.scaleBy, 0.8);
       });
 
@@ -1112,21 +1139,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       //  fitleration of the threshold value sidler 
       // sildertag
-      let parentnodes = node.filter(function(node) {
+      let parentnodes = node.filter(function (node) {
         if (node.type === "parentnode") {
           return node;
         }
       })
-      console.log(parentnodes.size(), "parentnodes are ");
-
+      
       slider2.max = parentnodes.size();
-      let filternodes3 = parentnodes.each(function(drugNode, i) {
+      let filternodes3 = parentnodes.each(function (drugNode, i) {
         if (i < valueofslider) {
           d3.select(this).style("display", null);
-          console.log("check")
         } else {
           d3.select(this).style("display", "none");
-          link.filter(function(linktemp) {
+          link.filter(function (linktemp) {
             if (linktemp.source === drugNode) {
               d3.select(this).style("display", "none")
             }
@@ -1135,7 +1160,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
       });
-      console.log(filternodes3, "filernodes are");
 
 
 
@@ -1159,7 +1183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-      var filterlinks2 = link.filter(function(templink) {
+      var filterlinks2 = link.filter(function (templink) {
         // Filter links with a value greater than 5
         let visible = d3.select(this).style("display");
         if (visible === "inline") {
@@ -1186,7 +1210,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       //
 
-      node.each(function(d) {
+      node.each(function (d) {
 
 
         // Check if the node's MAX_PHASE is in the list_hidden
@@ -1198,7 +1222,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
       });
 
-      const matchinglink = link.filter(function(link) {
+      const matchinglink = link.filter(function (link) {
         if (list_hidden.includes(link.source.MAX_PHASE)) {
           return link;
         }
@@ -1220,7 +1244,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       childNode2.style("display", "none");
 
       let visiblenode = [];
-      node.filter(function(node) {
+      node.filter(function (node) {
         if (node.type === "parentnode") {
           let maxnode = d3.select(this).style("display");
           if (maxnode === "inline") {
@@ -1233,7 +1257,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
       })
 
-      node.filter(function(node) {
+      node.filter(function (node) {
         if (visiblenode.includes(node.id)) {
           d3.select(this).style("display", null);
         }
@@ -1244,7 +1268,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       //    child nodes will be filter here 
 
 
-      let childnodefilteration = node.filter(function(childNode) {
+      let childnodefilteration = node.filter(function (childNode) {
         if (list_hidden_childnode.includes(childNode.oncotree_change)) {
           return childNode;
         }
@@ -1254,7 +1278,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       let source_node = [];
 
-      let matchinglinkpart = link.filter(function(link) {
+      let matchinglinkpart = link.filter(function (link) {
         if (list_hidden_childnode.includes(link.target.oncotree_change)) {
 
 
@@ -1270,7 +1294,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-      node.each(function(d) {
+      node.each(function (d) {
         // d3.select(this).style("display", "none");   
         if (source_node.includes(d.id)) {
 
@@ -1299,7 +1323,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
       });
 
-      node.each(function(d) {
+      node.each(function (d) {
         if (d.type === "parentnode") {
           var nodestyle = d3.select(this).style("display");
 
@@ -1308,7 +1332,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           // Array to store styles of connected links
           var linkStyles = [];
 
-          connectedLinks.each(function(link) {
+          connectedLinks.each(function (link) {
             var linkStyle = d3.select(this).style("display");
 
             linkStyles.push(linkStyle);
@@ -1323,11 +1347,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
       });
       // link filter nodes here 
-      link.filter(function(templink) {
+      link.filter(function (templink) {
         if (list_hidden_dataset.includes(templink.dataset)) {
           d3.select(this).style("display", "none");
 
-          node.filter(function(tempnode) {
+          node.filter(function (tempnode) {
             if (tempnode === templink.target || tempnode === templink.source) {
               var nodestyle = d3.select(this).style("display");
 
@@ -1336,7 +1360,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               // Array to store styles of connected links
               var linkStyles = [];
 
-              connectedLinks.each(function(link) {
+              connectedLinks.each(function (link) {
                 var linkStyle = d3.select(this).style("display");
 
                 linkStyles.push(linkStyle);
@@ -1359,27 +1383,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       // 
 
       // export csv 
-      csvfile = [] ;
+      csvfile = [];
       node.filter(function (node) {
-  // Select the current node using D3 and get its "display" property
-  let visibility = d3.select(this).style("display");
+        // Select the current node using D3 and get its "display" property
+        let visibility = d3.select(this).style("display");
 
-  // Check if the display property is "inline"
-  if (visibility === "inline") {
-    response.filter( function (maindata){
+        // Check if the display property is "inline"
+        if (visibility === "inline") {
+          response.filter(function (maindata) {
 
-      if(maindata.COMPOUND_NAME  === node.id){
-        //  if(!csvfile.includes(maindata))
-        csvfile.push(maindata);
-      }
-    }
-    )
-    // If true, push the node into the csvfile array
-  }
-});
+            if (maindata.COMPOUND_NAME === node.id) {
+              //  if(!csvfile.includes(maindata))
+              csvfile.push(maindata);
+            }
+          }
+          )
+          // If true, push the node into the csvfile array
+        }
+      });
 
-// Log the contents of csvfile to the console
-console.log(csvfile);
+      // Log the contents of csvfile to the console
+      console.log("csvfile" ,  csvfile);
 
     }
 
@@ -1387,57 +1411,57 @@ console.log(csvfile);
     // legenddata
     function legendinfo() {
       const max_phase_categories = [{
-          category: "PHASE 1",
-          color: "#000080"
-        },
-        {
-          category: "PHASE 2",
-          color: "yellow"
-        },
-        {
-          category: "PHASE 3",
-          color: "blue"
-        },
-        {
-          category: "Approved",
-          color: "grey"
-        },
-        {
-          category: "",
-          color: "#ce7e00"
-        },
-        {
-          category: "Preclinical",
-          color: "#6a329f"
-        }
+        category: "PHASE 1",
+        color: "#000080"
+      },
+      {
+        category: "PHASE 2",
+        color: "yellow"
+      },
+      {
+        category: "PHASE 3",
+        color: "blue"
+      },
+      {
+        category: "Approved",
+        color: "grey"
+      },
+      {
+        category: "",
+        color: "#ce7e00"
+      },
+      {
+        category: "Preclinical",
+        color: "#6a329f"
+      }
       ];
 
 
 
       const data_Set = [{
-          category: "GDSC1",
-          color: "#000080"
-        },
-        {
-          category: "GDSC2",
-          color: "yellow"
-        },
-        {
-          category: "CCLE_NP24",
-          color: "blue"
-        },
-        {
-          category: "NCI-60",
-          color: "grey"
-        },
-        {
-          category: "gCSI",
-          color: "#ce7e00"
-        },
-        {
-          category: "FIMM",
-          color: "#6a329f"
-        }
+        category: "GDSC1",
+        color: "#000080"
+      },
+      {
+        category: "GDSC2",
+        color: "yellow"
+      },
+      {
+        category: "CCLE_NP24",
+        color: "blue"
+      },
+      {
+        category: "NCI-60",
+        color: "grey"
+      },
+      {
+        category: "gCSI",
+        color: "#ce7e00"
+      },
+      {
+        category: "FIMM",
+        color: "#6a329f"
+      }
       ];
 
 
@@ -1566,7 +1590,7 @@ console.log(csvfile);
 
 
 
-    ul_color.addEventListener("click", function(event) {
+    ul_color.addEventListener("click", function (event) {
 
       let clickedLi = "";
 
@@ -1579,35 +1603,35 @@ console.log(csvfile);
         cardshow.style.display = "none";
 
       }
-      node.each(function(node) {
-    if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
-        if (colorpick === "yellow") {
+      node.each(function (node) {
+        if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
+          if (colorpick === "yellow") {
             d3.select(this).select("rect") // Assuming the shape is a rectangle, adjust as needed
-                .attr("fill", "yellow");
+              .attr("fill", "yellow");
 
-        } else if (colorpick === "grey") {
+          } else if (colorpick === "grey") {
             d3.select(this).select("rect")
-                .attr("fill", "grey");
+              .attr("fill", "grey");
 
-              } else if (colorpick === "rgb(206, 126, 0)") {
+          } else if (colorpick === "rgb(206, 126, 0)") {
             d3.select(this).select("rect")
-                .attr("fill", "rgb(206, 126, 0)");
+              .attr("fill", "rgb(206, 126, 0)");
 
-        } else if (colorpick === "rgb(0, 0, 128)") {
+          } else if (colorpick === "rgb(0, 0, 128)") {
             d3.select(this).select("rect")
-                .attr("fill", "rgb(0, 0, 128)");
-        } else if (colorpick === "blue") {
+              .attr("fill", "rgb(0, 0, 128)");
+          } else if (colorpick === "blue") {
             d3.select(this).select("rect")
-                .attr("fill", "blue");
-        } else {
+              .attr("fill", "blue");
+          } else {
             d3.select(this).select("rect")
-                .attr("fill", "purple.png");
+              .attr("fill", "purple.png");
+          }
         }
-    }
-});
+      });
 
 
-      link.filter(function(templink) {
+      link.filter(function (templink) {
         if (templink.dataset === selected_maxphase) {
           d3.select(this).style("stroke", colorpick);
 
@@ -1632,7 +1656,7 @@ console.log(csvfile);
     function onclickmax_phase(event) {
 
       d3.select(this)
-        .classed("marked", function() {
+        .classed("marked", function () {
           return !d3.select(this).classed("marked");
         });
 
@@ -1669,7 +1693,7 @@ console.log(csvfile);
 
     function onclick_dataSet(event) {
       d3.select(this)
-        .classed("marked", function() {
+        .classed("marked", function () {
           return !d3.select(this).classed("marked");
         });
 
@@ -1690,7 +1714,7 @@ console.log(csvfile);
     function onclick_childnodes(event) {
 
       d3.select(this)
-        .classed("marked", function() {
+        .classed("marked", function () {
           return !d3.select(this).classed("marked");
         });
 
@@ -1764,14 +1788,14 @@ console.log(csvfile);
     // slider value ended here 
 
 
-    document.getElementById("submitButton").addEventListener("click", function(event) {
+    document.getElementById("submitButton").addEventListener("click", function (event) {
 
 
       // Reset error messages
-      document.querySelectorAll(".alert2").forEach(function(alert) {
+      document.querySelectorAll(".alert2").forEach(function (alert) {
         alert.style.display = "none";
       });
-      document.querySelectorAll(".error-border").forEach(function(element) {
+      document.querySelectorAll(".error-border").forEach(function (element) {
         element.classList.remove("error-border");
       });
 
@@ -1804,9 +1828,9 @@ console.log(csvfile);
 
         ajax();
 
-        document.getElementById("dropdown1").value = "";
-        document.getElementById("dropdown2").value = "";
-        document.getElementById("dropdown3").value = "";
+        // document.getElementById("dropdown1").value = "";
+        // document.getElementById("dropdown2").value = "";
+        // document.getElementById("dropdown3").value = "";
 
 
 
@@ -1814,15 +1838,15 @@ console.log(csvfile);
 
 
 
-      document.getElementById("dropdown1").addEventListener("change", function() {
+      document.getElementById("dropdown1").addEventListener("change", function () {
         removeError(this);
       });
 
-      document.getElementById("dropdown2").addEventListener("change", function() {
+      document.getElementById("dropdown2").addEventListener("change", function () {
         removeError(this);
       });
 
-      document.getElementById("dropdown3").addEventListener("change", function() {
+      document.getElementById("dropdown3").addEventListener("change", function () {
         removeError(this);
       });
 
@@ -1900,8 +1924,8 @@ console.log(csvfile);
       clearGraph();
 
       document.getElementById('wrapper').style.display = 'none';
-      
-      // document.getElementsByClassName("slider2").style.display = 'none'; 
+
+      document.getElementById('buttonbar').style.display = 'none';
 
       // Make an AJAX request to the current PHP script
       $.ajax({
@@ -1912,7 +1936,7 @@ console.log(csvfile);
           dropdown2: dropdown2Value,
           dropdown3: dropdown3Value
         },
-        success: function(response) {
+        success: function (response) {
 
           jsondata2 = response;
 
@@ -1921,7 +1945,9 @@ console.log(csvfile);
 
           document.getElementById('wrapper').style.display = 'block';
 
-          // document.getElementsByClassName("slider2").style.display = 'block'; 
+
+          document.getElementById('buttonbar').style.display = 'block';
+
 
 
           document.getElementById('loader').style.display = 'none';
@@ -1939,7 +1965,7 @@ console.log(csvfile);
           // processData(jsondata2);
           // You can parse the JSON and use the data as needed
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("AJAX Error: " + status + " - " + error);
         }
       });
@@ -1949,13 +1975,13 @@ console.log(csvfile);
 
   <!-- overlayascript?  -->
   <script>
-       const section = document.querySelector("section"),
+    const section = document.querySelector("section"),
       overlay = document.querySelector(".overlay"),
       showBtn = document.querySelector("#export"),
 
       closeBtn = document.querySelector(".close-btn");
-      showBtn.addEventListener("click", () => section.classList.add("active"));
-      overlay.addEventListener("click", () =>
+    showBtn.addEventListener("click", () => section.classList.add("active"));
+    overlay.addEventListener("click", () =>
       section.classList.remove("active")
     );
     closeBtn.addEventListener("click", () =>
@@ -1964,122 +1990,107 @@ console.log(csvfile);
 
     const redraw = () => {
 
-  // Implement your custom logic to update node positions or anything else before restarting the simulation
-  // For example, you can change the positions of nodes randomly here
- 
+      // Implement your custom logic to update node positions or anything else before restarting the simulation
+      // For example, you can change the positions of nodes randomly here
 
-  // Restart the simulation
-  simulation = d3
+
+      // Restart the simulation
+      simulation = d3
         .forceSimulation(nodes)
         .force(
           "link",
           d3
-          .forceLink(links)
-          .id((d) => d.id)
-          .distance(70)
+            .forceLink(links)
+            .id((d) => d.id)
+            .distance(70)
         )
         .force("charge", d3.forceManyBody().strength(-15))
         .force("x", d3.forceX(500))
         .force("y", d3.forceY(270));
 
-        nodes.forEach(function (d) {
-    d.fx = null;
-    d.fy = null;
-  });
+      nodes.forEach(function (d) {
+        d.fx = null;
+        d.fy = null;
+      });
 
 
-};
+    };
 
-// Event listener for the redraw button
-d3.select("#redraw").on("click", redraw);
+    // Event listener for the redraw button
+    d3.select("#redraw").on("click", redraw);
 
-    
-    
-    </script>
-<!-- // capture picture  -->
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script> -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
 
-<script>
-  // downlaodPNG
-  document.getElementById('png').addEventListener('click', function() {
-      section.classList.remove("active")
-      // document.getElementsByClassName("slider2").style("display" , "none"); 
-      downlaodPNG("png");  
+
+  </script>
+  <!-- // capture picture  -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script> -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+
+  <script>
+    // downlaodPNG
+    document.getElementById('png').addEventListener('click', function () {
       
-      // document.getElementsByClassName("slider2").style("display" , "block"); 
-     
+      document.getElementById('buttonbar').style.display = 'none';
+      section.classList.remove("active")
+      
+      
+      downlaodPNG("png");
+      document.getElementById('buttonbar').style.display = 'block';
+
+
     });
     // downlaodJPEG
-    document.getElementById('jpeg').addEventListener('click', function() {
+    document.getElementById('jpeg').addEventListener('click', function () {
+      
+      document.getElementById('buttonbar').style.display = 'none';
       section.classList.remove("active")
-      downlaodPNG("jpeg");  
+      downlaodPNG("jpeg");
+      
+      document.getElementById('buttonbar').style.display = 'block';
     });
 
     //  downloadCSV 
-    document.getElementById('csv').addEventListener('click', function() {
+    document.getElementById('csv').addEventListener('click', function () {
       section.classList.remove("active")
-       console.log(csvfile);
 
       // downloadCSV(csvfile);  
-      cenvertxlsx(csvfile) ; 
+      cenvertxlsx(csvfile);
     });
 
-   function downlaodPNG(typeochart){
-    html2canvas(document.body, {
-            allowTaint: true,
-            useCors: true,
-            windowWidth: window.innerWidth,
-            windowHeight: window.innerHeight,
-            scrollX: window.scrollX,
-            scrollY: window.scrollY
-        }).then(function(canvas) {
-            var link = document.createElement('a');
-            link.href = canvas.toDataURL();
-            link.download = `chart.${typeochart}`;
+    function downlaodPNG(typeochart) {
+      html2canvas(document.body, {
+        allowTaint: true,
+        useCors: true,
+        windowWidth: window.innerWidth,
+        windowHeight: window.innerHeight,
+        scrollX: window.scrollX,
+        scrollY: window.scrollY
+      }).then(function (canvas) {
+        var link = document.createElement('a');
+        link.href = canvas.toDataURL();
+        link.download = `chart.${typeochart}`;
 
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-   }
-
-  //  function downloadCSV(jsonData){
-  //   const csvContent = "data:text/csv;charset=utf-8," +
-  //                    jsonData.map(row => Object.values(row).join(',')).join('\n');
-
-  // // Create a Blob containing the CSV data
-  // const blob = new Blob([csvContent], { type: 'text/csv' });
-
-  // // Create a link element and trigger the download
-  // const link = document.createElement('a');
-  // link.href = URL.createObjectURL(blob);
-  // link.download = 'Chart-data.csv';
-
-  // // Append the link to the document and trigger the click event
-  // document.body.appendChild(link);
-  // link.click();
-
-  // // Remove the link from the document
-  // document.body.removeChild(link);
-
-  //  }
-
-   function  cenvertxlsx(dataArray){
-    const ws = XLSX.utils.json_to_sheet(dataArray);
-
-// Create a workbook
-const wb = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
-
-// Save the workbook to an XLSX file
-XLSX.writeFile(wb, 'output.xlsx');
-
-alert('XLSX file created successfully');
-    
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
     }
-</script>
+    //downloadxlxs
+    function cenvertxlsx(dataArray) {
+      const ws = XLSX.utils.json_to_sheet(dataArray);
+
+      // Create a workbook
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
+
+      // Save the workbook to an XLSX file
+      XLSX.writeFile(wb, 'output.xlsx');
+
+      alert('XLSX file created successfully');
+
+    }
+  </script>
 
 </body>
 
