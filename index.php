@@ -1026,7 +1026,7 @@ const tooltip = node
   .attr("font-size", "10px")
   .attr("text-anchor", "middle")
   .style("fill", "black")
-  .style("opacity", (d) => (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown" ? 0 : 1)); // hide initially for specific nodes
+  .style("opacity", (d) => ((  d.type === "parentnode" &&    (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown")  )? 0 : 1)); // hide initially for specific nodes
 
 node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
 
@@ -1039,8 +1039,9 @@ function handleMouseOver(d) {
 }
 
 function handleMouseOut(d) {
-  // Hide tooltip when the mouse is out
-  d3.select(this).select("text").style("opacity", 0);
+  // Hide tooltip when the mouse is out  
+    d3.select(this).select("text").style("opacity", (d) => (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown") &&  d.type === "parentnode"   ? 0 : 1);
+  
 }
 
 
