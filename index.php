@@ -590,23 +590,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   /* drugdata description  */
- .parent_description {
-  width: 500px;
-  display: none;
-  position: absolute;
-  top: 25%;
-  right: 25%;
-  left: 25%;
-  text-align: center;
-  background-color: #f0f0f0;
-  padding: 20px;
-  border-radius: 8px;
-}
 
-.parent_description.show {
-  display: block;
-}
+  body {
+    margin: 0;
+    overflow: hidden; /* Prevent body overflow when the modal is open */
+  }
 
+
+  .parent_description {
+    width: 90%;
+    height: 60%;
+    display: none;
+    position: absolute;
+    
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+  
+  }
+  .blur_the_background{
+    
+    display: none;
+    width: 100%;
+    top: 0%;
+
+    height: 900px;
+    backdrop-filter: blur(10px);
+    position: absolute;
+  }
+  .blur_the_background.show {
+    display: block;
+  }
+
+  .parent_description.show {
+    display: block;
+  }
+
+  .toggle {
+    list-style: none; /* Remove default list styles */
+    padding: 0;
+  }
+
+  .toggle input[type="radio"] {
+    display: none; /* Hide the default radio buttons */
+  }
+
+  .toggle label {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #e0e0e0;
+    cursor: pointer;
+  }
+
+  .toggle input[type="radio"]:checked + label {
+    background-color: #3498db; /* Change background color for the selected option */
+    color: #ffffff; /* Change text color for the selected option */
+  }
+
+  #parent_des_close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
  
 </style>
 
@@ -790,12 +841,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </section>
 
-
-    <div class="parent_description ">
+   <div class="blur_the_background" >
+   <div class="parent_description ">
       <h4 id = "drugname">name</h4>
+      <div class="container">
+
+        <form class="toggle">
+
+            <input type="radio" id="choice1" name="choice" value="creative">
+            <label for="choice1">structure</label>
+
+            <input type="radio" id="choice2" name="choice" value="productive">
+            <label for="choice2">description</label>
+
+        </form>
+
+    </div>
       <p>Export Chart as Lorem ipsum dolor sit amet, con
         sectetur adipisicing elit. Asperiores porro impedit minima et voluptatibus sunt incidunt distinctio quam laborum reiciendis similique repellendus debitis accusamus, quae consequatur molestiae inventore ullam eius doloremque hic architecto perferendis rem sed. Explicabo facere deleniti cumque fuga atque reprehenderit totam possimus.</p>
 <button id = 'parent_des_close'  >close</button>
+   
+   </div>
     </div>
 
 
@@ -1054,6 +1120,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // alert(clickedData.id);
     var div = document.querySelector('.parent_description');
     div.classList.toggle('show');
+    var div = document.querySelector('.blur_the_background');
+    div.classList.toggle('show');
     
     var name  = document.querySelector('#drugname');
     name.innerHTML = clickedData.id ;
@@ -1061,6 +1129,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     var closeButton = document.getElementById('parent_des_close');
   closeButton.addEventListener('click', function() {
     var div = document.querySelector('.parent_description');
+    div.classList.remove('show');
+    var div = document.querySelector('.blur_the_background');
     div.classList.remove('show');
   });
    
