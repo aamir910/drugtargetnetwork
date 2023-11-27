@@ -588,6 +588,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     margin: 5px;
     height: 72px;
   }
+
+  /* drugdata description  */
+ .parent_description {
+  width: 500px;
+
+  display: none;
+
+  position: absolute;
+  top: 25%;
+  right: 25%;
+  left: 25%;
+
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.parent_description.show {
+  display: block;
+}
+
+ 
 </style>
 
 <body>
@@ -769,6 +792,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
   </section>
+
+
+    <div class="parent_description ">
+      <h4 id = "drugname">name</h4>
+      <p>Export Chart as Lorem ipsum dolor sit amet, con
+        sectetur adipisicing elit. Asperiores porro impedit minima et voluptatibus sunt incidunt distinctio quam laborum reiciendis similique repellendus debitis accusamus, quae consequatur molestiae inventore ullam eius doloremque hic architecto perferendis rem sed. Explicabo facere deleniti cumque fuga atque reprehenderit totam possimus.</p>
+
+    </div>
+
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://d3js.org/d3-force.v3.min.js"></script>
@@ -1018,18 +1050,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .append("g")
         .attr("class", "node").call(customDrag(simulation));
       node.on("click", handleClick);
-   // wokplace
-      function handleClick(event) {
-  // Access the data from the event object
-  var d = event.target.__data__;
-  
-  // Check if data is available before accessing properties
-  if (d) {
-    console.log(d) ; 
-    alert("Node ID: " + d.id + "\nNode Name: " + d.MAX_PHASE);
-  } else {
-    console.log("Clicked element has no associated data.");
-  }
+      // workplace
+     function handleClick(event) {
+      
+  var clickedData = event.target.__data__;
+    alert(clickedData.id);
+    var div = document.querySelector('.parent_description');
+    div.classList.toggle('show');
+    
+    var name  = document.querySelector('#drugname');
+    name.innerHTML = clickedData.id ;
+
+   
 }
 
       // Add tooltips
@@ -1044,7 +1076,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .style("opacity", (d) => ((d.type === "parentnode" && (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown")) ? 0 : 1)); // hide initially for specific nodes
 
       node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
-   
+
 
 
 
@@ -1484,16 +1516,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
       ];
 
-
-
-      // const data_Set_child = [
-      //   { category: "Bone", color: "red" },
-      //   { category: "Esophagus", color: "#33FF57" },
-      //   { category: "Lung", color: "orange" },
-      //   { category: "Haematopoietic and Lymphoid", color: "#33A2FF" },
-      // ];
-
-
       const ul = d3.select("#myList");
       listItems = ul
         .selectAll("li")
@@ -1541,26 +1563,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
       datasettext_click = dataSet_link.append("span").text((d) => d.category);
-
-      // const ul3 = d3.select("#child_node");
-      // dataSet_child = ul3
-      //   .selectAll("li")
-      //   .data(data_Set_child)
-      //   .enter()
-      //   .append("li");
-
-      // dataSet_child.append("div")
-      //   .attr("class", "circle")
-      //   .style("background-color", (d) => {
-      //     for (const categoryObj of data_Set_child) {
-      //       if (d.category === categoryObj.category) {
-      //         return categoryObj.color
-      //       }
-      //     }
-      //     return "black"
-      //   }).on("click", color_click_onchange);
-
-      //  child_clicked = dataSet_child.append("span").text((d) => d.category);
 
       // color picker
       for (const categoryObj of max_phase_categories) {
@@ -1998,8 +2000,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     const section = document.querySelector("section"),
       overlay = document.querySelector(".overlay"),
       showBtn = document.querySelector("#export"),
-
       closeBtn = document.querySelector(".close-btn");
+    // tag1
     showBtn.addEventListener("click", () => section.classList.add("active"));
     overlay.addEventListener("click", () =>
       section.classList.remove("active")
@@ -2009,11 +2011,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
 
     const redraw = () => {
-
-      // Implement your custom logic to update node positions or anything else before restarting the simulation
-      // For example, you can change the positions of nodes randomly here
-
-
       // Restart the simulation
       simulation = d3
         .forceSimulation(nodes)
