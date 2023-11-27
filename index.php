@@ -592,14 +592,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   /* drugdata description  */
  .parent_description {
   width: 500px;
-
   display: none;
-
   position: absolute;
   top: 25%;
   right: 25%;
   left: 25%;
-
   text-align: center;
   background-color: #f0f0f0;
   padding: 20px;
@@ -798,7 +795,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <h4 id = "drugname">name</h4>
       <p>Export Chart as Lorem ipsum dolor sit amet, con
         sectetur adipisicing elit. Asperiores porro impedit minima et voluptatibus sunt incidunt distinctio quam laborum reiciendis similique repellendus debitis accusamus, quae consequatur molestiae inventore ullam eius doloremque hic architecto perferendis rem sed. Explicabo facere deleniti cumque fuga atque reprehenderit totam possimus.</p>
-
+<button id = 'parent_des_close'  >close</button>
     </div>
 
 
@@ -1054,15 +1051,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      function handleClick(event) {
       
   var clickedData = event.target.__data__;
-    alert(clickedData.id);
+    // alert(clickedData.id);
     var div = document.querySelector('.parent_description');
     div.classList.toggle('show');
     
     var name  = document.querySelector('#drugname');
     name.innerHTML = clickedData.id ;
 
+    var closeButton = document.getElementById('parent_des_close');
+  closeButton.addEventListener('click', function() {
+    var div = document.querySelector('.parent_description');
+    div.classList.remove('show');
+  });
    
 }
+
 
       // Add tooltips
       const tooltip = node
