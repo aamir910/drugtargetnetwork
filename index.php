@@ -593,7 +593,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   body {
     margin: 0;
-    overflow: hidden; /* Prevent body overflow when the modal is open */
+    overflow: hidden;
+    /* Prevent body overflow when the modal is open */
   }
 
 
@@ -602,17 +603,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     height: 60%;
     display: none;
     position: absolute;
-    
+
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #f0f0f0;
     padding: 20px;
     border-radius: 8px;
-  
+
   }
-  .blur_the_background{
-    
+
+  .blur_the_background {
+
     display: none;
     width: 100%;
     top: 0%;
@@ -621,6 +623,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     backdrop-filter: blur(10px);
     position: absolute;
   }
+
   .blur_the_background.show {
     display: block;
   }
@@ -630,12 +633,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   .toggle {
-    list-style: none; /* Remove default list styles */
+    list-style: none;
+    /* Remove default list styles */
     padding: 0;
   }
 
   .toggle input[type="radio"] {
-    display: none; /* Hide the default radio buttons */
+    display: none;
+    /* Hide the default radio buttons */
   }
 
   .toggle label {
@@ -646,9 +651,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     cursor: pointer;
   }
 
-  .toggle input[type="radio"]:checked + label {
-    background-color: #3498db; /* Change background color for the selected option */
-    color: #ffffff; /* Change text color for the selected option */
+  .toggle input[type="radio"]:checked+label {
+    background-color: #3498db;
+    /* Change background color for the selected option */
+    color: #ffffff;
+    /* Change text color for the selected option */
   }
 
   #parent_des_close {
@@ -661,28 +668,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
   /* table css  */
- 
+
   table {
-            border-collapse: collapse;
-            width: 90%;
-            margin-top: 20px;
-        }
+    border-collapse: collapse;
+    width: 90%;
+    margin-top: 20px;
+  }
 
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
+  th,
+  td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
 
-        th {
-            background-color: #f2f2f2;
-        }
+  th {
+    background-color: #f2f2f2;
+  }
 
-        /* Apply bolder style to the left-side (key) cells */
-        td:first-child {
-            font-weight: bold;
-        }
-      
+  /* Apply bolder style to the left-side (key) cells */
+  td:first-child {
+    font-weight: bold;
+  }
 </style>
 
 <body>
@@ -865,37 +872,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </section>
 
-   <div class="blur_the_background" >
-   <div class="parent_description ">
-      <h4 id = "drugname">name</h4>
+  <div class="blur_the_background">
+    <div class="parent_description ">
+      <h4 id="drugname">name</h4>
       <div class="container">
 
         <form class="toggle">
 
-            <input type="radio" id="choice1" name="choice" value="creative">
-            <label for="choice1">Properties</label>
+          <input type="radio" id="choice1" name="choice" value="creative">
+          <label for="choice1">Properties</label>
 
-            <input type="radio" id="choice2" name="choice" value="productive">
-            <label for="choice2">Biologics Structure </label>
+          <input type="radio" id="choice2" name="choice" value="productive">
+          <label for="choice2">Biologics Structure </label>
 
         </form>
 
+      </div>
+
+      <table>
+        <tbody id="compoundTableBody">
+          <!-- Data will be dynamically inserted here using JavaScript -->
+        </tbody>
+
+        <img src="structure_image.jpg" alt="Structure Image" class="structure-image">
+      </table>
+
+
+
+      <button id='parent_des_close'>close</button>
+
     </div>
-
-    <table>
-    <tbody id="compoundTableBody">
-        <!-- Data will be dynamically inserted here using JavaScript -->
-    </tbody>
-    
-<img src="structure_image.jpg" alt="Structure Image" class="structure-image">
-</table>
-
-
-
-    <button id = 'parent_des_close'  >close</button>
-   
-   </div>
-    </div>
+  </div>
 
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -1146,82 +1153,83 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .append("g")
         .attr("class", "node").call(customDrag(simulation));
       node.on("click", handleClick);
+
+
       // workplace
-     function handleClick(event) {
-      
-  var clickedData = event.target.__data__;
-    // alert(clickedData.id);
-    var div = document.querySelector('.parent_description');
-    div.classList.toggle('show');
-    var div = document.querySelector('.blur_the_background');
-    div.classList.toggle('show');
-    
-    var name  = document.querySelector('#drugname');
-    name.innerHTML = clickedData.id ;
+      function handleClick(event) {
+
+        var clickedData = event.target.__data__;
+        // alert(clickedData.id);
+        var name_of_drug = clickedData.id;
+
+        let compoundData = {
+            "COMPOUND_NAME": "Compound1",
+            "PREFERRED_COMPOUND_NAME": "Preferred1",
+            "PUBCHEM_ID": 1,
+            "CHEMBL_ID": "ChEMBL1",
+            "MAX_PHASE": 2,
+            "Source_DB_DR_ID": 101
+          };
 
 
-    const compoundData = {
-        "COMPOUND_NAME": "Compound1",
-        "PREFERRED_COMPOUND_NAME": "Preferred1",
-        "PUBCHEM_ID": 1,
-        "CHEMBL_ID": "ChEMBL1",
-        "MAX_PHASE": 2,
-        "Source_DB_DR_ID": 101
-    };
+        if (clickedData.type === "parentnode") {
 
-    // Function to populate the table
-    function populateTable() {
-        const tableBody = document.getElementById('compoundTableBody');
-        tableBody.innerHTML = '';
+          var div = document.querySelector('.parent_description');
+          div.classList.toggle('show');
+          var div = document.querySelector('.blur_the_background');
+          div.classList.toggle('show');
 
-        Object.entries(compoundData).forEach(([key, value]) => {
-            const row = document.createElement('tr');
+          var name = document.querySelector('#drugname');
+          name.innerHTML = clickedData.id;
 
-            const keyCell = document.createElement('td');
-            keyCell.textContent = key;
-            row.appendChild(keyCell);
+         
+          // Function to populate the table
+          function populateTable() {
+            const tableBody = document.getElementById('compoundTableBody');
+            tableBody.innerHTML = '';
 
-            const valueCell = document.createElement('td');
-            valueCell.textContent = value;
-            row.appendChild(valueCell);
+            Object.entries(compoundData).forEach(([key, value]) => {
+              const row = document.createElement('tr');
 
-            tableBody.appendChild(row);
-        });
-    }
+              const keyCell = document.createElement('td');
+              keyCell.textContent = key;
+              row.appendChild(keyCell);
 
-    // Call the function to populate the table
-    populateTable();
-    const toggleForm = document.querySelector('.toggle');
-    const compoundTable = document.querySelector('table');
-    const structureImage = document.querySelector('.structure-image');
-    structureImage.style.display = 'none'; 
-    compoundTable.style.display = 'none'; 
+              const valueCell = document.createElement('td');
+              valueCell.textContent = value;
+              row.appendChild(valueCell);
 
-    toggleForm.addEventListener('change', function () {
-        if (document.getElementById('choice1').checked) {
-            compoundTable.style.display = 'table'; // Show the table
-            structureImage.style.display = 'none'; // Hide the image
-            populateTable(); // Call the function to populate the table
-        } else if (document.getElementById('choice2').checked) {
-            compoundTable.style.display = 'none'; // Hide the table
-            structureImage.style.display = 'block'; // Show the image
+              tableBody.appendChild(row);
+            });
+          }
+
+          // Call the function to populate the table
+          populateTable();
+          const toggleForm = document.querySelector('.toggle');
+          const compoundTable = document.querySelector('table');
+          const structureImage = document.querySelector('.structure-image');
+          structureImage.style.display = 'none';
+          compoundTable.style.display = 'none';
+
+          toggleForm.addEventListener('change', function() {
+            if (document.getElementById('choice1').checked) {
+              compoundTable.style.display = 'table'; // Show the table
+              structureImage.style.display = 'none'; // Hide the image
+              populateTable(); // Call the function to populate the table
+            } else if (document.getElementById('choice2').checked) {
+              compoundTable.style.display = 'none'; // Hide the table
+              structureImage.style.display = 'block'; // Show the image
+            }
+          });
         }
-    });
-
-
-
-
-    var closeButton = document.getElementById('parent_des_close');
-  closeButton.addEventListener('click', function() {
-    var div = document.querySelector('.parent_description');
-    div.classList.remove('show');
-    var div = document.querySelector('.blur_the_background');
-    div.classList.remove('show');
-  });
-   
-}
-
-
+        var closeButton = document.getElementById('parent_des_close');
+        closeButton.addEventListener('click', function() {
+          var div = document.querySelector('.parent_description');
+          div.classList.remove('show');
+          var div = document.querySelector('.blur_the_background');
+          div.classList.remove('show');
+        });
+      }
       // Add tooltips
       const tooltip = node
         .append("text")
