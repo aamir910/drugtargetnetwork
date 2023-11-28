@@ -56,12 +56,44 @@ if(isset($_POST['drugName'])) {
 
     // Return the data as JSON
     echo json_encode($data);
+    $conn->close();
     exit(); 
 } 
 
 // Close the database connection
-$conn->close();
 ?>
+<?php
+// Check if drugName is set in the POST request
+if(isset($_POST['drugName2'])) {
+
+  include 'fetchdata.php';
+    $drugName2 = $_POST['drugName2'];
+
+    // Use prepared statement to prevent SQL injection
+    $stmt = $conn->prepare("SELECT * FROM cellline WHERE CELL_LINE_NAME = ?");
+    $stmt->bind_param("s", $drugName2);
+    $stmt->execute();
+
+    // Get the result
+    $result = $stmt->get_result();
+
+    // Fetch data as an associative array
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Close the statement
+    $stmt->close();
+
+    // Return the data as JSON
+    echo json_encode($data);
+    // echo $drugName2;
+    $conn->close();
+    exit();
+} 
+
+// Close the database connection
+
+?>
+
 
 
 <!DOCTYPE html>
@@ -694,6 +726,9 @@ $conn->close();
     top: 10px;
     right: 10px;
     cursor: pointer;
+    max-height: 100px; 
+      overflow: auto; 
+    
   }
 
 
@@ -704,6 +739,8 @@ $conn->close();
     border-collapse: collapse;
     width: 90%;
     margin-top: 20px;
+    max-height: 500px; 
+      overflow: auto; 
   }
 
   th,
@@ -711,6 +748,9 @@ $conn->close();
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    height: 10px  !important;
+    
+    overflow: auto; 
   }
 
   th {
@@ -721,6 +761,11 @@ $conn->close();
   td:first-child {
     font-weight: bold;
   }
+  .table-container {
+  max-height: 500px; /* Set the maximum height for the container */
+  overflow-y: auto;  /* Enable vertical scrollbar when content overflows */
+}
+
 </style>
 
 <body>
@@ -919,14 +964,16 @@ $conn->close();
         </form>
 
       </div>
+      <div class= "table-container">
+        <table>
+          <tbody id="compoundTableBody">
+            <!-- Data will be dynamically inserted here using JavaScript -->
+          </tbody>
+  
+          <img src="structure_image.jpg" alt="Structure Image" class="structure-image">
+        </table>
 
-      <table>
-        <tbody id="compoundTableBody">
-          <!-- Data will be dynamically inserted here using JavaScript -->
-        </tbody>
-
-        <img src="structure_image.jpg" alt="Structure Image" class="structure-image">
-      </table>
+      </div>
 
 
 
@@ -1138,6 +1185,27 @@ $conn->close();
                 }
             });
         }
+        function fetchData3(drugName2) {
+            // Make AJAX request to PHP script
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: { drugName2: drugName2 },
+                success: function(data) {
+                    // Handle the returned data
+                    console.log(data ,"data to show ");
+                    drug_des_parent  = JSON.parse(data) ; 
+
+                    generate_table() ;
+                    // You can do further processing here
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        }
+
+
 
  function generate_table(){
   
@@ -1287,6 +1355,12 @@ console.log("comppundata ", compoundData ) ;
           fetchData2(name_of_drug);
   
         }
+        else if(clickedData.type === "childnode") {
+          console.log(name_of_drug) ;
+          fetchData3(name_of_drug);
+
+        }
+
         var closeButton = document.getElementById('parent_des_close');
         closeButton.addEventListener('click', function() {
           var div = document.querySelector('.parent_description');
