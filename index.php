@@ -1265,10 +1265,9 @@ td {
 function formatData(data) {
     var lines = data.split('|');
     var formattedLines = [];
-console.log(lines) ;
+
     for (var i = 0; i < lines.length; i++) {
-        var parts = lines[i].split('|');
-        console.log(parts) ;
+        var parts = lines[i].split(';');
         var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
         formattedLines.push(formattedText);
     }
