@@ -35,60 +35,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php
 
 // Check if drugName is set in the POST request
-if(isset($_POST['drugName'])) {
+if (isset($_POST['drugName'])) {
 
   include 'fetchdata.php';
-    $drugName = $_POST['drugName'];
+  $drugName = $_POST['drugName'];
 
-    // Use prepared statement to prevent SQL injection
-    $stmt = $conn->prepare("SELECT * FROM compounds WHERE COMPOUND_NAME = ?");
-    $stmt->bind_param("s", $drugName);
-    $stmt->execute();
+  // Use prepared statement to prevent SQL injection
+  $stmt = $conn->prepare("SELECT * FROM compounds WHERE COMPOUND_NAME = ?");
+  $stmt->bind_param("s", $drugName);
+  $stmt->execute();
 
-    // Get the result
-    $result = $stmt->get_result();
+  // Get the result
+  $result = $stmt->get_result();
 
-    // Fetch data as an associative array
-    $data = $result->fetch_all(MYSQLI_ASSOC);
+  // Fetch data as an associative array
+  $data = $result->fetch_all(MYSQLI_ASSOC);
 
-    // Close the statement
-    $stmt->close();
+  // Close the statement
+  $stmt->close();
 
-    // Return the data as JSON
-    echo json_encode($data);
-    $conn->close();
-    exit(); 
-} 
+  // Return the data as JSON
+  echo json_encode($data);
+  $conn->close();
+  exit();
+}
 
 // Close the database connection
 ?>
 <?php
 // Check if drugName is set in the POST request
-if(isset($_POST['drugName2'])) {
+if (isset($_POST['drugName2'])) {
 
   include 'fetchdata.php';
-    $drugName2 = $_POST['drugName2'];
+  $drugName2 = $_POST['drugName2'];
 
-    // Use prepared statement to prevent SQL injection
-    $stmt = $conn->prepare("SELECT * FROM cellline WHERE CELL_LINE_NAME = ?");
-    $stmt->bind_param("s", $drugName2);
-    $stmt->execute();
+  // Use prepared statement to prevent SQL injection
+  $stmt = $conn->prepare("SELECT * FROM cellline WHERE CELL_LINE_NAME = ?");
+  $stmt->bind_param("s", $drugName2);
+  $stmt->execute();
 
-    // Get the result
-    $result = $stmt->get_result();
+  // Get the result
+  $result = $stmt->get_result();
 
-    // Fetch data as an associative array
-    $data = $result->fetch_all(MYSQLI_ASSOC);
+  // Fetch data as an associative array
+  $data = $result->fetch_all(MYSQLI_ASSOC);
 
-    // Close the statement
-    $stmt->close();
+  // Close the statement
+  $stmt->close();
 
-    // Return the data as JSON
-    echo json_encode($data);
-    // echo $drugName2;
-    $conn->close();
-    exit();
-} 
+  // Return the data as JSON
+  echo json_encode($data);
+  // echo $drugName2;
+  $conn->close();
+  exit();
+}
 
 // Close the database connection
 
@@ -726,9 +726,9 @@ if(isset($_POST['drugName2'])) {
     top: 10px;
     right: 10px;
     cursor: pointer;
-    max-height: 100px; 
-      overflow: auto; 
-    
+    max-height: 100px;
+    overflow: auto;
+
   }
 
 
@@ -739,8 +739,8 @@ if(isset($_POST['drugName2'])) {
     border-collapse: collapse;
     width: 90%;
     margin-top: 20px;
-    max-height: 500px; 
-      overflow: auto; 
+    max-height: 500px;
+    overflow: auto;
   }
 
   th,
@@ -748,9 +748,9 @@ if(isset($_POST['drugName2'])) {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-    height: 10px  !important;
-    
-    overflow: auto; 
+    height: 10px !important;
+
+    overflow: auto;
   }
 
   th {
@@ -761,17 +761,22 @@ if(isset($_POST['drugName2'])) {
   td:first-child {
     font-weight: bold;
   }
-  .table-container {
-  max-height: 400px; /* Set the maximum height for the container */
-  overflow-y: auto;  /* Enable vertical scrollbar when content overflows */
-}
-td {
-            white-space: pre-line; /* Preserve newline characters */
-        }
 
-        b {
-            font-weight: bold;
-        }
+  .table-container {
+    max-height: 400px;
+    /* Set the maximum height for the container */
+    overflow-y: auto;
+    /* Enable vertical scrollbar when content overflows */
+  }
+
+  td {
+    white-space: pre-line;
+    /* Preserve newline characters */
+  }
+
+  b {
+    font-weight: bold;
+  }
 </style>
 
 <body>
@@ -970,13 +975,13 @@ td {
         </form>
 
       </div>
-      <div class= "table-container">
+      <div class="table-container">
         <table>
           <tbody id="compoundTableBody">
             <!-- Data will be dynamically inserted here using JavaScript -->
           </tbody>
-  
-          <img src="structure_image.jpg" alt="Structure Image" class="structure-image">
+
+          <img src="th.jpeg" alt="Structure Image" class="structure-image">
         </table>
 
       </div>
@@ -1038,10 +1043,10 @@ td {
     let response;
 
     let simulation;
-  
-    let drug_des_parent ;
-    let  clickedData ; 
-    let name_of_drug ; 
+
+    let drug_des_parent;
+    let clickedData;
+    let name_of_drug;
     // fetching the json file  
     async function fetchData(data) {
       try {
@@ -1173,126 +1178,174 @@ td {
     // here the function to fetch the data from the databse for the biologics description 
 
     function fetchData2(drugName) {
-            // Make AJAX request to PHP script
-            $.ajax({
-                type: "POST",
-                url: "",
-                data: { drugName: drugName },
-                success: function(data) {
-                    // Handle the returned data
-                    console.log(data ,"data to show ");
-                    drug_des_parent  = JSON.parse(data) ; 
+      // Make AJAX request to PHP script
+      $.ajax({
+        type: "POST",
+        url: "",
+        data: {
+          drugName: drugName
+        },
+        success: function(data) {
+          // Handle the returned data
+          console.log(data, "data to show ");
+          drug_des_parent = JSON.parse(data);
 
-                    generate_table() ;
-                    // You can do further processing here
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error: " + error);
-                }
-            });
+          generate_table();
+          // You can do further processing here
+        },
+        error: function(xhr, status, error) {
+          console.error("Error: " + error);
         }
-        function fetchData3(drugName2) {
-            // Make AJAX request to PHP script
-            $.ajax({
-                type: "POST",
-                url: "",
-                data: { drugName2: drugName2 },
-                success: function(data) {
-                    // Handle the returned data
-                    console.log(data ,"data to show ");
-                    drug_des_parent  = JSON.parse(data) ; 
-
-                    generate_table() ;
-                    // You can do further processing here
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error: " + error);
-                }
-            });
-        }
-
-
-
- function generate_table(){
-  
-           
-  var div = document.querySelector('.parent_description');
-          div.classList.toggle('show');
-          var div = document.querySelector('.blur_the_background');
-          div.classList.toggle('show');
-
-          var name = document.querySelector('#drugname');
-          name.innerHTML = clickedData.id;
-
-     let dataobject = drug_des_parent['0'] ;
-
-     console.log(dataobject , "check2") ;
-          // Function to populate the table
-          function populateTable() {
-    const tableBody = document.getElementById('compoundTableBody');
-    tableBody.innerHTML = '';
-
-    Object.entries(dataobject).forEach(([key, value]) => {
-        const row = document.createElement('tr');
-
-        const keyCell = document.createElement('td');
-        keyCell.textContent = key;
-        row.appendChild(keyCell);
-
-        const valueCell = document.createElement('td');
-        row.appendChild(valueCell);
-        valueCell.textContent = value;
-
-        if (keyCell.innerText === 'CROSS_REFERENCES_CELL_LINES') {
-            let text_change = valueCell.innerHTML;
-            console.log(text_change)
-            var formattedData = formatData(text_change);
-            // Use innerHTML instead of textContent to render HTML tags
-            valueCell.innerHTML = formattedData;
-        }
-        else  if (keyCell.innerText === 'COMMENTS') {
-            let text_change = valueCell.innerHTML;
-            console.log(text_change)
-            var formattedData = formatData(text_change);
-            // Use innerHTML instead of textContent to render HTML tags
-            valueCell.innerHTML = formattedData;
-        }
-
-        tableBody.appendChild(row);
-    });
-}
-
-function formatData(data) {
-    var lines = data.split('|');
-    var formattedLines = [];
-
-    for (var i = 0; i < lines.length; i++) {
-        var parts = lines[i].split(';');
-        var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
-        formattedLines.push(formattedText);
+      });
     }
 
-    return formattedLines.join('<br>');
-}
-          // Call the function to populate the table
-          populateTable();
-          const toggleForm = document.querySelector('.toggle');
-          const compoundTable = document.querySelector('table');
-          const structureImage = document.querySelector('.structure-image');
-          structureImage.style.display = 'none';
-          // compoundTable.style.display = 'none';
+    function fetchData3(drugName2) {
+      // Make AJAX request to PHP script
+      $.ajax({
+        type: "POST",
+        url: "",
+        data: {
+          drugName2: drugName2
+        },
+        success: function(data) {
+          // Handle the returned data
+          console.log(data, "data to show ");
+          drug_des_parent = JSON.parse(data);
 
-          toggleForm.addEventListener('change', function() {
-            if (document.getElementById('choice1').checked) {
-              compoundTable.style.display = 'table'; // Show the table
-              structureImage.style.display = 'none'; // Hide the image
-              populateTable(); // Call the function to populate the table
-            } else if (document.getElementById('choice2').checked) {
-              compoundTable.style.display = 'none'; // Hide the table
-              structureImage.style.display = 'block'; // Show the image
-            }
-          });
- }
+          generate_table();
+          // You can do further processing here
+        },
+        error: function(xhr, status, error) {
+          console.error("Error: " + error);
+        }
+      });
+    }
+
+
+
+    function generate_table() {
+
+
+      var div = document.querySelector('.parent_description');
+      div.classList.toggle('show');
+      var div = document.querySelector('.blur_the_background');
+      div.classList.toggle('show');
+
+      var name = document.querySelector('#drugname');
+      name.innerHTML = clickedData.id;
+
+      let dataobject = drug_des_parent['0'];
+
+      console.log(dataobject, "check2");
+      // Function to populate the table
+      function populateTable() {
+        const tableBody = document.getElementById('compoundTableBody');
+        tableBody.innerHTML = '';
+
+        Object.entries(dataobject).forEach(([key, value]) => {
+          const row = document.createElement('tr');
+
+          const keyCell = document.createElement('td');
+          keyCell.textContent = key;
+          row.appendChild(keyCell);
+
+          const valueCell = document.createElement('td');
+          row.appendChild(valueCell);
+          valueCell.textContent = value;
+
+          if (keyCell.innerText === 'CROSS_REFERENCES_CELL_LINES') {
+            let text_change = valueCell.innerHTML;
+            console.log(text_change)
+            var formattedData = formatData(text_change);
+            // Use innerHTML instead of textContent to render HTML tags
+            valueCell.innerHTML = formattedData;
+
+          } else if (keyCell.innerText === 'COMMENTS') {
+            let text_change = valueCell.innerHTML;
+            console.log(text_change)
+            var formattedData = formatData2(text_change);
+            // Use innerHTML instead of textContent to render HTML tags
+            valueCell.innerHTML = formattedData;
+
+          }
+           else 
+              if (keyCell.innerText === 'REFERENCE_ID') {
+            let text_change = valueCell.innerHTML;
+            console.log(text_change)
+            var formattedData = formatData3(text_change);
+            // Use innerHTML instead of textContent to render HTML tags
+            valueCell.innerHTML = formattedData;
+          }
+
+          tableBody.appendChild(row);
+        });
+      }
+
+      function formatData(data) {
+        var lines = data.split('|');
+        var formattedLines = [];
+
+        for (var i = 0; i < lines.length; i++) {
+          var parts = lines[i].split(';');
+          var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
+          formattedLines.push(formattedText);
+        }
+
+
+
+        return formattedLines.join('<br>');
+      }
+
+      function formatData2(data) {
+        var lines = data.split('|');
+        var formattedLines = [];
+
+        
+        for (var i = 0; i < lines.length; i++) {
+          var parts = lines[i].split(':');
+          var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
+          formattedLines.push(formattedText);
+        }
+
+
+        
+        return formattedLines.join('<br>');
+      }
+
+      function formatData3(data) {
+        
+        var lines = data.split('|');
+        var formattedLines = [];
+
+          for (var i = 0; i < lines.length; i++) {
+          var parts = lines[i].split('=');
+          var formattedText = '<b>' + parts[0] + '</b>' + '=' + parts[1];
+          formattedLines.push(formattedText);
+        }
+
+      
+
+        return formattedLines.join('<br>');
+      }
+      // Call the function to populate the table
+      populateTable();
+      const toggleForm = document.querySelector('.toggle');
+      const compoundTable = document.querySelector('table');
+      const structureImage = document.querySelector('.structure-image');
+      structureImage.style.display = 'none';
+      // compoundTable.style.display = 'none';
+
+      toggleForm.addEventListener('change', function() {
+        if (document.getElementById('choice1').checked) {
+          compoundTable.style.display = 'table'; // Show the table
+          structureImage.style.display = 'none'; // Hide the image
+          populateTable(); // Call the function to populate the table
+        } else if (document.getElementById('choice2').checked) {
+          compoundTable.style.display = 'none'; // Hide the table
+          structureImage.style.display = 'block'; // Show the image
+        }
+      });
+    }
 
     //  initialize the graph for the first time  
 
@@ -1362,12 +1415,12 @@ function formatData(data) {
       node.on("click", handleClick);
 
 
-      
+
       function handleClick(event) {
 
-         clickedData = event.target.__data__;
+        clickedData = event.target.__data__;
         // alert(clickedData.id);
-         name_of_drug = clickedData.id;
+        name_of_drug = clickedData.id;
 
 
         let compoundData = {
@@ -1378,19 +1431,18 @@ function formatData(data) {
           "MAX_PHASE": 2,
           "Source_DB_DR_ID": 101
         };
-console.log("comppundata ", compoundData ) ;
+        console.log("comppundata ", compoundData);
         // call the function 
-  // workplace
+        // workplace
 
 
         if (clickedData.type === "parentnode") {
-          
+
 
           fetchData2(name_of_drug);
-  
-        }
-        else if(clickedData.type === "childnode") {
-          
+
+        } else if (clickedData.type === "childnode") {
+
           fetchData3(name_of_drug);
 
         }
