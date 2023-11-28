@@ -762,10 +762,16 @@ if(isset($_POST['drugName2'])) {
     font-weight: bold;
   }
   .table-container {
-  max-height: 500px; /* Set the maximum height for the container */
+  max-height: 400px; /* Set the maximum height for the container */
   overflow-y: auto;  /* Enable vertical scrollbar when content overflows */
 }
+td {
+            white-space: pre-line; /* Preserve newline characters */
+        }
 
+        b {
+            font-weight: bold;
+        }
 </style>
 
 <body>
@@ -1219,27 +1225,56 @@ if(isset($_POST['drugName2'])) {
           name.innerHTML = clickedData.id;
 
      let dataobject = drug_des_parent['0'] ;
+
      console.log(dataobject , "check2") ;
           // Function to populate the table
           function populateTable() {
-            const tableBody = document.getElementById('compoundTableBody');
-            tableBody.innerHTML = '';
+    const tableBody = document.getElementById('compoundTableBody');
+    tableBody.innerHTML = '';
 
-            Object.entries(dataobject).forEach(([key, value]) => {
-              const row = document.createElement('tr');
+    Object.entries(dataobject).forEach(([key, value]) => {
+        const row = document.createElement('tr');
 
-              const keyCell = document.createElement('td');
-              keyCell.textContent = key;
-              row.appendChild(keyCell);
+        const keyCell = document.createElement('td');
+        keyCell.textContent = key;
+        row.appendChild(keyCell);
 
-              const valueCell = document.createElement('td');
-              valueCell.textContent = value;
-              row.appendChild(valueCell);
+        const valueCell = document.createElement('td');
+        row.appendChild(valueCell);
+        valueCell.textContent = value;
 
-              tableBody.appendChild(row);
-            });
-          }
+        if (keyCell.innerText === 'CROSS_REFERENCES_CELL_LINES') {
+            let text_change = valueCell.innerHTML;
+            console.log(text_change)
+            var formattedData = formatData(text_change);
+            // Use innerHTML instead of textContent to render HTML tags
+            valueCell.innerHTML = formattedData;
+        }
+        else  if (keyCell.innerText === 'COMMENTS') {
+            let text_change = valueCell.innerHTML;
+            console.log(text_change)
+            var formattedData = formatData(text_change);
+            // Use innerHTML instead of textContent to render HTML tags
+            valueCell.innerHTML = formattedData;
+        }
 
+        tableBody.appendChild(row);
+    });
+}
+
+function formatData(data) {
+    var lines = data.split('|');
+    var formattedLines = [];
+console.log(lines) ;
+    for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split('|');
+        console.log(parts) ;
+        var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
+        formattedLines.push(formattedText);
+    }
+
+    return formattedLines.join('<br>');
+}
           // Call the function to populate the table
           populateTable();
           const toggleForm = document.querySelector('.toggle');
@@ -1350,13 +1385,13 @@ console.log("comppundata ", compoundData ) ;
 
 
         if (clickedData.type === "parentnode") {
-          console.log(name_of_drug)
+          
 
           fetchData2(name_of_drug);
   
         }
         else if(clickedData.type === "childnode") {
-          console.log(name_of_drug) ;
+          
           fetchData3(name_of_drug);
 
         }
