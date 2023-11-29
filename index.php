@@ -113,6 +113,8 @@ if (isset($_POST['drugName2'])) {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color:rgb(231 226 226 / 50%);; 
+    padding: 1rem;
   }
 
   .btn-green {
@@ -143,19 +145,21 @@ if (isset($_POST['drugName2'])) {
   }
 
   .searchBar {
-    margin-top: 50px;
-    margin-bottom: 3rem;
+    /* padding-top: 1rem;
+    padding-bottom: 1rem;
 
+    background-color: #ffca28; */
   }
 
   .graph_div {
     display: flex;
     flex-direction: row;
-    margin-top: 40px;
-    border: 2px solid black;
+    margin-top: 15px;
+    /* border: 2px solid black; */
     border-radius: 1rem;
     width: 100%;
-    height: 550px;
+    /* height: 550px; */
+    height: 100vph;
   }
 
   .error-border {
@@ -408,7 +412,7 @@ if (isset($_POST['drugName2'])) {
   .loader {
 
     position: absolute;
-    margin: 15% -27%;
+    margin: 15% -38%;
     display: none;
     border: 16px solid #f3f3f3;
     border-radius: 50%;
@@ -448,13 +452,13 @@ if (isset($_POST['drugName2'])) {
     flex-direction: row;
 
     position: absolute;
-    top: 83%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 92%;
+    left: 25%;
+    /* transform: translate(-50%, -50%); */
     width: 650px;
-    height: 124px;
-    padding: 10px;
-    padding-left: 40px;
+    /* height: 124px; */
+    /* padding: 10px; */
+    /* padding-left: 40px; */
     background: #fffefe;
     /* border-radius: 20px; */
     display: flex;
@@ -470,15 +474,31 @@ if (isset($_POST['drugName2'])) {
     color: black;
   }
 
-  .sliderpart2 input[type="range"] {
+  /* .sliderpart2 input[type="range"] {
     -webkit-appearance: none !important;
     width: 420px;
     height: 2px;
     background: black;
     border: none;
     outline: none;
+  } */
+  .sliderpart2 input[type="range"] {
+    -webkit-appearance: none !important;
+    width: 420px;
+    height: 2px;
+    background: green;
+    border: none;
+    outline: none;
+    /* height: 17px;
+    width: 17px; */
+    border: none;
+    /* border-radius: 50%; */
+    background: #ddd;
+    pointer-events: auto;
+    /* -moz-appearance: none; */
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
   }
-
+ 
   .fieldset {
     background: white;
     border-radius: 2rem;
@@ -488,8 +508,8 @@ if (isset($_POST['drugName2'])) {
     -webkit-appearance: none !important;
     width: 20px;
     height: 20px;
-    background: black;
-    border: 2px solid black;
+    background: green;
+    border: 2px solid green;
     border-radius: 50%;
     cursor: pointer;
   }
@@ -539,10 +559,10 @@ if (isset($_POST['drugName2'])) {
   }
 
   button {
-    font-size: 18px;
-    font-weight: 400;
+    /* font-size: 18px; */
+    /* font-weight: 400; */
     color: #fff;
-    padding: 14px 22px;
+    /* padding: 14px 22px; */
     border: none;
     background: #4070f4;
     border-radius: 6px;
@@ -643,13 +663,17 @@ if (isset($_POST['drugName2'])) {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 20px;
+    /* margin: 20px; */
+    gap: 20px;
   }
 
   .sliderbtn {
+    padding: 5px 1px;
     background: green;
-    margin: 5px;
-    height: 72px;
+    /* margin: 5px; */
+    /* height: 72px; */
+    width: 190px;
+
   }
 
   /* drugdata description  */
@@ -779,9 +803,9 @@ if (isset($_POST['drugName2'])) {
   }
 </style>
 
-<body>
+<body >
 
-  <div class="container searchBar">
+  <div class=" searchBar">
     <form class="selection_box flex" id="searchForm">
       <div class="form-row rowData">
         <!-- First Dropdown -->
@@ -854,9 +878,9 @@ if (isset($_POST['drugName2'])) {
       </div>
     </form>
 
-    <div class="graph_div container flex col-12 " id="div2">
+    <div class="graph_div  flex col-12 " id="div2">
 
-      <div class="wrapper col-3" id='wrapper'>
+      <div class="wrapper col-2" id='wrapper'>
         <header>
           <h2>links value</h2>
         </header>
@@ -901,8 +925,8 @@ if (isset($_POST['drugName2'])) {
                   display: flex;
                   justify-content: center;
                   align-items: center;
-                  height:540px;
-                " class="col-9">
+                  height:700px;
+                " class="col-10">
         <!-- Loader embedded inside SVG -->
       </svg>
       <foreignObject width="100%" height="100%">
@@ -918,8 +942,11 @@ if (isset($_POST['drugName2'])) {
       <div class='alignitems'>
         <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
         <button class="sliderbtn " id="zoom-out-button">zoom out</button>
-        <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
-        <p id="rangeValue">50</p>
+        <div style="display: flex; justify-content: center; align-items:center; width: 200px; ">
+          <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
+          <p id="rangeValue">50</p>
+
+        </div>
         <!-- btntag -->
         <button class="sliderbtn" id="redraw">redraw</button>
         <button class="sliderbtn " id="export">Export</button>
@@ -952,8 +979,9 @@ if (isset($_POST['drugName2'])) {
 
         <button class="png" id='png'> Download PNG </button>
         <button class="jpeg" id="jpeg"> Download JPEG </button>
-        <button class="csv" id="csv"> Download XLS </button>
-        <button class="close-btn"> Close</button>
+        <button class="csv" id="csv"> Download XLS </button> 
+         <button style="background:none" id='parent_des_close'><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
+
 
       </div>
     </div>
@@ -981,14 +1009,15 @@ if (isset($_POST['drugName2'])) {
             <!-- Data will be dynamically inserted here using JavaScript -->
           </tbody>
 
-          <img src="th.jpeg" alt="Structure Image" class="structure-image">
+          <img src="image_not_available.png" alt="Structure Image" class="structure-image"
+          style="margin : 0% 20%;">
         </table>
 
       </div>
 
 
 
-      <button id='parent_des_close'>close</button>
+      <button style="background:none" id='parent_des_close'><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
 
     </div>
   </div>
@@ -1267,9 +1296,8 @@ if (isset($_POST['drugName2'])) {
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
 
-          }
-           else 
-              if (keyCell.innerText === 'REFERENCE_ID') {
+          } else
+          if (keyCell.innerText === 'REFERENCE_ID') {
             let text_change = valueCell.innerHTML;
             console.log(text_change)
             var formattedData = formatData3(text_change);
@@ -1300,7 +1328,7 @@ if (isset($_POST['drugName2'])) {
         var lines = data.split('|');
         var formattedLines = [];
 
-        
+
         for (var i = 0; i < lines.length; i++) {
           var parts = lines[i].split(':');
           var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
@@ -1308,22 +1336,22 @@ if (isset($_POST['drugName2'])) {
         }
 
 
-        
+
         return formattedLines.join('<br>');
       }
 
       function formatData3(data) {
-        
+
         var lines = data.split('|');
         var formattedLines = [];
 
-          for (var i = 0; i < lines.length; i++) {
+        for (var i = 0; i < lines.length; i++) {
           var parts = lines[i].split('=');
           var formattedText = '<b>' + parts[0] + '</b>' + '=' + parts[1];
           formattedLines.push(formattedText);
         }
 
-      
+
 
         return formattedLines.join('<br>');
       }
@@ -1336,6 +1364,7 @@ if (isset($_POST['drugName2'])) {
       // compoundTable.style.display = 'none';
 
       toggleForm.addEventListener('change', function() {
+        
         if (document.getElementById('choice1').checked) {
           compoundTable.style.display = 'table'; // Show the table
           structureImage.style.display = 'none'; // Hide the image
