@@ -585,6 +585,7 @@ if (isset($_POST['drugName2'])) {
   }
 
   .overlay {
+    
     position: fixed;
     height: 100%;
     width: 100%;
@@ -600,23 +601,39 @@ if (isset($_POST['drugName2'])) {
 
   .modal-box {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+
+  }
+
+  .model_box_inner{
+    
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+
     max-width: 380px;
     width: 100%;
+    
     padding: 30px 20px;
     border-radius: 24px;
     background-color: #fff;
-    opacity: 0;
-    pointer-events: none;
+    opacity: 1;
+    /* pointer-events: none; */
     transition: all 0.3s ease;
-    transform: translate(-50%, -50%) scale(1.2);
+    transform: translate(-05%, -05%) ;
   }
 
   section.active .modal-box {
     opacity: 1;
     pointer-events: auto;
-    transform: translate(-50%, -50%) scale(1);
   }
 
   .modal-box h2 {
@@ -973,17 +990,27 @@ if (isset($_POST['drugName2'])) {
   <section>
     <span class="overlay"></span>
     <div class="modal-box">
-      <h2>Export Chart as</h2>
+         <div class = "model_box_inner" >
+         <h2>Export Chart as</h2>
 
-      <div class="buttons exportbtn">
+<div class="buttons exportbtn">
 
-        <button class="png" id='png'> Download PNG </button>
-        <button class="jpeg" id="jpeg"> Download JPEG </button>
-        <button class="csv" id="csv"> Download XLS </button> 
-         <button style="background:none" id='parent_des_close'><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
+  <button class="png" id='png'> Download PNG </button>
+  <button class="jpeg" id="jpeg"> Download JPEG </button>
+  <button class="csv" id="csv"> Download XLS </button>
+  <!-- <button class="close-btn"> Close</button> -->
 
+  <button   class="close-btn" style="background:none   ;  position: absolute;
+top: 10px;
+right: 10px;
+cursor: pointer;
+max-height: 100px;
+overflow: auto;
+"><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
 
-      </div>
+</div>
+         </div>
+      
     </div>
   </section>
 
@@ -1017,7 +1044,7 @@ if (isset($_POST['drugName2'])) {
 
 
 
-      <button style="background:none" id='parent_des_close'><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
+      <button style="background:none " id='parent_des_close'><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
 
     </div>
   </div>
@@ -1360,8 +1387,8 @@ if (isset($_POST['drugName2'])) {
       const toggleForm = document.querySelector('.toggle');
       const compoundTable = document.querySelector('table');
       const structureImage = document.querySelector('.structure-image');
-      structureImage.style.display = 'none';
-      // compoundTable.style.display = 'none';
+      // structureImage.style.display = 'none';
+      compoundTable.style.display = 'none';
 
       toggleForm.addEventListener('change', function() {
         
@@ -2432,23 +2459,43 @@ if (isset($_POST['drugName2'])) {
 
     const redraw = () => {
       // Restart the simulation
-      simulation = d3
-        .forceSimulation(nodes)
-        .force(
-          "link",
-          d3
-          .forceLink(links)
-          .id((d) => d.id)
-          .distance(70)
-        )
-        .force("charge", d3.forceManyBody().strength(-15))
-        .force("x", d3.forceX(500))
-        .force("y", d3.forceY(270));
 
-      nodes.forEach(function(d) {
-        d.fx = null;
-        d.fy = null;
-      });
+
+
+      if (simulation.alpha() < 0.01) {
+    // Manually restart the simulation
+    simulation.alpha(1).restart();
+
+    nodes.forEach(function(d) {
+      d.fx = null;
+      d.fy = null;
+    });
+  } else{
+    simulation.alpha(1).restart();
+
+nodes.forEach(function(d) {
+  d.fx = null;
+  d.fy = null;
+});
+  }
+      // simulation.alpha(1).restart();
+      // // simulation = d3
+      // //   .forceSimulation(nodes)
+      // //   .force(
+      // //     "link",
+      // //     d3
+      // //     .forceLink(links)
+      // //     .id((d) => d.id)
+      // //     .distance(70)
+      // //   )
+      // //   .force("charge", d3.forceManyBody().strength(-15))
+      // //   .force("x", d3.forceX(500))
+      // //   .force("y", d3.forceY(270));
+
+      // nodes.forEach(function(d) {
+      //   d.fx = null;
+      //   d.fy = null;
+      // });
 
 
     };
