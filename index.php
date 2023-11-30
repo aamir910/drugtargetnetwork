@@ -113,7 +113,8 @@ if (isset($_POST['drugName2'])) {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color:rgb(231 226 226 / 50%);; 
+    background-color: rgb(231 226 226 / 50%);
+    ;
     padding: 1rem;
   }
 
@@ -182,6 +183,7 @@ if (isset($_POST['drugName2'])) {
 
   .wrapper {
     /* width: 400px; */
+    width: 250px ; 
     background: #fff;
     border-radius: 10px;
     padding: 20px 25px 40px;
@@ -498,7 +500,7 @@ if (isset($_POST['drugName2'])) {
     /* -moz-appearance: none; */
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
   }
- 
+
   .fieldset {
     background: white;
     border-radius: 2rem;
@@ -585,7 +587,7 @@ if (isset($_POST['drugName2'])) {
   }
 
   .overlay {
-    
+
     position: fixed;
     height: 100%;
     width: 100%;
@@ -611,8 +613,8 @@ if (isset($_POST['drugName2'])) {
 
   }
 
-  .model_box_inner{
-    
+  .model_box_inner {
+
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -621,14 +623,14 @@ if (isset($_POST['drugName2'])) {
 
     max-width: 380px;
     width: 100%;
-    
+
     padding: 30px 20px;
     border-radius: 24px;
     background-color: #fff;
     opacity: 1;
     /* pointer-events: none; */
     transition: all 0.3s ease;
-    transform: translate(-05%, -05%) ;
+    transform: translate(-05%, -05%);
   }
 
   section.active .modal-box {
@@ -698,6 +700,7 @@ if (isset($_POST['drugName2'])) {
   body {
     margin: 0;
     overflow: hidden;
+    height: auto;
     /* Prevent body overflow when the modal is open */
   }
 
@@ -820,7 +823,7 @@ if (isset($_POST['drugName2'])) {
   }
 </style>
 
-<body >
+<body>
 
   <div class=" searchBar">
     <form class="selection_box flex" id="searchForm">
@@ -990,17 +993,17 @@ if (isset($_POST['drugName2'])) {
   <section>
     <span class="overlay"></span>
     <div class="modal-box">
-         <div class = "model_box_inner" >
-         <h2>Export Chart as</h2>
+      <div class="model_box_inner">
+        <h2>Export Chart as</h2>
 
-<div class="buttons exportbtn">
+        <div class="buttons exportbtn">
 
-  <button class="png" id='png'> Download PNG </button>
-  <button class="jpeg" id="jpeg"> Download JPEG </button>
-  <button class="csv" id="csv"> Download XLS </button>
-  <!-- <button class="close-btn"> Close</button> -->
+          <button class="png" id='png'> Download PNG </button>
+          <button class="jpeg" id="jpeg"> Download JPEG </button>
+          <button class="csv" id="csv"> Download XLS </button>
+          <!-- <button class="close-btn"> Close</button> -->
 
-  <button   class="close-btn" style="background:none   ;  position: absolute;
+          <button class="close-btn" style="background:none   ;  position: absolute;
 top: 10px;
 right: 10px;
 cursor: pointer;
@@ -1008,9 +1011,9 @@ max-height: 100px;
 overflow: auto;
 "><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
 
-</div>
-         </div>
-      
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1021,11 +1024,12 @@ overflow: auto;
 
         <form class="toggle">
 
+          <input type="radio" id="choice2" name="choice" value="productive" checked>
+          <label for="choice2">Biologics Structure </label>
+
           <input type="radio" id="choice1" name="choice" value="creative">
           <label for="choice1">Properties</label>
 
-          <input type="radio" id="choice2" name="choice" value="productive">
-          <label for="choice2">Biologics Structure </label>
 
         </form>
 
@@ -1036,8 +1040,7 @@ overflow: auto;
             <!-- Data will be dynamically inserted here using JavaScript -->
           </tbody>
 
-          <img src="image_not_available.png" alt="Structure Image" class="structure-image"
-          style="margin : 0% 20%;">
+          <img src="image_not_available.png" alt="Structure Image" class="structure-image" style="margin : 0% 20%;">
         </table>
 
       </div>
@@ -1340,7 +1343,7 @@ overflow: auto;
         var lines = data.split('|');
         var formattedLines = [];
 
-        for (var i = 0; i < lines.length; i++) {
+        for (var i = 0; i < lines.length-1; i++) {
           var parts = lines[i].split(';');
           var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
           formattedLines.push(formattedText);
@@ -1356,7 +1359,7 @@ overflow: auto;
         var formattedLines = [];
 
 
-        for (var i = 0; i < lines.length; i++) {
+        for (var i = 0; i < lines.length-1; i++) {
           var parts = lines[i].split(':');
           var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
           formattedLines.push(formattedText);
@@ -1372,7 +1375,7 @@ overflow: auto;
         var lines = data.split('|');
         var formattedLines = [];
 
-        for (var i = 0; i < lines.length; i++) {
+        for (var i = 0; i < lines.length-1; i++) {
           var parts = lines[i].split('=');
           var formattedText = '<b>' + parts[0] + '</b>' + '=' + parts[1];
           formattedLines.push(formattedText);
@@ -1391,7 +1394,7 @@ overflow: auto;
       compoundTable.style.display = 'none';
 
       toggleForm.addEventListener('change', function() {
-        
+
         if (document.getElementById('choice1').checked) {
           compoundTable.style.display = 'table'; // Show the table
           structureImage.style.display = 'none'; // Hide the image
@@ -1505,6 +1508,12 @@ overflow: auto;
 
         var closeButton = document.getElementById('parent_des_close');
         closeButton.addEventListener('click', function() {
+          
+      document.getElementById('choice2').checked = true;
+      document.getElementById('choice1').checked = false;
+      
+      const structureImage = document.querySelector('.structure-image');
+      structureImage.style.display = 'block'; // Show the image
           var div = document.querySelector('.parent_description');
           div.classList.remove('show');
           var div = document.querySelector('.blur_the_background');
@@ -2463,21 +2472,21 @@ overflow: auto;
 
 
       if (simulation.alpha() < 0.01) {
-    // Manually restart the simulation
-    simulation.alpha(1).restart();
+        // Manually restart the simulation
+        simulation.alpha(1).restart();
 
-    nodes.forEach(function(d) {
-      d.fx = null;
-      d.fy = null;
-    });
-  } else{
-    simulation.alpha(1).restart();
+        nodes.forEach(function(d) {
+          d.fx = null;
+          d.fy = null;
+        });
+      } else {
+        simulation.alpha(1).restart();
 
-nodes.forEach(function(d) {
-  d.fx = null;
-  d.fy = null;
-});
-  }
+        nodes.forEach(function(d) {
+          d.fx = null;
+          d.fy = null;
+        });
+      }
       // simulation.alpha(1).restart();
       // // simulation = d3
       // //   .forceSimulation(nodes)
