@@ -3,14 +3,53 @@ include("fetchdata.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // Check if all dropdown values are set
-  if (isset($_POST['dropdown1']) && isset($_POST['dropdown2']) && isset($_POST['dropdown3'])) {
+  if (isset($_POST['dropdown1']) && isset($_POST['dropdown2']) && isset($_POST['dropdown3'])  && isset($_POST['dropdown4'])) {
     $dropdown1 = $_POST['dropdown1'];
     $dropdown2 = $_POST['dropdown2'];
     $dropdown3 = $_POST['dropdown3'];
+    $dropdown4 = $_POST['dropdown4'];
+    
 
     // Query the database based on the selected dropdown values
-    // $sql = "SELECT * FROM Drug_response WHERE ONCOTREE_LINEAGE = '$dropdown1' AND column2 = '$dropdown2' AND column3 = '$dropdown3'";
-    $sql = "SELECT * FROM drugresponse WHERE ONCOTREE_LINEAGE = '$dropdown1' ORDER BY RAND() LIMIT 500";
+//     $sql = "SELECT * FROM drugresponse WHERE ONCOTREE_LINEAGE = '$dropdown1' AND 
+// ONCOTREE_PRIMARY_DISEASE = '$dropdown2' AND 
+// METRIC = '$dropdown3' AND 
+// CHEMBL_ID = '$dropdown4' ";
+
+
+    // $sql = "SELECT * FROM drugresponse WHERE ONCOTREE_LINEAGE = '$dropdown1' ORDER BY RAND() LIMIT 500";
+
+    $sql = "SELECT * FROM drugresponse WHERE";
+
+    // Array to store conditions
+    $conditions = array();
+    
+    // Check and add condition for ONCOTREE_LINEAGE
+    if (!empty($dropdown1)) {
+        $conditions[] = "ONCOTREE_LINEAGE = '$dropdown1'";
+    }
+    
+    // Check and add condition for ONCOTREE_PRIMARY_DISEASE
+    if (!empty($dropdown2)) {
+        $conditions[] = "ONCOTREE_PRIMARY_DISEASE = '$dropdown2'";
+    }
+    
+    // Check and add condition for METRIC
+    if (!empty($dropdown3)) {
+        $conditions[] = "METRIC = '$dropdown3'";
+    }
+    
+    // Check and add condition for CHEMBL_ID
+    if (!empty($dropdown4)) {
+        $conditions[] = "CHEMBL_ID = '$dropdown4'";
+    }
+    
+    // Combine conditions with "AND" and add to the SQL query
+    if (!empty($conditions)) {
+        $sql .= " " . implode(" AND ", $conditions);
+    } 
+
+
 
 
     $result = $conn->query($sql);
@@ -829,9 +868,9 @@ if (isset($_POST['drugName2'])) {
     <form class="selection_box flex" id="searchForm">
       <div class="form-row rowData">
         <!-- First Dropdown -->
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-2">
           <select class="form-select" id="dropdown1">
-            <option value="Central Nervous System">Select an ONCOTREE_LINEAGE</option>
+            <option value="">Select ONCOTREE_LINEAGE</option>
             <option value="Bone">Bone</option>
             <option value="Skin">Skin</option>
             <option value="Central Nervous System">Central Nervous System</option>
@@ -865,31 +904,94 @@ if (isset($_POST['drugName2'])) {
         </div>
 
         <!-- Second Dropdown -->
-        <div class="form-group col-md-3">
-          <select class="form-select" id="dropdown2">
-            <option value="Option 1">Select an option</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </select>
+        <div class="form-group col-md-2" style = "display : none ; position: absolute;"> 
+        <select class="form-select" id="dropdown2">
+    <option value="">Select ONCOTREE_PRIMARY_DISEASE	</option>
+    <option value="Ewing's Sarcoma">Ewing's Sarcoma</option>
+    <option value="Melanoma">Melanoma</option>
+    <option value="Glioblastoma">Glioblastoma</option>
+    <option value="Lung Carcinoid Tumor">Lung Carcinoid Tumor</option>
+    <option value="Lung Adenocarcinoma">Lung Adenocarcinoma</option>
+    <option value="Bronchiolo-Alveolar Lung Carcinoma">Bronchiolo-Alveolar Lung Carcinoma</option>
+    <option value="Non-Small Cell Lung Carcinoma">Non-Small Cell Lung Carcinoma</option>
+    <option value="Small Cell Lung Carcinoma">Small Cell Lung Carcinoma</option>
+    <option value="Neuroblastoma">Neuroblastoma</option>
+    <option value="Epithelioid Sarcoma">Epithelioid Sarcoma</option>
+    <option value="Giant Cell Lung Carcinoma">Giant Cell Lung Carcinoma</option>
+    <option value="Esophageal Squamous Cell Carcinoma">Esophageal Squamous Cell Carcinoma</option>
+    <option value="Ductal Breast Carcinoma">Ductal Breast Carcinoma</option>
+    <option value="Head and Neck Squamous Cell Carcinoma">Head and Neck Squamous Cell Carcinoma</option>
+    <option value="Adult T Acute Lymphoblastic Leukemia">Adult T Acute Lymphoblastic Leukemia</option>
+    <option value="Bladder Carcinoma">Bladder Carcinoma</option>
+    <option value="Renal Cell Carcinoma">Renal Cell Carcinoma</option>
+    <option value="Non-Cancerous">Non-Cancerous</option>
+    <option value="Chronic Myelogenous Leukemia">Chronic Myelogenous Leukemia</option>
+    <option value="Pancreatic Ductal Adenocarcinoma">Pancreatic Ductal Adenocarcinoma</option>
+    <option value="Plasma Cell Myeloma">Plasma Cell Myeloma</option>
+    <option value="Adult Acute Myeloid Leukemia">Adult Acute Myeloid Leukemia</option>
+    <option value="Pleural Epithelioid Mesothelioma">Pleural Epithelioid Mesothelioma</option>
+    <option value="Childhood T Acute Lymphoblastic Leukemia">Childhood T Acute Lymphoblastic Leukemia</option>
+</select>
+
           <!-- Alert message for the second dropdown -->
           <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
             <span class="alert alert-danger">Please select an option</span>
           </div>
         </div>
 
-        <!-- Third Dropdown -->
-        <div class="form-group col-md-3">
-          <select class="form-select" id="dropdown3">
-            <option value="Option 1">Select an option</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </select>
+
+ 
+        <!-- third Dropdown -->
+        <div class="form-group col-md-2">
+        <select class="form-select" id="dropdown3">
+    <option value="">Select matric </option>
+    <option value="pIC50">pIC50</option>
+    <option value="pEC50">pEC50</option>
+    <option value="pGI50">pGI50</option>
+</select>
+          <!-- Alert message for the second dropdown -->
+          <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
+            <span class="alert alert-danger">Please select an option</span>
+          </div>
+        </div>
+
+        <!-- forth Dropdown -->
+        <div class="form-group col-md-2">
+        <select class="form-select" id="dropdown4">
+    <option value="">Select CHEMBL_ID</option>
+    <option value="CHEMBL553">CHEMBL553</option>
+    <option value="CHEMBL413">CHEMBL413</option>
+    <option value="CHEMBL535">CHEMBL535</option>
+    <option value="CHEMBL4872316">CHEMBL4872316</option>
+    <option value="CHEMBL4851750">CHEMBL4851750</option>
+    <option value="CHEMBL428647">CHEMBL428647</option>
+    <option value="CHEMBL254129">CHEMBL254129</option>
+    <option value="CHEMBL2144069">CHEMBL2144069</option>
+    <option value="CHEMBL1336">CHEMBL1336</option>
+    <option value="CHEMBL572878">CHEMBL572878</option>
+    <option value="CHEMBL941">CHEMBL941</option>
+    <option value="CHEMBL4873176">CHEMBL4873176</option>
+    <option value="CHEMBL601719">CHEMBL601719</option>
+    <option value="CHEMBL217092">CHEMBL217092</option>
+    <option value="CHEMBL392695">CHEMBL392695</option>
+    <option value="CHEMBL159822">CHEMBL159822</option>
+    <option value="CHEMBL1421">CHEMBL1421</option>
+    <option value="CHEMBL483847">CHEMBL483847</option>
+    <option value="CHEMBL4860897">CHEMBL4860897</option>
+    <option value="CHEMBL1242367">CHEMBL1242367</option>
+    <option value="CHEMBL197603">CHEMBL197603</option>
+    <option value="CHEMBL213100">CHEMBL213100</option>
+    <option value="CHEMBL1643959">CHEMBL1643959</option>
+    <option value="CHEMBL513909">CHEMBL513909</option>
+    <option value="CHEMBL209148">CHEMBL209148</option>
+</select>
+
           <!-- Alert message for the third dropdown -->
           <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
             <span class="alert alert-danger">Please select an option</span>
           </div>
+
+
         </div>
         <!-- button  -->
         <button class="btn btn-success" id="submitButton" type='submit'>
@@ -2282,11 +2384,14 @@ console.log("width", svgWidth, "height", svgHeight);
       });
 
       if (
-        document.getElementById("dropdown1").value === "" ||
-        document.getElementById("dropdown2").value === "" ||
-        document.getElementById("dropdown3").value === ""
+        document.getElementById("dropdown1").value === "" &&
+        document.getElementById("dropdown2").value === "" &&
+        document.getElementById("dropdown3").value === "" &&
+        document.getElementById("dropdown4").value === "" 
+
       ) {
         // Show error messages for the empty dropdowns
+
         if (document.getElementById("dropdown1").value === "") {
           document.querySelector("#dropdown1 + .alert2").style.display = "block";
           document.getElementById("dropdown1").classList.add("error-border");
@@ -2300,6 +2405,11 @@ console.log("width", svgWidth, "height", svgHeight);
           document.querySelector("#dropdown3 + .alert2").style.display = "block";
           document.getElementById("dropdown3").classList.add("error-border");
         }
+        if (document.getElementById("dropdown4").value === "") {
+          document.querySelector("#dropdown4 + .alert2").style.display = "block";
+          document.getElementById("dropdown4").classList.add("error-border");
+        }
+
         // Prevent form submission
         event.preventDefault();
 
@@ -2329,6 +2439,9 @@ console.log("width", svgWidth, "height", svgHeight);
       });
 
       document.getElementById("dropdown3").addEventListener("change", function() {
+        removeError(this);
+      });
+      document.getElementById("dropdown4").addEventListener("change", function() {
         removeError(this);
       });
 
@@ -2399,6 +2512,7 @@ console.log("width", svgWidth, "height", svgHeight);
       var dropdown1Value = $("#dropdown1").val();
       var dropdown2Value = $("#dropdown2").val();
       var dropdown3Value = $("#dropdown3").val();
+      var dropdown4Value = $("#dropdown4").val();
 
 
 
@@ -2416,7 +2530,9 @@ console.log("width", svgWidth, "height", svgHeight);
         data: {
           dropdown1: dropdown1Value,
           dropdown2: dropdown2Value,
-          dropdown3: dropdown3Value
+          dropdown3: dropdown3Value,
+          dropdown4: dropdown4Value,
+          
         },
         success: function(response) {
 
