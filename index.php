@@ -1410,6 +1410,10 @@ overflow: auto;
 
 
     const svg = d3.select("#forcenetwork");
+    const svgWidth = +svg.node().getBoundingClientRect().width;
+const svgHeight = +svg.node().getBoundingClientRect().height;
+
+console.log("width", svgWidth, "height", svgHeight);
 
     function force_network_grapgh() {
 
@@ -1594,13 +1598,13 @@ overflow: auto;
 
       simulation.on("tick", () => {
         link
-          .attr("x1", (d) => d.source.x)
-          .attr("y1", (d) => d.source.y)
-          .attr("x2", (d) => d.target.x)
-          .attr("y2", (d) => d.target.y);
-        node.attr("transform", (d) => `translate(${d.x},${d.y})`);
-      });
+    .attr("x1", (d) => Math.max(0, Math.min(svgWidth, d.source.x)))
+    .attr("y1", (d) => Math.max(0, Math.min(svgHeight, d.source.y)))
+    .attr("x2", (d) => Math.max(0, Math.min(svgWidth, d.target.x)))
+    .attr("y2", (d) => Math.max(0, Math.min(svgHeight, d.target.y)));
 
+  node.attr("transform", (d) => `translate(${Math.max(0, Math.min(svgWidth, d.x))},${Math.max(0, Math.min(svgHeight, d.y))})`);
+});
 
 
 
