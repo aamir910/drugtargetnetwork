@@ -904,7 +904,7 @@ if (isset($_POST['drugName2'])) {
         </div>
 
         <!-- Second Dropdown -->
-        <div class="form-group col-md-2" style = "display : none ; position: absolute;"> 
+        <div class="form-group col-md-2" style = "display : none ; "> 
         <select class="form-select" id="dropdown2">
     <option value="">Select ONCOTREE_PRIMARY_DISEASE	</option>
     <option value="Ewing's Sarcoma">Ewing's Sarcoma</option>
