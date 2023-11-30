@@ -1427,7 +1427,7 @@ overflow: auto;
         )
         .force("charge", d3.forceManyBody().strength(-15))
         .force("x", d3.forceX(500))
-        .force("y", d3.forceY(270));
+        .force("y", d3.forceY(270)) ;
 
       link = g
         .selectAll(".link ")
@@ -2487,24 +2487,7 @@ overflow: auto;
           d.fy = null;
         });
       }
-      // simulation.alpha(1).restart();
-      // // simulation = d3
-      // //   .forceSimulation(nodes)
-      // //   .force(
-      // //     "link",
-      // //     d3
-      // //     .forceLink(links)
-      // //     .id((d) => d.id)
-      // //     .distance(70)
-      // //   )
-      // //   .force("charge", d3.forceManyBody().strength(-15))
-      // //   .force("x", d3.forceX(500))
-      // //   .force("y", d3.forceY(270));
-
-      // nodes.forEach(function(d) {
-      //   d.fx = null;
-      //   d.fy = null;
-      // });
+     
 
 
     };
