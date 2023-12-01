@@ -1230,6 +1230,10 @@ overflow: auto;
           processData(newdata);
           force_network_grapgh();
           range_of_links(minValue, maxValue, slider_range);
+          pax_phasecliked.on("click", onclickmax_phase);
+
+datasettext_click.on("click", onclick_dataSet);
+
         });
 
         document.getElementById("decrement").addEventListener("click", function(event) {
@@ -1245,6 +1249,10 @@ overflow: auto;
           processData(newdata);
           force_network_grapgh();
           range_of_links(minValue, maxValue, slider_range);
+          pax_phasecliked.on("click", onclickmax_phase);
+
+datasettext_click.on("click", onclick_dataSet);
+
         });
 
         processData(newdata);
@@ -1252,6 +1260,7 @@ overflow: auto;
 
       } catch (error) {
         console.error("Error loading the JSON file:", error);
+
       }
     }
 
@@ -1542,13 +1551,13 @@ overflow: auto;
       simulation = d3
         .forceSimulation(nodes)
         .force(
-          "link",
-          d3
-          .forceLink(links)
-          .id((d) => d.id)
-          .distance(150)
-        )
-        .force("charge", d3.forceManyBody().strength(-55))
+  "link",
+  d3.forceLink(links)
+    .id((d) => d.id)
+    .distance((link, index) => (index % 2 === 0 ? 200 : 500))
+)
+        // tag
+        .force("charge", d3.forceManyBody().strength(-35))
         .force("x", d3.forceX(500))
         .force("y", d3.forceY(270));
 
