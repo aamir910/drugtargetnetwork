@@ -8,13 +8,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dropdown2 = $_POST['dropdown2'];
     $dropdown3 = $_POST['dropdown3'];
     $dropdown4 = $_POST['dropdown4'];
-    
+
 
     // Query the database based on the selected dropdown values
-//     $sql = "SELECT * FROM drugresponse WHERE ONCOTREE_LINEAGE = '$dropdown1' AND 
-// ONCOTREE_PRIMARY_DISEASE = '$dropdown2' AND 
-// METRIC = '$dropdown3' AND 
-// CHEMBL_ID = '$dropdown4' ";
+    //     $sql = "SELECT * FROM drugresponse WHERE ONCOTREE_LINEAGE = '$dropdown1' AND 
+    // ONCOTREE_PRIMARY_DISEASE = '$dropdown2' AND 
+    // METRIC = '$dropdown3' AND 
+    // CHEMBL_ID = '$dropdown4' ";
 
 
     // $sql = "SELECT * FROM drugresponse WHERE ONCOTREE_LINEAGE = '$dropdown1' ORDER BY RAND() LIMIT 500";
@@ -23,31 +23,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Array to store conditions
     $conditions = array();
-    
+
     // Check and add condition for ONCOTREE_LINEAGE
     if (!empty($dropdown1)) {
-        $conditions[] = "ONCOTREE_LINEAGE = '$dropdown1'";
+      $conditions[] = "ONCOTREE_LINEAGE = '$dropdown1'";
     }
-    
+
     // Check and add condition for ONCOTREE_PRIMARY_DISEASE
     if (!empty($dropdown2)) {
-        $conditions[] = "ONCOTREE_PRIMARY_DISEASE = '$dropdown2'";
+      $conditions[] = "ONCOTREE_PRIMARY_DISEASE = '$dropdown2'";
     }
-    
+
     // Check and add condition for METRIC
     if (!empty($dropdown3)) {
-        $conditions[] = "METRIC = '$dropdown3'";
+      $conditions[] = "METRIC = '$dropdown3'";
     }
-    
+
     // Check and add condition for CHEMBL_ID
     if (!empty($dropdown4)) {
-        $conditions[] = "CHEMBL_ID = '$dropdown4'";
+      $conditions[] = "CHEMBL_ID = '$dropdown4'";
     }
-    
+
     // Combine conditions with "AND" and add to the SQL query
     if (!empty($conditions)) {
-        $sql .= " " . implode(" AND ", $conditions);
-    } 
+      $sql .= " " . implode(" AND ", $conditions);
+    }
 
 
 
@@ -222,7 +222,7 @@ if (isset($_POST['drugName2'])) {
 
   .wrapper {
     /* width: 400px; */
-    width: 250px ; 
+    width: 250px;
     background: #fff;
     border-radius: 10px;
     padding: 20px 25px 40px;
@@ -866,6 +866,8 @@ if (isset($_POST['drugName2'])) {
 
   <div class=" searchBar">
     <form class="selection_box flex" id="searchForm">
+      <button class="btn1" id="increment" >400+</button>
+      <button  class="btn1" id="decrement" >400-</button>
       <div class="form-row rowData">
         <!-- First Dropdown -->
         <div class="form-group col-md-2">
@@ -904,34 +906,34 @@ if (isset($_POST['drugName2'])) {
         </div>
 
         <!-- Second Dropdown -->
-        <div class="form-group col-md-2" style = "display : none ; "> 
-        <select class="form-select" id="dropdown2">
-    <option value="">Select ONCOTREE_PRIMARY_DISEASE	</option>
-    <option value="Ewing's Sarcoma">Ewing's Sarcoma</option>
-    <option value="Melanoma">Melanoma</option>
-    <option value="Glioblastoma">Glioblastoma</option>
-    <option value="Lung Carcinoid Tumor">Lung Carcinoid Tumor</option>
-    <option value="Lung Adenocarcinoma">Lung Adenocarcinoma</option>
-    <option value="Bronchiolo-Alveolar Lung Carcinoma">Bronchiolo-Alveolar Lung Carcinoma</option>
-    <option value="Non-Small Cell Lung Carcinoma">Non-Small Cell Lung Carcinoma</option>
-    <option value="Small Cell Lung Carcinoma">Small Cell Lung Carcinoma</option>
-    <option value="Neuroblastoma">Neuroblastoma</option>
-    <option value="Epithelioid Sarcoma">Epithelioid Sarcoma</option>
-    <option value="Giant Cell Lung Carcinoma">Giant Cell Lung Carcinoma</option>
-    <option value="Esophageal Squamous Cell Carcinoma">Esophageal Squamous Cell Carcinoma</option>
-    <option value="Ductal Breast Carcinoma">Ductal Breast Carcinoma</option>
-    <option value="Head and Neck Squamous Cell Carcinoma">Head and Neck Squamous Cell Carcinoma</option>
-    <option value="Adult T Acute Lymphoblastic Leukemia">Adult T Acute Lymphoblastic Leukemia</option>
-    <option value="Bladder Carcinoma">Bladder Carcinoma</option>
-    <option value="Renal Cell Carcinoma">Renal Cell Carcinoma</option>
-    <option value="Non-Cancerous">Non-Cancerous</option>
-    <option value="Chronic Myelogenous Leukemia">Chronic Myelogenous Leukemia</option>
-    <option value="Pancreatic Ductal Adenocarcinoma">Pancreatic Ductal Adenocarcinoma</option>
-    <option value="Plasma Cell Myeloma">Plasma Cell Myeloma</option>
-    <option value="Adult Acute Myeloid Leukemia">Adult Acute Myeloid Leukemia</option>
-    <option value="Pleural Epithelioid Mesothelioma">Pleural Epithelioid Mesothelioma</option>
-    <option value="Childhood T Acute Lymphoblastic Leukemia">Childhood T Acute Lymphoblastic Leukemia</option>
-</select>
+        <div class="form-group col-md-2" style="display : none ; ">
+          <select class="form-select" id="dropdown2">
+            <option value="">Select ONCOTREE_PRIMARY_DISEASE </option>
+            <option value="Ewing's Sarcoma">Ewing's Sarcoma</option>
+            <option value="Melanoma">Melanoma</option>
+            <option value="Glioblastoma">Glioblastoma</option>
+            <option value="Lung Carcinoid Tumor">Lung Carcinoid Tumor</option>
+            <option value="Lung Adenocarcinoma">Lung Adenocarcinoma</option>
+            <option value="Bronchiolo-Alveolar Lung Carcinoma">Bronchiolo-Alveolar Lung Carcinoma</option>
+            <option value="Non-Small Cell Lung Carcinoma">Non-Small Cell Lung Carcinoma</option>
+            <option value="Small Cell Lung Carcinoma">Small Cell Lung Carcinoma</option>
+            <option value="Neuroblastoma">Neuroblastoma</option>
+            <option value="Epithelioid Sarcoma">Epithelioid Sarcoma</option>
+            <option value="Giant Cell Lung Carcinoma">Giant Cell Lung Carcinoma</option>
+            <option value="Esophageal Squamous Cell Carcinoma">Esophageal Squamous Cell Carcinoma</option>
+            <option value="Ductal Breast Carcinoma">Ductal Breast Carcinoma</option>
+            <option value="Head and Neck Squamous Cell Carcinoma">Head and Neck Squamous Cell Carcinoma</option>
+            <option value="Adult T Acute Lymphoblastic Leukemia">Adult T Acute Lymphoblastic Leukemia</option>
+            <option value="Bladder Carcinoma">Bladder Carcinoma</option>
+            <option value="Renal Cell Carcinoma">Renal Cell Carcinoma</option>
+            <option value="Non-Cancerous">Non-Cancerous</option>
+            <option value="Chronic Myelogenous Leukemia">Chronic Myelogenous Leukemia</option>
+            <option value="Pancreatic Ductal Adenocarcinoma">Pancreatic Ductal Adenocarcinoma</option>
+            <option value="Plasma Cell Myeloma">Plasma Cell Myeloma</option>
+            <option value="Adult Acute Myeloid Leukemia">Adult Acute Myeloid Leukemia</option>
+            <option value="Pleural Epithelioid Mesothelioma">Pleural Epithelioid Mesothelioma</option>
+            <option value="Childhood T Acute Lymphoblastic Leukemia">Childhood T Acute Lymphoblastic Leukemia</option>
+          </select>
 
           <!-- Alert message for the second dropdown -->
           <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
@@ -940,15 +942,15 @@ if (isset($_POST['drugName2'])) {
         </div>
 
 
- 
+
         <!-- third Dropdown -->
         <div class="form-group col-md-2">
-        <select class="form-select" id="dropdown3">
-    <option value="">Select matric </option>
-    <option value="pIC50">pIC50</option>
-    <option value="pEC50">pEC50</option>
-    <option value="pGI50">pGI50</option>
-</select>
+          <select class="form-select" id="dropdown3">
+            <option value="">Select matric </option>
+            <option value="pIC50">pIC50</option>
+            <option value="pEC50">pEC50</option>
+            <option value="pGI50">pGI50</option>
+          </select>
           <!-- Alert message for the second dropdown -->
           <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
             <span class="alert alert-danger">Please select an option</span>
@@ -957,34 +959,34 @@ if (isset($_POST['drugName2'])) {
 
         <!-- forth Dropdown -->
         <div class="form-group col-md-2">
-        <select class="form-select" id="dropdown4">
-    <option value="">Select CHEMBL_ID</option>
-    <option value="CHEMBL553">CHEMBL553</option>
-    <option value="CHEMBL413">CHEMBL413</option>
-    <option value="CHEMBL535">CHEMBL535</option>
-    <option value="CHEMBL4872316">CHEMBL4872316</option>
-    <option value="CHEMBL4851750">CHEMBL4851750</option>
-    <option value="CHEMBL428647">CHEMBL428647</option>
-    <option value="CHEMBL254129">CHEMBL254129</option>
-    <option value="CHEMBL2144069">CHEMBL2144069</option>
-    <option value="CHEMBL1336">CHEMBL1336</option>
-    <option value="CHEMBL572878">CHEMBL572878</option>
-    <option value="CHEMBL941">CHEMBL941</option>
-    <option value="CHEMBL4873176">CHEMBL4873176</option>
-    <option value="CHEMBL601719">CHEMBL601719</option>
-    <option value="CHEMBL217092">CHEMBL217092</option>
-    <option value="CHEMBL392695">CHEMBL392695</option>
-    <option value="CHEMBL159822">CHEMBL159822</option>
-    <option value="CHEMBL1421">CHEMBL1421</option>
-    <option value="CHEMBL483847">CHEMBL483847</option>
-    <option value="CHEMBL4860897">CHEMBL4860897</option>
-    <option value="CHEMBL1242367">CHEMBL1242367</option>
-    <option value="CHEMBL197603">CHEMBL197603</option>
-    <option value="CHEMBL213100">CHEMBL213100</option>
-    <option value="CHEMBL1643959">CHEMBL1643959</option>
-    <option value="CHEMBL513909">CHEMBL513909</option>
-    <option value="CHEMBL209148">CHEMBL209148</option>
-</select>
+          <select class="form-select" id="dropdown4">
+            <option value="">Select CHEMBL_ID</option>
+            <option value="CHEMBL553">CHEMBL553</option>
+            <option value="CHEMBL413">CHEMBL413</option>
+            <option value="CHEMBL535">CHEMBL535</option>
+            <option value="CHEMBL4872316">CHEMBL4872316</option>
+            <option value="CHEMBL4851750">CHEMBL4851750</option>
+            <option value="CHEMBL428647">CHEMBL428647</option>
+            <option value="CHEMBL254129">CHEMBL254129</option>
+            <option value="CHEMBL2144069">CHEMBL2144069</option>
+            <option value="CHEMBL1336">CHEMBL1336</option>
+            <option value="CHEMBL572878">CHEMBL572878</option>
+            <option value="CHEMBL941">CHEMBL941</option>
+            <option value="CHEMBL4873176">CHEMBL4873176</option>
+            <option value="CHEMBL601719">CHEMBL601719</option>
+            <option value="CHEMBL217092">CHEMBL217092</option>
+            <option value="CHEMBL392695">CHEMBL392695</option>
+            <option value="CHEMBL159822">CHEMBL159822</option>
+            <option value="CHEMBL1421">CHEMBL1421</option>
+            <option value="CHEMBL483847">CHEMBL483847</option>
+            <option value="CHEMBL4860897">CHEMBL4860897</option>
+            <option value="CHEMBL1242367">CHEMBL1242367</option>
+            <option value="CHEMBL197603">CHEMBL197603</option>
+            <option value="CHEMBL213100">CHEMBL213100</option>
+            <option value="CHEMBL1643959">CHEMBL1643959</option>
+            <option value="CHEMBL513909">CHEMBL513909</option>
+            <option value="CHEMBL209148">CHEMBL209148</option>
+          </select>
 
           <!-- Alert message for the third dropdown -->
           <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
@@ -1215,7 +1217,30 @@ overflow: auto;
         // const jsonData = await response.json();
 
         console.log('data coming from the', response);
-        processData(response);
+let curentnodes = 400 ; 
+     document.getElementById("increment").addEventListener("click" , function(){
+       event.preventDefault();
+
+       let newdata = response.slice(0, curentnodes+2000);
+          clearGraph();
+            processData(newdata); 
+            force_network_grapgh() ;
+
+     })
+     document.getElementById("decrement").addEventListener("click" , function(){
+       event.preventDefault();
+       let newdata = response.slice(0, curentnodes-400); 
+       
+       clearGraph();
+         processData(newdata); 
+         
+         force_network_grapgh() ;
+
+      })
+      
+      let newdata = response.slice(0, 400);
+
+        processData(newdata); 
       } catch (error) {
         console.error("Error loading the JSON file:", error);
       }
@@ -1223,56 +1248,39 @@ overflow: auto;
 
 
     // fetching the data ended here 
+    let i =0 ; 
 
     function processData(data) {
 
       const uniqueProteins = new Set();
-
       data.forEach((item) => {
         if (!uniqueProteins.has(item.COMPOUND_NAME)) {
           uniqueProteins.add(item.COMPOUND_NAME);
-
-          let calsoleimage;
-
-          if (item.MAX_PHASE === "Approved") {
-            calsoleimage = "grey.png"
-          } else if (item.MAX_PHASE === "PHASE 1") {
-            calsoleimage = "blue.png"
-          } else if (item.MAX_PHASE === "PHASE 2") {
-            calsoleimage = "yellow.png"
-          } else if (item.MAX_PHASE === "PHASE 3") {
-            calsoleimage = "lightblue.png"
-          } else if (item.MAX_PHASE === "") {
-            calsoleimage = "unknown.png"
-          } else if (item.MAX_PHASE === "Unknown") {
-            calsoleimage = "unknown.png"
-          } else if (item.MAX_PHASE === "Preclinical") {
-            calsoleimage = "purple.png"
-
-          } else {
-            // calsoleimage = "black.png"
-
-          }
-
-
-          nodes.push({
-            id: item.COMPOUND_NAME,
-            type: "parentnode",
-            image: calsoleimage,
-            MAX_PHASE: item.MAX_PHASE,
-            flag: true
-          });
+         
+          
+             nodes.push({
+               id: item.COMPOUND_NAME,
+               type: "parentnode",
+               MAX_PHASE: item.MAX_PHASE,
+               flag: true
+             });
+             
+                       
         }
       });
+      
       data.forEach((item) => {
         if (!uniqueProteins.has(item.CELL_LINE_NAME)) {
           uniqueProteins.add(item.CELL_LINE_NAME);
-          nodes.push({
-            id: item.CELL_LINE_NAME,
-            type: "childnode",
-            MAX_PHASE: item.MAX_PHASE,
-            oncotree_change: item.ONCOTREE_LINEAGE
-          });
+         
+            nodes.push({
+              id: item.CELL_LINE_NAME,
+              type: "childnode",
+              MAX_PHASE: item.MAX_PHASE,
+              oncotree_change: item.ONCOTREE_LINEAGE
+            });
+
+          
         }
       });
 
@@ -1348,7 +1356,7 @@ overflow: auto;
         },
         success: function(data) {
           // Handle the returned data
-          console.log(data, "data to show ");
+          // console.log(data, "data to show ");
           drug_des_parent = JSON.parse(data);
 
           generate_table();
@@ -1370,7 +1378,7 @@ overflow: auto;
         },
         success: function(data) {
           // Handle the returned data
-          console.log(data, "data to show ");
+          // console.log(data, "data to show ");
           drug_des_parent = JSON.parse(data);
 
           generate_table();
@@ -1397,7 +1405,7 @@ overflow: auto;
 
       let dataobject = drug_des_parent['0'];
 
-      console.log(dataobject, "check2");
+      // console.log(dataobject, "check2");
       // Function to populate the table
       function populateTable() {
         const tableBody = document.getElementById('compoundTableBody');
@@ -1416,14 +1424,14 @@ overflow: auto;
 
           if (keyCell.innerText === 'CROSS_REFERENCES_CELL_LINES') {
             let text_change = valueCell.innerHTML;
-            console.log(text_change)
+            // console.log(text_change)
             var formattedData = formatData(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
 
           } else if (keyCell.innerText === 'COMMENTS') {
             let text_change = valueCell.innerHTML;
-            console.log(text_change)
+            // console.log(text_change)
             var formattedData = formatData2(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
@@ -1431,7 +1439,7 @@ overflow: auto;
           } else
           if (keyCell.innerText === 'REFERENCE_ID') {
             let text_change = valueCell.innerHTML;
-            console.log(text_change)
+            // console.log(text_change)
             var formattedData = formatData3(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
@@ -1445,7 +1453,7 @@ overflow: auto;
         var lines = data.split('|');
         var formattedLines = [];
 
-        for (var i = 0; i < lines.length-1; i++) {
+        for (var i = 0; i < lines.length - 1; i++) {
           var parts = lines[i].split(';');
           var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
           formattedLines.push(formattedText);
@@ -1461,7 +1469,7 @@ overflow: auto;
         var formattedLines = [];
 
 
-        for (var i = 0; i < lines.length-1; i++) {
+        for (var i = 0; i < lines.length - 1; i++) {
           var parts = lines[i].split(':');
           var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
           formattedLines.push(formattedText);
@@ -1477,7 +1485,7 @@ overflow: auto;
         var lines = data.split('|');
         var formattedLines = [];
 
-        for (var i = 0; i < lines.length-1; i++) {
+        for (var i = 0; i < lines.length - 1; i++) {
           var parts = lines[i].split('=');
           var formattedText = '<b>' + parts[0] + '</b>' + '=' + parts[1];
           formattedLines.push(formattedText);
@@ -1513,9 +1521,9 @@ overflow: auto;
 
     const svg = d3.select("#forcenetwork");
     const svgWidth = +svg.node().getBoundingClientRect().width;
-const svgHeight = +svg.node().getBoundingClientRect().height;
+    const svgHeight = +svg.node().getBoundingClientRect().height;
 
-console.log("width", svgWidth, "height", svgHeight);
+    // console.log("width", svgWidth, "height", svgHeight);
 
     function force_network_grapgh() {
 
@@ -1529,11 +1537,11 @@ console.log("width", svgWidth, "height", svgHeight);
           d3
           .forceLink(links)
           .id((d) => d.id)
-          .distance(70)
+          .distance(150)
         )
-        .force("charge", d3.forceManyBody().strength(-15))
+        .force("charge", d3.forceManyBody().strength(-55))
         .force("x", d3.forceX(500))
-        .force("y", d3.forceY(270)) ;
+        .force("y", d3.forceY(270));
 
       link = g
         .selectAll(".link ")
@@ -1596,7 +1604,7 @@ console.log("width", svgWidth, "height", svgHeight);
           "MAX_PHASE": 2,
           "Source_DB_DR_ID": 101
         };
-        console.log("comppundata ", compoundData);
+        // console.log("comppundata ", compoundData);
         // call the function 
         // workplace
 
@@ -1614,12 +1622,12 @@ console.log("width", svgWidth, "height", svgHeight);
 
         var closeButton = document.getElementById('parent_des_close');
         closeButton.addEventListener('click', function() {
-          
-      document.getElementById('choice2').checked = true;
-      document.getElementById('choice1').checked = false;
-      
-      const structureImage = document.querySelector('.structure-image');
-      structureImage.style.display = 'block'; // Show the image
+
+          document.getElementById('choice2').checked = true;
+          document.getElementById('choice1').checked = false;
+
+          const structureImage = document.querySelector('.structure-image');
+          structureImage.style.display = 'block'; // Show the image
           var div = document.querySelector('.parent_description');
           div.classList.remove('show');
           var div = document.querySelector('.blur_the_background');
@@ -1700,13 +1708,13 @@ console.log("width", svgWidth, "height", svgHeight);
 
       simulation.on("tick", () => {
         link
-    .attr("x1", (d) => Math.max(0, Math.min(svgWidth, d.source.x)))
-    .attr("y1", (d) => Math.max(0, Math.min(svgHeight, d.source.y)))
-    .attr("x2", (d) => Math.max(0, Math.min(svgWidth, d.target.x)))
-    .attr("y2", (d) => Math.max(0, Math.min(svgHeight, d.target.y)));
+          .attr("x1", (d) => Math.max(0, Math.min(svgWidth, d.source.x)))
+          .attr("y1", (d) => Math.max(0, Math.min(svgHeight, d.source.y)))
+          .attr("x2", (d) => Math.max(0, Math.min(svgWidth, d.target.x)))
+          .attr("y2", (d) => Math.max(0, Math.min(svgHeight, d.target.y)));
 
-  node.attr("transform", (d) => `translate(${Math.max(0, Math.min(svgWidth, d.x))},${Math.max(0, Math.min(svgHeight, d.y))})`);
-});
+        node.attr("transform", (d) => `translate(${Math.max(0, Math.min(svgWidth, d.x))},${Math.max(0, Math.min(svgHeight, d.y))})`);
+      });
 
 
 
@@ -2017,7 +2025,7 @@ console.log("width", svgWidth, "height", svgHeight);
       });
 
       // Log the contents of csvfile to the console
-      console.log("csvfile", csvfile);
+      // console.log("csvfile", csvfile);
 
     }
 
@@ -2387,7 +2395,7 @@ console.log("width", svgWidth, "height", svgHeight);
         document.getElementById("dropdown1").value === "" &&
         document.getElementById("dropdown2").value === "" &&
         document.getElementById("dropdown3").value === "" &&
-        document.getElementById("dropdown4").value === "" 
+        document.getElementById("dropdown4").value === ""
 
       ) {
         // Show error messages for the empty dropdowns
@@ -2532,7 +2540,7 @@ console.log("width", svgWidth, "height", svgHeight);
           dropdown2: dropdown2Value,
           dropdown3: dropdown3Value,
           dropdown4: dropdown4Value,
-          
+
         },
         success: function(response) {
 
@@ -2607,7 +2615,7 @@ console.log("width", svgWidth, "height", svgHeight);
           d.fy = null;
         });
       }
-     
+
 
 
     };
