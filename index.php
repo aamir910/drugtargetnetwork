@@ -866,8 +866,8 @@ if (isset($_POST['drugName2'])) {
 
   <div class=" searchBar">
     <form class="selection_box flex" id="searchForm">
-      <button class="btn1" id="increment" >400+</button>
-      <button  class="btn1" id="decrement" >400-</button>
+      <button class="btn1" id="increment">400+</button>
+      <button class="btn1" id="decrement">400-</button>
       <div class="form-row rowData">
         <!-- First Dropdown -->
         <div class="form-group col-md-2">
@@ -1211,36 +1211,45 @@ overflow: auto;
     let clickedData;
     let name_of_drug;
     // fetching the json file  
+    let curentnodes = 400;
     async function fetchData(data) {
       try {
-        response = data; // Replace with the correct JSON file path
+        response = data; 
+        
+        let newdata = response.slice(0, curentnodes);// Replace with the correct JSON file path
         // const jsonData = await response.json();
 
         console.log('data coming from the', response);
-let curentnodes = 400 ; 
-     document.getElementById("increment").addEventListener("click" , function(){
-       event.preventDefault();
 
-       let newdata = response.slice(0, curentnodes+2000);
+        document.getElementById("increment").addEventListener("click", function(event) {
+          event.preventDefault();
+
+          curentnodes += 400; // Increment nodes
+          let newdata = response.slice(0, curentnodes);
           clearGraph();
-            processData(newdata); 
-            force_network_grapgh() ;
+          processData(newdata);
+          force_network_grapgh();
+          range_of_links(minValue, maxValue, slider_range);
+        });
 
-     })
-     document.getElementById("decrement").addEventListener("click" , function(){
-       event.preventDefault();
-       let newdata = response.slice(0, curentnodes-400); 
-       
-       clearGraph();
-         processData(newdata); 
-         
-         force_network_grapgh() ;
+        document.getElementById("decrement").addEventListener("click", function(event) {
+          event.preventDefault();
 
-      })
-      
-      let newdata = response.slice(0, 400);
+          curentnodes -= 400; // Decrement nodes
+          if (curentnodes < 0) {
+            curentnodes = 0; // Ensure non-negative value
+          }
 
-        processData(newdata); 
+          let newdata = response.slice(0, curentnodes);
+          clearGraph();
+          processData(newdata);
+          force_network_grapgh();
+          range_of_links(minValue, maxValue, slider_range);
+        });
+
+        processData(newdata);
+
+
       } catch (error) {
         console.error("Error loading the JSON file:", error);
       }
@@ -1248,7 +1257,7 @@ let curentnodes = 400 ;
 
 
     // fetching the data ended here 
-    let i =0 ; 
+    let i = 0;
 
     function processData(data) {
 
@@ -1256,31 +1265,31 @@ let curentnodes = 400 ;
       data.forEach((item) => {
         if (!uniqueProteins.has(item.COMPOUND_NAME)) {
           uniqueProteins.add(item.COMPOUND_NAME);
-         
-          
-             nodes.push({
-               id: item.COMPOUND_NAME,
-               type: "parentnode",
-               MAX_PHASE: item.MAX_PHASE,
-               flag: true
-             });
-             
-                       
+
+
+          nodes.push({
+            id: item.COMPOUND_NAME,
+            type: "parentnode",
+            MAX_PHASE: item.MAX_PHASE,
+            flag: true
+          });
+
+
         }
       });
-      
+
       data.forEach((item) => {
         if (!uniqueProteins.has(item.CELL_LINE_NAME)) {
           uniqueProteins.add(item.CELL_LINE_NAME);
-         
-            nodes.push({
-              id: item.CELL_LINE_NAME,
-              type: "childnode",
-              MAX_PHASE: item.MAX_PHASE,
-              oncotree_change: item.ONCOTREE_LINEAGE
-            });
 
-          
+          nodes.push({
+            id: item.CELL_LINE_NAME,
+            type: "childnode",
+            MAX_PHASE: item.MAX_PHASE,
+            oncotree_change: item.ONCOTREE_LINEAGE
+          });
+
+
         }
       });
 
