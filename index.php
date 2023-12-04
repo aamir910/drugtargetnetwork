@@ -228,7 +228,7 @@ if (isset($_POST['drugName2'])) {
     background: #fff;
     border-radius: 10px;
     padding: 20px 25px 40px;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1); */
     display: none;
   }
 
@@ -654,6 +654,7 @@ if (isset($_POST['drugName2'])) {
     opacity: 0;
     pointer-events: none;
 
+
   }
 
   .model_box_inner {
@@ -741,10 +742,11 @@ if (isset($_POST['drugName2'])) {
   /* drugdata description  */
 
   body {
+    background-color: white;
     margin: 0;
     /* overflow: hidden; */
     height: auto;
-    height: 150vh;
+    /* height: 150vh; */
     /* Prevent body overflow when the modal is open */
   }
 
@@ -865,16 +867,38 @@ if (isset($_POST['drugName2'])) {
   b {
     font-weight: bold;
   }
+  .wrapper {
+    width: 20%;
+  }
+.forcenetwork{
+  width: 80%;
+  background-color: white;
+}
+.slider2size{
+  display: flex; 
+  justify-content: center; 
+  align-items:center;
+   width: 19rem;
+}
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
   /* Change the width to 80% when the screen size is less than 900 pixels */
   .wrapper {
     width: 100%;
   }
   .forcenetwork{
-    
+    /* right: 20%; */
     width: 100%;
   }
+  .graph_div {
+   
+    height: 100vh;
+  }
+  .slider2size{
+  
+   width: 9rem;
+}
+
 }
 </style>
 
@@ -1025,7 +1049,22 @@ if (isset($_POST['drugName2'])) {
 
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
 
-      <div class="wrapper col-2  " id='wrapper'>
+
+    <svg id="forcenetwork" width="100%" style="
+               
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               height:100%;
+             " class=" forcenetwork  ">
+     <!-- Loader embedded inside SVG -->
+   </svg>
+   <foreignObject width="100%" height="100%">
+     <div class="loader" id="loader"></div>
+   </foreignObject>
+
+
+      <div class="wrapper  " id='wrapper'>
         <header>
           <h2>links value</h2>
         </header>
@@ -1052,9 +1091,9 @@ if (isset($_POST['drugName2'])) {
         <div class="legend">
           <fieldset class="fieldset">
             <legend class="legenddata">max_phase</legend>
-            <ul id="myList"></ul>
+            <ul id="myList" style="padding-left: 0px" ></ul>
             <legend class="legenddata">data_set</legend>
-            <ul id="dataset"></ul>
+            <ul id="dataset" style="padding-left: 0px"></ul>
             <!-- <legend class="legenddata">child nodes</legend>
             <ul id="child_node"></ul> -->
 
@@ -1065,18 +1104,7 @@ if (isset($_POST['drugName2'])) {
 
 
 
-      <svg id="forcenetwork" width="100%" style="
-                  background-color: white;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  height:100%;
-                " class=" forcenetwork col-8   ">
-        <!-- Loader embedded inside SVG -->
-      </svg>
-      <foreignObject width="100%" height="100%">
-        <div class="loader" id="loader"></div>
-      </foreignObject>
+     
 
 
     </main>
@@ -1096,7 +1124,7 @@ if (isset($_POST['drugName2'])) {
       <div class='alignitems'>
         <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
         <button class="sliderbtn " id="zoom-out-button">zoom out</button>
-        <div style="display: flex; justify-content: center; align-items:center; width: 200px; ">
+        <div class="slider2size">
           <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
           <p id="rangeValue">50</p>
 
@@ -1124,8 +1152,7 @@ if (isset($_POST['drugName2'])) {
   </div>
 
   <!-- overlay  -->
-  <section>
-    <span class="overlay"></span>
+  <section  style = "background-color : white">
     <div class="modal-box">
       <div class="model_box_inner">
         <h2>Export Chart as</h2>
