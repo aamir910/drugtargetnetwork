@@ -194,12 +194,13 @@ if (isset($_POST['drugName2'])) {
   .graph_div {
     display: flex;
     flex-direction: row;
-    margin-top: 15px;
+    flex-wrap: wrap;
+    /* margin-top: 15px; */
     /* border: 2px solid black; */
     border-radius: 1rem;
     width: 100%;
-    /* height: 550px; */
-    height: 100vph;
+    height: 600px;
+    /* height: 100vh; */
   }
 
   .error-border {
@@ -223,6 +224,7 @@ if (isset($_POST['drugName2'])) {
   .wrapper {
     /* width: 400px; */
     width: 250px;
+
     background: #fff;
     border-radius: 10px;
     padding: 20px 25px 40px;
@@ -492,18 +494,16 @@ if (isset($_POST['drugName2'])) {
     display: flex;
     flex-direction: row;
 
-    position: absolute;
-    top: 92%;
-    left: 25%;
-    /* transform: translate(-50%, -50%); */
-    width: 650px;
-    /* height: 124px; */
-    /* padding: 10px; */
-    /* padding-left: 40px; */
+    position: relative;
+    /* top: 92%;
+    left: 25%; */
+    /* width: 650px; */
+   width: 100%;
     background: #fffefe;
     /* border-radius: 20px; */
     display: flex;
     align-items: center;
+    bottom: 2%;
     /* box-shadow: 0px 5px 20px #7e6d5766; */
   }
 
@@ -541,6 +541,10 @@ if (isset($_POST['drugName2'])) {
   }
 
   .fieldset {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background: white;
     border-radius: 2rem;
   }
@@ -738,8 +742,9 @@ if (isset($_POST['drugName2'])) {
 
   body {
     margin: 0;
-    overflow: hidden;
+    /* overflow: hidden; */
     height: auto;
+    height: 150vh;
     /* Prevent body overflow when the modal is open */
   }
 
@@ -860,12 +865,24 @@ if (isset($_POST['drugName2'])) {
   b {
     font-weight: bold;
   }
+
+  @media (max-width: 900px) {
+  /* Change the width to 80% when the screen size is less than 900 pixels */
+  .wrapper {
+    width: 100%;
+  }
+  .forcenetwork{
+    
+    width: 100%;
+  }
+}
 </style>
 
 <body>
 
   <div class=" searchBar">
     <form class="selection_box flex" id="searchForm">
+      <h4 style="width: 20rem; text-align:center">Fetch link data </h4>
       <button class="btn1" id="increment">400+</button>
       <button class="btn1" id="decrement">400-</button>
       <div class="form-row rowData">
@@ -901,7 +918,7 @@ if (isset($_POST['drugName2'])) {
 
           <!-- Alert message for the first dropdown -->
           <div class="alert-message alert2" style="position: absolute; top: 110px; ">
-            <span class="alert alert-danger">Please select an option</span>
+            <span class="alert alert-danger">Please select option</span>
           </div>
         </div>
 
@@ -937,7 +954,7 @@ if (isset($_POST['drugName2'])) {
 
           <!-- Alert message for the second dropdown -->
           <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
-            <span class="alert alert-danger">Please select an option</span>
+            <span class="alert alert-danger">Please select option</span>
           </div>
         </div>
 
@@ -953,7 +970,7 @@ if (isset($_POST['drugName2'])) {
           </select>
           <!-- Alert message for the second dropdown -->
           <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
-            <span class="alert alert-danger">Please select an option</span>
+            <span class="alert alert-danger">Please select option</span>
           </div>
         </div>
 
@@ -990,7 +1007,7 @@ if (isset($_POST['drugName2'])) {
 
           <!-- Alert message for the third dropdown -->
           <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
-            <span class="alert alert-danger">Please select an option</span>
+            <span class="alert alert-danger">Please select  option</span>
           </div>
 
 
@@ -1002,9 +1019,13 @@ if (isset($_POST['drugName2'])) {
       </div>
     </form>
 
-    <div class="graph_div  flex col-12 " id="div2">
 
-      <div class="wrapper col-2" id='wrapper'>
+
+
+
+    <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
+
+      <div class="wrapper col-2  " id='wrapper'>
         <header>
           <h2>links value</h2>
         </header>
@@ -1049,19 +1070,28 @@ if (isset($_POST['drugName2'])) {
                   display: flex;
                   justify-content: center;
                   align-items: center;
-                  height:700px;
-                " class="col-10">
+                  height:100%;
+                " class=" forcenetwork col-8   ">
         <!-- Loader embedded inside SVG -->
       </svg>
       <foreignObject width="100%" height="100%">
         <div class="loader" id="loader"></div>
       </foreignObject>
-    </div>
+
+
+    </main>
+
+
+
+
+
+
+
 
 
     <!-- second slider and btns  -->
 
-    <div class="sliderpart2" id='buttonbar'>
+    <footer class="sliderpart2" id='buttonbar'>
 
       <div class='alignitems'>
         <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
@@ -1076,7 +1106,7 @@ if (isset($_POST['drugName2'])) {
         <button class="sliderbtn " id="export">Export</button>
 
       </div>
-    </div>
+    </footer>
 
 
 
@@ -1227,7 +1257,7 @@ overflow: auto;
           curentnodes += 400; // Increment nodes
           let newdata = response.slice(0, curentnodes);
           clearGraph();
-          processData(newdata);
+           processData(newdata);
           force_network_grapgh();
           range_of_links(minValue, maxValue, slider_range);
           pax_phasecliked.on("click", onclickmax_phase);
@@ -1251,7 +1281,7 @@ datasettext_click.on("click", onclick_dataSet);
           range_of_links(minValue, maxValue, slider_range);
           pax_phasecliked.on("click", onclickmax_phase);
 
-datasettext_click.on("click", onclick_dataSet);
+   datasettext_click.on("click", onclick_dataSet);
 
         });
 
@@ -1554,10 +1584,10 @@ datasettext_click.on("click", onclick_dataSet);
   "link",
   d3.forceLink(links)
     .id((d) => d.id)
-    .distance((link, index) => (index % 2 === 0 ? 200 : 500))
+    .distance((link, index) => (index % 2 === 0 ? 200 : 350))
 )
         // tag
-        .force("charge", d3.forceManyBody().strength(-35))
+        .force("charge", d3.forceManyBody().strength(-100))
         .force("x", d3.forceX(500))
         .force("y", d3.forceY(270));
 
@@ -1590,10 +1620,12 @@ datasettext_click.on("click", onclick_dataSet);
         .attr("stroke-width", function(d) {
 
           if (d.value < 5) {
-            return 1
+
+            return 0.5
+
           } else {
 
-            return d.value - 2;
+            return d.value - 4.5;
           }
         });
 
