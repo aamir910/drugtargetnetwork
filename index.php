@@ -8,17 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dropdown2 = $_POST['dropdown2'];
     $dropdown3 = $_POST['dropdown3'];
     $dropdown4 = $_POST['dropdown4'];
-
-
-    // Query the database based on the selected dropdown values
-    //     $sql = "SELECT * FROM drugresponse WHERE ONCOTREE_LINEAGE = '$dropdown1' AND 
-    // ONCOTREE_PRIMARY_DISEASE = '$dropdown2' AND 
-    // METRIC = '$dropdown3' AND 
-    // CHEMBL_ID = '$dropdown4' ";
-
-
-    // $sql = "SELECT * FROM drugresponse WHERE ONCOTREE_LINEAGE = '$dropdown1' ORDER BY RAND() LIMIT 500";
-
+   
     $sql = "SELECT * FROM drugresponse WHERE";
 
     // Array to store conditions
@@ -498,7 +488,7 @@ if (isset($_POST['drugName2'])) {
     /* top: 92%;
     left: 25%; */
     /* width: 650px; */
-   width: 100%;
+    width: 100%;
     background: #fffefe;
     /* border-radius: 20px; */
     display: flex;
@@ -867,39 +857,64 @@ if (isset($_POST['drugName2'])) {
   b {
     font-weight: bold;
   }
+
   .wrapper {
     width: 20%;
   }
-.forcenetwork{
-  width: 80%;
-  background-color: white;
-}
-.slider2size{
-  display: flex; 
-  justify-content: center; 
-  align-items:center;
-   width: 19rem;
-}
+
+  .forcenetwork {
+    width: 80%;
+    background-color: white;
+  }
+
+  .slider2size {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 19rem;
+  }
+
+  .form-select {
+    width: 100%;
+  }
 
   @media (max-width: 1000px) {
-  /* Change the width to 80% when the screen size is less than 900 pixels */
-  .wrapper {
-    width: 100%;
-  }
-  .forcenetwork{
-    /* right: 20%; */
-    width: 100%;
-  }
-  .graph_div {
-   
-    height: 100vh;
-  }
-  .slider2size{
-  
-   width: 9rem;
-}
 
-}
+    /* Change the width to 80% when the screen size is less than 900 pixels */
+    .wrapper {
+      width: 100%;
+    }
+
+    .forcenetwork {
+      /* right: 20%; */
+      width: 100%;
+    }
+
+    .graph_div {
+
+      height: 100vh;
+    }
+
+    .slider2size {
+
+      width: 9rem;
+    }
+
+    .form-select {
+      width: 200px;
+
+    }
+
+    .rowData {
+      flex-wrap: wrap;
+
+    }
+
+    .selection_box {
+
+      flex-wrap: wrap;
+    }
+  }
 </style>
 
 <body>
@@ -911,7 +926,7 @@ if (isset($_POST['drugName2'])) {
       <button class="btn1" id="decrement">400-</button>
       <div class="form-row rowData">
         <!-- First Dropdown -->
-        <div class="form-group col-md-2">
+        <div class="form-group ">
           <select class="form-select" id="dropdown1">
             <option value="">Select ONCOTREE_LINEAGE</option>
             <option value="Bone">Bone</option>
@@ -947,7 +962,7 @@ if (isset($_POST['drugName2'])) {
         </div>
 
         <!-- Second Dropdown -->
-        <div class="form-group col-md-2" style="display : none ; ">
+        <div class="form-group " style="display : none ; ">
           <select class="form-select" id="dropdown2">
             <option value="">Select ONCOTREE_PRIMARY_DISEASE </option>
             <option value="Ewing's Sarcoma">Ewing's Sarcoma</option>
@@ -985,7 +1000,7 @@ if (isset($_POST['drugName2'])) {
 
 
         <!-- third Dropdown -->
-        <div class="form-group col-md-2">
+        <div class="form-group ">
           <select class="form-select" id="dropdown3">
             <option value="">Select matric </option>
             <option value="pIC50">pIC50</option>
@@ -999,7 +1014,7 @@ if (isset($_POST['drugName2'])) {
         </div>
 
         <!-- forth Dropdown -->
-        <div class="form-group col-md-2">
+        <div class="form-group ">
           <select class="form-select" id="dropdown4">
             <option value="">Select CHEMBL_ID</option>
             <option value="CHEMBL553">CHEMBL553</option>
@@ -1031,16 +1046,16 @@ if (isset($_POST['drugName2'])) {
 
           <!-- Alert message for the third dropdown -->
           <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
-            <span class="alert alert-danger">Please select  option</span>
+            <span class="alert alert-danger">Please select option</span>
           </div>
 
 
         </div>
         <!-- button  -->
-        <button class="btn btn-success" id="submitButton" type='submit'>
-          <i class="bi bi-search"></i> Search
-        </button>
       </div>
+      <button class="btn btn-success" id="submitButton" type='submit'>
+        <i class="bi bi-search"></i> Search
+      </button>
     </form>
 
 
@@ -1050,18 +1065,18 @@ if (isset($_POST['drugName2'])) {
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
 
 
-    <svg id="forcenetwork" width="100%" style="
+      <svg id="forcenetwork" width="100%" style="
                
                display: flex;
                justify-content: center;
                align-items: center;
                height:100%;
              " class=" forcenetwork  ">
-     <!-- Loader embedded inside SVG -->
-   </svg>
-   <foreignObject width="100%" height="100%">
-     <div class="loader" id="loader"></div>
-   </foreignObject>
+        <!-- Loader embedded inside SVG -->
+      </svg>
+      <foreignObject width="100%" height="100%">
+        <div class="loader" id="loader"></div>
+      </foreignObject>
 
 
       <div class="wrapper  " id='wrapper'>
@@ -1091,7 +1106,7 @@ if (isset($_POST['drugName2'])) {
         <div class="legend">
           <fieldset class="fieldset">
             <legend class="legenddata">max_phase</legend>
-            <ul id="myList" style="padding-left: 0px" ></ul>
+            <ul id="myList" style="padding-left: 0px"></ul>
             <legend class="legenddata">data_set</legend>
             <ul id="dataset" style="padding-left: 0px"></ul>
             <!-- <legend class="legenddata">child nodes</legend>
@@ -1104,7 +1119,7 @@ if (isset($_POST['drugName2'])) {
 
 
 
-     
+
 
 
     </main>
@@ -1152,7 +1167,8 @@ if (isset($_POST['drugName2'])) {
   </div>
 
   <!-- overlay  -->
-  <section  style = "background-color : white">
+  <section style="background-color : white">
+    <span class='overlay'></span>
     <div class="modal-box">
       <div class="model_box_inner">
         <h2>Export Chart as</h2>
@@ -1268,12 +1284,12 @@ overflow: auto;
     let clickedData;
     let name_of_drug;
     // fetching the json file  
-    let curentnodes = 400;
+    let curentnodes = 2000;
     async function fetchData(data) {
       try {
-        response = data; 
-        
-        let newdata = response.slice(0, curentnodes);// Replace with the correct JSON file path
+        response = data;
+
+        let newdata = response.slice(0, curentnodes); // Replace with the correct JSON file path
         // const jsonData = await response.json();
 
         console.log('data coming from the', response);
@@ -1284,12 +1300,12 @@ overflow: auto;
           curentnodes += 400; // Increment nodes
           let newdata = response.slice(0, curentnodes);
           clearGraph();
-           processData(newdata);
+          processData(newdata);
           force_network_grapgh();
           range_of_links(minValue, maxValue, slider_range);
           pax_phasecliked.on("click", onclickmax_phase);
 
-datasettext_click.on("click", onclick_dataSet);
+          datasettext_click.on("click", onclick_dataSet);
 
         });
 
@@ -1308,7 +1324,7 @@ datasettext_click.on("click", onclick_dataSet);
           range_of_links(minValue, maxValue, slider_range);
           pax_phasecliked.on("click", onclickmax_phase);
 
-   datasettext_click.on("click", onclick_dataSet);
+          datasettext_click.on("click", onclick_dataSet);
 
         });
 
@@ -1608,11 +1624,11 @@ datasettext_click.on("click", onclick_dataSet);
       simulation = d3
         .forceSimulation(nodes)
         .force(
-  "link",
-  d3.forceLink(links)
-    .id((d) => d.id)
-    .distance((link, index) => (index % 2 === 0 ? 200 : 350))
-)
+          "link",
+          d3.forceLink(links)
+          .id((d) => d.id)
+          .distance((link, index) => (index % 2 === 0 ? 200 : 350))
+        )
         // tag
         .force("charge", d3.forceManyBody().strength(-100))
         .force("x", d3.forceX(500))
@@ -1832,13 +1848,10 @@ datasettext_click.on("click", onclick_dataSet);
     }
 
     function range_of_links(min_range, max_range, valueofslider) {
-
-
       link.style("display", null);
       node.style("display", null);
-
       //  fitleration of the threshold value sidler 
-      // sildertag
+    
       let parentnodes = node.filter(function(node) {
         if (node.type === "parentnode") {
           return node;
@@ -1860,29 +1873,16 @@ datasettext_click.on("click", onclick_dataSet);
         }
 
       });
-
-
-
       filteredLinks = link.filter(link => {
         // Filter links with a value greater than 5
         return link.value < min_range || link.value > max_range
       });
-
-
-
       filterNodes = node.filter(node => {
 
         return filteredLinks.data().some(link => (link.target === node || link.source === node));
       });
-
-
-
       // Hide the filtered links
-
       filteredLinks.style("display", "none");
-
-
-
       var filterlinks2 = link.filter(function(templink) {
         // Filter links with a value greater than 5
         let visible = d3.select(this).style("display");
@@ -1891,8 +1891,6 @@ datasettext_click.on("click", onclick_dataSet);
           return templink;
         }
       });
-
-
       // Hide the associated target nodes
       filterNodes.style("display", "none");
 
@@ -1904,38 +1902,24 @@ datasettext_click.on("click", onclick_dataSet);
 
         return isLinkedToHiddenLink;
       });
-
       // Reset the display style for the filtered nodes
       filterNodes2.style("display", null);
 
-      //
-
       node.each(function(d) {
-
-
         // Check if the node's MAX_PHASE is in the list_hidden
         if (list_hidden.includes(d.MAX_PHASE) && d.type === "parentnode") {
           // Node is in list_hidden, set display to "none"
-
           d3.select(this).style("display", "none");
-
         }
       });
-
       const matchinglink = link.filter(function(link) {
         if (list_hidden.includes(link.source.MAX_PHASE)) {
           return link;
         }
       });
-
       matchinglink.style("display", "none");
-
       let connectedNodes;
       let allconnedtednodes = [];
-
-
-      // here is the removing and show of the max_phase child nodes 
-
       let childNode2 = node.filter(node => {
         if (node.type === "childnode") {
           return node;
@@ -1962,73 +1946,42 @@ datasettext_click.on("click", onclick_dataSet);
           d3.select(this).style("display", null);
         }
       })
-
       // ended    
-
       //    child nodes will be filter here 
-
-
       let childnodefilteration = node.filter(function(childNode) {
         if (list_hidden_childnode.includes(childNode.oncotree_change)) {
           return childNode;
         }
       });
-
       childnodefilteration.style("display", "none");
-
       let source_node = [];
-
       let matchinglinkpart = link.filter(function(link) {
         if (list_hidden_childnode.includes(link.target.oncotree_change)) {
-
-
           source_node.push(link.source.id)
-
           return (
             link
           );
         }
       });
-
       matchinglinkpart.style("display", "none");
-
-
-
       node.each(function(d) {
         // d3.select(this).style("display", "none");   
         if (source_node.includes(d.id)) {
-
-
           const connectedLinks = link.filter(
             (link) => link.source.id === d.id
           );
-
-
           const data = connectedLinks.data().map((link) => link.target.oncotree_change);
-
-
           const flag2 = data.every((item) => list_hidden_childnode.includes(item));
-
           if (flag2) {
-
             d3.select(this).style("display", "none");
-
             var displayStyle = d3.select(this).style("display");
           }
-          // else{
-
-          //   d3.select(this).style("display", null);
-          // }
-
         }
       });
-
       node.each(function(d) {
         if (d.type === "parentnode") {
           var nodestyle = d3.select(this).style("display");
-
           const connectedLinks = link.filter(link => link.source.id === d.id);
-
           // Array to store styles of connected links
           var linkStyles = [];
 
@@ -2039,7 +1992,6 @@ datasettext_click.on("click", onclick_dataSet);
           });
           // Check if every style in the array is "none"
           var allLinksNone = linkStyles.every(style => style === "none");
-
           if (allLinksNone) {
             // Set node style to "display: none"
             d3.select(this).style("display", "none");
@@ -2050,19 +2002,15 @@ datasettext_click.on("click", onclick_dataSet);
       link.filter(function(templink) {
         if (list_hidden_dataset.includes(templink.dataset)) {
           d3.select(this).style("display", "none");
-
           node.filter(function(tempnode) {
             if (tempnode === templink.target || tempnode === templink.source) {
               var nodestyle = d3.select(this).style("display");
 
               const connectedLinks = link.filter(link => link.source.id === tempnode.id || link.target.id === tempnode.id);
-
               // Array to store styles of connected links
               var linkStyles = [];
-
               connectedLinks.each(function(link) {
                 var linkStyle = d3.select(this).style("display");
-
                 linkStyles.push(linkStyle);
               });
               // Check if every style in the array is "none"
@@ -2072,26 +2020,19 @@ datasettext_click.on("click", onclick_dataSet);
                 // Set node style to "display: none"
                 d3.select(this).style("display", "none");
               }
-
             }
           })
         }
       })
-
       //  link filter nodes ended here 
-
-      // 
-
       // export csv 
       csvfile = [];
       node.filter(function(node) {
         // Select the current node using D3 and get its "display" property
         let visibility = d3.select(this).style("display");
-
         // Check if the display property is "inline"
         if (visibility === "inline") {
           response.filter(function(maindata) {
-
             if (maindata.COMPOUND_NAME === node.id) {
               //  if(!csvfile.includes(maindata))
               csvfile.push(maindata);
@@ -2100,13 +2041,7 @@ datasettext_click.on("click", onclick_dataSet);
           // If true, push the node into the csvfile array
         }
       });
-
-      // Log the contents of csvfile to the console
-      // console.log("csvfile", csvfile);
-
     }
-
-
     // legenddata
     function legendinfo() {
       const max_phase_categories = [{
@@ -2134,8 +2069,6 @@ datasettext_click.on("click", onclick_dataSet);
           color: "#6a329f"
         }
       ];
-
-
 
       const data_Set = [{
           category: "GDSC1",
@@ -2228,8 +2161,6 @@ datasettext_click.on("click", onclick_dataSet);
     let clickedDiv = '';
     ul_color = document.getElementById('colorList');
     let selected_maxphase;
-
-
     function addColor(color) {
       li = document.createElement('li');
       li.className = 'color-item';
@@ -2256,9 +2187,6 @@ datasettext_click.on("click", onclick_dataSet);
       count = 0;
 
     }
-
-
-
     ul_color.addEventListener("click", function(event) {
 
       let clickedLi = "";
@@ -2303,34 +2231,19 @@ datasettext_click.on("click", onclick_dataSet);
       link.filter(function(templink) {
         if (templink.dataset === selected_maxphase) {
           d3.select(this).style("stroke", colorpick);
-
         }
-
       });
-
-
-
-
-
       node.filter((d) => d.type === 'parentnode')
         .select('image')
         .attr('xlink:href', (d) => d.image);
-
     });
-
-
-
     legendinfo();
-
     function onclickmax_phase(event) {
-
       d3.select(this)
         .classed("marked", function() {
           return !d3.select(this).classed("marked");
         });
-
       clicked = event.target.textContent;
-
       const index = list_hidden.indexOf(clicked);
 
       if (clicked === "Unknown") {
@@ -2350,16 +2263,9 @@ datasettext_click.on("click", onclick_dataSet);
       } else {
         // If 'clicked' is already in 'list_hidden', splice it
         list_hidden.splice(index, 1);
-
       }
-
-
       range_of_links(minValue, maxValue, slider_range);
-
-
     }
-
-
     function onclick_dataSet(event) {
       d3.select(this)
         .classed("marked", function() {
@@ -2397,14 +2303,9 @@ datasettext_click.on("click", onclick_dataSet);
       } else {
         list_hidden_childnode.splice(index, 1);
       }
-
-
-
       range_of_links(minValue, maxValue, slider_range);
 
-
     }
-
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
@@ -2415,11 +2316,7 @@ datasettext_click.on("click", onclick_dataSet);
 
       rangeValue.textContent = 100;
     }
-
-
-
     /// here is the code of applying the logic of theslider_rangeclear maxphase 
-
     // setting the sidler valus 
     const minSlider = document.getElementById("min_slider");
     const maxSlider = document.getElementById("max_slider");
@@ -2443,16 +2340,10 @@ datasettext_click.on("click", onclick_dataSet);
       range_of_links(minValue, maxValue, slider_range);
 
     }
-
-
-
     // Add onchange event listeners to both sliders
     minSlider.addEventListener("change", logSliderValues);
     maxSlider.addEventListener("change", logSliderValues);
-
     slider2.addEventListener("change", logSliderValues);
-
-
 
     // slider value ended here 
 
@@ -2508,8 +2399,6 @@ datasettext_click.on("click", onclick_dataSet);
         // document.getElementById("dropdown1").value = "";
         // document.getElementById("dropdown2").value = "";
         // document.getElementById("dropdown3").value = "";
-
-
 
       }
 
