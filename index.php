@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dropdown2 = $_POST['dropdown2'];
     $dropdown3 = $_POST['dropdown3'];
     $dropdown4 = $_POST['dropdown4'];
-   
+
     $sql = "SELECT * FROM drugresponse WHERE";
 
     // Array to store conditions
@@ -132,9 +132,10 @@ if (isset($_POST['drugName2'])) {
   <!-- Include Bootstrap 5 CSS and JavaScript -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="./css/styles.css">
-  
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </head>
+
 <body>
   <div class=" searchBar">
     <form class="selection_box flex" id="searchForm">
@@ -218,12 +219,14 @@ if (isset($_POST['drugName2'])) {
 
         <!-- third Dropdown -->
         <div class="form-group ">
+
           <select class="form-select" id="dropdown3">
             <option value="">Select matric </option>
             <option value="pIC50">pIC50</option>
             <option value="pEC50">pEC50</option>
             <option value="pGI50">pGI50</option>
           </select>
+
           <!-- Alert message for the second dropdown -->
           <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
             <span class="alert alert-danger">Please select option</span>
@@ -326,6 +329,11 @@ if (isset($_POST['drugName2'])) {
             <ul id="myList" style="padding-left: 0px"></ul>
             <legend class="legenddata">data_set</legend>
             <ul id="dataset" style="padding-left: 0px"></ul>
+
+
+            <legend class="legenddata">Matric</legend>
+            <ul id="matric_set" style="padding-left: 0px"></ul>
+
             <!-- <legend class="legenddata">child nodes</legend>
             <ul id="child_node"></ul> -->
 
@@ -481,6 +489,8 @@ overflow: auto;
     let clicked3;
     let list_hidden_childnode = [];
 
+    //  onclick matric 
+    let matric_link = [];
 
     let minValue;
     let maxValue;
@@ -524,6 +534,8 @@ overflow: auto;
 
           datasettext_click.on("click", onclick_dataSet);
 
+          matric_click.on("click", onclick_dataSet);
+
         });
 
         document.getElementById("decrement").addEventListener("click", function(event) {
@@ -542,6 +554,9 @@ overflow: auto;
           pax_phasecliked.on("click", onclickmax_phase);
 
           datasettext_click.on("click", onclick_dataSet);
+
+
+          matric_click.on("click", onclick_dataSet);
 
         });
 
@@ -600,7 +615,7 @@ overflow: auto;
         value: item.VALUE,
         max_range_link: item.MAX_PHASE,
         dataset: item.DATASET,
-        link_matric : item.METRIC 
+        link_matric: item.METRIC
       }));
 
       console.log("nodes", nodes)
@@ -852,67 +867,28 @@ overflow: auto;
         .force("x", d3.forceX(500))
         .force("y", d3.forceY(270));
 
-      // link = g
-      //   .selectAll(".link ")
-      //   .data(links)
-      //   .enter()
-      //   .append("line")
-      //   .attr("class", "link")
-      //   .style("stroke", function(d) {
-      //     // Manually set colors based on the dataset value
-      //     switch (d.dataset) {
-      //       case "GDSC1":
-      //         return "#000080";
-      //       case "GDSC2":
-      //         return "yellow";
-      //       case "CCLE_NP24":
-      //         return "blue";
-      //       case "NCI-60":
-      //         return "grey";
-      //       case "gCSI":
-      //         return "#ce7e00";
-      //       case "FIMM":
-      //         return "#6a329f";
-      //       default:
-      //         // Default color if the dataset doesn't match any specific case
-      //         return "black";
-      //     }
-      //   })
-      //   .attr("stroke-width", function(d) {
-
-      //     if (d.value < 5) {
-
-      //       return 0.5
-
-      //     } else {
-
-      //       return d.value - 4.5;
-      //     }
-      //   });
 
 
 
-
-
-        link = g
+      link = g
         .selectAll(".link ")
         .data(links)
-  .enter().append("line")
-  .style("stroke", function(d) {
+        .enter().append("line")
+        .style("stroke", function(d) {
           // Manually set colors based on the dataset value
           switch (d.dataset) {
             case "GDSC1":
-              return "#000080";
+              return "#4372c4";
             case "GDSC2":
-              return "yellow";
+              return "#fe0000";
             case "CCLE_NP24":
-              return "blue";
+              return "#9B35C8";
             case "NCI-60":
-              return "grey";
+              return "#0bc00f";
             case "gCSI":
-              return "#ce7e00";
+              return "#fe8f01";
             case "FIMM":
-              return "#6a329f";
+              return "#f99cc8";
             default:
               // Default color if the dataset doesn't match any specific case
               return "black";
@@ -929,8 +905,15 @@ overflow: auto;
             return d.value - 4.5;
           }
         })
-  .style("stroke-dasharray", "5,5");
-        
+        .style("stroke-dasharray", function(d) {
+          if (d.link_matric === 'pIC50') {
+            return "2,2"
+          } else if (d.link_matric === 'pEC50') {
+            return "5,5"
+          } else if (d.link_matric === 'pGI50') {
+            return "0"
+          }
+        })
 
       node = g
         .selectAll(".node")
@@ -1035,20 +1018,19 @@ overflow: auto;
         .attr("height", 12) // Set the height of the rectangle
         .attr("fill", function(node) {
           if (node.MAX_PHASE === "Approved") {
-            return "grey";
+            return "#0bc00f"; // Updated color for "Approved"
           } else if (node.MAX_PHASE === "PHASE 1") {
-            return "#000080";
+            return "#4372c4"; // Updated color for "PHASE 1"
           } else if (node.MAX_PHASE === "PHASE 2") {
-            return "yellow";
+            return "#fe0000"; // Updated color for "PHASE 2"
           } else if (node.MAX_PHASE === "PHASE 3") {
-            return "blue";
+            return "#9B35C8"; // Updated color for "PHASE 3"
           } else if (node.MAX_PHASE === "") {
-            return "#ce7e00";
+            return "#fe8f01"; // Updated color for empty string
           } else if (node.MAX_PHASE === "Unknown") {
-            return "#ce7e00";
+            return "#fe8f01"; // Updated color for "Unknown"
           } else if (node.MAX_PHASE === "Preclinical") {
-            return "#6a329f";
-
+            return "#f99cc8"; // Updated color for "Preclinical"
           }
         })
         .attr("x", -12)
@@ -1075,8 +1057,8 @@ overflow: auto;
       var zoom = d3.zoom()
         .scaleExtent([0.1, 10]) // Set the zoom scale extent as needed
         .on("zoom", zoomed);
-      
-        g.call(zoom);
+
+      g.call(zoom);
 
       function zoomed() {
         if (g) {
@@ -1100,11 +1082,12 @@ overflow: auto;
         svg.transition().call(zoom.scaleBy, 0.8);
       });
     }
+
     function range_of_links(min_range, max_range, valueofslider) {
       link.style("display", null);
       node.style("display", null);
       //  fitleration of the threshold value sidler 
-    
+
       let parentnodes = node.filter(function(node) {
         if (node.type === "parentnode") {
           return node;
@@ -1253,7 +1236,8 @@ overflow: auto;
       });
       // link filter nodes here 
       link.filter(function(templink) {
-        if (list_hidden_dataset.includes(templink.dataset)) {
+        if (list_hidden_dataset.includes(templink.dataset) || list_hidden_dataset.includes(templink.link_matric)) {
+          console.log(templink.link_matric);
           d3.select(this).style("display", "none");
           node.filter(function(tempnode) {
             if (tempnode === templink.target || tempnode === templink.source) {
@@ -1297,55 +1281,74 @@ overflow: auto;
     }
     // legenddata
     function legendinfo() {
+
+
+
+
+
+
+
+
       const max_phase_categories = [{
           category: "PHASE 1",
-          color: "#000080"
+          color: "#4372c4",
         },
         {
           category: "PHASE 2",
-          color: "yellow"
+          color: "#fe0000",
         },
         {
           category: "PHASE 3",
-          color: "blue"
+          color: "#9B35C8",
         },
         {
           category: "Approved",
-          color: "grey"
+          color: "#0bc00f",
         },
         {
           category: "",
-          color: "#ce7e00"
+          color: "#fe8f01",
         },
         {
           category: "Preclinical",
-          color: "#6a329f"
-        }
+          color: "#f99cc8",
+        },
       ];
 
       const data_Set = [{
           category: "GDSC1",
-          color: "#000080"
+          color: "#4372c4"
         },
         {
           category: "GDSC2",
-          color: "yellow"
+          color: "#fe0000"
         },
         {
           category: "CCLE_NP24",
-          color: "blue"
+          color: "#9B35C8"
         },
         {
           category: "NCI-60",
-          color: "grey"
+          color: "#0bc00f"
         },
         {
           category: "gCSI",
-          color: "#ce7e00"
+          color: "#fe8f01"
         },
         {
           category: "FIMM",
-          color: "#6a329f"
+          color: "#f99cc8"
+        }
+      ];
+
+      const matric_categories = [{
+          category: 'pIC50'
+        },
+        {
+          category: 'pEC50'
+        },
+        {
+          category: 'pGI50'
         }
       ];
 
@@ -1381,6 +1384,23 @@ overflow: auto;
         .enter()
         .append("li");
 
+      const ul3 = d3.select('#matric_set');
+
+      matric_link = ul3
+        .selectAll("li")
+        .data(matric_categories)
+        .enter()
+        .append("li");
+
+
+
+      matric_color = matric_link
+        .append("div")
+        .attr("class", "line")
+        .style("background", "repeating-radial-gradient(circle, #000000 0, #000000 1px, transparent 1px, transparent 2px)")
+        .style("height", "2px");
+
+      matric_click = matric_link.append("span").text((d) => d.category);
 
       data_set_color = dataSet_link
         .append("div")
@@ -1414,6 +1434,7 @@ overflow: auto;
     let clickedDiv = '';
     ul_color = document.getElementById('colorList');
     let selected_maxphase;
+
     function addColor(color) {
       li = document.createElement('li');
       li.className = 'color-item';
@@ -1455,27 +1476,20 @@ overflow: auto;
       }
       node.each(function(node) {
         if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
-          if (colorpick === "yellow") {
-            d3.select(this).select("rect") // Assuming the shape is a rectangle, adjust as needed
-              .attr("fill", "yellow");
-
-          } else if (colorpick === "grey") {
-            d3.select(this).select("rect")
-              .attr("fill", "grey");
-
-          } else if (colorpick === "rgb(206, 126, 0)") {
-            d3.select(this).select("rect")
-              .attr("fill", "rgb(206, 126, 0)");
-
-          } else if (colorpick === "rgb(0, 0, 128)") {
-            d3.select(this).select("rect")
-              .attr("fill", "rgb(0, 0, 128)");
-          } else if (colorpick === "blue") {
-            d3.select(this).select("rect")
-              .attr("fill", "blue");
+          if (colorpick === "#4372c4") {
+            d3.select(this).select("rect").attr("fill", "#4372c4"); // Updated color for "red"
+          } else if (colorpick === "#fe0000") {
+            d3.select(this).select("rect").attr("fill", "#fe0000");
+          } else if (colorpick === "#9B35C8") {
+            d3.select(this).select("rect").attr("fill", "#9B35C8"); // Updated color for "rgb(206, 126, 0)"
+          } else if (colorpick === "#0bc00f") {
+            d3.select(this).select("rect").attr("fill", "#0bc00f"); // Updated color for "rgb(0, 0, 128)"
+          } else if (colorpick === "#fe8f01") {
+            d3.select(this).select("rect").attr("fill", "#fe8f01");
+          } else if (colorpick === "#f99cc8") {
+            d3.select(this).select("rect").attr("fill", "#f99cc8"); // Updated color for "yellow"
           } else {
-            d3.select(this).select("rect")
-              .attr("fill", "purple.png");
+            d3.select(this).select("rect").attr("fill", "red");
           }
         }
       });
@@ -1491,6 +1505,7 @@ overflow: auto;
         .attr('xlink:href', (d) => d.image);
     });
     legendinfo();
+
     function onclickmax_phase(event) {
       d3.select(this)
         .classed("marked", function() {
@@ -1519,6 +1534,7 @@ overflow: auto;
       }
       range_of_links(minValue, maxValue, slider_range);
     }
+
     function onclick_dataSet(event) {
       d3.select(this)
         .classed("marked", function() {
@@ -1535,7 +1551,7 @@ overflow: auto;
       } else {
         list_hidden_dataset.splice(index, 1);
       }
-
+      console.log(list_hidden_dataset);
       range_of_links(minValue, maxValue, slider_range);
     }
 
@@ -1559,6 +1575,7 @@ overflow: auto;
       range_of_links(minValue, maxValue, slider_range);
 
     }
+
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
@@ -1587,6 +1604,8 @@ overflow: auto;
       pax_phasecliked.on("click", onclickmax_phase);
 
       datasettext_click.on("click", onclick_dataSet);
+
+      matric_click.on("click", onclick_dataSet);
 
       // child_clicked.on("click", onclick_childnodes);
 
@@ -1783,6 +1802,8 @@ overflow: auto;
 
           datasettext_click.on("click", onclick_dataSet);
 
+          matric_click.on("click", onclick_dataSet);
+
           range_of_links(minValue, maxValue, slider_range);
 
 
@@ -1834,6 +1855,7 @@ overflow: auto;
           d.fy = null;
         });
       }
+      dropdown3
 
 
 
