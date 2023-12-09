@@ -2,62 +2,62 @@
 include("fetchdata.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Check if all dropdown values are set
-  if (isset($_POST['dropdown1']) && isset($_POST['dropdown2']) && isset($_POST['dropdown3'])  && isset($_POST['dropdown4'])) {
-    $dropdown1 = $_POST['dropdown1'];
-    $dropdown2 = $_POST['dropdown2'];
-    $dropdown3 = $_POST['dropdown3'];
-    $dropdown4 = $_POST['dropdown4'];
+    // Check if all dropdown values are set
+    if (isset($_POST['dropdown1']) && isset($_POST['dropdown2']) && isset($_POST['dropdown3'])  && isset($_POST['dropdown4'])) {
+        $dropdown1 = $_POST['dropdown1'];
+        $dropdown2 = $_POST['dropdown2'];
+        $dropdown3 = $_POST['dropdown3'];
+        $dropdown4 = $_POST['dropdown4'];
 
-    $sql = "SELECT * FROM drugresponse WHERE";
+        $sql = "SELECT * FROM drugresponse WHERE";
 
-    // Array to store conditions
-    $conditions = array();
+        // Array to store conditions
+        $conditions = array();
 
-    // Check and add condition for ONCOTREE_LINEAGE
-    if (!empty($dropdown1)) {
-      $conditions[] = "ONCOTREE_LINEAGE = '$dropdown1'";
+        // Check and add condition for ONCOTREE_LINEAGE
+        if (!empty($dropdown1)) {
+            $conditions[] = "ONCOTREE_LINEAGE = '$dropdown1'";
+        }
+
+        // Check and add condition for ONCOTREE_PRIMARY_DISEASE
+        if (!empty($dropdown2)) {
+            $conditions[] = "ONCOTREE_PRIMARY_DISEASE = '$dropdown2'";
+        }
+
+        // Check and add condition for METRIC
+        if (!empty($dropdown3)) {
+            $conditions[] = "MAX_PHASE = '$dropdown3'";
+        }
+
+        // Check and add condition for CHEMBL_ID
+        if (!empty($dropdown4)) {
+            $conditions[] = "CHEMBL_ID = '$dropdown4'";
+        }
+
+        // Combine conditions with "AND" and add to the SQL query
+        if (!empty($conditions)) {
+            $sql .= " " . implode(" AND ", $conditions);
+        }
+
+        // Limit the result to 400 rows
+        $sql .= " LIMIT 400";
+
+        $result = $conn->query($sql);
+
+        // Fetch the result into an associative array
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        // Convert the result to JSON format
+        $json_result = json_encode($data);
+        header('Content-Type: application/json');
+
+        // Echo the JSON-encoded data
+        echo $json_result;
+        exit(); // Stop further execution
     }
-
-    // Check and add condition for ONCOTREE_PRIMARY_DISEASE
-    if (!empty($dropdown2)) {
-      $conditions[] = "ONCOTREE_PRIMARY_DISEASE = '$dropdown2'";
-    }
-
-    // Check and add condition for METRIC
-    if (!empty($dropdown3)) {
-      $conditions[] = "METRIC = '$dropdown3'";
-    }
-
-    // Check and add condition for CHEMBL_ID
-    if (!empty($dropdown4)) {
-      $conditions[] = "CHEMBL_ID = '$dropdown4'";
-    }
-
-    // Combine conditions with "AND" and add to the SQL query
-    if (!empty($conditions)) {
-      $sql .= " " . implode(" AND ", $conditions);
-    }
-
-
-
-
-    $result = $conn->query($sql);
-
-    // Fetch the result into an associative array
-    $data = array();
-    while ($row = $result->fetch_assoc()) {
-      $data[] = $row;
-    }
-
-    // Convert the result to JSON format
-    $json_result = json_encode($data);
-    header('Content-Type: application/json');
-
-    // Echo the JSON-encoded data
-    echo $json_result;
-    exit(); // Stop further execution
-  }
 }
 ?>
 
@@ -145,7 +145,7 @@ if (isset($_POST['drugName2'])) {
       <div class="form-row rowData">
         <!-- First Dropdown -->
         <div class="form-group ">
-          <select class="form-select" id="dropdown1">
+          <select class="form-select" id="dropdown1"  name="select" >
             <option value="">Select ONCOTREE_LINEAGE</option>
             <option value="Bone">Bone</option>
             <option value="Skin">Skin</option>
@@ -221,10 +221,13 @@ if (isset($_POST['drugName2'])) {
         <div class="form-group ">
 
           <select class="form-select" id="dropdown3">
-            <option value="">Select matric </option>
-            <option value="pIC50">pIC50</option>
-            <option value="pEC50">pEC50</option>
-            <option value="pGI50">pGI50</option>
+            <option value="">Select Max Phase  </option>
+            <option value="Approved">Approved</option>
+            <option value="Preclinical">Preclinical</option>
+            <option value="PHASE 2">PHASE 2</option>
+            <option value="PHASE 3">PHASE 3</option>
+            <option value="PHASE 1">PHASE 1</option>
+            <option value="Unknown">Unknown</option>
           </select>
 
           <!-- Alert message for the second dropdown -->
@@ -512,55 +515,26 @@ overflow: auto;
     let name_of_drug;
     // fetching the json file  
     let curentnodes = 400;
+
+
+
     async function fetchData(data) {
       try {
         response = data;
 
-        let newdata = response.slice(0, curentnodes); // Replace with the correct JSON file path
-        // const jsonData = await response.json();
-
         console.log('data coming from the', response);
+
 
         document.getElementById("increment").addEventListener("click", function(event) {
           event.preventDefault();
-
-          curentnodes += 400; // Increment nodes
-          let newdata = response.slice(0, curentnodes);
-          clearGraph();
-          processData(newdata);
-          force_network_grapgh();
-          range_of_links(minValue, maxValue, slider_range);
-          pax_phasecliked.on("click", onclickmax_phase);
-
-          datasettext_click.on("click", onclick_dataSet);
-
-          matric_click.on("click", onclick_dataSet);
 
         });
 
         document.getElementById("decrement").addEventListener("click", function(event) {
           event.preventDefault();
 
-          curentnodes -= 400; // Decrement nodes
-          if (curentnodes < 0) {
-            curentnodes = 0; // Ensure non-negative value
-          }
-
-          let newdata = response.slice(0, curentnodes);
-          clearGraph();
-          processData(newdata);
-          force_network_grapgh();
-          range_of_links(minValue, maxValue, slider_range);
-          pax_phasecliked.on("click", onclickmax_phase);
-
-          datasettext_click.on("click", onclick_dataSet);
-
-
-          matric_click.on("click", onclick_dataSet);
-
         });
-
-        processData(newdata);
+        processData(response);
 
 
       } catch (error) {
@@ -1006,7 +980,13 @@ overflow: auto;
       node
         .filter((d) => d.type === "childnode")
         .append("circle")
-        .attr("r", 8)
+        .attr("r", function(d){  
+            const degree = links.filter(
+              (link) => link.source.id === d.id || link.target.id === d.id
+            ).length;
+            console.log(degree) ; 
+             return degree;
+        })
         .attr("fill", "green")
         .attr("stroke", "#fff")
         .attr("stroke-width", 1.5)
@@ -1472,15 +1452,15 @@ overflow: auto;
 
         clickedDiv.style("background-color", colorpick || "#6a329f");
         cardshow.style.display = "none";
-   
+
       }
 
       //error 
-      console.log(colorpick) ;
+      console.log(colorpick);
       node.each(function(node) {
         if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
-            d3.select(this).select("rect").attr("fill", colorpick);
-            
+          d3.select(this).select("rect").attr("fill", colorpick);
+
         }
       });
 
