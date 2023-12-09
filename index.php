@@ -599,7 +599,8 @@ overflow: auto;
         target: item.CELL_LINE_NAME,
         value: item.VALUE,
         max_range_link: item.MAX_PHASE,
-        dataset: item.DATASET
+        dataset: item.DATASET,
+        link_matric : item.METRIC 
       }));
 
       console.log("nodes", nodes)
@@ -851,13 +852,53 @@ overflow: auto;
         .force("x", d3.forceX(500))
         .force("y", d3.forceY(270));
 
-      link = g
+      // link = g
+      //   .selectAll(".link ")
+      //   .data(links)
+      //   .enter()
+      //   .append("line")
+      //   .attr("class", "link")
+      //   .style("stroke", function(d) {
+      //     // Manually set colors based on the dataset value
+      //     switch (d.dataset) {
+      //       case "GDSC1":
+      //         return "#000080";
+      //       case "GDSC2":
+      //         return "yellow";
+      //       case "CCLE_NP24":
+      //         return "blue";
+      //       case "NCI-60":
+      //         return "grey";
+      //       case "gCSI":
+      //         return "#ce7e00";
+      //       case "FIMM":
+      //         return "#6a329f";
+      //       default:
+      //         // Default color if the dataset doesn't match any specific case
+      //         return "black";
+      //     }
+      //   })
+      //   .attr("stroke-width", function(d) {
+
+      //     if (d.value < 5) {
+
+      //       return 0.5
+
+      //     } else {
+
+      //       return d.value - 4.5;
+      //     }
+      //   });
+
+
+
+
+
+        link = g
         .selectAll(".link ")
         .data(links)
-        .enter()
-        .append("line")
-        .attr("class", "link")
-        .style("stroke", function(d) {
+  .enter().append("line")
+  .style("stroke", function(d) {
           // Manually set colors based on the dataset value
           switch (d.dataset) {
             case "GDSC1":
@@ -887,7 +928,9 @@ overflow: auto;
 
             return d.value - 4.5;
           }
-        });
+        })
+  .style("stroke-dasharray", "5,5");
+        
 
       node = g
         .selectAll(".node")
