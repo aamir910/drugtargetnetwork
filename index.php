@@ -1472,25 +1472,15 @@ overflow: auto;
 
         clickedDiv.style("background-color", colorpick || "#6a329f");
         cardshow.style.display = "none";
-
+   
       }
+
+      //error 
+      console.log(colorpick) ;
       node.each(function(node) {
         if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
-          if (colorpick === "#4372c4") {
-            d3.select(this).select("rect").attr("fill", "#4372c4"); // Updated color for "red"
-          } else if (colorpick === "#fe0000") {
-            d3.select(this).select("rect").attr("fill", "#fe0000");
-          } else if (colorpick === "#9B35C8") {
-            d3.select(this).select("rect").attr("fill", "#9B35C8"); // Updated color for "rgb(206, 126, 0)"
-          } else if (colorpick === "#0bc00f") {
-            d3.select(this).select("rect").attr("fill", "#0bc00f"); // Updated color for "rgb(0, 0, 128)"
-          } else if (colorpick === "#fe8f01") {
-            d3.select(this).select("rect").attr("fill", "#fe8f01");
-          } else if (colorpick === "#f99cc8") {
-            d3.select(this).select("rect").attr("fill", "#f99cc8"); // Updated color for "yellow"
-          } else {
-            d3.select(this).select("rect").attr("fill", "red");
-          }
+            d3.select(this).select("rect").attr("fill", colorpick);
+            
         }
       });
 
