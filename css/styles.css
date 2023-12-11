@@ -736,6 +736,11 @@
     width: 100%;
   }
 
+
+
+  /* MULTISELCT FORM  */
+  
+
   @media (max-width: 1000px) {
 
     /* Change the width to 80% when the screen size is less than 900 pixels */
@@ -772,4 +777,7 @@
 
       flex-wrap: wrap;
     }
+
+
+
   }

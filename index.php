@@ -2,62 +2,62 @@
 include("fetchdata.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if all dropdown values are set
-    if (isset($_POST['dropdown1']) && isset($_POST['dropdown2']) && isset($_POST['dropdown3'])  && isset($_POST['dropdown4'])) {
-        $dropdown1 = $_POST['dropdown1'];
-        $dropdown2 = $_POST['dropdown2'];
-        $dropdown3 = $_POST['dropdown3'];
-        $dropdown4 = $_POST['dropdown4'];
+  // Check if all dropdown values are set
+  if (isset($_POST['dropdown1']) && isset($_POST['dropdown2']) && isset($_POST['dropdown3'])  && isset($_POST['dropdown4'])) {
+    $dropdown1 = $_POST['dropdown1'];
+    $dropdown2 = $_POST['dropdown2'];
+    $dropdown3 = $_POST['dropdown3'];
+    $dropdown4 = $_POST['dropdown4'];
 
-        $sql = "SELECT * FROM drugresponse WHERE";
+    $sql = "SELECT * FROM drugresponse WHERE";
 
-        // Array to store conditions
-        $conditions = array();
+    // Array to store conditions
+    $conditions = array();
 
-        // Check and add condition for ONCOTREE_LINEAGE
-        if (!empty($dropdown1)) {
-            $conditions[] = "ONCOTREE_LINEAGE = '$dropdown1'";
-        }
-
-        // Check and add condition for ONCOTREE_PRIMARY_DISEASE
-        if (!empty($dropdown2)) {
-            $conditions[] = "ONCOTREE_PRIMARY_DISEASE = '$dropdown2'";
-        }
-
-        // Check and add condition for METRIC
-        if (!empty($dropdown3)) {
-            $conditions[] = "MAX_PHASE = '$dropdown3'";
-        }
-
-        // Check and add condition for CHEMBL_ID
-        if (!empty($dropdown4)) {
-            $conditions[] = "CHEMBL_ID = '$dropdown4'";
-        }
-
-        // Combine conditions with "AND" and add to the SQL query
-        if (!empty($conditions)) {
-            $sql .= " " . implode(" AND ", $conditions);
-        }
-
-        // Limit the result to 400 rows
-        $sql .= " LIMIT 400";
-
-        $result = $conn->query($sql);
-
-        // Fetch the result into an associative array
-        $data = array();
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-
-        // Convert the result to JSON format
-        $json_result = json_encode($data);
-        header('Content-Type: application/json');
-
-        // Echo the JSON-encoded data
-        echo $json_result;
-        exit(); // Stop further execution
+    // Check and add condition for ONCOTREE_LINEAGE
+    if (!empty($dropdown1)) {
+      $conditions[] = "ONCOTREE_LINEAGE = '$dropdown1'";
     }
+
+    // Check and add condition for ONCOTREE_PRIMARY_DISEASE
+    if (!empty($dropdown2)) {
+      $conditions[] = "ONCOTREE_PRIMARY_DISEASE = '$dropdown2'";
+    }
+
+    // Check and add condition for METRIC
+    if (!empty($dropdown3)) {
+      $conditions[] = "MAX_PHASE = '$dropdown3'";
+    }
+
+    // Check and add condition for CHEMBL_ID
+    if (!empty($dropdown4)) {
+      $conditions[] = "CHEMBL_ID = '$dropdown4'";
+    }
+
+    // Combine conditions with "AND" and add to the SQL query
+    if (!empty($conditions)) {
+      $sql .= " " . implode(" AND ", $conditions);
+    }
+
+    // Limit the result to 400 rows
+    $sql .= " LIMIT 400";
+
+    $result = $conn->query($sql);
+
+    // Fetch the result into an associative array
+    $data = array();
+    while ($row = $result->fetch_assoc()) {
+      $data[] = $row;
+    }
+
+    // Convert the result to JSON format
+    $json_result = json_encode($data);
+    header('Content-Type: application/json');
+
+    // Echo the JSON-encoded data
+    echo $json_result;
+    exit(); // Stop further execution
+  }
 }
 ?>
 
@@ -134,6 +134,62 @@ if (isset($_POST['drugName2'])) {
   <link rel="stylesheet" type="text/css" href="./css/styles.css">
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+ <style>
+
+.dropdown {
+      display: inline-block;
+      position: relative;
+    }
+
+    /* Style for the dropdown button */
+    .dropdown label {
+      padding: 10px;
+      font-size: 16px;
+      /* border: 1px solid #ccc; */
+      cursor: pointer;
+      background-color: #fff;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 200px; /* Adjust the width as needed */
+      position: relative;
+    }
+
+    /* Style for the arrow icon */
+    .dropdown button::after {
+      content: '\25BC'; /* Unicode character for downward arrow */
+      font-size: 12px;
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+    }
+
+    /* Style for the dropdown content */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      z-index: 1;
+      max-height: 550px; /* Adjust the max-height as needed */
+      overflow-y: auto;
+    }
+
+    /* Style for the checkboxes inside the dropdown */
+    .dropdown-content label {
+      display: block;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .dropdown-content input {
+      margin-right: 8px;
+    }
+ </style>
+
+
 </head>
 
 <body>
@@ -144,40 +200,39 @@ if (isset($_POST['drugName2'])) {
       <button class="btn1" id="decrement">400-</button>
       <div class="form-row rowData">
         <!-- First Dropdown -->
-        <div class="form-group ">
-          <select class="form-select" id="dropdown1"  name="select" >
-            <option value="">Select ONCOTREE_LINEAGE</option>
-            <option value="Bone">Bone</option>
-            <option value="Skin">Skin</option>
-            <option value="Central Nervous System">Central Nervous System</option>
-            <option value="Lung">Lung</option>
-            <option value="Peripheral Nervous System">Peripheral Nervous System</option>
-            <option value="Soft Tissue">Soft Tissue</option>
-            <option value="Esophagus">Esophagus</option>
-            <option value="Breast">Breast</option>
-            <option value="Head and Neck">Head and Neck</option>
-            <option value="Haematopoietic and Lymphoid">Haematopoietic and Lymphoid</option>
-            <option value="Bladder">Bladder</option>
-            <option value="Kidney">Kidney</option>
-            <option value="Pancreas">Pancreas</option>
-            <option value="Large Intestine">Large Intestine</option>
-            <option value="Ovary">Ovary</option>
-            <option value="Stomach">Stomach</option>
-            <option value="Biliary Tract">Biliary Tract</option>
-            <option value="Small Intestine">Small Intestine</option>
-            <option value="Placenta">Placenta</option>
-            <option value="Prostate">Prostate</option>
-            <option value="Testis">Testis</option>
-            <option value="Uterus">Uterus</option>
-            <option value="Vulva">Vulva</option>
-            <option value="Thyroid">Thyroid</option>
-          </select>
+        <div class="dropdown" onclick="toggleDropdown(event)">
 
-          <!-- Alert message for the first dropdown -->
-          <div class="alert-message alert2" style="position: absolute; top: 110px; ">
-            <span class="alert alert-danger">Please select option</span>
+          <label id="dropdownBtn">Select ONCOTREE_LINEAGE</label>
+          <div id="dropdownContent" class="dropdown-content">
+            <label><input type="checkbox" value="Bone">Bone</label>
+            <label><input type="checkbox" value="Skin">Skin</label>
+            <label><input type="checkbox" value="Central Nervous System">Central Nervous System</label>
+            <label><input type="checkbox" value="Lung">Lung</label>
+            <label><input type="checkbox" value="Peripheral Nervous System">Peripheral Nervous System</label>
+            <label><input type="checkbox" value="Soft Tissue">Soft Tissue</label>
+            <label><input type="checkbox" value="Esophagus">Esophagus</label>
+            <label><input type="checkbox" value="Breast">Breast</label>
+            <label><input type="checkbox" value="Head and Neck">Head and Neck</label>
+            <label><input type="checkbox" value="Haematopoietic and Lymphoid">Haematopoietic and Lymphoid</label>
+            <label><input type="checkbox" value="Bladder">Bladder</label>
+            <label><input type="checkbox" value="Kidney">Kidney</label>
+            <label><input type="checkbox" value="Pancreas">Pancreas</label>
+            <label><input type="checkbox" value="Large Intestine">Large Intestine</label>
+            <label><input type="checkbox" value="Ovary">Ovary</label>
+            <label><input type="checkbox" value="Stomach">Stomach</label>
+            <label><input type="checkbox" value="Biliary Tract">Biliary Tract</label>
+            <label><input type="checkbox" value="Small Intestine">Small Intestine</label>
+            <label><input type="checkbox" value="Placenta">Placenta</label>
+            <label><input type="checkbox" value="Prostate">Prostate</label>
+            <label><input type="checkbox" value="Testis">Testis</label>
+            <label><input type="checkbox" value="Uterus">Uterus</label>
+            <label><input type="checkbox" value="Vulva">Vulva</label>
+            <label><input type="checkbox" value="Thyroid">Thyroid</label>
+            <!-- Add more options as needed -->
           </div>
         </div>
+
+
 
         <!-- Second Dropdown -->
         <div class="form-group " style="display : none ; ">
@@ -221,7 +276,7 @@ if (isset($_POST['drugName2'])) {
         <div class="form-group ">
 
           <select class="form-select" id="dropdown3">
-            <option value="">Select Max Phase  </option>
+            <option value="">Select Max Phase </option>
             <option value="Approved">Approved</option>
             <option value="Preclinical">Preclinical</option>
             <option value="PHASE 2">PHASE 2</option>
@@ -462,7 +517,70 @@ overflow: auto;
   <script src="https://d3js.org/d3-force.v3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
+  <script>
 
+    // Function to toggle the display of the dropdown content
+    function toggleDropdown(event) {
+
+      // event.preventDefault();
+      
+  console.log("toggleDropdown function called");
+
+      var dropdownContent = document.getElementById("dropdownContent");
+      var dropdownBtn = document.getElementById("dropdownBtn");
+
+      if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+      } else {
+        dropdownContent.style.display = "block";
+        event.stopPropagation();
+      }
+    }
+
+    // Function to handle checkbox changes and update the button text
+    function handleCheckboxChange() {
+      console.log("hello")
+      var selectedValues = [];
+
+      // Get all checkboxes within the dropdown
+      var checkboxes = document.querySelectorAll('#dropdownContent input[type="checkbox"]:checked');
+      // Update the array with the selected values
+      checkboxes.forEach(function(checkbox) {
+        selectedValues.push(checkbox.value);
+      });
+
+      // Update the button text with selected values
+      var dropdownBtn = document.getElementById("dropdownBtn");
+      dropdownBtn.textContent = selectedValues.length > 0 ? selectedValues.join(', ') : "Select Options";
+
+
+
+      console.log(selectedValues) ;
+      // Close the dropdown
+      var dropdownContent = document.getElementById("dropdownContent");
+      dropdownContent.style.display = "none";
+    }
+
+    // Add event listeners to the checkboxes
+ var checkboxList = document.querySelectorAll('#dropdownContent input[type="checkbox"]');
+  checkboxList.forEach(function (checkbox) {
+    
+    checkbox.addEventListener('change', function () {
+      
+  console.log("Checkbox change event triggered");
+      handleCheckboxChange();
+      
+    });
+  });
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function() {
+      var dropdownContent = document.getElementById("dropdownContent");
+      dropdownContent.style.display = "none";
+    }
+
+
+  </script>
 
 
   <script>
@@ -887,7 +1005,99 @@ overflow: auto;
           } else if (d.link_matric === 'pGI50') {
             return "0"
           }
+        }).attr("x1", function(d) {
+          return d.source.x;
         })
+        .attr("y1", function(d) {
+          return d.source.y;
+        })
+        .attr("x2", function(d) {
+          return d.target.x;
+        })
+        .attr("y2", function(d) {
+          return d.target.y;
+        });
+
+
+
+      //         const tooltip2 = link
+      //     .append("text") .text((d) => {
+      //     // console.log(d); // Log the data to the console
+      //     return d.value;
+      // })
+      //     .attr("font-size", "20px")
+      //     .attr("text-anchor", "middle")
+      //     .style("fill", "black")   .attr("transform", function(d) {
+      //     const x = (d.source.x );
+      //     const y = (d.source.y );
+      //     console.log(y) ; 
+      //     return "translate(" + 70.0710678118654755 + "," + 80.273032735715967+ ")";
+      // });
+
+
+      // Append text for link names
+      var linkTextGroup = g.selectAll(".link-text-group")
+        .data(links)
+        .enter()
+        .append("g")
+        .attr("class", "link-text-group")
+        .attr("transform", function(d) {
+          // Calculate the midpoint between source and target for both x and y
+          var x = (d.target.x + d.source.x) / 2;
+          var y = (d.target.y + d.source.y) / 2;
+          return "translate(" + x + "," + y + ")";
+        });
+
+
+
+      // // Append text to the link text group
+      linkTextGroup.append("text")
+        .text(function(d) {
+          // You can customize the text based on your data
+          return d.value;
+        })
+        .attr("text-anchor", "middle")
+        .attr("dy", "0.35em").style("opacity", 0); // Initially hide the text
+
+      // Add mouseover and mouseout events to show/hide the text
+      link.on("mouseover", function() {
+          console.log()
+          d3.select(this).select("text").style("opacity", 1);
+        })
+        .on("mouseout", function() {
+          d3.select(this).select("text").style("visibility", 0);
+        });
+
+      // linkTextGroup.append("text")
+      //   .attr("class", "link-text")
+      //   .text(function(d) {
+      //     return d.value;
+      //   })
+      //   .style("text-anchor", "middle");
+
+
+      // var linkText = g.selectAll(".gLink")
+      //             .data(links)
+      //           .append("text")
+      // 	    .attr("font-family", "Arial, Helvetica, sans-serif")
+      // 	    .attr("x", function(d) {
+      // 	        if (d.target.x > d.source.x) { return (d.source.x + (d.target.x - d.source.x)/2); }
+      // 	        else { return (d.target.x + (d.source.x - d.target.x)/2); }
+      // 	    })
+      //             .attr("y", function(d) {
+      // 	        if (d.target.y > d.source.y) { return (d.source.y + (d.target.y - d.source.y)/2); }
+      // 	        else { return (d.target.y + (d.source.y - d.target.y)/2); }
+      // 	    })
+      // 	    .attr("fill", "Black")
+      //             .style("font", "normal 12px Arial")
+      //             .attr("dy", ".35em")
+      //             .text(function(d) { return d.linkName; });
+
+
+
+
+
+
 
       node = g
         .selectAll(".node")
@@ -980,12 +1190,12 @@ overflow: auto;
       node
         .filter((d) => d.type === "childnode")
         .append("circle")
-        .attr("r", function(d){  
-            const degree = links.filter(
-              (link) => link.source.id === d.id || link.target.id === d.id
-            ).length;
-            console.log(degree) ; 
-             return degree;
+        .attr("r", function(d) {
+          const degree = links.filter(
+            (link) => link.source.id === d.id || link.target.id === d.id
+          ).length;
+          return degree / 2;
+
         })
         .attr("fill", "green")
         .attr("stroke", "#fff")
@@ -1019,6 +1229,7 @@ overflow: auto;
         .attr("ry", 5) // Set the y-axis border radius
         .attr("stroke", "#fff")
         .attr("stroke-width", 1.5);
+
 
 
       simulation.on("tick", () => {
@@ -1217,7 +1428,7 @@ overflow: auto;
       // link filter nodes here 
       link.filter(function(templink) {
         if (list_hidden_dataset.includes(templink.dataset) || list_hidden_dataset.includes(templink.link_matric)) {
-          console.log(templink.link_matric);
+
           d3.select(this).style("display", "none");
           node.filter(function(tempnode) {
             if (tempnode === templink.target || tempnode === templink.source) {
@@ -1456,7 +1667,6 @@ overflow: auto;
       }
 
       //error 
-      console.log(colorpick);
       node.each(function(node) {
         if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
           d3.select(this).select("rect").attr("fill", colorpick);
@@ -1521,7 +1731,6 @@ overflow: auto;
       } else {
         list_hidden_dataset.splice(index, 1);
       }
-      console.log(list_hidden_dataset);
       range_of_links(minValue, maxValue, slider_range);
     }
 
