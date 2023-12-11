@@ -135,9 +135,8 @@ if (isset($_POST['drugName2'])) {
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
- <style>
-
-.dropdown {
+  <style>
+    .dropdown {
       display: inline-block;
       position: relative;
     }
@@ -152,13 +151,15 @@ if (isset($_POST['drugName2'])) {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      width: 200px; /* Adjust the width as needed */
+      width: 200px;
+      /* Adjust the width as needed */
       position: relative;
     }
 
     /* Style for the arrow icon */
     .dropdown button::after {
-      content: '\25BC'; /* Unicode character for downward arrow */
+      content: '\25BC';
+      /* Unicode character for downward arrow */
       font-size: 12px;
       position: absolute;
       top: 50%;
@@ -171,9 +172,10 @@ if (isset($_POST['drugName2'])) {
       display: none;
       position: absolute;
       background-color: #f9f9f9;
-      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
       z-index: 1;
-      max-height: 550px; /* Adjust the max-height as needed */
+      max-height: 550px;
+      /* Adjust the max-height as needed */
       overflow-y: auto;
     }
 
@@ -187,7 +189,7 @@ if (isset($_POST['drugName2'])) {
     .dropdown-content input {
       margin-right: 8px;
     }
- </style>
+  </style>
 
 
 </head>
@@ -200,6 +202,10 @@ if (isset($_POST['drugName2'])) {
       <button class="btn1" id="decrement">400-</button>
       <div class="form-row rowData">
         <!-- First Dropdown -->
+
+
+
+
         <div class="dropdown" onclick="toggleDropdown(event)">
 
           <label id="dropdownBtn">Select ONCOTREE_LINEAGE</label>
@@ -231,8 +237,36 @@ if (isset($_POST['drugName2'])) {
             <!-- Add more options as needed -->
           </div>
         </div>
+        <div class="form-group ">
 
-
+          <select class="form-select" id="dropdown1">
+            <option value="">Select Max Phase</option>
+            <option value="Bone">Bone</option>
+            <option value="Skin">Skin</option>
+            <option value="Central Nervous System">Central Nervous System</option>
+            <option value="Lung">Lung</option>
+            <option value="Peripheral Nervous System">Peripheral Nervous System</option>
+            <option value="Soft Tissue">Soft Tissue</option>
+            <option value="Esophagus">Esophagus</option>
+            <option value="Breast">Breast</option>
+            <option value="Head and Neck">Head and Neck</option>
+            <option value="Haematopoietic and Lymphoid">Haematopoietic and Lymphoid</option>
+            <option value="Bladder">Bladder</option>
+            <option value="Kidney">Kidney</option>
+            <option value="Pancreas">Pancreas</option>
+            <option value="Large Intestine">Large Intestine</option>
+            <option value="Ovary">Ovary</option>
+            <option value="Stomach">Stomach</option>
+            <option value="Biliary Tract">Biliary Tract</option>
+            <option value="Small Intestine">Small Intestine</option>
+            <option value="Placenta">Placenta</option>
+            <option value="Prostate">Prostate</option>
+            <option value="Testis">Testis</option>
+            <option value="Uterus">Uterus</option>
+            <option value="Vulva">Vulva</option>
+            <option value="Thyroid">Thyroid</option>
+          </select>
+        </div>
 
         <!-- Second Dropdown -->
         <div class="form-group " style="display : none ; ">
@@ -383,6 +417,7 @@ if (isset($_POST['drugName2'])) {
 
         <div class="legend">
           <fieldset class="fieldset">
+
             <legend class="legenddata">max_phase</legend>
             <ul id="myList" style="padding-left: 0px"></ul>
             <legend class="legenddata">data_set</legend>
@@ -518,13 +553,14 @@ overflow: auto;
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
   <script>
+    let selectedValues = [];
 
     // Function to toggle the display of the dropdown content
     function toggleDropdown(event) {
 
       // event.preventDefault();
-      
-  console.log("toggleDropdown function called");
+
+      console.log("toggleDropdown function called");
 
       var dropdownContent = document.getElementById("dropdownContent");
       var dropdownBtn = document.getElementById("dropdownBtn");
@@ -539,8 +575,7 @@ overflow: auto;
 
     // Function to handle checkbox changes and update the button text
     function handleCheckboxChange() {
-      console.log("hello")
-      var selectedValues = [];
+      selectedValues = [];
 
       // Get all checkboxes within the dropdown
       var checkboxes = document.querySelectorAll('#dropdownContent input[type="checkbox"]:checked');
@@ -555,31 +590,29 @@ overflow: auto;
 
 
 
-      console.log(selectedValues) ;
+      console.log(selectedValues);
       // Close the dropdown
       var dropdownContent = document.getElementById("dropdownContent");
       dropdownContent.style.display = "none";
     }
 
     // Add event listeners to the checkboxes
- var checkboxList = document.querySelectorAll('#dropdownContent input[type="checkbox"]');
-  checkboxList.forEach(function (checkbox) {
-    
-    checkbox.addEventListener('change', function () {
-      
-  console.log("Checkbox change event triggered");
-      handleCheckboxChange();
-      
+    var checkboxList = document.querySelectorAll('#dropdownContent input[type="checkbox"]');
+    checkboxList.forEach(function(checkbox) {
+
+      checkbox.addEventListener('change', function() {
+
+        console.log("Checkbox change event triggered");
+        handleCheckboxChange();
+
+      });
     });
-  });
 
     // Close the dropdown if the user clicks outside of it
     window.onclick = function() {
       var dropdownContent = document.getElementById("dropdownContent");
       dropdownContent.style.display = "none";
     }
-
-
   </script>
 
 
@@ -634,7 +667,11 @@ overflow: auto;
     // fetching the json file  
     let curentnodes = 400;
 
+    let phases = [];
+    let max_phase_categories   ;
+    let colors ; 
 
+    // phases = ["PHASE 1", "PHASE 2", "PHASE 3", "Approved", ];
 
     async function fetchData(data) {
       try {
@@ -682,7 +719,11 @@ overflow: auto;
 
 
         }
-      });
+        if (!phases.includes(item.MAX_PHASE)) {
+          phases.push(item.MAX_PHASE);
+
+        }
+      })
 
       data.forEach((item) => {
         if (!uniqueProteins.has(item.CELL_LINE_NAME)) {
@@ -944,6 +985,8 @@ overflow: auto;
     function force_network_grapgh() {
 
 
+      //  workplace  
+
       const g = svg.append("g");
       // simulationtag
       simulation = d3
@@ -960,8 +1003,8 @@ overflow: auto;
         .force("y", d3.forceY(270));
 
 
-
-
+   console.log(phases , "here")
+legendinfo();
       link = g
         .selectAll(".link ")
         .data(links)
@@ -1479,32 +1522,20 @@ overflow: auto;
 
 
 
+      function createMaxPhaseCategories() {
 
-      const max_phase_categories = [{
-          category: "PHASE 1",
-          color: "#4372c4",
-        },
-        {
-          category: "PHASE 2",
-          color: "#fe0000",
-        },
-        {
-          category: "PHASE 3",
-          color: "#9B35C8",
-        },
-        {
-          category: "Approved",
-          color: "#0bc00f",
-        },
-        {
-          category: "",
-          color: "#fe8f01",
-        },
-        {
-          category: "Preclinical",
-          color: "#f99cc8",
-        },
-      ];
+
+         colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
+
+        const maxPhaseCategories = phases.map((category, index) => ({
+          category,
+          color: colors[index],
+        }));
+
+        return maxPhaseCategories;
+      }
+
+       max_phase_categories = createMaxPhaseCategories();
 
       const data_Set = [{
           category: "GDSC1",
@@ -1612,6 +1643,11 @@ overflow: auto;
       for (const categoryObj of max_phase_categories) {
         addColor(categoryObj.color);
       }
+
+      phases=[];
+      console.log(phases ,  "empty" );
+      max_phase_categories = []
+      console.log(max_phase_categories ,  "max empty " );
     }
 
     //colorpicker 
@@ -1684,7 +1720,6 @@ overflow: auto;
         .select('image')
         .attr('xlink:href', (d) => d.image);
     });
-    legendinfo();
 
     function onclickmax_phase(event) {
       d3.select(this)
@@ -1846,7 +1881,6 @@ overflow: auto;
 
 
         ajax();
-
         // document.getElementById("dropdown1").value = "";
         // document.getElementById("dropdown2").value = "";
         // document.getElementById("dropdown3").value = "";
