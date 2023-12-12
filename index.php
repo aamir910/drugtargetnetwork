@@ -1556,13 +1556,33 @@ overflow: auto;
 
 
       colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
-      child_colors = [
-        "#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8",
-        "#0072B2", "#D55E00", "#CC79A7", "#009E73", "#F0E442", "#56B4E9",
-        "#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
-        "#E41A1C", "#FDBF6F", "#666666", "#CCCCCC", "#FFFFFF", "#000000",
-        "#1F78B4", "#FB9A99", "#33A02C"
-      ];
+//       child_colors = [
+//         "#AAD8E5", "#F2BFC1", "#C9E0CB", "#F8D492", "#FFE7A2", "#FEEEC6",
+//   "#C7CDE3", "#E3C2D2", "#B0C8E6", "#F6C1B3", "#D3EDC5", "#FFF3B0",
+//   "#FBD9B0", "#D9DCDF", "#A3D4E2", "#E1A1A3", "#ACCDB3", "#F3B575",
+//   "#FFE27F", "#FFF7A4", "#C4C9D5", "#DBB9C8", "#A9CDE8", "#F0BAA9"
+// ];
+
+
+// child_colors  = [
+//   "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b",
+//   "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#FF5733", "#33FF57",
+//   "#57B4FF", "#D833FF", "#FFD333", "#33FFD5", "#D333FF", "#FF33D5",
+//   "#FF3333", "#33FF33", "#3333FF", "#FFA933", "#A933FF", "#33FFA9"
+// ];
+
+// child_colors = [
+//   "#345678", "#721c1c", "#2c442d", "#8c6b00", "#7a6512", "#685d38",
+//   "#2b2e3a", "#502939", "#1d2d47", "#7e4427", "#395c29", "#7d7021",
+//   "#724e2b", "#4b4d51", "#1f4a66", "#5d2b2d", "#4b5d41", "#8b581d",
+//   "#806e26", "#878847", "#39405b", "#564156", "#36518a", "#7a4d3b"
+// ];
+child_colors= [
+  "#3498db", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6", "#34495e",
+  "#e67e22", "#95a5a6", "#d35400", "#1abc9c", "#c0392b", "#27ae60",
+  "#8e44ad", "#2c3e50", "#f1c40f", "#7f8c8d", "#e67e22", "#3498db",
+  "#ecf0f1", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6", "#34495e"
+];
 
       function createMaxPhaseCategories() {
 
@@ -1741,7 +1761,8 @@ overflow: auto;
             }
           }
           return "#6a329f";
-        }).style("border" , "3px solid green ");
+        })
+        // .style("border" , "2px solid RED") ;
 
 
       child_clicked = dataSet_child.append("span").text((d) => d.category);
@@ -1954,7 +1975,7 @@ overflow: auto;
 
       matric_click.on("click", onclick_dataSet);
 
-      // child_clicked.on("click", onclick_childnodes);
+      child_clicked.on("click", onclick_childnodes);
 
       range_of_links(minValue, maxValue, slider_range);
 
@@ -2150,6 +2171,7 @@ overflow: auto;
 
           matric_click.on("click", onclick_dataSet);
 
+          child_clicked.on("click", onclick_childnodes);
           range_of_links(minValue, maxValue, slider_range);
 
 
