@@ -184,15 +184,23 @@
 
   /* LEGEND CSS STARTED HERE  */
   .legend {
+
+    display: flex;
     border: 2px solid black;
-    margin: 1rem;
+    margin-top: 1rem;
     border-radius: 1rem;
     background-color: white;
+    width: 100%;
 
+  }
+  .legend_inner{
+   
+    
+    font-size: 11px;
   }
 
   .legenddata {
-    font-size: 20px;
+    font-size: 15px;
     padding-left: 1rem;
   }
 
@@ -207,7 +215,7 @@
     width: 20px;
     height: 10px;
     border-radius: 2rem;
-    margin-right: 5px;
+    margin-right: 3px;
   }
 
   .line {
@@ -220,10 +228,10 @@
 
   .circle {
     display: inline-block;
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     border-radius: 2rem;
-    margin-right: 5px;
+    margin-right: 3px;
   }
 
   ul {
@@ -347,7 +355,6 @@
     left: 25%; */
     /* width: 650px; */
     width: 100%;
-    background: #fffefe;
     /* border-radius: 20px; */
     display: flex;
     align-items: center;
@@ -390,7 +397,7 @@
 
   .fieldset {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     background: white;
@@ -717,11 +724,11 @@
   }
 
   .wrapper {
-    width: 20%;
+    width: 22%;
   }
 
   .forcenetwork {
-    width: 80%;
+    width: 78%;
     background-color: white;
   }
 

@@ -416,22 +416,21 @@ if (isset($_POST['drugName2'])) {
 
 
         <div class="legend">
-          <fieldset class="fieldset">
-
+          <div style = "width : 40%">
             <legend class="legenddata">max_phase</legend>
-            <ul id="myList" style="padding-left: 0px"></ul>
+            <ul id="myList" class="legend_inner"  ></ul>
             <legend class="legenddata">data_set</legend>
-            <ul id="dataset" style="padding-left: 0px"></ul>
+            <ul id="dataset" class="legend_inner" ></ul>
+            <legend class="legenddata" >Matric</legend>
+            <ul id="matric_set" class="legend_inner" ></ul>
+          </div>
+          <div style = "width : 60%" >
+            <legend class="legenddata">child nodes</legend>
+            <ul id="child_node" class="legend_inner" ></ul>
+          </div>
 
-
-            <legend class="legenddata">Matric</legend>
-            <ul id="matric_set" style="padding-left: 0px"></ul>
-
-            <!-- <legend class="legenddata">child nodes</legend>
-            <ul id="child_node"></ul> -->
-
-          </fieldset>
         </div>
+
 
       </div>
 
@@ -667,11 +666,30 @@ overflow: auto;
     // fetching the json file  
     let curentnodes = 400;
 
-    let phases = [];
-    let max_phase_categories   ;
-    let colors ; 
 
-    // phases = ["PHASE 1", "PHASE 2", "PHASE 3", "Approved", ];
+
+
+    // legend entry 
+    let colors;
+
+    let child_colors;
+
+
+    // max_phses 
+    let phases = [];
+    let max_phase_categories;
+
+
+    // dataset entry 
+    let dataset_legend = [];
+    let data_Set;
+
+    // matric entry
+
+    let matric_legend = [];
+    let matric_categories;
+
+
 
     async function fetchData(data) {
       try {
@@ -723,8 +741,19 @@ overflow: auto;
           phases.push(item.MAX_PHASE);
 
         }
-      })
+        if (!dataset_legend.includes(item.DATASET)) {
 
+          dataset_legend.push(item.DATASET);
+
+        }
+        if (!matric_legend.includes(item.METRIC)) {
+
+          matric_legend.push(item.METRIC);
+
+        }
+
+      })
+      console.log(dataset_legend);
       data.forEach((item) => {
         if (!uniqueProteins.has(item.CELL_LINE_NAME)) {
           uniqueProteins.add(item.CELL_LINE_NAME);
@@ -1003,8 +1032,7 @@ overflow: auto;
         .force("y", d3.forceY(270));
 
 
-   console.log(phases , "here")
-legendinfo();
+      legendinfo();
       link = g
         .selectAll(".link ")
         .data(links)
@@ -1237,7 +1265,12 @@ legendinfo();
           const degree = links.filter(
             (link) => link.source.id === d.id || link.target.id === d.id
           ).length;
-          return degree / 2;
+          if (degree < 8) {
+            return 5;
+          } else {
+            return degree / 2;
+          }
+
 
         })
         .attr("fill", "green")
@@ -1522,59 +1555,120 @@ legendinfo();
 
 
 
+      colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
+      child_colors = [
+        "#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8",
+        "#0072B2", "#D55E00", "#CC79A7", "#009E73", "#F0E442", "#56B4E9",
+        "#999999", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#0072B2",
+        "#E41A1C", "#FDBF6F", "#666666", "#CCCCCC", "#FFFFFF", "#000000",
+        "#1F78B4", "#FB9A99", "#33A02C"
+      ];
+
       function createMaxPhaseCategories() {
 
+        const maxPhaseCategories = phases.map((category, index) => {
+          let color;
 
-         colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
+          if (category === "Approved") {
+            color = colors[3];
+          } else if (category === "PHASE 1") {
+            color = colors[0];
+          } else if (category === "PHASE 2") {
+            color = colors[1];
+          } else if (category === "PHASE 3") {
+            color = colors[2];
+          } else if (category === "Preclinical") {
+            color = colors[5]; // Fixed index for "Preclinical"
+          } else if (category === "Unknown" || category === "") {
+            color = colors[4];
+          }
 
-        const maxPhaseCategories = phases.map((category, index) => ({
-          category,
-          color: colors[index],
-        }));
+          return {
+            category,
+            color
+          };
+        });
 
         return maxPhaseCategories;
       }
 
-       max_phase_categories = createMaxPhaseCategories();
+      function generateDataSet() {
+        const dataSet_legend_color = dataset_legend.map((category, index) => {
+          let color;
 
-      const data_Set = [{
-          category: "GDSC1",
-          color: "#4372c4"
-        },
-        {
-          category: "GDSC2",
-          color: "#fe0000"
-        },
-        {
-          category: "CCLE_NP24",
-          color: "#9B35C8"
-        },
-        {
-          category: "NCI-60",
-          color: "#0bc00f"
-        },
-        {
-          category: "gCSI",
-          color: "#fe8f01"
-        },
-        {
-          category: "FIMM",
-          color: "#f99cc8"
-        }
-      ];
+          if (category === "GDSC1") {
+            color = colors[0];
+          } else if (category === "GDSC2") {
+            color = colors[1];
+          } else if (category === "CCLE_NP24") {
+            color = colors[2];
+          } else if (category === "NCI-60") {
+            color = colors[3];
+          } else if (category === "gCSI") {
+            color = colors[4];
+          } else if (category === "FIMM") {
+            color = colors[5];
+          }
 
-      const matric_categories = [{
-          category: 'pIC50'
-        },
-        {
-          category: 'pEC50'
-        },
-        {
-          category: 'pGI50'
-        }
+          return {
+            category,
+            color
+          };
+
+        });
+        return dataSet_legend_color;
+      }
+
+      function generateMatricCategories() {
+        return matric_legend.map((category) => ({
+          category
+        }));
+      }
+      const ONCOTREE_LINEAGE = [
+        'Bone',
+        'Skin',
+        'Central Nervous System',
+        'Lung',
+        'Peripheral Nervous System',
+        'Soft Tissue',
+        'Esophagus',
+        'Breast',
+        'Head and Neck',
+        'Haematopoietic and Lymphoid',
+        'Bladder',
+        'Kidney',
+        'Pancreas',
+        'Large Intestine',
+        'Ovary',
+        'Stomach',
+        'Biliary Tract',
+        'Small Intestine',
+        'Placenta',
+        'Prostate',
+        'Testis',
+        'Uterus',
+        'Vulva',
+        'Thyroid'
       ];
+      const child_categories = ONCOTREE_LINEAGE.map((category, index) => ({
+        category,
+        color: child_colors[index % child_colors.length]
+      }));
+
+      //  gererating the dynamic nodes 
+      data_Set = generateDataSet();
+      max_phase_categories = createMaxPhaseCategories();
+      matric_categories = generateMatricCategories();
+
+
+
+      //  appenging the maxphses
 
       const ul = d3.select("#myList");
+
+
+      ul.selectAll("li").remove();
+
       listItems = ul
         .selectAll("li")
         .data(max_phase_categories)
@@ -1591,7 +1685,7 @@ legendinfo();
             }
           }
           return "#6a329f";
-        }).on("click", color_click_onchange);;
+        }).on("click", color_click_onchange);
 
 
       pax_phasecliked = listItems
@@ -1599,31 +1693,17 @@ legendinfo();
         .text((d) => (d.category === "" ? "Unknown" : d.category))
 
 
+      // appending the data of the dataset
+
       const ul2 = d3.select("#dataset");
+
+      ul2.selectAll("li").remove();
+
       dataSet_link = ul2
         .selectAll("li")
         .data(data_Set)
         .enter()
         .append("li");
-
-      const ul3 = d3.select('#matric_set');
-
-      matric_link = ul3
-        .selectAll("li")
-        .data(matric_categories)
-        .enter()
-        .append("li");
-
-
-
-      matric_color = matric_link
-        .append("div")
-        .attr("class", "line")
-        .style("background", "repeating-radial-gradient(circle, #000000 0, #000000 1px, transparent 1px, transparent 2px)")
-        .style("height", "2px");
-
-      matric_click = matric_link.append("span").text((d) => d.category);
-
       data_set_color = dataSet_link
         .append("div")
         .attr("class", "line")
@@ -1639,15 +1719,68 @@ legendinfo();
 
       datasettext_click = dataSet_link.append("span").text((d) => d.category);
 
+
+      //appending the data og the child nodes
+      const ul4 = d3.select('#child_node');
+
+      ul4.selectAll("li").remove();
+      dataSet_child = ul4
+        .selectAll("li")
+        .data(child_categories)
+        .enter()
+        .append("li");
+
+
+      child_color = dataSet_child
+        .append("div")
+        .attr("class", "circle")
+        .style("background-color", (d) => {
+          for (const categoryObj of child_categories) {
+            if (d.category === categoryObj.category) {
+              return categoryObj.color;
+            }
+          }
+          return "#6a329f";
+        }).style("border" , "3px solid green ");
+
+
+      child_clicked = dataSet_child.append("span").text((d) => d.category);
+
+
+
+      // appending the data of the matric 
+      const ul3 = d3.select('#matric_set');
+
+      ul3.selectAll("li").remove();
+
+      matric_link = ul3
+        .selectAll("li")
+        .data(matric_categories)
+        .enter()
+        .append("li");
+
+      matric_color = matric_link
+        .append("div")
+        .attr("class", "line")
+        .style("background", "repeating-radial-gradient(circle, #000000 0, #000000 1px, transparent 1px, transparent 2px)")
+        .style("height", "2px");
+
+      matric_click = matric_link.append("span").text((d) => d.category);
+
+
+
+
+
+
       // color picker
       for (const categoryObj of max_phase_categories) {
         addColor(categoryObj.color);
       }
 
-      phases=[];
-      console.log(phases ,  "empty" );
+      phases = [];
+      dataset_legend = [];
       max_phase_categories = []
-      console.log(max_phase_categories ,  "max empty " );
+      console.log(max_phase_categories, "max empty ");
     }
 
     //colorpicker 
