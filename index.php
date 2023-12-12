@@ -203,9 +203,6 @@ if (isset($_POST['drugName2'])) {
       <div class="form-row rowData">
         <!-- First Dropdown -->
 
-
-
-
         <div class="dropdown" onclick="toggleDropdown(event)">
 
           <label id="dropdownBtn">Select ONCOTREE_LINEAGE</label>
@@ -237,132 +234,36 @@ if (isset($_POST['drugName2'])) {
             <!-- Add more options as needed -->
           </div>
         </div>
-        <div class="form-group ">
+        <!-- here is second 
+       -->
 
-          <select class="form-select" id="dropdown1">
-            <option value="">Select Max Phase</option>
-            <option value="Bone">Bone</option>
-            <option value="Skin">Skin</option>
-            <option value="Central Nervous System">Central Nervous System</option>
-            <option value="Lung">Lung</option>
-            <option value="Peripheral Nervous System">Peripheral Nervous System</option>
-            <option value="Soft Tissue">Soft Tissue</option>
-            <option value="Esophagus">Esophagus</option>
-            <option value="Breast">Breast</option>
-            <option value="Head and Neck">Head and Neck</option>
-            <option value="Haematopoietic and Lymphoid">Haematopoietic and Lymphoid</option>
-            <option value="Bladder">Bladder</option>
-            <option value="Kidney">Kidney</option>
-            <option value="Pancreas">Pancreas</option>
-            <option value="Large Intestine">Large Intestine</option>
-            <option value="Ovary">Ovary</option>
-            <option value="Stomach">Stomach</option>
-            <option value="Biliary Tract">Biliary Tract</option>
-            <option value="Small Intestine">Small Intestine</option>
-            <option value="Placenta">Placenta</option>
-            <option value="Prostate">Prostate</option>
-            <option value="Testis">Testis</option>
-            <option value="Uterus">Uterus</option>
-            <option value="Vulva">Vulva</option>
-            <option value="Thyroid">Thyroid</option>
-          </select>
-        </div>
+       <div class="dropdown" onclick="toggleDropdown(event)">
 
-        <!-- Second Dropdown -->
-        <div class="form-group " style="display : none ; ">
-          <select class="form-select" id="dropdown2">
-            <option value="">Select ONCOTREE_PRIMARY_DISEASE </option>
-            <option value="Ewing's Sarcoma">Ewing's Sarcoma</option>
-            <option value="Melanoma">Melanoma</option>
-            <option value="Glioblastoma">Glioblastoma</option>
-            <option value="Lung Carcinoid Tumor">Lung Carcinoid Tumor</option>
-            <option value="Lung Adenocarcinoma">Lung Adenocarcinoma</option>
-            <option value="Bronchiolo-Alveolar Lung Carcinoma">Bronchiolo-Alveolar Lung Carcinoma</option>
-            <option value="Non-Small Cell Lung Carcinoma">Non-Small Cell Lung Carcinoma</option>
-            <option value="Small Cell Lung Carcinoma">Small Cell Lung Carcinoma</option>
-            <option value="Neuroblastoma">Neuroblastoma</option>
-            <option value="Epithelioid Sarcoma">Epithelioid Sarcoma</option>
-            <option value="Giant Cell Lung Carcinoma">Giant Cell Lung Carcinoma</option>
-            <option value="Esophageal Squamous Cell Carcinoma">Esophageal Squamous Cell Carcinoma</option>
-            <option value="Ductal Breast Carcinoma">Ductal Breast Carcinoma</option>
-            <option value="Head and Neck Squamous Cell Carcinoma">Head and Neck Squamous Cell Carcinoma</option>
-            <option value="Adult T Acute Lymphoblastic Leukemia">Adult T Acute Lymphoblastic Leukemia</option>
-            <option value="Bladder Carcinoma">Bladder Carcinoma</option>
-            <option value="Renal Cell Carcinoma">Renal Cell Carcinoma</option>
-            <option value="Non-Cancerous">Non-Cancerous</option>
-            <option value="Chronic Myelogenous Leukemia">Chronic Myelogenous Leukemia</option>
-            <option value="Pancreatic Ductal Adenocarcinoma">Pancreatic Ductal Adenocarcinoma</option>
-            <option value="Plasma Cell Myeloma">Plasma Cell Myeloma</option>
-            <option value="Adult Acute Myeloid Leukemia">Adult Acute Myeloid Leukemia</option>
-            <option value="Pleural Epithelioid Mesothelioma">Pleural Epithelioid Mesothelioma</option>
-            <option value="Childhood T Acute Lymphoblastic Leukemia">Childhood T Acute Lymphoblastic Leukemia</option>
-          </select>
+<label id="dropdownBtn">Select Max Phase</label>
+<div id="dropdownContent" class="dropdown-content">
 
-          <!-- Alert message for the second dropdown -->
-          <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
-            <span class="alert alert-danger">Please select option</span>
-          </div>
-        </div>
+  <!-- Add more options as needed -->
+</div>
 
+</div>
+
+
+    
 
 
         <!-- third Dropdown -->
-        <div class="form-group ">
+        <div class="dropdown" onclick="toggleDropdown(event)">
 
-          <select class="form-select" id="dropdown3">
-            <option value="">Select Max Phase </option>
-            <option value="Approved">Approved</option>
-            <option value="Preclinical">Preclinical</option>
-            <option value="PHASE 2">PHASE 2</option>
-            <option value="PHASE 3">PHASE 3</option>
-            <option value="PHASE 1">PHASE 1</option>
-            <option value="Unknown">Unknown</option>
-          </select>
+<label id="dropdownBtn">Select CHEMBL_ID</label>
+<div id="dropdownContent" class="dropdown-content">
 
-          <!-- Alert message for the second dropdown -->
-          <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
-            <span class="alert alert-danger">Please select option</span>
-          </div>
-        </div>
+  <!-- Add more options as needed -->
+</div>
+
+</div>
 
         <!-- forth Dropdown -->
-        <div class="form-group ">
-          <select class="form-select" id="dropdown4">
-            <option value="">Select CHEMBL_ID</option>
-            <option value="CHEMBL553">CHEMBL553</option>
-            <option value="CHEMBL413">CHEMBL413</option>
-            <option value="CHEMBL535">CHEMBL535</option>
-            <option value="CHEMBL4872316">CHEMBL4872316</option>
-            <option value="CHEMBL4851750">CHEMBL4851750</option>
-            <option value="CHEMBL428647">CHEMBL428647</option>
-            <option value="CHEMBL254129">CHEMBL254129</option>
-            <option value="CHEMBL2144069">CHEMBL2144069</option>
-            <option value="CHEMBL1336">CHEMBL1336</option>
-            <option value="CHEMBL572878">CHEMBL572878</option>
-            <option value="CHEMBL941">CHEMBL941</option>
-            <option value="CHEMBL4873176">CHEMBL4873176</option>
-            <option value="CHEMBL601719">CHEMBL601719</option>
-            <option value="CHEMBL217092">CHEMBL217092</option>
-            <option value="CHEMBL392695">CHEMBL392695</option>
-            <option value="CHEMBL159822">CHEMBL159822</option>
-            <option value="CHEMBL1421">CHEMBL1421</option>
-            <option value="CHEMBL483847">CHEMBL483847</option>
-            <option value="CHEMBL4860897">CHEMBL4860897</option>
-            <option value="CHEMBL1242367">CHEMBL1242367</option>
-            <option value="CHEMBL197603">CHEMBL197603</option>
-            <option value="CHEMBL213100">CHEMBL213100</option>
-            <option value="CHEMBL1643959">CHEMBL1643959</option>
-            <option value="CHEMBL513909">CHEMBL513909</option>
-            <option value="CHEMBL209148">CHEMBL209148</option>
-          </select>
-
-          <!-- Alert message for the third dropdown -->
-          <div class="alert-message alert2 " style="position: absolute; top: 110px; ">
-            <span class="alert alert-danger">Please select option</span>
-          </div>
-
-
-        </div>
+      
         <!-- button  -->
       </div>
       <button class="btn btn-success" id="submitButton" type='submit'>
