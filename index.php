@@ -237,32 +237,57 @@ if (isset($_POST['drugName2'])) {
         <!-- here is second 
        -->
 
-       <div class="dropdown" onclick="toggleDropdown(event)">
+       <div class="dropdown" onclick="toggleDropdown2(event)">
 
-<label id="dropdownBtn">Select Max Phase</label>
-<div id="dropdownContent" class="dropdown-content">
-
+<label id="dropdownBtn2">Select Max Phase</label>
+<div id="dropdownContent2" class="dropdown-content"> 
+        <label><input type="checkbox" value="Approved">Approved</label>
+        <label><input type="checkbox" value="Preclinical">Preclinical</label>
+        <label><input type="checkbox" value="PHASE 2">PHASE 2</label>
+        <label><input type="checkbox" value="PHASE 3">PHASE 3</label>
+        <label><input type="checkbox" value="PHASE 1">PHASE 1</label>
+        <label><input type="checkbox" value="Unknown">Unknown</label>
   <!-- Add more options as needed -->
 </div>
 
+
 </div>
-
-
-    
-
-
         <!-- third Dropdown -->
-        <div class="dropdown" onclick="toggleDropdown(event)">
-
-<label id="dropdownBtn">Select CHEMBL_ID</label>
-<div id="dropdownContent" class="dropdown-content">
-
-  <!-- Add more options as needed -->
+<div class="dropdown" onclick="toggleDropdown3(event)">
+<label id="dropdownBtn3">Select CHEMBL_ID</label>
+<div id="dropdownContent3" class="dropdown-content">
+       <label><input type="checkbox" value="CHEMBL553">CHEMBL553</label>
+        <label><input type="checkbox" value="CHEMBL413">CHEMBL413</label>
+        <label><input type="checkbox" value="CHEMBL535">CHEMBL535</label>
+        <label><input type="checkbox" value="CHEMBL4872316">CHEMBL4872316</label>
+        <label><input type="checkbox" value="CHEMBL4851750">CHEMBL4851750</label>
+        <label><input type="checkbox" value="CHEMBL428647">CHEMBL428647</label>
+        <label><input type="checkbox" value="CHEMBL254129">CHEMBL254129</label>
+        <label><input type="checkbox" value="CHEMBL2144069">CHEMBL2144069</label>
+        <label><input type="checkbox" value="CHEMBL1336">CHEMBL1336</label>
+        <label><input type="checkbox" value="CHEMBL572878">CHEMBL572878</label>
+        <label><input type="checkbox" value="CHEMBL941">CHEMBL941</label>
+        <label><input type="checkbox" value="CHEMBL4873176">CHEMBL4873176</label>
+        <label><input type="checkbox" value="CHEMBL601719">CHEMBL601719</label>
+        <label><input type="checkbox" value="CHEMBL217092">CHEMBL217092</label>
+        <label><input type="checkbox" value="CHEMBL392695">CHEMBL392695</label>
+        <label><input type="checkbox" value="CHEMBL159822">CHEMBL159822</label>
+        <label><input type="checkbox" value="CHEMBL1421">CHEMBL1421</label>
+        <label><input type="checkbox" value="CHEMBL483847">CHEMBL483847</label>
+        <label><input type="checkbox" value="CHEMBL4860897">CHEMBL4860897</label>
+        <label><input type="checkbox" value="CHEMBL1242367">CHEMBL1242367</label>
+        <label><input type="checkbox" value="CHEMBL197603">CHEMBL197603</label>
+        <label><input type="checkbox" value="CHEMBL213100">CHEMBL213100</label>
+        <label><input type="checkbox" value="CHEMBL1643959">CHEMBL1643959</label>
+        <label><input type="checkbox" value="CHEMBL513909">CHEMBL513909</label>
+        <label><input type="checkbox" value="CHEMBL209148">CHEMBL209148</label>
+        <!-- Add more options as needed -->
 </div>
 
+
 </div>
 
-        <!-- forth Dropdown -->
+
       
         <!-- button  -->
       </div>
@@ -270,11 +295,7 @@ if (isset($_POST['drugName2'])) {
         <i class="bi bi-search"></i> Search
       </button>
     </form>
-
-
-
-
-
+    <!-- end of the navbar -->
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
 
 
@@ -453,20 +474,20 @@ overflow: auto;
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
   <script>
-    let selectedValues = [];
+    let oncotree_change1 = [];
+
 
     // Function to toggle the display of the dropdown content
     function toggleDropdown(event) {
 
       // event.preventDefault();
 
-      console.log("toggleDropdown function called");
-
       var dropdownContent = document.getElementById("dropdownContent");
       var dropdownBtn = document.getElementById("dropdownBtn");
 
       if (dropdownContent.style.display === "block") {
         dropdownContent.style.display = "none";
+        
       } else {
         dropdownContent.style.display = "block";
         event.stopPropagation();
@@ -475,22 +496,22 @@ overflow: auto;
 
     // Function to handle checkbox changes and update the button text
     function handleCheckboxChange() {
-      selectedValues = [];
+      oncotree_change1 = [];
 
       // Get all checkboxes within the dropdown
       var checkboxes = document.querySelectorAll('#dropdownContent input[type="checkbox"]:checked');
       // Update the array with the selected values
       checkboxes.forEach(function(checkbox) {
-        selectedValues.push(checkbox.value);
+        oncotree_change1.push(checkbox.value);
       });
 
       // Update the button text with selected values
       var dropdownBtn = document.getElementById("dropdownBtn");
-      dropdownBtn.textContent = selectedValues.length > 0 ? selectedValues.join(', ') : "Select Options";
+      dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Select Options";
 
 
 
-      console.log(selectedValues);
+      console.log(oncotree_change1 , "oncotraight");
       // Close the dropdown
       var dropdownContent = document.getElementById("dropdownContent");
       dropdownContent.style.display = "none";
@@ -499,20 +520,118 @@ overflow: auto;
     // Add event listeners to the checkboxes
     var checkboxList = document.querySelectorAll('#dropdownContent input[type="checkbox"]');
     checkboxList.forEach(function(checkbox) {
-
       checkbox.addEventListener('change', function() {
-
-        console.log("Checkbox change event triggered");
+       
         handleCheckboxChange();
-
       });
     });
 
     // Close the dropdown if the user clicks outside of it
-    window.onclick = function() {
-      var dropdownContent = document.getElementById("dropdownContent");
-      dropdownContent.style.display = "none";
-    }
+    window.onclick = function(event) {
+  // Check if the clicked element is a dropdown button or its content
+  if (
+    !event.target.matches('.dropdown') &&
+    !event.target.matches('.dropdown-content') &&
+    !event.target.closest('.dropdown-content')
+  ) {
+    // Close all dropdowns
+    var dropdowns = document.querySelectorAll('.dropdown-content');
+    dropdowns.forEach(function (dropdown) {
+      dropdown.style.display = 'none';
+    });
+  }
+};
+   
+
+    let MaxPhase1 = [];
+
+function toggleDropdown2(event) {
+  var dropdownContent = document.getElementById("dropdownContent2");
+      var dropdownBtn = document.getElementById("dropdownBtn2");
+
+      if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+      } else {
+        dropdownContent.style.display = "block";
+        event.stopPropagation();
+      }
+}
+
+
+function handleCheckboxChange2() {
+  MaxPhase1 = [];
+
+// Get all checkboxes within the dropdown
+var checkboxes = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]:checked');
+// Update the array with the selected values
+checkboxes.forEach(function(checkbox) {
+  MaxPhase1.push(checkbox.value);
+});
+
+// Update the button text with selected values
+var dropdownBtn = document.getElementById("dropdownBtn2");
+dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Select Options";
+
+
+
+console.log(MaxPhase1 , 'MaxPhase1');
+// Close the dropdown
+var dropdownContent = document.getElementById("dropdownContent2");
+dropdownContent.style.display = "none";
+}
+
+var checkboxList2 = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]');
+checkboxList2.forEach(function (checkbox) {
+  checkbox.addEventListener('change', function () {
+    handleCheckboxChange2();
+  });
+});
+
+// Add script for the third dropdown
+let Chembl_id1 = [];
+
+function toggleDropdown3(event) {
+  var dropdownContent = document.getElementById("dropdownContent3");
+      var dropdownBtn = document.getElementById("dropdownBtn3");
+
+      if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+      } else {
+        dropdownContent.style.display = "block";
+        event.stopPropagation();
+      }
+}
+
+function handleCheckboxChange3() {
+  Chembl_id1 = [];
+// Get all checkboxes within the dropdown
+var checkboxes = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]:checked');
+// Update the array with the selected values
+checkboxes.forEach(function(checkbox) {
+  Chembl_id1.push(checkbox.value);
+});
+// Update the button text with selected values
+var dropdownBtn = document.getElementById("dropdownBtn3");
+dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Select Options";
+
+console.log(Chembl_id1 , "Chembl_id1");
+// Close the dropdown
+var dropdownContent = document.getElementById("dropdownContent3");
+dropdownContent.style.display = "none";
+}
+
+var checkboxList3 = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]');
+checkboxList3.forEach(function (checkbox) {
+  checkbox.addEventListener('change', function () {
+    handleCheckboxChange3();
+  });
+});
+
+
+
+
+
+
   </script>
 
 
