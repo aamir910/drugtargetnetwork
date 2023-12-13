@@ -59,10 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-
-
-
-
 <?php
 
 // Check if drugName is set in the POST request
@@ -191,6 +187,22 @@ if (isset($_POST['drugName2'])) {
     .dropdown-content input {
       margin-right: 8px;
     }
+    /* Define styles for tooltip2 */
+.tooltip2 {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.tooltip2 strong {
+  font-weight: bold;
+}
+
   </style>
 
 
@@ -1028,7 +1040,6 @@ overflow: auto;
     function force_network_grapgh() {
 
 
-      //  workplace  
 
       const g = svg.append("g");
       // simulationtag
@@ -1047,61 +1058,88 @@ overflow: auto;
 
 
       legendinfo();
-      link = g
-        .selectAll(".link ")
-        .data(links)
-        .enter().append("line")
-        .style("stroke", function(d) {
-          // Manually set colors based on the dataset value
-          switch (d.dataset) {
-            case "GDSC1":
-              return "#4372c4";
-            case "GDSC2":
-              return "#fe0000";
-            case "CCLE_NP24":
-              return "#9B35C8";
-            case "NCI-60":
-              return "#0bc00f";
-            case "gCSI":
-              return "#fe8f01";
-            case "FIMM":
-              return "#f99cc8";
-            default:
-              // Default color if the dataset doesn't match any specific case
-              return "black";
-          }
-        })
-        .attr("stroke-width", function(d) {
+    // Manually set colors based on the dataset value
+var link = g
+  .selectAll(".link ")
+  .data(links)
+  .enter().append("line")
+  .style("stroke", function(d) {
+    switch (d.dataset) {
+      case "GDSC1":
+        return "#4372c4";
+      case "GDSC2":
+        return "#fe0000";
+      case "CCLE_NP24":
+        return "#9B35C8";
+      case "NCI-60":
+        return "#0bc00f";
+      case "gCSI":
+        return "#fe8f01";
+      case "FIMM":
+        return "#f99cc8";
+      default:
+        // Default color if the dataset doesn't match any specific case
+        return "black";
+    }
+  })
+  .attr("stroke-width", function(d) {
 
-          if (d.value < 5) {
+    if (d.value < 5) {
+      return 0.5;
+    } else {
+      return d.value - 4.5;
+    }
+  })
+  .style("stroke-dasharray", function(d) {
+    if (d.link_matric === 'pIC50') {
+      return "2,2";
+    } else if (d.link_matric === 'pEC50') {
+      return "5,5";
+    } else if (d.link_matric === 'pGI50') {
+      return "0";
+    }
+  })
+  .attr("x1", function(d) {
+    return d.source.x;
+  })
+  .attr("y1", function(d) {
+    return d.source.y;
+  })
+  .attr("x2", function(d) {
+    return d.target.x;
+  })
+  .attr("y2", function(d) {
+    return d.target.y;
+  }).on("mouseover", function(d) {
 
-            return 0.5
 
-          } else {
 
-            return d.value - 4.5;
-          }
-        })
-        .style("stroke-dasharray", function(d) {
-          if (d.link_matric === 'pIC50') {
-            return "2,2"
-          } else if (d.link_matric === 'pEC50') {
-            return "5,5"
-          } else if (d.link_matric === 'pGI50') {
-            return "0"
-          }
-        }).attr("x1", function(d) {
-          return d.source.x;
-        })
-        .attr("y1", function(d) {
-          return d.source.y;
-        })
-        .attr("x2", function(d) {
-          return d.target.x;
-        })
-        .attr("y2", function(d) {
-          return d.target.y;
-        });
+console.log("Hovered Link Data:", d.data);
+
+console.log("hover")
+  tooltip2.transition()
+    
+    .style("opacity", 0.9);
+  tooltip2.html("<strong>Link Name:</strong> " + d.value)
+    .style("left",  "70px")
+    .style("top",  "70px");
+})
+.on("mouseout", function(d) {
+  tooltip2.transition()
+    .duration(500)
+    .style("opacity", 0);
+});
+
+;
+
+// Define a tooltip div with class "tooltip2"
+var tooltip2 = d3.select("body").append("div")
+  .attr("class", "tooltip2")
+  .style("opacity", 0);
+
+// Add tooltip on mouseover
+
+
 
 
 
@@ -1121,37 +1159,37 @@ overflow: auto;
 
 
       // Append text for link names
-      var linkTextGroup = g.selectAll(".link-text-group")
-        .data(links)
-        .enter()
-        .append("g")
-        .attr("class", "link-text-group")
-        .attr("transform", function(d) {
-          // Calculate the midpoint between source and target for both x and y
-          var x = (d.target.x + d.source.x) / 2;
-          var y = (d.target.y + d.source.y) / 2;
-          return "translate(" + x + "," + y + ")";
-        });
+      // var linkTextGroup = g.selectAll(".link-text-group")
+      //   .data(links)
+      //   .enter()
+      //   .append("g")
+      //   .attr("class", "link-text-group")
+      //   .attr("transform", function(d) {
+      //     // Calculate the midpoint between source and target for both x and y
+      //     var x = (d.target.x + d.source.x) / 2;
+      //     var y = (d.target.y + d.source.y) / 2;
+      //     return "translate(" + x + "," + y + ")";
+      //   });
 
 
 
-      // // Append text to the link text group
-      linkTextGroup.append("text")
-        .text(function(d) {
-          // You can customize the text based on your data
-          return d.value;
-        })
-        .attr("text-anchor", "middle")
-        .attr("dy", "0.35em").style("opacity", 0); // Initially hide the text
+      // // // Append text to the link text group
+      // linkTextGroup.append("text")
+      //   .text(function(d) {
+      //     // You can customize the text based on your data
+      //     return d.value;
+      //   })
+      //   .attr("text-anchor", "middle")
+      //   .attr("dy", "0.35em").style("opacity", 0); // Initially hide the text
 
-      // Add mouseover and mouseout events to show/hide the text
-      link.on("mouseover", function() {
-          console.log()
-          d3.select(this).select("text").style("opacity", 1);
-        })
-        .on("mouseout", function() {
-          d3.select(this).select("text").style("visibility", 0);
-        });
+      // // Add mouseover and mouseout events to show/hide the text
+      // link.on("mouseover", function() {
+      //     console.log()
+      //     d3.select(this).select("text").style("opacity", 1);
+      //   })
+      //   .on("mouseout", function() {
+      //     d3.select(this).select("text").style("visibility", 0);
+      //   });
 
       // linkTextGroup.append("text")
       //   .attr("class", "link-text")
@@ -1209,9 +1247,8 @@ overflow: auto;
           "MAX_PHASE": 2,
           "Source_DB_DR_ID": 101
         };
-        // console.log("comppundata ", compoundData);
         // call the function 
-        // workplace
+      
 
 
         if (clickedData.type === "parentnode") {
