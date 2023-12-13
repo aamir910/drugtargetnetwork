@@ -2,64 +2,66 @@
 include("fetchdata.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Check if all dropdown values are set
-  if (isset($_POST['dropdown1']) && isset($_POST['dropdown2']) && isset($_POST['dropdown3'])  && isset($_POST['dropdown4'])) {
-    $dropdown1 = $_POST['dropdown1'];
-    $dropdown2 = $_POST['dropdown2'];
-    $dropdown3 = $_POST['dropdown3'];
-    $dropdown4 = $_POST['dropdown4'];
-
-    $sql = "SELECT * FROM drugresponse WHERE";
-
+  // Check if all array values are set
+  if (
+    isset($_POST['Chembl_id1']) ||
+    isset($_POST['MaxPhase1']) ||
+    isset($_POST['oncotree_change1'])
+  ) {
     // Array to store conditions
     $conditions = array();
 
-    // Check and add condition for ONCOTREE_LINEAGE
-    if (!empty($dropdown1)) {
-      $conditions[] = "ONCOTREE_LINEAGE = '$dropdown1'";
-    }
-
-    // Check and add condition for ONCOTREE_PRIMARY_DISEASE
-    if (!empty($dropdown2)) {
-      $conditions[] = "ONCOTREE_PRIMARY_DISEASE = '$dropdown2'";
-    }
-
-    // Check and add condition for METRIC
-    if (!empty($dropdown3)) {
-      $conditions[] = "MAX_PHASE = '$dropdown3'";
-    }
-
     // Check and add condition for CHEMBL_ID
-    if (!empty($dropdown4)) {
-      $conditions[] = "CHEMBL_ID = '$dropdown4'";
+    if (isset($_POST['Chembl_id1']) && !empty($_POST['Chembl_id1'])) {
+      $Chembl_id1 = $_POST['Chembl_id1'];
+      $Chembl_id_condition = implode("','", $Chembl_id1);
+      $conditions[] = "CHEMBL_ID IN ('$Chembl_id_condition')";
     }
 
-    // Combine conditions with "AND" and add to the SQL query
+    // Check and add condition for MAX_PHASE
+    if (isset($_POST['MaxPhase1']) && !empty($_POST['MaxPhase1'])) {
+      $MaxPhase1 = $_POST['MaxPhase1'];
+      $MaxPhase_condition = implode("','", $MaxPhase1);
+      $conditions[] = "MAX_PHASE IN ('$MaxPhase_condition')";
+    }
+
+    // Check and add condition for ONCOTREE_LINEAGE
+    if (isset($_POST['oncotree_change1']) && !empty($_POST['oncotree_change1'])) {
+      $oncotree_change1 = $_POST['oncotree_change1'];
+      $oncotree_change_condition = implode("','", $oncotree_change1);
+      $conditions[] = "ONCOTREE_LINEAGE IN ('$oncotree_change_condition')";
+    }
+
+    // Check if any conditions are set
     if (!empty($conditions)) {
-      $sql .= " " . implode(" AND ", $conditions);
+      $sql = "SELECT * FROM drugresponse WHERE " . implode(" AND ", $conditions);
+
+      // Limit the result to 400 rows
+      $sql .= " LIMIT 400";
+
+      $result = $conn->query($sql);
+
+      // Fetch the result into an associative array
+      $data = array();
+      while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+      }
+
+      // Convert the result to JSON format
+      $json_result = json_encode($data);
+      header('Content-Type: application/json');
+
+      // Echo the JSON-encoded data
+      echo $json_result;
+      exit(); // Stop further execution
     }
-
-    // Limit the result to 400 rows
-    $sql .= " LIMIT 400";
-
-    $result = $conn->query($sql);
-
-    // Fetch the result into an associative array
-    $data = array();
-    while ($row = $result->fetch_assoc()) {
-      $data[] = $row;
-    }
-
-    // Convert the result to JSON format
-    $json_result = json_encode($data);
-    header('Content-Type: application/json');
-
-    // Echo the JSON-encoded data
-    echo $json_result;
-    exit(); // Stop further execution
   }
 }
 ?>
+
+
+
+
 
 <?php
 
@@ -237,58 +239,58 @@ if (isset($_POST['drugName2'])) {
         <!-- here is second 
        -->
 
-       <div class="dropdown" onclick="toggleDropdown2(event)">
+        <div class="dropdown" onclick="toggleDropdown2(event)">
 
-<label id="dropdownBtn2">Select Max Phase</label>
-<div id="dropdownContent2" class="dropdown-content"> 
-        <label><input type="checkbox" value="Approved">Approved</label>
-        <label><input type="checkbox" value="Preclinical">Preclinical</label>
-        <label><input type="checkbox" value="PHASE 2">PHASE 2</label>
-        <label><input type="checkbox" value="PHASE 3">PHASE 3</label>
-        <label><input type="checkbox" value="PHASE 1">PHASE 1</label>
-        <label><input type="checkbox" value="Unknown">Unknown</label>
-  <!-- Add more options as needed -->
-</div>
+          <label id="dropdownBtn2">Select Max Phase</label>
+          <div id="dropdownContent2" class="dropdown-content">
+            <label><input type="checkbox" value="Approved">Approved</label>
+            <label><input type="checkbox" value="Preclinical">Preclinical</label>
+            <label><input type="checkbox" value="PHASE 2">PHASE 2</label>
+            <label><input type="checkbox" value="PHASE 3">PHASE 3</label>
+            <label><input type="checkbox" value="PHASE 1">PHASE 1</label>
+            <label><input type="checkbox" value="Unknown">Unknown</label>
+            <!-- Add more options as needed -->
+          </div>
 
 
-</div>
+        </div>
         <!-- third Dropdown -->
-<div class="dropdown" onclick="toggleDropdown3(event)">
-<label id="dropdownBtn3">Select CHEMBL_ID</label>
-<div id="dropdownContent3" class="dropdown-content">
-       <label><input type="checkbox" value="CHEMBL553">CHEMBL553</label>
-        <label><input type="checkbox" value="CHEMBL413">CHEMBL413</label>
-        <label><input type="checkbox" value="CHEMBL535">CHEMBL535</label>
-        <label><input type="checkbox" value="CHEMBL4872316">CHEMBL4872316</label>
-        <label><input type="checkbox" value="CHEMBL4851750">CHEMBL4851750</label>
-        <label><input type="checkbox" value="CHEMBL428647">CHEMBL428647</label>
-        <label><input type="checkbox" value="CHEMBL254129">CHEMBL254129</label>
-        <label><input type="checkbox" value="CHEMBL2144069">CHEMBL2144069</label>
-        <label><input type="checkbox" value="CHEMBL1336">CHEMBL1336</label>
-        <label><input type="checkbox" value="CHEMBL572878">CHEMBL572878</label>
-        <label><input type="checkbox" value="CHEMBL941">CHEMBL941</label>
-        <label><input type="checkbox" value="CHEMBL4873176">CHEMBL4873176</label>
-        <label><input type="checkbox" value="CHEMBL601719">CHEMBL601719</label>
-        <label><input type="checkbox" value="CHEMBL217092">CHEMBL217092</label>
-        <label><input type="checkbox" value="CHEMBL392695">CHEMBL392695</label>
-        <label><input type="checkbox" value="CHEMBL159822">CHEMBL159822</label>
-        <label><input type="checkbox" value="CHEMBL1421">CHEMBL1421</label>
-        <label><input type="checkbox" value="CHEMBL483847">CHEMBL483847</label>
-        <label><input type="checkbox" value="CHEMBL4860897">CHEMBL4860897</label>
-        <label><input type="checkbox" value="CHEMBL1242367">CHEMBL1242367</label>
-        <label><input type="checkbox" value="CHEMBL197603">CHEMBL197603</label>
-        <label><input type="checkbox" value="CHEMBL213100">CHEMBL213100</label>
-        <label><input type="checkbox" value="CHEMBL1643959">CHEMBL1643959</label>
-        <label><input type="checkbox" value="CHEMBL513909">CHEMBL513909</label>
-        <label><input type="checkbox" value="CHEMBL209148">CHEMBL209148</label>
-        <!-- Add more options as needed -->
-</div>
+        <div class="dropdown" onclick="toggleDropdown3(event)">
+          <label id="dropdownBtn3">Select CHEMBL_ID</label>
+          <div id="dropdownContent3" class="dropdown-content">
+            <label><input type="checkbox" value="CHEMBL553">CHEMBL553</label>
+            <label><input type="checkbox" value="CHEMBL413">CHEMBL413</label>
+            <label><input type="checkbox" value="CHEMBL535">CHEMBL535</label>
+            <label><input type="checkbox" value="CHEMBL4872316">CHEMBL4872316</label>
+            <label><input type="checkbox" value="CHEMBL4851750">CHEMBL4851750</label>
+            <label><input type="checkbox" value="CHEMBL428647">CHEMBL428647</label>
+            <label><input type="checkbox" value="CHEMBL254129">CHEMBL254129</label>
+            <label><input type="checkbox" value="CHEMBL2144069">CHEMBL2144069</label>
+            <label><input type="checkbox" value="CHEMBL1336">CHEMBL1336</label>
+            <label><input type="checkbox" value="CHEMBL572878">CHEMBL572878</label>
+            <label><input type="checkbox" value="CHEMBL941">CHEMBL941</label>
+            <label><input type="checkbox" value="CHEMBL4873176">CHEMBL4873176</label>
+            <label><input type="checkbox" value="CHEMBL601719">CHEMBL601719</label>
+            <label><input type="checkbox" value="CHEMBL217092">CHEMBL217092</label>
+            <label><input type="checkbox" value="CHEMBL392695">CHEMBL392695</label>
+            <label><input type="checkbox" value="CHEMBL159822">CHEMBL159822</label>
+            <label><input type="checkbox" value="CHEMBL1421">CHEMBL1421</label>
+            <label><input type="checkbox" value="CHEMBL483847">CHEMBL483847</label>
+            <label><input type="checkbox" value="CHEMBL4860897">CHEMBL4860897</label>
+            <label><input type="checkbox" value="CHEMBL1242367">CHEMBL1242367</label>
+            <label><input type="checkbox" value="CHEMBL197603">CHEMBL197603</label>
+            <label><input type="checkbox" value="CHEMBL213100">CHEMBL213100</label>
+            <label><input type="checkbox" value="CHEMBL1643959">CHEMBL1643959</label>
+            <label><input type="checkbox" value="CHEMBL513909">CHEMBL513909</label>
+            <label><input type="checkbox" value="CHEMBL209148">CHEMBL209148</label>
+            <!-- Add more options as needed -->
+          </div>
 
 
-</div>
+        </div>
 
 
-      
+
         <!-- button  -->
       </div>
       <button class="btn btn-success" id="submitButton" type='submit'>
@@ -338,17 +340,17 @@ if (isset($_POST['drugName2'])) {
 
 
         <div class="legend">
-          <div style = "width : 40%">
+          <div style="width : 40%">
             <legend class="legenddata">max_phase</legend>
-            <ul id="myList" class="legend_inner"  ></ul>
+            <ul id="myList" class="legend_inner"></ul>
             <legend class="legenddata">data_set</legend>
-            <ul id="dataset" class="legend_inner" ></ul>
-            <legend class="legenddata" >Matric</legend>
-            <ul id="matric_set" class="legend_inner" ></ul>
+            <ul id="dataset" class="legend_inner"></ul>
+            <legend class="legenddata">Matric</legend>
+            <ul id="matric_set" class="legend_inner"></ul>
           </div>
-          <div style = "width : 60%" >
+          <div style="width : 60%">
             <legend class="legenddata">child nodes</legend>
-            <ul id="child_node" class="legend_inner" ></ul>
+            <ul id="child_node" class="legend_inner"></ul>
           </div>
 
         </div>
@@ -487,7 +489,7 @@ overflow: auto;
 
       if (dropdownContent.style.display === "block") {
         dropdownContent.style.display = "none";
-        
+
       } else {
         dropdownContent.style.display = "block";
         event.stopPropagation();
@@ -511,7 +513,7 @@ overflow: auto;
 
 
 
-      console.log(oncotree_change1 , "oncotraight");
+      console.log(oncotree_change1, "oncotraight");
       // Close the dropdown
       var dropdownContent = document.getElementById("dropdownContent");
       dropdownContent.style.display = "none";
@@ -521,32 +523,32 @@ overflow: auto;
     var checkboxList = document.querySelectorAll('#dropdownContent input[type="checkbox"]');
     checkboxList.forEach(function(checkbox) {
       checkbox.addEventListener('change', function() {
-       
+
         handleCheckboxChange();
       });
     });
 
     // Close the dropdown if the user clicks outside of it
     window.onclick = function(event) {
-  // Check if the clicked element is a dropdown button or its content
-  if (
-    !event.target.matches('.dropdown') &&
-    !event.target.matches('.dropdown-content') &&
-    !event.target.closest('.dropdown-content')
-  ) {
-    // Close all dropdowns
-    var dropdowns = document.querySelectorAll('.dropdown-content');
-    dropdowns.forEach(function (dropdown) {
-      dropdown.style.display = 'none';
-    });
-  }
-};
-   
+      // Check if the clicked element is a dropdown button or its content
+      if (
+        !event.target.matches('.dropdown') &&
+        !event.target.matches('.dropdown-content') &&
+        !event.target.closest('.dropdown-content')
+      ) {
+        // Close all dropdowns
+        var dropdowns = document.querySelectorAll('.dropdown-content');
+        dropdowns.forEach(function(dropdown) {
+          dropdown.style.display = 'none';
+        });
+      }
+    };
+
 
     let MaxPhase1 = [];
 
-function toggleDropdown2(event) {
-  var dropdownContent = document.getElementById("dropdownContent2");
+    function toggleDropdown2(event) {
+      var dropdownContent = document.getElementById("dropdownContent2");
       var dropdownBtn = document.getElementById("dropdownBtn2");
 
       if (dropdownContent.style.display === "block") {
@@ -555,43 +557,43 @@ function toggleDropdown2(event) {
         dropdownContent.style.display = "block";
         event.stopPropagation();
       }
-}
+    }
 
 
-function handleCheckboxChange2() {
-  MaxPhase1 = [];
+    function handleCheckboxChange2() {
+      MaxPhase1 = [];
 
-// Get all checkboxes within the dropdown
-var checkboxes = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]:checked');
-// Update the array with the selected values
-checkboxes.forEach(function(checkbox) {
-  MaxPhase1.push(checkbox.value);
-});
+      // Get all checkboxes within the dropdown
+      var checkboxes = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]:checked');
+      // Update the array with the selected values
+      checkboxes.forEach(function(checkbox) {
+        MaxPhase1.push(checkbox.value);
+      });
 
-// Update the button text with selected values
-var dropdownBtn = document.getElementById("dropdownBtn2");
-dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Select Options";
+      // Update the button text with selected values
+      var dropdownBtn = document.getElementById("dropdownBtn2");
+      dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Select Options";
 
 
 
-console.log(MaxPhase1 , 'MaxPhase1');
-// Close the dropdown
-var dropdownContent = document.getElementById("dropdownContent2");
-dropdownContent.style.display = "none";
-}
+      console.log(MaxPhase1, 'MaxPhase1');
+      // Close the dropdown
+      var dropdownContent = document.getElementById("dropdownContent2");
+      dropdownContent.style.display = "none";
+    }
 
-var checkboxList2 = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]');
-checkboxList2.forEach(function (checkbox) {
-  checkbox.addEventListener('change', function () {
-    handleCheckboxChange2();
-  });
-});
+    var checkboxList2 = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]');
+    checkboxList2.forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+        handleCheckboxChange2();
+      });
+    });
 
-// Add script for the third dropdown
-let Chembl_id1 = [];
+    // Add script for the third dropdown
+    let Chembl_id1 = [];
 
-function toggleDropdown3(event) {
-  var dropdownContent = document.getElementById("dropdownContent3");
+    function toggleDropdown3(event) {
+      var dropdownContent = document.getElementById("dropdownContent3");
       var dropdownBtn = document.getElementById("dropdownBtn3");
 
       if (dropdownContent.style.display === "block") {
@@ -600,38 +602,32 @@ function toggleDropdown3(event) {
         dropdownContent.style.display = "block";
         event.stopPropagation();
       }
-}
+    }
 
-function handleCheckboxChange3() {
-  Chembl_id1 = [];
-// Get all checkboxes within the dropdown
-var checkboxes = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]:checked');
-// Update the array with the selected values
-checkboxes.forEach(function(checkbox) {
-  Chembl_id1.push(checkbox.value);
-});
-// Update the button text with selected values
-var dropdownBtn = document.getElementById("dropdownBtn3");
-dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Select Options";
+    function handleCheckboxChange3() {
+      Chembl_id1 = [];
+      // Get all checkboxes within the dropdown
+      var checkboxes = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]:checked');
+      // Update the array with the selected values
+      checkboxes.forEach(function(checkbox) {
+        Chembl_id1.push(checkbox.value);
+      });
+      // Update the button text with selected values
+      var dropdownBtn = document.getElementById("dropdownBtn3");
+      dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Select Options";
 
-console.log(Chembl_id1 , "Chembl_id1");
-// Close the dropdown
-var dropdownContent = document.getElementById("dropdownContent3");
-dropdownContent.style.display = "none";
-}
+      console.log(Chembl_id1, "Chembl_id1");
+      // Close the dropdown
+      var dropdownContent = document.getElementById("dropdownContent3");
+      dropdownContent.style.display = "none";
+    }
 
-var checkboxList3 = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]');
-checkboxList3.forEach(function (checkbox) {
-  checkbox.addEventListener('change', function () {
-    handleCheckboxChange3();
-  });
-});
-
-
-
-
-
-
+    var checkboxList3 = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]');
+    checkboxList3.forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+        handleCheckboxChange3();
+      });
+    });
   </script>
 
 
@@ -861,8 +857,6 @@ checkboxList3.forEach(function (checkbox) {
           drugName: drugName
         },
         success: function(data) {
-          // Handle the returned data
-          // console.log(data, "data to show ");
           drug_des_parent = JSON.parse(data);
 
           generate_table();
@@ -1576,33 +1570,33 @@ checkboxList3.forEach(function (checkbox) {
 
 
       colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
-//       child_colors = [
-//         "#AAD8E5", "#F2BFC1", "#C9E0CB", "#F8D492", "#FFE7A2", "#FEEEC6",
-//   "#C7CDE3", "#E3C2D2", "#B0C8E6", "#F6C1B3", "#D3EDC5", "#FFF3B0",
-//   "#FBD9B0", "#D9DCDF", "#A3D4E2", "#E1A1A3", "#ACCDB3", "#F3B575",
-//   "#FFE27F", "#FFF7A4", "#C4C9D5", "#DBB9C8", "#A9CDE8", "#F0BAA9"
-// ];
+      //       child_colors = [
+      //         "#AAD8E5", "#F2BFC1", "#C9E0CB", "#F8D492", "#FFE7A2", "#FEEEC6",
+      //   "#C7CDE3", "#E3C2D2", "#B0C8E6", "#F6C1B3", "#D3EDC5", "#FFF3B0",
+      //   "#FBD9B0", "#D9DCDF", "#A3D4E2", "#E1A1A3", "#ACCDB3", "#F3B575",
+      //   "#FFE27F", "#FFF7A4", "#C4C9D5", "#DBB9C8", "#A9CDE8", "#F0BAA9"
+      // ];
 
 
-// child_colors  = [
-//   "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b",
-//   "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#FF5733", "#33FF57",
-//   "#57B4FF", "#D833FF", "#FFD333", "#33FFD5", "#D333FF", "#FF33D5",
-//   "#FF3333", "#33FF33", "#3333FF", "#FFA933", "#A933FF", "#33FFA9"
-// ];
+      // child_colors  = [
+      //   "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b",
+      //   "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#FF5733", "#33FF57",
+      //   "#57B4FF", "#D833FF", "#FFD333", "#33FFD5", "#D333FF", "#FF33D5",
+      //   "#FF3333", "#33FF33", "#3333FF", "#FFA933", "#A933FF", "#33FFA9"
+      // ];
 
-// child_colors = [
-//   "#345678", "#721c1c", "#2c442d", "#8c6b00", "#7a6512", "#685d38",
-//   "#2b2e3a", "#502939", "#1d2d47", "#7e4427", "#395c29", "#7d7021",
-//   "#724e2b", "#4b4d51", "#1f4a66", "#5d2b2d", "#4b5d41", "#8b581d",
-//   "#806e26", "#878847", "#39405b", "#564156", "#36518a", "#7a4d3b"
-// ];
-child_colors= [
-  "#3498db", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6", "#34495e",
-  "#e67e22", "#95a5a6", "#d35400", "#1abc9c", "#c0392b", "#27ae60",
-  "#8e44ad", "#2c3e50", "#f1c40f", "#7f8c8d", "#e67e22", "#3498db",
-  "#ecf0f1", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6", "#34495e"
-];
+      // child_colors = [
+      //   "#345678", "#721c1c", "#2c442d", "#8c6b00", "#7a6512", "#685d38",
+      //   "#2b2e3a", "#502939", "#1d2d47", "#7e4427", "#395c29", "#7d7021",
+      //   "#724e2b", "#4b4d51", "#1f4a66", "#5d2b2d", "#4b5d41", "#8b581d",
+      //   "#806e26", "#878847", "#39405b", "#564156", "#36518a", "#7a4d3b"
+      // ];
+      child_colors = [
+        "#3498db", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6", "#34495e",
+        "#e67e22", "#95a5a6", "#d35400", "#1abc9c", "#c0392b", "#27ae60",
+        "#8e44ad", "#2c3e50", "#f1c40f", "#7f8c8d", "#e67e22", "#3498db",
+        "#ecf0f1", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6", "#34495e"
+      ];
 
       function createMaxPhaseCategories() {
 
@@ -1782,7 +1776,7 @@ child_colors= [
           }
           return "#6a329f";
         })
-        // .style("border" , "2px solid RED") ;
+      // .style("border" , "2px solid RED") ;
 
 
       child_clicked = dataSet_child.append("span").text((d) => d.category);
@@ -2019,11 +2013,11 @@ child_colors= [
         element.classList.remove("error-border");
       });
 
-      if (
-        document.getElementById("dropdown1").value === "" &&
-        document.getElementById("dropdown2").value === "" &&
-        document.getElementById("dropdown3").value === "" &&
-        document.getElementById("dropdown4").value === ""
+      if ( false
+        // document.getElementById("dropdown1").value === "" &&
+        // document.getElementById("dropdown2").value === "" &&
+        // document.getElementById("dropdown3").value === "" &&
+        // document.getElementById("dropdown4").value === ""
 
       ) {
         // Show error messages for the empty dropdowns
@@ -2161,15 +2155,14 @@ child_colors= [
         type: "POST",
         url: "", // Leave it empty to target the current page
         data: {
-          dropdown1: dropdown1Value,
-          dropdown2: dropdown2Value,
-          dropdown3: dropdown3Value,
-          dropdown4: dropdown4Value,
-
+          Chembl_id1: Chembl_id1,
+          MaxPhase1: MaxPhase1,
+          oncotree_change1: oncotree_change1,
         },
         success: function(response) {
 
           jsondata2 = response;
+         // console.log(jsondata2);
 
           fetchData(jsondata2);
 
