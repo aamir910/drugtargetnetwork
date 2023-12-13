@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       // $sql = "SELECT * FROM drugresponse WHERE " . implode(" AND ", $conditions);
       $sql .= " " . implode(" AND ", $conditions);
     }
-    
+
     $count_increment = intval($_POST['count_increment']);
     // Limit the result to 400 rows
     $limit = 400 * $count_increment;
@@ -212,6 +212,11 @@ if (isset($_POST['drugName2'])) {
     .tooltip2 strong {
       font-weight: bold;
     }
+
+    .in_de_Crement {
+      display: flex;
+      visibility: hidden;
+    }
   </style>
 
 
@@ -220,9 +225,12 @@ if (isset($_POST['drugName2'])) {
 <body>
   <div class=" searchBar">
     <form class="selection_box flex" id="searchForm">
-      <h4 style="width: 20rem; text-align:center">Fetch link data </h4>
-      <button class="btn1" id="increment">400+</button>
-      <button class="btn1" id="decrement">400-</button>
+      <div class="in_de_Crement">
+        <h4 style="width: 12rem;text-align:center;display: flex;justify-content: center;align-items: center;">Fetch row data </h4>
+        <button class="btn1" id="increment">400+</button>
+        <button class="btn1" id="decrement">400-</button>
+
+      </div>
       <div class="form-row rowData">
         <!-- First Dropdown -->
 
@@ -697,19 +705,24 @@ overflow: auto;
 
     let matric_legend = [];
     let matric_categories;
-let count_increment = 1; 
+    let count_increment = 1;
 
     document.getElementById("increment").addEventListener("click", function(event) {
       event.preventDefault();
-      count_increment+=1; 
+      count_increment += 1;
       ajax();
     });
 
 
     document.getElementById("decrement").addEventListener("click", function(event) {
       event.preventDefault();
+      if (count_increment > 1) {
+        count_increment -= 1;
+        ajax();
+      } else {
+        alert("mininum data fetched")
+      }
 
-      ajax();
     });
 
     async function fetchData(data) {
@@ -1038,7 +1051,7 @@ let count_increment = 1;
 
       legendinfo();
       // Manually set colors based on the dataset value
-       link = g
+      link = g
         .selectAll(".link ")
         .data(links)
         .enter().append("line")
@@ -1092,14 +1105,15 @@ let count_increment = 1;
         }).on("mouseover", function(d) {
 
 
+          let r = event.target.__data__;
 
-          console.log("Hovered Link Data:", d);
+          console.log("Hovered Link Data:", r);
 
           console.log("hover")
           tooltip2.transition()
 
             .style("opacity", 0.9);
-          tooltip2.html("<strong>Link Value:</strong> " + d.value)
+          tooltip2.html("<strong>Link Value:</strong> " + r.value)
             .style("left", "70px")
             .style("top", "70px");
         })
@@ -1501,7 +1515,7 @@ let count_increment = 1;
     // legenddata
     function legendinfo() {
       colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
-  
+
       child_colors = [
         "#3498db", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6", "#34495e",
         "#e67e22", "#95a5a6", "#d35400", "#1abc9c", "#c0392b", "#27ae60",
@@ -1917,6 +1931,8 @@ let count_increment = 1;
 
 
       // Reset error messages
+      document.querySelector(".in_de_Crement").style.visibility = "visible";
+
       document.querySelectorAll(".alert2").forEach(function(alert) {
         alert.style.display = "none";
       });
