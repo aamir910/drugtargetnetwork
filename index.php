@@ -1107,15 +1107,15 @@ overflow: auto;
 
           let r = event.target.__data__;
 
-          console.log("Hovered Link Data:", r);
-
+          console.log("Hovered Link Data:", r );
+console.log(d)
           console.log("hover")
           tooltip2.transition()
 
             .style("opacity", 0.9);
           tooltip2.html("<strong>Link Value:</strong> " + r.value)
-            .style("left", "70px")
-            .style("top", "70px");
+            .style("left", d.pageX + "px")
+            .style("top", d.pageY + "px");
         })
         .on("mouseout", function(d) {
           tooltip2.transition()
