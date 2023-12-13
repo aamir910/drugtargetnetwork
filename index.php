@@ -1,4 +1,5 @@
 <?php
+
 include("fetchdata.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -11,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Array to store conditions
     $conditions = array();
 
+    $sql = "SELECT * FROM drugresponse WHERE";
     // Check and add condition for CHEMBL_ID
     if (isset($_POST['Chembl_id1']) && !empty($_POST['Chembl_id1'])) {
       $Chembl_id1 = $_POST['Chembl_id1'];
@@ -32,29 +34,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $conditions[] = "ONCOTREE_LINEAGE IN ('$oncotree_change_condition')";
     }
 
-    // Check if any conditions are set
+
     if (!empty($conditions)) {
-      $sql = "SELECT * FROM drugresponse WHERE " . implode(" AND ", $conditions);
 
-      // Limit the result to 400 rows
-      $sql .= " LIMIT 400";
-
-      $result = $conn->query($sql);
-
-      // Fetch the result into an associative array
-      $data = array();
-      while ($row = $result->fetch_assoc()) {
-        $data[] = $row;
-      }
-
-      // Convert the result to JSON format
-      $json_result = json_encode($data);
-      header('Content-Type: application/json');
-
-      // Echo the JSON-encoded data
-      echo $json_result;
-      exit(); // Stop further execution
+      // $sql = "SELECT * FROM drugresponse WHERE " . implode(" AND ", $conditions);
+      $sql .= " " . implode(" AND ", $conditions);
     }
+    
+    $count_increment = intval($_POST['count_increment']);
+    // Limit the result to 400 rows
+    $limit = 400 * $count_increment;
+
+    // Append the LIMIT clause to your SQL query
+    $sql .= " LIMIT " . $limit;
+
+    $result = $conn->query($sql);
+
+    // Fetch the result into an associative array
+    $data = array();
+    while ($row = $result->fetch_assoc()) {
+      $data[] = $row;
+    }
+
+    // Convert the result to JSON format
+    $json_result = json_encode($data);
+    header('Content-Type: application/json');
+
+    // Echo the JSON-encoded data
+    echo $json_result;
+    exit(); // Stop further execution
+
   }
 }
 ?>
@@ -187,22 +196,22 @@ if (isset($_POST['drugName2'])) {
     .dropdown-content input {
       margin-right: 8px;
     }
+
     /* Define styles for tooltip2 */
-.tooltip2 {
-  position: absolute;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 12px;
-  pointer-events: none;
-}
+    .tooltip2 {
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      font-size: 12px;
+      pointer-events: none;
+    }
 
-.tooltip2 strong {
-  font-weight: bold;
-}
-
+    .tooltip2 strong {
+      font-weight: bold;
+    }
   </style>
 
 
@@ -349,8 +358,6 @@ if (isset($_POST['drugName2'])) {
           <input id="min_slider" type="range" class="range-min" min="4.0" max="9.0" step="0.1" value="4.0">
           <input id="max_slider" type="range" class="range-max" min="4.0" max="9.0" step="0.1" value="9.0">
         </div>
-
-
         <div class="legend">
           <div style="width : 40%">
             <legend class="legenddata">max_phase</legend>
@@ -364,27 +371,9 @@ if (isset($_POST['drugName2'])) {
             <legend class="legenddata">child nodes</legend>
             <ul id="child_node" class="legend_inner"></ul>
           </div>
-
         </div>
-
-
       </div>
-
-
-
-
-
-
     </main>
-
-
-
-
-
-
-
-
-
     <!-- second slider and btns  -->
 
     <footer class="sliderpart2" id='buttonbar'>
@@ -456,27 +445,19 @@ overflow: auto;
 
           <input type="radio" id="choice2" name="choice" value="productive" checked>
           <label for="choice2">Biologics Structure </label>
-
           <input type="radio" id="choice1" name="choice" value="creative">
           <label for="choice1">Properties</label>
 
-
         </form>
-
       </div>
       <div class="table-container">
         <table>
           <tbody id="compoundTableBody">
             <!-- Data will be dynamically inserted here using JavaScript -->
           </tbody>
-
           <img src="image_not_available.png" alt="Structure Image" class="structure-image" style="margin : 0% 20%;">
         </table>
-
       </div>
-
-
-
       <button style="background:none " id='parent_des_close'><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
 
     </div>
@@ -716,8 +697,20 @@ overflow: auto;
 
     let matric_legend = [];
     let matric_categories;
+let count_increment = 1; 
+
+    document.getElementById("increment").addEventListener("click", function(event) {
+      event.preventDefault();
+      count_increment+=1; 
+      ajax();
+    });
 
 
+    document.getElementById("decrement").addEventListener("click", function(event) {
+      event.preventDefault();
+
+      ajax();
+    });
 
     async function fetchData(data) {
       try {
@@ -725,26 +718,12 @@ overflow: auto;
 
         console.log('data coming from the', response);
 
-
-        document.getElementById("increment").addEventListener("click", function(event) {
-          event.preventDefault();
-
-        });
-
-        document.getElementById("decrement").addEventListener("click", function(event) {
-          event.preventDefault();
-
-        });
         processData(response);
-
-
       } catch (error) {
         console.error("Error loading the JSON file:", error);
 
       }
     }
-
-
     // fetching the data ended here 
     let i = 0;
 
@@ -1058,167 +1037,84 @@ overflow: auto;
 
 
       legendinfo();
-    // Manually set colors based on the dataset value
-var link = g
-  .selectAll(".link ")
-  .data(links)
-  .enter().append("line")
-  .style("stroke", function(d) {
-    switch (d.dataset) {
-      case "GDSC1":
-        return "#4372c4";
-      case "GDSC2":
-        return "#fe0000";
-      case "CCLE_NP24":
-        return "#9B35C8";
-      case "NCI-60":
-        return "#0bc00f";
-      case "gCSI":
-        return "#fe8f01";
-      case "FIMM":
-        return "#f99cc8";
-      default:
-        // Default color if the dataset doesn't match any specific case
-        return "black";
-    }
-  })
-  .attr("stroke-width", function(d) {
+      // Manually set colors based on the dataset value
+       link = g
+        .selectAll(".link ")
+        .data(links)
+        .enter().append("line")
+        .style("stroke", function(d) {
+          switch (d.dataset) {
+            case "GDSC1":
+              return "#4372c4";
+            case "GDSC2":
+              return "#fe0000";
+            case "CCLE_NP24":
+              return "#9B35C8";
+            case "NCI-60":
+              return "#0bc00f";
+            case "gCSI":
+              return "#fe8f01";
+            case "FIMM":
+              return "#f99cc8";
+            default:
+              // Default color if the dataset doesn't match any specific case
+              return "black";
+          }
+        })
+        .attr("stroke-width", function(d) {
 
-    if (d.value < 5) {
-      return 0.5;
-    } else {
-      return d.value - 4.5;
-    }
-  })
-  .style("stroke-dasharray", function(d) {
-    if (d.link_matric === 'pIC50') {
-      return "2,2";
-    } else if (d.link_matric === 'pEC50') {
-      return "5,5";
-    } else if (d.link_matric === 'pGI50') {
-      return "0";
-    }
-  })
-  .attr("x1", function(d) {
-    return d.source.x;
-  })
-  .attr("y1", function(d) {
-    return d.source.y;
-  })
-  .attr("x2", function(d) {
-    return d.target.x;
-  })
-  .attr("y2", function(d) {
-    return d.target.y;
-  }).on("mouseover", function(d) {
-
-
-
-console.log("Hovered Link Data:", d.data);
-
-console.log("hover")
-  tooltip2.transition()
-    
-    .style("opacity", 0.9);
-  tooltip2.html("<strong>Link Name:</strong> " + d.value)
-    .style("left",  "70px")
-    .style("top",  "70px");
-})
-.on("mouseout", function(d) {
-  tooltip2.transition()
-    .duration(500)
-    .style("opacity", 0);
-});
-
-;
-
-// Define a tooltip div with class "tooltip2"
-var tooltip2 = d3.select("body").append("div")
-  .attr("class", "tooltip2")
-  .style("opacity", 0);
-
-// Add tooltip on mouseover
+          if (d.value < 5) {
+            return 0.5;
+          } else {
+            return d.value - 4.5;
+          }
+        })
+        .style("stroke-dasharray", function(d) {
+          if (d.link_matric === 'pIC50') {
+            return "2,2";
+          } else if (d.link_matric === 'pEC50') {
+            return "5,5";
+          } else if (d.link_matric === 'pGI50') {
+            return "0";
+          }
+        })
+        .attr("x1", function(d) {
+          return d.source.x;
+        })
+        .attr("y1", function(d) {
+          return d.source.y;
+        })
+        .attr("x2", function(d) {
+          return d.target.x;
+        })
+        .attr("y2", function(d) {
+          return d.target.y;
+        }).on("mouseover", function(d) {
 
 
 
+          console.log("Hovered Link Data:", d);
 
+          console.log("hover")
+          tooltip2.transition()
 
-      //         const tooltip2 = link
-      //     .append("text") .text((d) => {
-      //     // console.log(d); // Log the data to the console
-      //     return d.value;
-      // })
-      //     .attr("font-size", "20px")
-      //     .attr("text-anchor", "middle")
-      //     .style("fill", "black")   .attr("transform", function(d) {
-      //     const x = (d.source.x );
-      //     const y = (d.source.y );
-      //     console.log(y) ; 
-      //     return "translate(" + 70.0710678118654755 + "," + 80.273032735715967+ ")";
-      // });
+            .style("opacity", 0.9);
+          tooltip2.html("<strong>Link Value:</strong> " + d.value)
+            .style("left", "70px")
+            .style("top", "70px");
+        })
+        .on("mouseout", function(d) {
+          tooltip2.transition()
+            .duration(500)
+            .style("opacity", 0);
+        });
 
+      ;
 
-      // Append text for link names
-      // var linkTextGroup = g.selectAll(".link-text-group")
-      //   .data(links)
-      //   .enter()
-      //   .append("g")
-      //   .attr("class", "link-text-group")
-      //   .attr("transform", function(d) {
-      //     // Calculate the midpoint between source and target for both x and y
-      //     var x = (d.target.x + d.source.x) / 2;
-      //     var y = (d.target.y + d.source.y) / 2;
-      //     return "translate(" + x + "," + y + ")";
-      //   });
-
-
-
-      // // // Append text to the link text group
-      // linkTextGroup.append("text")
-      //   .text(function(d) {
-      //     // You can customize the text based on your data
-      //     return d.value;
-      //   })
-      //   .attr("text-anchor", "middle")
-      //   .attr("dy", "0.35em").style("opacity", 0); // Initially hide the text
-
-      // // Add mouseover and mouseout events to show/hide the text
-      // link.on("mouseover", function() {
-      //     console.log()
-      //     d3.select(this).select("text").style("opacity", 1);
-      //   })
-      //   .on("mouseout", function() {
-      //     d3.select(this).select("text").style("visibility", 0);
-      //   });
-
-      // linkTextGroup.append("text")
-      //   .attr("class", "link-text")
-      //   .text(function(d) {
-      //     return d.value;
-      //   })
-      //   .style("text-anchor", "middle");
-
-
-      // var linkText = g.selectAll(".gLink")
-      //             .data(links)
-      //           .append("text")
-      // 	    .attr("font-family", "Arial, Helvetica, sans-serif")
-      // 	    .attr("x", function(d) {
-      // 	        if (d.target.x > d.source.x) { return (d.source.x + (d.target.x - d.source.x)/2); }
-      // 	        else { return (d.target.x + (d.source.x - d.target.x)/2); }
-      // 	    })
-      //             .attr("y", function(d) {
-      // 	        if (d.target.y > d.source.y) { return (d.source.y + (d.target.y - d.source.y)/2); }
-      // 	        else { return (d.target.y + (d.source.y - d.target.y)/2); }
-      // 	    })
-      // 	    .attr("fill", "Black")
-      //             .style("font", "normal 12px Arial")
-      //             .attr("dy", ".35em")
-      //             .text(function(d) { return d.linkName; });
-
-
-
-
+      // Define a tooltip div with class "tooltip2"
+      var tooltip2 = d3.select("body").append("div")
+        .attr("class", "tooltip2")
+        .style("opacity", 0);
 
 
 
@@ -1229,8 +1125,6 @@ var tooltip2 = d3.select("body").append("div")
         .append("g")
         .attr("class", "node").call(customDrag(simulation));
       node.on("click", handleClick);
-
-
 
       function handleClick(event) {
 
@@ -1248,7 +1142,7 @@ var tooltip2 = d3.select("body").append("div")
           "Source_DB_DR_ID": 101
         };
         // call the function 
-      
+
 
 
         if (clickedData.type === "parentnode") {
@@ -1401,7 +1295,14 @@ var tooltip2 = d3.select("body").append("div")
       });
     }
 
+
+
+
+
+
+    // here is the function to start the limitations 
     function range_of_links(min_range, max_range, valueofslider) {
+
       link.style("display", null);
       node.style("display", null);
       //  fitleration of the threshold value sidler 
@@ -1599,35 +1500,8 @@ var tooltip2 = d3.select("body").append("div")
     }
     // legenddata
     function legendinfo() {
-
-
-
-
-
-
-
       colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
-      //       child_colors = [
-      //         "#AAD8E5", "#F2BFC1", "#C9E0CB", "#F8D492", "#FFE7A2", "#FEEEC6",
-      //   "#C7CDE3", "#E3C2D2", "#B0C8E6", "#F6C1B3", "#D3EDC5", "#FFF3B0",
-      //   "#FBD9B0", "#D9DCDF", "#A3D4E2", "#E1A1A3", "#ACCDB3", "#F3B575",
-      //   "#FFE27F", "#FFF7A4", "#C4C9D5", "#DBB9C8", "#A9CDE8", "#F0BAA9"
-      // ];
-
-
-      // child_colors  = [
-      //   "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b",
-      //   "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#FF5733", "#33FF57",
-      //   "#57B4FF", "#D833FF", "#FFD333", "#33FFD5", "#D333FF", "#FF33D5",
-      //   "#FF3333", "#33FF33", "#3333FF", "#FFA933", "#A933FF", "#33FFA9"
-      // ];
-
-      // child_colors = [
-      //   "#345678", "#721c1c", "#2c442d", "#8c6b00", "#7a6512", "#685d38",
-      //   "#2b2e3a", "#502939", "#1d2d47", "#7e4427", "#395c29", "#7d7021",
-      //   "#724e2b", "#4b4d51", "#1f4a66", "#5d2b2d", "#4b5d41", "#8b581d",
-      //   "#806e26", "#878847", "#39405b", "#564156", "#36518a", "#7a4d3b"
-      // ];
+  
       child_colors = [
         "#3498db", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6", "#34495e",
         "#e67e22", "#95a5a6", "#d35400", "#1abc9c", "#c0392b", "#27ae60",
@@ -2050,13 +1924,7 @@ var tooltip2 = d3.select("body").append("div")
         element.classList.remove("error-border");
       });
 
-      if ( false
-        // document.getElementById("dropdown1").value === "" &&
-        // document.getElementById("dropdown2").value === "" &&
-        // document.getElementById("dropdown3").value === "" &&
-        // document.getElementById("dropdown4").value === ""
-
-      ) {
+      if (false) {
         // Show error messages for the empty dropdowns
 
         if (document.getElementById("dropdown1").value === "") {
@@ -2083,13 +1951,7 @@ var tooltip2 = d3.select("body").append("div")
       } else {
 
         event.preventDefault();
-
-
         ajax();
-        // document.getElementById("dropdown1").value = "";
-        // document.getElementById("dropdown2").value = "";
-        // document.getElementById("dropdown3").value = "";
-
       }
 
 
@@ -2169,17 +2031,8 @@ var tooltip2 = d3.select("body").append("div")
   <!-- JavaScript for handling form submission and AJAX -->
   <script>
     function ajax() {
-
       // Prevent the default form submission
       event.preventDefault();
-      // Get the selected values from the dropdowns
-      var dropdown1Value = $("#dropdown1").val();
-      var dropdown2Value = $("#dropdown2").val();
-      var dropdown3Value = $("#dropdown3").val();
-      var dropdown4Value = $("#dropdown4").val();
-
-
-
       document.getElementById('loader').style.display = 'block';
       clearGraph();
 
@@ -2192,6 +2045,7 @@ var tooltip2 = d3.select("body").append("div")
         type: "POST",
         url: "", // Leave it empty to target the current page
         data: {
+          count_increment: count_increment,
           Chembl_id1: Chembl_id1,
           MaxPhase1: MaxPhase1,
           oncotree_change1: oncotree_change1,
@@ -2199,7 +2053,7 @@ var tooltip2 = d3.select("body").append("div")
         success: function(response) {
 
           jsondata2 = response;
-         // console.log(jsondata2);
+          // console.log(jsondata2);
 
           fetchData(jsondata2);
 
