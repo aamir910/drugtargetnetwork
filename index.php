@@ -219,40 +219,50 @@ if (isset($_POST['drugName2'])) {
     }
 
     #dialog-container {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      border: 1px solid #ccc;
-      padding: 20px;
-      background-color: #fff;
-      z-index: 1000;
-      cursor: move;
-      overflow: hidden;
-    }
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #fff;
+            z-index: 1000;
+            cursor: move;
+            overflow: hidden;
+            border-radius: 8px;
+        }
 
-    #dialog-header {
-      cursor: move;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #ccc;
-    }
+        #dialog-header {
+            cursor: move;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
 
-    #search-bar {
-      margin-bottom: 10px;
-    }
+        #search-bar {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
 
-    #name-list {
-      max-height: 200px;
-      overflow-y: auto;
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
+        #name-list {
+            max-height: 200px;
+            overflow-y: auto;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
 
-    #name-list li {
-      margin-bottom: 5px;
-    }
+        #name-list li {
+            margin-bottom: 5px;
+        }
+
+        #no-matches {
+            display: none;
+            color: #888;
+        }
   </style>
 
 
@@ -383,20 +393,20 @@ if (isset($_POST['drugName2'])) {
       <div class="wrapper  " id='wrapper'>
         <header style="display:flex; gap:10px " |>
           <h2>links value</h2>
-          <button onclick="toggleDialog()" title="Click to perform a single node filter">Single Node Filter</button>
+          <button  class="sliderbtn" onclick="toggleDialog()" title="Click to perform a single node filter">Single Node Filter</button>
 
 
           <div id="dialog-container">
             <div id="dialog-header">
               <label for="search-bar">Search:</label>
-              <input type="text" id="search-bar" oninput="filterNames()">
+              <input type="text" id="search-bar" oninput="filterNames()" onclick="focusSearch()">
             </div>
 
             <ul id="name-list">
 
             </ul>
 
-            <button onclick="saveNames()">Save</button>
+            <button class="sliderbtn" onclick="saveNames()">filter</button>
           </div>
 
         </header>
@@ -1437,9 +1447,14 @@ let  visible_node = [];
           // Node is in list_hidden, set display to "none"
           d3.select(this).style("display", "none");
         }
+        if(checkbox_names.includes(d.id)){
+          
+          d3.select(this).style("display", "none");
+        }
+
       });
       const matchinglink = link.filter(function(link) {
-        if (list_hidden.includes(link.source.MAX_PHASE)) {
+        if (list_hidden.includes(link.source.MAX_PHASE) || (checkbox_names.includes(link.source.id))) {
           return link;
         }
       });
@@ -1475,14 +1490,14 @@ let  visible_node = [];
       // ended    
       //    child nodes will be filter here 
       let childnodefilteration = node.filter(function(childNode) {
-        if (list_hidden_childnode.includes(childNode.oncotree_change)) {
+        if (list_hidden_childnode.includes(childNode.oncotree_change) || checkbox_names.includes(childNode.id)  ) {
           return childNode;
         }
       });
       childnodefilteration.style("display", "none");
       let source_node = [];
       let matchinglinkpart = link.filter(function(link) {
-        if (list_hidden_childnode.includes(link.target.oncotree_change)) {
+        if (list_hidden_childnode.includes(link.target.oncotree_change) || checkbox_names.includes(link.target.id) ) {
           source_node.push(link.source.id)
           return (
             link
@@ -2286,6 +2301,8 @@ let  visible_node = [];
   </script>
 
 <script>
+let checkbox_names = [];
+ 
     // Make the dialog draggable
     dragElement(document.getElementById("dialog-container"));
     var nameList = document.getElementById("name-list");
@@ -2297,7 +2314,7 @@ let  visible_node = [];
             var nameId = 'name' + (i + 1);
             var listItem = document.createElement('li');
             let name1 =visible_node[i];
-            listItem.innerHTML = `<input type="checkbox" id="${name1}" checked> <label for="${name1}">${name1}</label>`;
+            listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
             nameList.appendChild(listItem);
         }
     }
@@ -2343,45 +2360,49 @@ let  visible_node = [];
         document.onmousemove = null;
       }
     }
-
+    function focusSearch() {
+        document.getElementById("search-bar").focus();
+    }
     // Function to filter names based on the search bar input
     function filterNames() {
-      var input, filter, checkboxes, names, i;
-      input = document.getElementById("search-bar");
-      filter = input.value.toUpperCase();
-      checkboxes = document.getElementById("name-list").getElementsByTagName("input");
-      var noMatches = document.getElementById("no-matches");
-      var matchesFound = false;
+        var input, filter, checkboxes, names, i;
+        input = document.getElementById("search-bar");
+        filter = input.value.toLowerCase();
+        checkboxes = document.getElementById("name-list").getElementsByTagName("input");
+        var noMatches = document.getElementById("no-matches");
+        var matchesFound = false;
 
-      for (i = 0; i < checkboxes.length; i++) {
-        names = checkboxes[i].id;
-        var label = document.querySelector('label[for=' + names + ']');
-        if (names.toUpperCase().indexOf(filter) > -1 || label.innerText.toUpperCase().indexOf(filter) > -1) {
-          checkboxes[i].style.display = "";
-          label.style.display = "";
-          matchesFound = true;
-        } else {
-          checkboxes[i].style.display = "none";
-          label.style.display = "none";
+        for (i = 0; i < checkboxes.length; i++) {
+            names = checkboxes[i].id;
+            var label = document.querySelector('label[for=' + names + ']');
+            if (names.toLowerCase().indexOf(filter) > -1 || label.innerText.toLowerCase().indexOf(filter) > -1) {
+                checkboxes[i].style.display = "";
+                label.style.display = "";
+                matchesFound = true;
+            } else {
+                checkboxes[i].style.display = "none";
+                label.style.display = "none";
+            }
         }
-      }
 
-      // Show or hide "No matches" message
-      noMatches.style.display = matchesFound ? "none" : "block";
+        // Show or hide the entire list based on matches
+        var nameList = document.getElementById("name-list");
+        nameList.style.display = matchesFound ? "block" : "none";
+
+        // Show or hide "No matches" message
+        noMatches.style.display = matchesFound ? "none" : "block";
     }
-
     // Function to save selected names in an array
     function saveNames() {
       var checkboxes = document.getElementById("name-list").getElementsByTagName("input");
-      var selectedNames = [];
+       checkbox_names = [];
 
       for (var i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
-          selectedNames.push(checkboxes[i].id);
+          checkbox_names.push(checkboxes[i].id);
         }
       }
-
-      console.log("Selected Names:", selectedNames);
+      range_of_links(minValue, maxValue, slider_range);
     }
   </script>
 
