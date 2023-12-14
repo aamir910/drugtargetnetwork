@@ -263,6 +263,11 @@ if (isset($_POST['drugName2'])) {
             display: none;
             color: #888;
         }
+
+        /* fitler button  */
+        .fitlerbtn{
+          background-color: green;
+        }
   </style>
 
 
@@ -391,9 +396,10 @@ if (isset($_POST['drugName2'])) {
 
 
       <div class="wrapper  " id='wrapper'>
-        <header style="display:flex; gap:10px " |>
+        <header style="display:flex;
+  justify-content: space-between;" |>
           <h2>links value</h2>
-          <button  class="sliderbtn" onclick="toggleDialog()" title="Click to perform a single node filter">Single Node Filter</button>
+          <button  class="fitlerbtn" onclick="toggleDialog()" title="Click to perform a single node filter">Single Node Filter</button>
 
 
           <div id="dialog-container">
@@ -404,12 +410,9 @@ if (isset($_POST['drugName2'])) {
               <label for="search-bar">Search:</label>
               <input type="text" id="search-bar" oninput="filterNames()" onclick="focusSearch()">
             </div>
-
             <ul id="name-list">
-
             </ul>
-
-            <button class="sliderbtn" onclick="saveNames()">filter</button>
+            <button style=" margin: 12px 38px 0px ; ; " class="sliderbtn" onclick="saveNames()">Filter</button>
           </div>
 
         </header>
@@ -1580,7 +1583,12 @@ let  visible_node = [];
               csvfile.push(maindata);
             }
           })
+          
+        if (visibility === "inline") {
           visible_node.push(node.id);
+        
+        }
+
          
         
           // If true, push the node into the csvfile array
