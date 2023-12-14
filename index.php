@@ -398,6 +398,9 @@ if (isset($_POST['drugName2'])) {
 
           <div id="dialog-container">
             <div id="dialog-header">
+            <button onclick="toggleDialog()" class="close-btn-search" style="background:none   ;  position: absolute;
+                top: 10px;right: 10px;cursor: pointer;max-height: 100px;overflow: auto;
+"><img height="20px" width="20px" src="icons8-close-60.png" alt="" ></button>
               <label for="search-bar">Search:</label>
               <input type="text" id="search-bar" oninput="filterNames()" onclick="focusSearch()">
             </div>
@@ -493,11 +496,7 @@ if (isset($_POST['drugName2'])) {
           <!-- <button class="close-btn"> Close</button> -->
 
           <button class="close-btn" style="background:none   ;  position: absolute;
-top: 10px;
-right: 10px;
-cursor: pointer;
-max-height: 100px;
-overflow: auto;
+                top: 10px;right: 10px;cursor: pointer;max-height: 100px;overflow: auto;
 "><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
 
         </div>
@@ -2178,7 +2177,7 @@ let  visible_node = [];
           // You can parse the JSON and use the data as needed
         },
         error: function(xhr, status, error) {
-          console.error("AJAX Error: " + status + " - " + error);
+          console.error("AJAX Error: " + status + " - close-btn" + error);
         }
       });
 
@@ -2318,13 +2317,16 @@ let checkbox_names = [];
             nameList.appendChild(listItem);
         }
     }
+    
+    function toggleCLoseFilterSearch(){
 
+    }
     // Initial generation of the name list
     function toggleDialog() {
       
-
-      var dialog = document.getElementById("dialog-container");
-      dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
+            var dialog = document.getElementById("dialog-container");
+            dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
+      
     }
 
     function dragElement(elmnt) {
