@@ -217,6 +217,42 @@ if (isset($_POST['drugName2'])) {
       display: flex;
       visibility: hidden;
     }
+
+    #dialog-container {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid #ccc;
+      padding: 20px;
+      background-color: #fff;
+      z-index: 1000;
+      cursor: move;
+      overflow: hidden;
+    }
+
+    #dialog-header {
+      cursor: move;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    #search-bar {
+      margin-bottom: 10px;
+    }
+
+    #name-list {
+      max-height: 200px;
+      overflow-y: auto;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #name-list li {
+      margin-bottom: 5px;
+    }
   </style>
 
 
@@ -345,8 +381,24 @@ if (isset($_POST['drugName2'])) {
 
 
       <div class="wrapper  " id='wrapper'>
-        <header>
+        <header style="display:flex; gap:10px " |>
           <h2>links value</h2>
+          <button onclick="toggleDialog()" title="Click to perform a single node filter">Single Node Filter</button>
+
+
+          <div id="dialog-container">
+            <div id="dialog-header">
+              <label for="search-bar">Search:</label>
+              <input type="text" id="search-bar" oninput="filterNames()">
+            </div>
+
+            <ul id="name-list">
+
+            </ul>
+
+            <button onclick="saveNames()">Save</button>
+          </div>
+
         </header>
         <div class="price-input">
           <div class="field">
@@ -475,6 +527,9 @@ overflow: auto;
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://d3js.org/d3-force.v3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+  <!-- Dragable div  -->
+
 
   <script>
     let oncotree_change1 = [];
@@ -674,6 +729,9 @@ overflow: auto;
 
     let csvfile = [];
     let response;
+
+let  visible_node = [];
+
 
     let simulation;
 
@@ -1107,11 +1165,10 @@ overflow: auto;
 
           let r = event.target.__data__;
 
-          console.log("Hovered Link Data:", r );
-console.log(d)
+          console.log("Hovered Link Data:", r);
+          console.log(d)
           console.log("hover")
           tooltip2.transition()
-
             .style("opacity", 0.9);
           tooltip2.html("<strong>Link Value:</strong> " + r.value)
             .style("left", d.pageX + "px")
@@ -1497,6 +1554,7 @@ console.log(d)
       //  link filter nodes ended here 
       // export csv 
       csvfile = [];
+      visible_node = [] 
       node.filter(function(node) {
         // Select the current node using D3 and get its "display" property
         let visibility = d3.select(this).style("display");
@@ -1508,10 +1566,15 @@ console.log(d)
               csvfile.push(maindata);
             }
           })
+          visible_node.push(node.id);
+         
+        
           // If true, push the node into the csvfile array
         }
       });
-    }
+      
+    generateNameList();
+}    
     // legenddata
     function legendinfo() {
       colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
@@ -1972,26 +2035,26 @@ console.log(d)
 
 
 
-      document.getElementById("dropdown1").addEventListener("change", function() {
-        removeError(this);
-      });
+      // document.getElementById("dropdown1").addEventListener("change", function() {
+      //   removeError(this);
+      // });
 
-      document.getElementById("dropdown2").addEventListener("change", function() {
-        removeError(this);
-      });
+      // document.getElementById("dropdown2").addEventListener("change", function() {
+      //   removeError(this);
+      // });
 
-      document.getElementById("dropdown3").addEventListener("change", function() {
-        removeError(this);
-      });
-      document.getElementById("dropdown4").addEventListener("change", function() {
-        removeError(this);
-      });
+      // document.getElementById("dropdown3").addEventListener("change", function() {
+      //   removeError(this);
+      // });
+      // document.getElementById("dropdown4").addEventListener("change", function() {
+      //   removeError(this);
+      // });
 
-      function removeError(dropdown) {
-        // Remove error message and border when a selection is made
-        dropdown.nextElementSibling.style.display = "none";
-        dropdown.classList.remove("error-border");
-      }
+      // function removeError(dropdown) {
+      //   // Remove error message and border when a selection is made
+      //   dropdown.nextElementSibling.style.display = "none";
+      //   dropdown.classList.remove("error-border");
+      // }
 
 
     });
@@ -2221,6 +2284,111 @@ console.log(d)
 
     }
   </script>
+
+<script>
+    // Make the dialog draggable
+    dragElement(document.getElementById("dialog-container"));
+    var nameList = document.getElementById("name-list");
+    nameList.innerHTML = ''; // Clear existing list
+    
+    function generateNameList() {
+      console.log(visible_node , "here is visible node");
+        for (var i = 0; i < visible_node.length; i++) {
+            var nameId = 'name' + (i + 1);
+            var listItem = document.createElement('li');
+            let name1 =visible_node[i];
+            listItem.innerHTML = `<input type="checkbox" id="${name1}" checked> <label for="${name1}">${name1}</label>`;
+            nameList.appendChild(listItem);
+        }
+    }
+
+    // Initial generation of the name list
+    function toggleDialog() {
+      
+
+      var dialog = document.getElementById("dialog-container");
+      dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
+    }
+
+    function dragElement(elmnt) {
+      var pos1 = 0,
+        pos2 = 0,
+        pos3 = 0,
+        pos4 = 0;
+      var header = document.getElementById("dialog-header");
+      header.onmousedown = dragMouseDown;
+
+      function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
+    }
+
+    // Function to filter names based on the search bar input
+    function filterNames() {
+      var input, filter, checkboxes, names, i;
+      input = document.getElementById("search-bar");
+      filter = input.value.toUpperCase();
+      checkboxes = document.getElementById("name-list").getElementsByTagName("input");
+      var noMatches = document.getElementById("no-matches");
+      var matchesFound = false;
+
+      for (i = 0; i < checkboxes.length; i++) {
+        names = checkboxes[i].id;
+        var label = document.querySelector('label[for=' + names + ']');
+        if (names.toUpperCase().indexOf(filter) > -1 || label.innerText.toUpperCase().indexOf(filter) > -1) {
+          checkboxes[i].style.display = "";
+          label.style.display = "";
+          matchesFound = true;
+        } else {
+          checkboxes[i].style.display = "none";
+          label.style.display = "none";
+        }
+      }
+
+      // Show or hide "No matches" message
+      noMatches.style.display = matchesFound ? "none" : "block";
+    }
+
+    // Function to save selected names in an array
+    function saveNames() {
+      var checkboxes = document.getElementById("name-list").getElementsByTagName("input");
+      var selectedNames = [];
+
+      for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+          selectedNames.push(checkboxes[i].id);
+        }
+      }
+
+      console.log("Selected Names:", selectedNames);
+    }
+  </script>
+
+
+
+
+
 
 </body>
 
