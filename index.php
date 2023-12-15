@@ -313,6 +313,8 @@ if (isset($_POST['drugName2'])) {
             <label><input type="checkbox" value="Uterus">Uterus</label>
             <label><input type="checkbox" value="Vulva">Vulva</label>
             <label><input type="checkbox" value="Thyroid">Thyroid</label>
+            <label><input type="checkbox" value="Lymphoid">Lymphoid</label>
+            <label><input type="checkbox" value="Endometrium">Endometrium</label>
             <!-- Add more options as needed -->
           </div>
         </div>
@@ -1335,7 +1337,12 @@ if (isset($_POST['drugName2'])) {
             color = child_colors[10];
           } else if (category === 'Kidney') {
             color = child_colors[11];
-          } else if (category === 'Pancreas') {
+          }else if (category === 'Endometrium') {
+          color = child_colors[12];
+        } else if (category === 'Lymphoid') {
+          color = child_colors[13];
+        }
+           else if (category === 'Pancreas') {
             color = child_colors[0]; // Repeat the color for category 11
           } else if (category === 'Large Intestine') {
             color = child_colors[1];
@@ -1750,9 +1757,7 @@ if (isset($_POST['drugName2'])) {
       //   'Vulva',
       //   'Thyroid'
       // ];
-
       child_colors = [
-
         '#1f77b4', // blue
         '#ff7f0e', // orange
         '#2ca02c', // green
@@ -1764,7 +1769,10 @@ if (isset($_POST['drugName2'])) {
         '#17becf', // cyan
         '#1f77b4', // light blue (replacing yellow-green)
         '#ff9896', // light red
-        '#98df8a' // light green
+        '#98df8a', // light green
+        '#aec7e8',  // light purple
+          '#ffbb78'   // light orange
+
 
 
       ];
@@ -1795,6 +1803,11 @@ if (isset($_POST['drugName2'])) {
           color = child_colors[10];
         } else if (category === 'Kidney') {
           color = child_colors[11];
+        }
+        else if (category === 'Endometrium') {
+          color = child_colors[12];
+        } else if (category === 'Lymphoid') {
+          color = child_colors[13];
         } else if (category === 'Pancreas') {
           color = child_colors[0]; // Repeat the color for category 11
         } else if (category === 'Large Intestine') {
@@ -1820,6 +1833,8 @@ if (isset($_POST['drugName2'])) {
         } else if (category === 'Thyroid') {
           color = child_colors[11];
         }
+        
+
         return {
           category,
           color
@@ -1912,6 +1927,7 @@ if (isset($_POST['drugName2'])) {
         'Uterus',
         'Vulva',
         'Thyroid'
+        
       ];
 
 
