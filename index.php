@@ -219,55 +219,55 @@ if (isset($_POST['drugName2'])) {
     }
 
     #dialog-container {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 1px solid #ccc;
-            padding: 20px;
-            background-color: #fff;
-            z-index: 1000;
-            cursor: move;
-            overflow: hidden;
-            border-radius: 8px;
-        }
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid #ccc;
+      padding: 20px;
+      background-color: #fff;
+      z-index: 1000;
+      cursor: move;
+      overflow: hidden;
+      border-radius: 8px;
+    }
 
-        #dialog-header {
-            cursor: move;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #ccc;
-        }
+    #dialog-header {
+      cursor: move;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+    }
 
-        #search-bar {
-            margin-bottom: 10px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 100%;
-        }
+    #search-bar {
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+    }
 
-        #name-list {
-            max-height: 200px;
-            overflow-y: auto;
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
+    #name-list {
+      max-height: 200px;
+      overflow-y: auto;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
 
-        #name-list li {
-            margin-bottom: 5px;
-        }
+    #name-list li {
+      margin-bottom: 5px;
+    }
 
-        #no-matches {
-            display: none;
-            color: #888;
-        }
+    #no-matches {
+      display: none;
+      color: #888;
+    }
 
-        /* fitler button  */
-        .fitlerbtn{
-          background-color: green;
-        }
+    /* fitler button  */
+    .fitlerbtn {
+      background-color: green;
+    }
   </style>
 
 
@@ -277,7 +277,7 @@ if (isset($_POST['drugName2'])) {
   <div class=" searchBar">
     <form class="selection_box flex" id="searchForm">
       <div class="in_de_Crement">
-        <h4 style="width: 12rem;text-align:center;display: flex;justify-content: center;align-items: center;">Fetch row data </h4>
+        <h4 style="width: 12rem;text-align:center;display: flex;justify-content: center;align-items: center;">More data </h4>
         <button class="btn1" id="increment">400+</button>
         <button class="btn1" id="decrement">400-</button>
 
@@ -399,14 +399,14 @@ if (isset($_POST['drugName2'])) {
         <header style="display:flex;
   justify-content: space-between;" |>
           <h2>links value</h2>
-          <button  class="fitlerbtn" onclick="toggleDialog()" title="Click to perform a single node filter">Single Node Filter</button>
+          <button class="fitlerbtn" onclick="toggleDialog()" title="Click to perform a single node filter">Single Node Filter</button>
 
 
           <div id="dialog-container">
             <div id="dialog-header">
-            <button onclick="toggleDialog()" class="close-btn-search" style="background:none   ;  position: absolute;
+              <button onclick="toggleDialog()" class="close-btn-search" style="background:none   ;  position: absolute;
                 top: 10px;right: 10px;cursor: pointer;max-height: 100px;overflow: auto;
-"><img height="20px" width="20px" src="icons8-close-60.png" alt="" ></button>
+"><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
               <label for="search-bar">Search:</label>
               <input type="text" id="search-bar" oninput="filterNames()" onclick="focusSearch()">
             </div>
@@ -436,9 +436,9 @@ if (isset($_POST['drugName2'])) {
         </div>
         <div class="legend">
           <div style="width : 40%">
-            <legend class="legenddata">max_phase</legend>
+            <legend class="legenddata">Max clinical phase</legend>
             <ul id="myList" class="legend_inner"></ul>
-            <legend class="legenddata">data_set</legend>
+            <legend class="legenddata">Data platform’</legend>
             <ul id="dataset" class="legend_inner"></ul>
             <legend class="legenddata">Matric</legend>
             <ul id="matric_set" class="legend_inner"></ul>
@@ -720,12 +720,12 @@ if (isset($_POST['drugName2'])) {
     let dataSet_link = []
     let clicked2;
     let list_hidden_dataset = [];
-    //  onclick child nodes 
 
+    //  onclick child nodes 
     let dataSet_child = []
     let clicked3;
     let list_hidden_childnode = [];
-
+    let child_categories_border;
     //  onclick matric 
     let matric_link = [];
 
@@ -742,7 +742,7 @@ if (isset($_POST['drugName2'])) {
     let csvfile = [];
     let response;
 
-let  visible_node = [];
+    let visible_node = [];
 
 
     let simulation;
@@ -775,6 +775,12 @@ let  visible_node = [];
 
     let matric_legend = [];
     let matric_categories;
+
+    //  child_node entry 
+    let ONCOTREE_LINEAGE_legend = [];
+    let legendChild;
+
+
     let count_increment = 1;
 
     document.getElementById("increment").addEventListener("click", function(event) {
@@ -827,6 +833,12 @@ let  visible_node = [];
 
 
         }
+      if(!ONCOTREE_LINEAGE_legend.includes(item.ONCOTREE_LINEAGE)){
+
+        ONCOTREE_LINEAGE_legend.push(item.ONCOTREE_LINEAGE)
+
+      }
+
         if (!phases.includes(item.MAX_PHASE)) {
           phases.push(item.MAX_PHASE);
 
@@ -839,11 +851,8 @@ let  visible_node = [];
         if (!matric_legend.includes(item.METRIC)) {
 
           matric_legend.push(item.METRIC);
-
         }
-
       })
-      console.log(dataset_legend);
       data.forEach((item) => {
         if (!uniqueProteins.has(item.CELL_LINE_NAME)) {
           uniqueProteins.add(item.CELL_LINE_NAME);
@@ -1285,9 +1294,9 @@ let  visible_node = [];
       }
 
 
+      //  create childnode here
 
-      node
-        .filter((d) => d.type === "childnode")
+      node.filter((d) => d.type === "childnode")
         .append("circle")
         .attr("r", function(d) {
           const degree = links.filter(
@@ -1298,12 +1307,68 @@ let  visible_node = [];
           } else {
             return degree / 2;
           }
-
-
         })
-        .attr("fill", "green")
-        .attr("stroke", "#fff")
-        .attr("stroke-width", 1.5)
+        .attr("fill", (d) => {
+          let category = d.oncotree_change;
+          let color;
+          if (category === 'Bone') {
+            color = child_colors[0];
+          } else if (category === 'Skin') {
+            color = child_colors[1];
+          } else if (category === 'Central Nervous System') {
+            color = child_colors[2];
+          } else if (category === 'Lung') {
+            color = child_colors[3];
+          } else if (category === 'Peripheral Nervous System') {
+            color = child_colors[4];
+          } else if (category === 'Soft Tissue') {
+            color = child_colors[5];
+          } else if (category === 'Esophagus') {
+            color = child_colors[6];
+          } else if (category === 'Breast') {
+            color = child_colors[7];
+          } else if (category === 'Head and Neck') {
+            color = child_colors[8];
+          } else if (category === 'Haematopoietic and Lymphoid') {
+            color = child_colors[9];
+          } else if (category === 'Bladder') {
+            color = child_colors[10];
+          } else if (category === 'Kidney') {
+            color = child_colors[11];
+          } else if (category === 'Pancreas') {
+            color = child_colors[0]; // Repeat the color for category 11
+          } else if (category === 'Large Intestine') {
+            color = child_colors[1];
+          } else if (category === 'Ovary') {
+            color = child_colors[2];
+          } else if (category === 'Stomach') {
+            color = child_colors[3];
+          } else if (category === 'Biliary Tract') {
+            color = child_colors[4];
+          } else if (category === 'Small Intestine') {
+            color = child_colors[5];
+          } else if (category === 'Placenta') {
+            color = child_colors[6];
+          } else if (category === 'Prostate') {
+            color = child_colors[7];
+          } else if (category === 'Testis') {
+            color = child_colors[8];
+          } else if (category === 'Uterus') {
+            color = child_colors[9];
+          } else if (category === 'Vulva') {
+            color = child_colors[10];
+          } else if (category === 'Thyroid') {
+            color = child_colors[11];
+          }
+          return color;
+        })
+        .attr("stroke",
+          (d) => {
+            if (child_categories_border.includes(d.oncotree_change)) {
+              return "black";
+            }
+          })
+        .attr("stroke-width", 3)
 
 
       node.filter((d) => d.type === "parentnode")
@@ -1449,8 +1514,8 @@ let  visible_node = [];
           // Node is in list_hidden, set display to "none"
           d3.select(this).style("display", "none");
         }
-        if(checkbox_names.includes(d.id)){
-          
+        if (checkbox_names.includes(d.id)) {
+
           d3.select(this).style("display", "none");
         }
 
@@ -1492,14 +1557,14 @@ let  visible_node = [];
       // ended    
       //    child nodes will be filter here 
       let childnodefilteration = node.filter(function(childNode) {
-        if (list_hidden_childnode.includes(childNode.oncotree_change) || checkbox_names.includes(childNode.id)  ) {
+        if (list_hidden_childnode.includes(childNode.oncotree_change) || checkbox_names.includes(childNode.id)) {
           return childNode;
         }
       });
       childnodefilteration.style("display", "none");
       let source_node = [];
       let matchinglinkpart = link.filter(function(link) {
-        if (list_hidden_childnode.includes(link.target.oncotree_change) || checkbox_names.includes(link.target.id) ) {
+        if (list_hidden_childnode.includes(link.target.oncotree_change) || checkbox_names.includes(link.target.id)) {
           source_node.push(link.source.id)
           return (
             link
@@ -1571,7 +1636,7 @@ let  visible_node = [];
       //  link filter nodes ended here 
       // export csv 
       csvfile = [];
-      visible_node = [] 
+      visible_node = []
       node.filter(function(node) {
         // Select the current node using D3 and get its "display" property
         let visibility = d3.select(this).style("display");
@@ -1583,36 +1648,27 @@ let  visible_node = [];
               csvfile.push(maindata);
             }
           })
-          
-        if (visibility === "inline") {
-          visible_node.push(node.id);
-        
-        }
 
-         
-        
+          if (visibility === "inline") {
+            visible_node.push(node.id);
+
+          }
+
+
+
           // If true, push the node into the csvfile array
         }
       });
-      
-    generateNameList();
-}    
+
+      generateNameList();
+    }
     // legenddata
     function legendinfo() {
       colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
 
-      child_colors = [
-        "#3498db", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6", "#34495e",
-        "#e67e22", "#95a5a6", "#d35400", "#1abc9c", "#c0392b", "#27ae60",
-        "#8e44ad", "#2c3e50", "#f1c40f", "#7f8c8d", "#e67e22", "#3498db",
-        "#ecf0f1", "#e74c3c", "#2ecc71", "#f39c12", "#9b59b6", "#34495e"
-      ];
-
       function createMaxPhaseCategories() {
-
         const maxPhaseCategories = phases.map((category, index) => {
           let color;
-
           if (category === "Approved") {
             color = colors[3];
           } else if (category === "PHASE 1") {
@@ -1668,48 +1724,117 @@ let  visible_node = [];
           category
         }));
       }
-      const ONCOTREE_LINEAGE = [
-        'Bone',
-        'Skin',
-        'Central Nervous System',
-        'Lung',
-        'Peripheral Nervous System',
-        'Soft Tissue',
-        'Esophagus',
-        'Breast',
-        'Head and Neck',
-        'Haematopoietic and Lymphoid',
-        'Bladder',
-        'Kidney',
-        'Pancreas',
-        'Large Intestine',
-        'Ovary',
-        'Stomach',
-        'Biliary Tract',
-        'Small Intestine',
-        'Placenta',
-        'Prostate',
-        'Testis',
-        'Uterus',
-        'Vulva',
-        'Thyroid'
+      // const ONCOTREE_LINEAGE = [
+      //   'Bone',
+      //   'Skin',
+      //   'Central Nervous System',
+      //   'Lung',
+      //   'Peripheral Nervous System',
+      //   'Soft Tissue',
+      //   'Esophagus',
+      //   'Breast',
+      //   'Head and Neck',
+      //   'Haematopoietic and Lymphoid',
+      //   'Bladder',
+      //   'Kidney',
+      //   'Pancreas',
+      //   'Large Intestine',
+      //   'Ovary',
+      //   'Stomach',
+      //   'Biliary Tract',
+      //   'Small Intestine',
+      //   'Placenta',
+      //   'Prostate',
+      //   'Testis',
+      //   'Uterus',
+      //   'Vulva',
+      //   'Thyroid'
+      // ];
+
+      child_colors = [
+
+        '#1f77b4', // blue
+        '#ff7f0e', // orange
+        '#2ca02c', // green
+        '#d62728', // red
+        '#9467bd', // purple
+        '#8c564b', // brown
+        '#e377c2', // pink
+        '#7f7f7f', // gray
+        '#17becf', // cyan
+        '#1f77b4', // light blue (replacing yellow-green)
+        '#ff9896', // light red
+        '#98df8a' // light green
+
+
       ];
-      const child_categories = ONCOTREE_LINEAGE.map((category, index) => ({
-        category,
-        color: child_colors[index % child_colors.length]
-      }));
+      const child_categories = ONCOTREE_LINEAGE_legend.map((category, index) => {
+        let color;
+
+        if (category === 'Bone') {
+          color = child_colors[0];
+        } else if (category === 'Skin') {
+          color = child_colors[1];
+        } else if (category === 'Central Nervous System') {
+          color = child_colors[2];
+        } else if (category === 'Lung') {
+          color = child_colors[3];
+        } else if (category === 'Peripheral Nervous System') {
+          color = child_colors[4];
+        } else if (category === 'Soft Tissue') {
+          color = child_colors[5];
+        } else if (category === 'Esophagus') {
+          color = child_colors[6];
+        } else if (category === 'Breast') {
+          color = child_colors[7];
+        } else if (category === 'Head and Neck') {
+          color = child_colors[8];
+        } else if (category === 'Haematopoietic and Lymphoid') {
+          color = child_colors[9];
+        } else if (category === 'Bladder') {
+          color = child_colors[10];
+        } else if (category === 'Kidney') {
+          color = child_colors[11];
+        } else if (category === 'Pancreas') {
+          color = child_colors[0]; // Repeat the color for category 11
+        } else if (category === 'Large Intestine') {
+          color = child_colors[1];
+        } else if (category === 'Ovary') {
+          color = child_colors[2];
+        } else if (category === 'Stomach') {
+          color = child_colors[3];
+        } else if (category === 'Biliary Tract') {
+          color = child_colors[4];
+        } else if (category === 'Small Intestine') {
+          color = child_colors[5];
+        } else if (category === 'Placenta') {
+          color = child_colors[6];
+        } else if (category === 'Prostate') {
+          color = child_colors[7];
+        } else if (category === 'Testis') {
+          color = child_colors[8];
+        } else if (category === 'Uterus') {
+          color = child_colors[9];
+        } else if (category === 'Vulva') {
+          color = child_colors[10];
+        } else if (category === 'Thyroid') {
+          color = child_colors[11];
+        }
+        return {
+          category,
+          color
+        };
+        return child_categories;
+      });
 
       //  gererating the dynamic nodes 
       data_Set = generateDataSet();
       max_phase_categories = createMaxPhaseCategories();
       matric_categories = generateMatricCategories();
 
-
-
       //  appenging the maxphses
 
       const ul = d3.select("#myList");
-
 
       ul.selectAll("li").remove();
 
@@ -1764,7 +1889,7 @@ let  visible_node = [];
       datasettext_click = dataSet_link.append("span").text((d) => d.category);
 
 
-      //appending the data og the child nodes
+      //appending the data of the child nodes
       const ul4 = d3.select('#child_node');
 
       ul4.selectAll("li").remove();
@@ -1774,6 +1899,21 @@ let  visible_node = [];
         .enter()
         .append("li");
 
+      child_categories_border = [
+        'Pancreas',
+        'Large Intestine',
+        'Ovary',
+        'Stomach',
+        'Biliary Tract',
+        'Small Intestine',
+        'Placenta',
+        'Prostate',
+        'Testis',
+        'Uterus',
+        'Vulva',
+        'Thyroid'
+      ];
+
 
       child_color = dataSet_child
         .append("div")
@@ -1782,6 +1922,18 @@ let  visible_node = [];
           for (const categoryObj of child_categories) {
             if (d.category === categoryObj.category) {
               return categoryObj.color;
+            }
+          }
+          return "#6a329f";
+        }).style("border", (d) => {
+          for (const categoryObj of child_categories) {
+            if (d.category === categoryObj.category) {
+              let borderColor;
+              if (child_categories_border.includes(d.category)) {
+                borderColor = '3px solid black';
+                return borderColor;
+              }
+
             }
           }
           return "#6a329f";
@@ -2307,34 +2459,34 @@ let  visible_node = [];
     }
   </script>
 
-<script>
-let checkbox_names = [];
- 
+  <script>
+    let checkbox_names = [];
+
     // Make the dialog draggable
     dragElement(document.getElementById("dialog-container"));
     var nameList = document.getElementById("name-list");
     nameList.innerHTML = ''; // Clear existing list
-    
+
     function generateNameList() {
-      console.log(visible_node , "here is visible node");
-        for (var i = 0; i < visible_node.length; i++) {
-            var nameId = 'name' + (i + 1);
-            var listItem = document.createElement('li');
-            let name1 =visible_node[i];
-            listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
-            nameList.appendChild(listItem);
-        }
+      console.log(visible_node, "here is visible node");
+      for (var i = 0; i < visible_node.length; i++) {
+        var nameId = 'name' + (i + 1);
+        var listItem = document.createElement('li');
+        let name1 = visible_node[i];
+        listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
+        nameList.appendChild(listItem);
+      }
     }
-    
-    function toggleCLoseFilterSearch(){
+
+    function toggleCLoseFilterSearch() {
 
     }
     // Initial generation of the name list
     function toggleDialog() {
-      
-            var dialog = document.getElementById("dialog-container");
-            dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
-      
+
+      var dialog = document.getElementById("dialog-container");
+      dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
+
     }
 
     function dragElement(elmnt) {
@@ -2370,42 +2522,43 @@ let checkbox_names = [];
         document.onmousemove = null;
       }
     }
+
     function focusSearch() {
-        document.getElementById("search-bar").focus();
+      document.getElementById("search-bar").focus();
     }
     // Function to filter names based on the search bar input
     function filterNames() {
-        var input, filter, checkboxes, names, i;
-        input = document.getElementById("search-bar");
-        filter = input.value.toLowerCase();
-        checkboxes = document.getElementById("name-list").getElementsByTagName("input");
-        var noMatches = document.getElementById("no-matches");
-        var matchesFound = false;
+      var input, filter, checkboxes, names, i;
+      input = document.getElementById("search-bar");
+      filter = input.value.toLowerCase();
+      checkboxes = document.getElementById("name-list").getElementsByTagName("input");
+      var noMatches = document.getElementById("no-matches");
+      var matchesFound = false;
 
-        for (i = 0; i < checkboxes.length; i++) {
-            names = checkboxes[i].id;
-            var label = document.querySelector('label[for=' + names + ']');
-            if (names.toLowerCase().indexOf(filter) > -1 || label.innerText.toLowerCase().indexOf(filter) > -1) {
-                checkboxes[i].style.display = "";
-                label.style.display = "";
-                matchesFound = true;
-            } else {
-                checkboxes[i].style.display = "none";
-                label.style.display = "none";
-            }
+      for (i = 0; i < checkboxes.length; i++) {
+        names = checkboxes[i].id;
+        var label = document.querySelector('label[for=' + names + ']');
+        if (names.toLowerCase().indexOf(filter) > -1 || label.innerText.toLowerCase().indexOf(filter) > -1) {
+          checkboxes[i].style.display = "";
+          label.style.display = "";
+          matchesFound = true;
+        } else {
+          checkboxes[i].style.display = "none";
+          label.style.display = "none";
         }
+      }
 
-        // Show or hide the entire list based on matches
-        var nameList = document.getElementById("name-list");
-        nameList.style.display = matchesFound ? "block" : "none";
+      // Show or hide the entire list based on matches
+      var nameList = document.getElementById("name-list");
+      nameList.style.display = matchesFound ? "block" : "none";
 
-        // Show or hide "No matches" message
-        noMatches.style.display = matchesFound ? "none" : "block";
+      // Show or hide "No matches" message
+      noMatches.style.display = matchesFound ? "none" : "block";
     }
     // Function to save selected names in an array
     function saveNames() {
       var checkboxes = document.getElementById("name-list").getElementsByTagName("input");
-       checkbox_names = [];
+      checkbox_names = [];
 
       for (var i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
