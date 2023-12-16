@@ -280,8 +280,8 @@ if (isset($_POST['drugName2'])) {
     }
 
     .fitlerbtn:hover {
-      color: blue;
-      font-weight: 300;
+      color: red;
+      font-weight: 500;
 
     }
   </style>
@@ -294,8 +294,8 @@ if (isset($_POST['drugName2'])) {
     <form class="selection_box flex" id="searchForm">
       <div class="in_de_Crement">
         <h4 style="width: 12rem;text-align:center;display: flex;justify-content: center;align-items: center;">More data </h4>
-        <button class="btn1" id="increment">400+</button>
-        <button class="btn1" id="decrement">400-</button>
+        <button class="btn1" id="increment" title= 'fetch 400 more row' >400+</button>
+        <button class="btn1" id="decrement"  title= 'less 400 more row' >400-</button>
 
       </div>
       <div class="form-row rowData">
@@ -303,7 +303,7 @@ if (isset($_POST['drugName2'])) {
 
         <div class="dropdown" onclick="toggleDropdown(event)">
 
-          <label id="dropdownBtn">Select ONCOTREE_LINEAGE</label>
+          <label id="dropdownBtn">Select Tissues</label>
           <div id="dropdownContent" class="dropdown-content">
             <label><input type="checkbox" value="Bone">Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
@@ -339,7 +339,7 @@ if (isset($_POST['drugName2'])) {
 
         <div class="dropdown" onclick="toggleDropdown2(event)">
 
-          <label id="dropdownBtn2">Select Max Phase</label>
+          <label id="dropdownBtn2">Select Max clinical phase</label>
           <div id="dropdownContent2" class="dropdown-content">
             <label><input type="checkbox" value="Approved">Approved</label>
             <label><input type="checkbox" value="Preclinical">Preclinical</label>
@@ -370,7 +370,7 @@ if (isset($_POST['drugName2'])) {
         </div>
         <!-- third Dropdown -->
         <div class="dropdown" onclick="toggleDropdown3(event)">
-          <label id="dropdownBtn3">Select CHEMBL_ID</label>
+          <label id="dropdownBtn3">Select Drugs</label>
           <div id="dropdownContent3" class="dropdown-content">
             <label><input type="checkbox" value="CHEMBL553">CHEMBL553</label>
             <label><input type="checkbox" value="CHEMBL413">CHEMBL413</label>
@@ -430,10 +430,10 @@ if (isset($_POST['drugName2'])) {
 
 
       <div class="wrapper  " id='wrapper'>
-        <header style="display:flex;
+        <header style="
   justify-content: space-between;" |>
-          <h2>links value</h2>
           <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
+          <h5>Drug response (-pIC50)</h5>
 
 
           <div id="dialog-container">
@@ -472,13 +472,13 @@ if (isset($_POST['drugName2'])) {
           <div style="width : 40%">
             <legend class="legenddata">Max clinical phase</legend>
             <ul id="myList" class="legend_inner"></ul>
-            <legend class="legenddata">Data platform’</legend>
+            <legend class="legenddata">Data platform</legend>
             <ul id="dataset" class="legend_inner"></ul>
             <legend class="legenddata">Matric</legend>
             <ul id="matric_set" class="legend_inner"></ul>
           </div>
           <div style="width : 60%">
-            <legend class="legenddata">child nodes</legend>
+            <legend class="legenddata">Tissues</legend>
             <ul id="child_node" class="legend_inner"></ul>
           </div>
         </div>
@@ -497,8 +497,8 @@ if (isset($_POST['drugName2'])) {
 
         </div>
         <!-- btntag -->
-        <button class="sliderbtn" id="redraw">redraw</button>
-        <button class="sliderbtn " id="export">Export</button>
+        <button class="sliderbtn" id="redraw" title="move the nodes to tis default position">redraw</button>
+        <button class="sliderbtn " id="export" title="(PNG , JPEG , XLSX">Export</button>
 
       </div>
     </footer>
@@ -2624,35 +2624,46 @@ if (isset($_POST['drugName2'])) {
     function focusSearch() {
       document.getElementById("search-bar").focus();
     }
+
+
     // Function to filter names based on the search bar input
     function filterNames() {
-      var input, filter, checkboxes, names, i;
-      input = document.getElementById("search-bar");
-      filter = input.value.toLowerCase();
-      checkboxes = document.getElementById("name-list").getElementsByTagName("input");
-      var noMatches = document.getElementById("no-matches");
-      var matchesFound = false;
+  var input, filter, checkboxes, names, i;
+  input = document.getElementById("search-bar");
+  filter = input.value.toLowerCase();
+  checkboxes = document.getElementById("name-list").getElementsByTagName("input");
+  var noMatches = document.getElementById("no-matches");
+  var matchesFound = false;
 
-      for (i = 0; i < checkboxes.length; i++) {
-        names = checkboxes[i].id;
-        var label = document.querySelector('label[for=' + names + ']');
-        if (names.toLowerCase().indexOf(filter) > -1 || label.innerText.toLowerCase().indexOf(filter) > -1) {
-          checkboxes[i].style.display = "";
-          label.style.display = "";
-          matchesFound = true;
-        } else {
-          checkboxes[i].style.display = "none";
-          label.style.display = "none";
-        }
-      }
+  for (i = 0; i < checkboxes.length; i++) {
+    names = checkboxes[i].id;
+    var label = document.querySelector('label[for=' + names + ']');
+    
+    // Check if the names contain the filter string
+    var containsFilter = names.toLowerCase().indexOf(filter) > -1;
 
-      // Show or hide the entire list based on matches
-      var nameList = document.getElementById("name-list");
-      nameList.style.display = matchesFound ? "block" : "none";
+    // Check if the label text contains the filter string
+    var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
 
-      // Show or hide "No matches" message
-      noMatches.style.display = matchesFound ? "none" : "block";
+    // Display or hide based on filter conditions
+    if (containsFilter || labelContainsFilter) {
+      checkboxes[i].style.display = "";
+      label.style.display = "";
+      matchesFound = true;
+    } else {
+      checkboxes[i].style.display = "none";
+      label.style.display = "none";
     }
+  }
+
+  // Show or hide the entire list based on matches
+  var nameList = document.getElementById("name-list");
+  nameList.style.display = matchesFound ? "block" : "none";
+
+  // Show or hide "No matches" message
+  noMatches.style.display = matchesFound ? "none" : "block";
+}
+
     // Function to save selected names in an array
     function saveNames() {
       var checkboxes = document.getElementById("name-list").getElementsByTagName("input");

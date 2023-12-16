@@ -8,20 +8,20 @@
     padding: 0.5rem;
   }
   .btn-green {
-    background-color: red;
-    border-color: #4caf50;
+    background-color: rgb(0, 55, 128);
+    border-color: rgb(0, 55, 128);
   }
   .btn {
     margin-right: 0.5rem;
     margin-left: 0.5rem;
 
-    background-color: green;
+    background-color: rgb(0, 55, 128);
     /* border-color: #4caf50; */
   }
 
   .btn-green:hover {
-    background-color: #45a049;
-    border-color: #45a049;
+    background-color: rgb(0, 55, 128);
+    border-color: rgb(0, 55, 128);
   }
 
   .rowData {
@@ -163,7 +163,7 @@
     height: 17px;
     width: 17px;
     border-radius: 50%;
-    background: green;
+    background: rgb(0, 55, 128);
     pointer-events: auto;
     -webkit-appearance: none;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
@@ -200,6 +200,7 @@
   }
 
   .legenddata {
+    font-weight: 500;
     font-size: 15px;
     padding-left: 1rem;
   }
@@ -290,7 +291,7 @@
   }
 
   #green {
-    background-color: #66bb6a;
+    background-color: rgb(0, 55, 128);
   }
 
   #amber {
@@ -315,7 +316,7 @@
     display: none;
     border: 16px solid #f3f3f3;
     border-radius: 50%;
-    border-top: 16px solid green;
+    border-top: 16px solid rgb(0, 55, 128);
     width: 120px;
     height: 120px;
     -webkit-animation: spin 2s linear infinite;
@@ -382,7 +383,7 @@
     -webkit-appearance: none !important;
     width: 420px;
     height: 2px;
-    background: green;
+    background: rgb(0, 55, 128);
     border: none;
     outline: none;
     /* height: 17px;
@@ -408,8 +409,8 @@
     -webkit-appearance: none !important;
     width: 20px;
     height: 20px;
-    background: green;
-    border: 2px solid green;
+    background: rgb(0, 55, 128);
+    border: 2px solid rgb(0, 55, 128);
     border-radius: 50%;
     cursor: pointer;
   }
@@ -421,9 +422,9 @@
 
 
   .btn1 {
-    background-color: rgb(190, 190, 190);
+    background-color:rgb(0, 55, 128) ;
     /* Background color */
-    color: black;
+    color: white;
     /* Text color */
     border: none;
     /* Remove the border */
@@ -447,7 +448,7 @@
 
   /* Change the button background color on hover */
   .btn1:hover {
-    background-color: #45a049;
+    background-color: rgb(0, 55, 128);
   }
 
   /* overlay css  */
@@ -560,7 +561,7 @@
     padding: 6px 12px;
     margin: 0 10px;
 
-    background-color: green;
+    background-color: rgb(0, 55, 128);
 
   }
 
@@ -586,11 +587,11 @@
   }
 
   .sliderbtn {
-    padding: 5px 1px;
-    background: green;
+    padding: 4px 0px;
+    background: rgb(0, 55, 128);
     /* margin: 5px; */
-    /* height: 72px; */
-    width: 190px;
+    width: 89px;
+
 
   }
 
