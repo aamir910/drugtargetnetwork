@@ -7,11 +7,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (
     isset($_POST['Chembl_id1']) ||
     isset($_POST['MaxPhase1']) ||
-    isset($_POST['oncotree_change1'])
+    isset($_POST['oncotree_change1'])||
+    isset($_POST['DataPlatform'])
   ) {
     // Array to store conditions
     $conditions = array();
-
+  
     $sql = "SELECT * FROM drugresponse WHERE";
     // Check and add condition for CHEMBL_ID
     if (isset($_POST['Chembl_id1']) && !empty($_POST['Chembl_id1'])) {
@@ -32,6 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $oncotree_change1 = $_POST['oncotree_change1'];
       $oncotree_change_condition = implode("','", $oncotree_change1);
       $conditions[] = "ONCOTREE_LINEAGE IN ('$oncotree_change_condition')";
+    }
+    if (isset($_POST['DataPlatform']) && !empty($_POST['DataPlatform'])) {
+      $DataPlatform= $_POST['DataPlatform'];
+     
+      $DataPlatform_condition = implode("','", $DataPlatform);
+      $conditions[] = "DATASET IN ('$DataPlatform_condition')";
     }
 
 
@@ -266,7 +273,15 @@ if (isset($_POST['drugName2'])) {
 
     /* fitler button  */
     .fitlerbtn {
-      background-color: green;
+      background-color: transparent;
+      color: blue ;
+      font-size: 14px;
+      text-decoration: underline;
+    }
+    .fitlerbtn:hover {
+     color: blue;
+     font-weight: 300; 
+
     }
   </style>
 
@@ -336,6 +351,22 @@ if (isset($_POST['drugName2'])) {
 
 
         </div>
+        <div class="dropdown" onclick="toggleDropdown4(event)">
+
+<label id="dropdownBtn4">Select Data Platform</label>
+<div id="dropdownContent4" class="dropdown-content">
+  <label><input type="checkbox" value="GDSC1">GDSC1</label>
+  <label><input type="checkbox" value="GDSC2">GDSC2</label>
+  <label><input type="checkbox" value="CCLE_NP24">CCLE_NP24</label>
+  <label><input type="checkbox" value="NCI-60">NCI-60</label>
+  <label><input type="checkbox" value="gCSI">gCSI</label>
+  <label><input type="checkbox" value="FIMM">FIMM</label>
+  <!-- Add more options as needed -->
+</div>
+
+
+
+</div>
         <!-- third Dropdown -->
         <div class="dropdown" onclick="toggleDropdown3(event)">
           <label id="dropdownBtn3">Select CHEMBL_ID</label>
@@ -401,7 +432,7 @@ if (isset($_POST['drugName2'])) {
         <header style="display:flex;
   justify-content: space-between;" |>
           <h2>links value</h2>
-          <button class="fitlerbtn" onclick="toggleDialog()" title="Click to perform a single node filter">Single Node Filter</button>
+          <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
 
 
           <div id="dialog-container">
@@ -659,6 +690,51 @@ if (isset($_POST['drugName2'])) {
       });
     });
 
+    // 4th data platform 
+    let DataPlatform = [];
+
+function toggleDropdown4(event) {
+  var dropdownContent = document.getElementById("dropdownContent4");
+  var dropdownBtn = document.getElementById("dropdownBtn4");
+
+  if (dropdownContent.style.display === "block") {
+    dropdownContent.style.display = "none";
+  } else {
+    dropdownContent.style.display = "block";
+    event.stopPropagation();
+  }
+}
+
+
+function handleCheckboxChange4() {
+  DataPlatform = [];
+
+  // Get all checkboxes within the dropdown
+  var checkboxes = document.querySelectorAll('#dropdownContent4 input[type="checkbox"]:checked');
+  // Update the array with the selected values
+  checkboxes.forEach(function(checkbox) {
+    DataPlatform.push(checkbox.value);
+  });
+
+  // Update the button text with selected values
+  var dropdownBtn = document.getElementById("dropdownBtn4");
+  dropdownBtn.textContent = DataPlatform.length > 0 ? DataPlatform.join(', ') : "Select Options";
+
+
+
+  console.log(DataPlatform, 'DataPlatform');
+  // Close the dropdown
+  var dropdownContent = document.getElementById("dropdownContent4");
+  dropdownContent.style.display = "none";
+}
+
+var checkboxList4 = document.querySelectorAll('#dropdownContent4 input[type="checkbox"]');
+checkboxList4.forEach(function(checkbox) {
+  checkbox.addEventListener('change', function() {
+    handleCheckboxChange4();
+  });
+});
+
     // Add script for the third dropdown
     let Chembl_id1 = [];
 
@@ -778,9 +854,9 @@ if (isset($_POST['drugName2'])) {
     let matric_legend = [];
     let matric_categories;
 
-    //  child_node entry 
+    //  childnode entry 
     let ONCOTREE_LINEAGE_legend = [];
-    let legendChild;
+    let child_categories;
 
 
     let count_increment = 1;
@@ -836,9 +912,7 @@ if (isset($_POST['drugName2'])) {
 
         }
       if(!ONCOTREE_LINEAGE_legend.includes(item.ONCOTREE_LINEAGE)){
-
         ONCOTREE_LINEAGE_legend.push(item.ONCOTREE_LINEAGE)
-
       }
 
         if (!phases.includes(item.MAX_PHASE)) {
@@ -1367,6 +1441,9 @@ if (isset($_POST['drugName2'])) {
           } else if (category === 'Thyroid') {
             color = child_colors[11];
           }
+          else{
+            color = "black"
+          }
           return color;
         })
         .attr("stroke",
@@ -1731,52 +1808,9 @@ if (isset($_POST['drugName2'])) {
           category
         }));
       }
-      // const ONCOTREE_LINEAGE = [
-      //   'Bone',
-      //   'Skin',
-      //   'Central Nervous System',
-      //   'Lung',
-      //   'Peripheral Nervous System',
-      //   'Soft Tissue',
-      //   'Esophagus',
-      //   'Breast',
-      //   'Head and Neck',
-      //   'Haematopoietic and Lymphoid',
-      //   'Bladder',
-      //   'Kidney',
-      //   'Pancreas',
-      //   'Large Intestine',
-      //   'Ovary',
-      //   'Stomach',
-      //   'Biliary Tract',
-      //   'Small Intestine',
-      //   'Placenta',
-      //   'Prostate',
-      //   'Testis',
-      //   'Uterus',
-      //   'Vulva',
-      //   'Thyroid'
-      // ];
-      child_colors = [
-        '#1f77b4', // blue
-        '#ff7f0e', // orange
-        '#2ca02c', // green
-        '#d62728', // red
-        '#9467bd', // purple
-        '#8c564b', // brown
-        '#e377c2', // pink
-        '#7f7f7f', // gray
-        '#17becf', // cyan
-        '#1f77b4', // light blue (replacing yellow-green)
-        '#ff9896', // light red
-        '#98df8a', // light green
-        '#aec7e8',  // light purple
-          '#ffbb78'   // light orange
 
-
-
-      ];
-      const child_categories = ONCOTREE_LINEAGE_legend.map((category, index) => {
+      function generateChildCategories(){
+  return ONCOTREE_LINEAGE_legend.map((category, index) => {
         let color;
 
         if (category === 'Bone') {
@@ -1833,6 +1867,9 @@ if (isset($_POST['drugName2'])) {
         } else if (category === 'Thyroid') {
           color = child_colors[11];
         }
+        else{
+          color = "black"
+        }
         
 
         return {
@@ -1842,16 +1879,79 @@ if (isset($_POST['drugName2'])) {
         return child_categories;
       });
 
+      }
+      // const ONCOTREE_LINEAGE = [
+      //   'Bone',
+      //   'Skin',
+      //   'Central Nervous System',
+      //   'Lung',
+      //   'Peripheral Nervous System',
+      //   'Soft Tissue',
+      //   'Esophagus',
+      //   'Breast',
+      //   'Head and Neck',
+      //   'Haematopoietic and Lymphoid',
+      //   'Bladder',
+      //   'Kidney',
+      //   'Pancreas',
+      //   'Large Intestine',
+      //   'Ovary',
+      //   'Stomach',
+      //   'Biliary Tract',
+      //   'Small Intestine',
+      //   'Placenta',
+      //   'Prostate',
+      //   'Testis',
+      //   'Uterus',
+      //   'Vulva',
+      //   'Thyroid'
+      // ];
+
+      child_colors = [
+        '#1f77b4', // blue
+        '#ff7f0e', // orange
+        '#2ca02c', // green
+        '#d62728', // red
+        '#9467bd', // purple
+        '#8c564b', // brown
+        '#e377c2', // pink
+        '#7f7f7f', // gray
+        '#17becf', // cyan
+        '#1f77b4', // light blue (replacing yellow-green)
+        '#ff9896', // light red
+        '#98df8a', // light green
+        '#aec7e8',  // light purple
+        '#ffbb78'   // light orange
+
+
+
+      ];
+      child_categories_border = [
+        'Pancreas',
+        'Large Intestine',
+        'Ovary',
+        'Stomach',
+        'Biliary Tract',
+        'Small Intestine',
+        'Placenta',
+        'Prostate',
+        'Testis',
+        'Uterus',
+        'Vulva',
+        'Thyroid'
+
+      ];
       //  gererating the dynamic nodes 
       data_Set = generateDataSet();
       max_phase_categories = createMaxPhaseCategories();
       matric_categories = generateMatricCategories();
+      child_categories = generateChildCategories();
 
       //  appenging the maxphses
 
       const ul = d3.select("#myList");
 
-      ul.selectAll("li").remove();
+      // ul.selectAll("li").remove();
 
       listItems = ul
         .selectAll("li")
@@ -1899,13 +1999,13 @@ if (isset($_POST['drugName2'])) {
           }
           return "#6a329f";
         }).on("click", color_click_onchange);;
-
+  
 
       datasettext_click = dataSet_link.append("span").text((d) => d.category);
 
 
       //appending the data of the child nodes
-      const ul4 = d3.select('#child_node');
+      const ul4 = d3.select("#child_node");
 
       ul4.selectAll("li").remove();
       dataSet_child = ul4
@@ -1913,24 +2013,6 @@ if (isset($_POST['drugName2'])) {
         .data(child_categories)
         .enter()
         .append("li");
-
-      child_categories_border = [
-        'Pancreas',
-        'Large Intestine',
-        'Ovary',
-        'Stomach',
-        'Biliary Tract',
-        'Small Intestine',
-        'Placenta',
-        'Prostate',
-        'Testis',
-        'Uterus',
-        'Vulva',
-        'Thyroid'
-        
-      ];
-
-
       child_color = dataSet_child
         .append("div")
         .attr("class", "circle")
@@ -1954,18 +2036,14 @@ if (isset($_POST['drugName2'])) {
           }
           return "#6a329f";
         })
-      // .style("border" , "2px solid RED") ;
-
 
       child_clicked = dataSet_child.append("span").text((d) => d.category);
-
 
 
       // appending the data of the matric 
       const ul3 = d3.select('#matric_set');
 
       ul3.selectAll("li").remove();
-
       matric_link = ul3
         .selectAll("li")
         .data(matric_categories)
@@ -1984,6 +2062,7 @@ if (isset($_POST['drugName2'])) {
 
 
 
+      
 
       // color picker
       for (const categoryObj of max_phase_categories) {
@@ -1993,6 +2072,8 @@ if (isset($_POST['drugName2'])) {
       phases = [];
       dataset_legend = [];
       max_phase_categories = []
+      ONCOTREE_LINEAGE_legend = [] ;
+
       console.log(max_phase_categories, "max empty ");
     }
 
@@ -2318,6 +2399,7 @@ if (isset($_POST['drugName2'])) {
           Chembl_id1: Chembl_id1,
           MaxPhase1: MaxPhase1,
           oncotree_change1: oncotree_change1,
+          DataPlatform: DataPlatform
         },
         success: function(response) {
 
