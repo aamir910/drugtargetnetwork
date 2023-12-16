@@ -8,20 +8,20 @@
     padding: 0.5rem;
   }
   .btn-green {
-    background-color: rgb(0, 55, 128);
-    border-color: rgb(0, 55, 128);
+    background-color: #28a5fb;
+    border-color: #28a5fb;
   }
   .btn {
     margin-right: 0.5rem;
     margin-left: 0.5rem;
 
-    background-color: rgb(0, 55, 128);
+    background-color: #28a5fb;
     /* border-color: #4caf50; */
   }
 
   .btn-green:hover {
-    background-color: rgb(0, 55, 128);
-    border-color: rgb(0, 55, 128);
+    background-color: #28a5fb;
+    border-color: #28a5fb;
   }
 
   .rowData {
@@ -163,7 +163,7 @@
     height: 17px;
     width: 17px;
     border-radius: 50%;
-    background: rgb(0, 55, 128);
+    background: #28a5fb;
     pointer-events: auto;
     -webkit-appearance: none;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
@@ -291,7 +291,7 @@
   }
 
   #green {
-    background-color: rgb(0, 55, 128);
+    background-color: #28a5fb;
   }
 
   #amber {
@@ -316,7 +316,7 @@
     display: none;
     border: 16px solid #f3f3f3;
     border-radius: 50%;
-    border-top: 16px solid rgb(0, 55, 128);
+    border-top: 16px solid #28a5fb;
     width: 120px;
     height: 120px;
     -webkit-animation: spin 2s linear infinite;
@@ -383,7 +383,7 @@
     -webkit-appearance: none !important;
     width: 420px;
     height: 2px;
-    background: rgb(0, 55, 128);
+    background: #28a5fb;
     border: none;
     outline: none;
     /* height: 17px;
@@ -409,8 +409,8 @@
     -webkit-appearance: none !important;
     width: 20px;
     height: 20px;
-    background: rgb(0, 55, 128);
-    border: 2px solid rgb(0, 55, 128);
+    background: #28a5fb;
+    border: 2px solid #28a5fb;
     border-radius: 50%;
     cursor: pointer;
   }
@@ -422,7 +422,7 @@
 
 
   .btn1 {
-    background-color:rgb(0, 55, 128) ;
+    background-color:#28a5fb ;
     /* Background color */
     color: white;
     /* Text color */
@@ -448,7 +448,7 @@
 
   /* Change the button background color on hover */
   .btn1:hover {
-    background-color: rgb(0, 55, 128);
+    background-color: #28a5fb;
   }
 
   /* overlay css  */
@@ -561,7 +561,7 @@
     padding: 6px 12px;
     margin: 0 10px;
 
-    background-color: rgb(0, 55, 128);
+    background-color: #28a5fb;
 
   }
 
@@ -588,7 +588,7 @@
 
   .sliderbtn {
     padding: 4px 0px;
-    background: rgb(0, 55, 128);
+    background: #28a5fb;
     /* margin: 5px; */
     width: 89px;
 
