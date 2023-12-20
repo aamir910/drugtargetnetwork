@@ -743,6 +743,142 @@
   .form-select {
     width: 100%;
   }
+  .dropdown {
+    display: inline-block;
+    position: relative;
+  }
+
+  /* Style for the dropdown button */
+  .dropdown label {
+    padding: 10px;
+    font-size: 16px;
+    /* border: 1px solid #ccc; */
+    cursor: pointer;
+    background-color: #fff;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 200px;
+    /* Adjust the width as needed */
+    position: relative;
+  }
+
+  /* Style for the arrow icon */
+  .dropdown button::after {
+    content: '\25BC';
+    /* Unicode character for downward arrow */
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  }
+
+  /* Style for the dropdown content */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    max-height: 550px;
+    /* Adjust the max-height as needed */
+    overflow-y: auto;
+  }
+
+  /* Style for the checkboxes inside the dropdown */
+  .dropdown-content label {
+    display: block;
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  .dropdown-content input {
+    margin-right: 8px;
+  }
+
+  /* Define styles for tooltip2 */
+  .tooltip2 {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 12px;
+    pointer-events: none;
+  }
+
+  .tooltip2 strong {
+    font-weight: bold;
+  }
+
+  .in_de_Crement {
+    display: flex;
+    visibility: hidden;
+  }
+
+  #dialog-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #fff;
+    z-index: 1000;
+    cursor: move;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  #dialog-header {
+    cursor: move;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  #search-bar {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+  }
+
+  #name-list {
+    max-height: 200px;
+    overflow-y: auto;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #name-list li {
+    margin-bottom: 5px;
+  }
+
+  #no-matches {
+    display: none;
+    color: #888;
+  }
+
+  /* fitler button  */
+  .fitlerbtn {
+    background-color: transparent;
+    color: blue;
+    font-size: 14px;
+    text-decoration: underline;
+    text-align: start;
+    padding-left: 0;
+  }
+
+  .fitlerbtn:hover {
+    color: red;
+    font-weight: 500;
+
+  }     
 
 
 
@@ -753,6 +889,7 @@
 
     /* Change the width to 80% when the screen size is less than 900 pixels */
     .wrapper {
+      margin: 5rem;
       width: 100%;
     }
 

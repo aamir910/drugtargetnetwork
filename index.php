@@ -149,142 +149,7 @@ if (isset($_POST['drugName2'])) {
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-  <style>
-    .dropdown {
-      display: inline-block;
-      position: relative;
-    }
 
-    /* Style for the dropdown button */
-    .dropdown label {
-      padding: 10px;
-      font-size: 16px;
-      /* border: 1px solid #ccc; */
-      cursor: pointer;
-      background-color: #fff;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      width: 200px;
-      /* Adjust the width as needed */
-      position: relative;
-    }
-
-    /* Style for the arrow icon */
-    .dropdown button::after {
-      content: '\25BC';
-      /* Unicode character for downward arrow */
-      font-size: 12px;
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-    }
-
-    /* Style for the dropdown content */
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-      z-index: 1;
-      max-height: 550px;
-      /* Adjust the max-height as needed */
-      overflow-y: auto;
-    }
-
-    /* Style for the checkboxes inside the dropdown */
-    .dropdown-content label {
-      display: block;
-      padding: 8px;
-      cursor: pointer;
-    }
-
-    .dropdown-content input {
-      margin-right: 8px;
-    }
-
-    /* Define styles for tooltip2 */
-    .tooltip2 {
-      position: absolute;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      font-size: 12px;
-      pointer-events: none;
-    }
-
-    .tooltip2 strong {
-      font-weight: bold;
-    }
-
-    .in_de_Crement {
-      display: flex;
-      visibility: hidden;
-    }
-
-    #dialog-container {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      border: 1px solid #ccc;
-      padding: 20px;
-      background-color: #fff;
-      z-index: 1000;
-      cursor: move;
-      overflow: hidden;
-      border-radius: 8px;
-    }
-
-    #dialog-header {
-      cursor: move;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #ccc;
-    }
-
-    #search-bar {
-      margin-bottom: 10px;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      width: 100%;
-    }
-
-    #name-list {
-      max-height: 200px;
-      overflow-y: auto;
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    #name-list li {
-      margin-bottom: 5px;
-    }
-
-    #no-matches {
-      display: none;
-      color: #888;
-    }
-
-    /* fitler button  */
-    .fitlerbtn {
-      background-color: transparent;
-      color: blue;
-      font-size: 14px;
-      text-decoration: underline;
-    }
-
-    .fitlerbtn:hover {
-      color: red;
-      font-weight: 500;
-
-    }
-  </style>
 
 
 </head>
@@ -301,10 +166,10 @@ if (isset($_POST['drugName2'])) {
       <div class="form-row rowData">
         <!-- First Dropdown -->
 
-        <div class="dropdown" onclick="toggleDropdown(event)">
+        <div class="dropdown" id="dropdown1">
 
-          <label id="dropdownBtn">Select Tissues</label>
-          <div id="dropdownContent" class="dropdown-content">
+          <label id="dropdownBtn" onclick="toggleDropdown(event)">Select Tissues</label>
+          <div id="dropdownContent1" class="dropdown-content">
             <label><input type="checkbox" value="Bone">Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
             <label><input type="checkbox" value="Central Nervous System">Central Nervous System</label>
@@ -333,13 +198,15 @@ if (isset($_POST['drugName2'])) {
             <label><input type="checkbox" value="Endometrium">Endometrium</label>
             <!-- Add more options as needed -->
           </div>
+          <div class="alert-message alert2  " style="position: absolute; top: 80px; " id="dp1">
+            <span class="alert alert-danger">Please select option</span>
+          </div>
         </div>
-        <!-- here is second 
-       -->
+        <!-- here is second-->
 
-        <div class="dropdown" onclick="toggleDropdown2(event)">
+        <div class="dropdown" id="dropdown2">
 
-          <label id="dropdownBtn2">Select Max Clinical phase</label>
+          <label id="dropdownBtn2" onclick="toggleDropdown2(event)">Select Max Clinical phase</label>
           <div id="dropdownContent2" class="dropdown-content">
             <label><input type="checkbox" value="Approved">Approved</label>
             <label><input type="checkbox" value="Preclinical">Preclinical</label>
@@ -349,12 +216,14 @@ if (isset($_POST['drugName2'])) {
             <label><input type="checkbox" value="Unknown">Unknown</label>
             <!-- Add more options as needed -->
           </div>
-
+          <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp2">
+            <span class="alert alert-danger">Please select option</span>
+          </div>
 
         </div>
-        <div class="dropdown" onclick="toggleDropdown4(event)">
+        <div class="dropdown" id="dropdown3">
 
-          <label id="dropdownBtn4">Select Data Platform</label>
+          <label id="dropdownBtn4" onclick="toggleDropdown4(event)">Select Data Platform</label>
           <div id="dropdownContent4" class="dropdown-content">
             <label><input type="checkbox" value="GDSC1">GDSC1</label>
             <label><input type="checkbox" value="GDSC2">GDSC2</label>
@@ -365,12 +234,14 @@ if (isset($_POST['drugName2'])) {
             <!-- Add more options as needed -->
           </div>
 
-
+          <div class="alert-message alert2  " style="position: absolute; top: 80px; " id="dp3">
+            <span class="alert alert-danger">Please select option</span>
+          </div>
 
         </div>
         <!-- third Dropdown -->
-        <div class="dropdown" onclick="toggleDropdown3(event)">
-          <label id="dropdownBtn3">Select Drugs</label>
+        <div class="dropdown" id="dropdown4">
+          <label id="dropdownBtn3" onclick="toggleDropdown3(event)">Select Drugs</label>
           <div id="dropdownContent3" class="dropdown-content">
             <label><input type="checkbox" value="CHEMBL553">CHEMBL553</label>
             <label><input type="checkbox" value="CHEMBL413">CHEMBL413</label>
@@ -399,7 +270,9 @@ if (isset($_POST['drugName2'])) {
             <label><input type="checkbox" value="CHEMBL209148">CHEMBL209148</label>
             <!-- Add more options as needed -->
           </div>
-
+          <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
+            <span class="alert alert-danger">Please select option</span>
+          </div>
 
         </div>
 
@@ -421,6 +294,7 @@ if (isset($_POST['drugName2'])) {
                justify-content: center;
                align-items: center;
                height:100%;
+               background-color: lightgrey ;
              " class=" forcenetwork  ">
         <!-- Loader embedded inside SVG -->
       </svg>
@@ -438,15 +312,16 @@ if (isset($_POST['drugName2'])) {
 
           <div id="dialog-container">
             <div id="dialog-header">
-              <button onclick="toggleDialog()" class="close-btn-search" style="background:none   ;  position: absolute;
+              <button onclick="toggleDialog2()" class="close-btn-search" style="background:none   ;  position: absolute;
                 top: 10px;right: 10px;cursor: pointer;max-height: 100px;overflow: auto;
 "><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
+              <h5>Filter Compounds/Celline</h5>
               <label for="search-bar">Search:</label>
               <input type="text" id="search-bar" oninput="filterNames()" onclick="focusSearch()">
             </div>
             <ul id="name-list">
             </ul>
-            <button style=" margin: 12px 38px 0px ; ; " class="sliderbtn" onclick="saveNames()">Filter</button>
+            <button style=" margin: 12px 38px 0px; " class="sliderbtn" onclick="saveNames()">Filter</button>
           </div>
 
         </header>
@@ -493,7 +368,7 @@ if (isset($_POST['drugName2'])) {
         <button class="sliderbtn " id="zoom-out-button">zoom out</button>
         <div class="slider2size">
           <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
-          <p id="rangeValue">50</p>
+          <p id="rangeValue" style="margin-right: 30px;">50</p>
 
         </div>
         <!-- btntag -->
@@ -580,15 +455,28 @@ if (isset($_POST['drugName2'])) {
   <script>
     let oncotree_change1 = [];
 
+   function Close_other_dropdown(){
+
+    for (let i = 1; i <= 4; i++) {
+  let dropdownContent = document.getElementById(`dropdownContent${i}`);
+
+  if (dropdownContent.style.display === "block") {
+    dropdownContent.style.display = "none";
+  }
+}
+
+   }
+
+
 
     // Function to toggle the display of the dropdown content
     function toggleDropdown(event) {
 
       // event.preventDefault();
-
-      var dropdownContent = document.getElementById("dropdownContent");
+      Close_other_dropdown();
+      var dropdownContent = document.getElementById("dropdownContent1");
       var dropdownBtn = document.getElementById("dropdownBtn");
-
+ 
       if (dropdownContent.style.display === "block") {
         dropdownContent.style.display = "none";
 
@@ -603,7 +491,7 @@ if (isset($_POST['drugName2'])) {
       oncotree_change1 = [];
 
       // Get all checkboxes within the dropdown
-      var checkboxes = document.querySelectorAll('#dropdownContent input[type="checkbox"]:checked');
+      var checkboxes = document.querySelectorAll('#dropdownContent1 input[type="checkbox"]:checked');
       // Update the array with the selected values
       checkboxes.forEach(function(checkbox) {
         oncotree_change1.push(checkbox.value);
@@ -614,15 +502,10 @@ if (isset($_POST['drugName2'])) {
       dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Select Options";
 
 
-
-      console.log(oncotree_change1, "oncotraight");
-      // Close the dropdown
-      var dropdownContent = document.getElementById("dropdownContent");
-      dropdownContent.style.display = "none";
     }
 
     // Add event listeners to the checkboxes
-    var checkboxList = document.querySelectorAll('#dropdownContent input[type="checkbox"]');
+    var checkboxList = document.querySelectorAll('#dropdownContent1 input[type="checkbox"]');
     checkboxList.forEach(function(checkbox) {
       checkbox.addEventListener('change', function() {
 
@@ -630,29 +513,14 @@ if (isset($_POST['drugName2'])) {
       });
     });
 
-    // Close the dropdown if the user clicks outside of it
-    window.onclick = function(event) {
-      // Check if the clicked element is a dropdown button or its content
-      if (
-        !event.target.matches('.dropdown') &&
-        !event.target.matches('.dropdown-content') &&
-        !event.target.closest('.dropdown-content')
-      ) {
-        // Close all dropdowns
-        var dropdowns = document.querySelectorAll('.dropdown-content');
-        dropdowns.forEach(function(dropdown) {
-          dropdown.style.display = 'none';
-        });
-      }
-    };
-
-
+  
     let MaxPhase1 = [];
 
     function toggleDropdown2(event) {
+   
+      Close_other_dropdown();
       var dropdownContent = document.getElementById("dropdownContent2");
       var dropdownBtn = document.getElementById("dropdownBtn2");
-
       if (dropdownContent.style.display === "block") {
         dropdownContent.style.display = "none";
       } else {
@@ -678,10 +546,9 @@ if (isset($_POST['drugName2'])) {
 
 
 
-      console.log(MaxPhase1, 'MaxPhase1');
       // Close the dropdown
-      var dropdownContent = document.getElementById("dropdownContent2");
-      dropdownContent.style.display = "none";
+      // var dropdownContent = document.getElementById("dropdownContent2");
+      // dropdownContent.style.display = "none";
     }
 
     var checkboxList2 = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]');
@@ -695,6 +562,8 @@ if (isset($_POST['drugName2'])) {
     let DataPlatform = [];
 
     function toggleDropdown4(event) {
+      
+      Close_other_dropdown();
       var dropdownContent = document.getElementById("dropdownContent4");
       var dropdownBtn = document.getElementById("dropdownBtn4");
 
@@ -722,11 +591,9 @@ if (isset($_POST['drugName2'])) {
       dropdownBtn.textContent = DataPlatform.length > 0 ? DataPlatform.join(', ') : "Select Options";
 
 
-
-      console.log(DataPlatform, 'DataPlatform');
       // Close the dropdown
-      var dropdownContent = document.getElementById("dropdownContent4");
-      dropdownContent.style.display = "none";
+      // var dropdownContent = document.getElementById("dropdownContent4");
+      // dropdownContent.style.display = "none";
     }
 
     var checkboxList4 = document.querySelectorAll('#dropdownContent4 input[type="checkbox"]');
@@ -740,6 +607,8 @@ if (isset($_POST['drugName2'])) {
     let Chembl_id1 = [];
 
     function toggleDropdown3(event) {
+      
+      Close_other_dropdown();
       var dropdownContent = document.getElementById("dropdownContent3");
       var dropdownBtn = document.getElementById("dropdownBtn3");
 
@@ -763,10 +632,8 @@ if (isset($_POST['drugName2'])) {
       var dropdownBtn = document.getElementById("dropdownBtn3");
       dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Select Options";
 
-      console.log(Chembl_id1, "Chembl_id1");
       // Close the dropdown
-      var dropdownContent = document.getElementById("dropdownContent3");
-      dropdownContent.style.display = "none";
+
     }
 
     var checkboxList3 = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]');
@@ -775,6 +642,32 @@ if (isset($_POST['drugName2'])) {
         handleCheckboxChange3();
       });
     });
+
+
+    // function closeAllDropdowns() {
+    //   var dropdowns = document.querySelectorAll('.dropdown-content');
+    //   dropdowns.forEach(function(dropdown) {
+    //     dropdown.style.display = 'none';
+    //   });
+    // }
+
+    // // Click event handler for the window
+    // window.onclick = function(event) {
+    //   // Check if the clicked element is a dropdown button or its content
+    //   if (
+    //     !event.target.matches('.dropdown') &&
+    //     !event.target.matches('.dropdown-content') &&
+    //     !event.target.closest('.dropdown-content')
+    //   ) {
+    //     // Close all dropdowns
+    //     closeAllDropdowns();
+    //   }
+    // };
+
+
+
+
+
   </script>
 
 
@@ -820,6 +713,8 @@ if (isset($_POST['drugName2'])) {
 
     let csvfile = [];
     let response;
+    let create_it = true;
+
 
     let visible_node = [];
 
@@ -1007,6 +902,7 @@ if (isset($_POST['drugName2'])) {
 
 
     // here the function to fetch the data from the databse for the biologics description 
+    generate_table
 
     function fetchData2(drugName) {
       // Make AJAX request to PHP script
@@ -1038,7 +934,6 @@ if (isset($_POST['drugName2'])) {
         },
         success: function(data) {
           // Handle the returned data
-          // console.log(data, "data to show ");
           drug_des_parent = JSON.parse(data);
 
           generate_table();
@@ -1049,8 +944,6 @@ if (isset($_POST['drugName2'])) {
         }
       });
     }
-
-
 
     function generate_table() {
 
@@ -1065,7 +958,6 @@ if (isset($_POST['drugName2'])) {
 
       let dataobject = drug_des_parent['0'];
 
-      // console.log(dataobject, "check2");
       // Function to populate the table
       function populateTable() {
         const tableBody = document.getElementById('compoundTableBody');
@@ -1084,14 +976,12 @@ if (isset($_POST['drugName2'])) {
 
           if (keyCell.innerText === 'CROSS_REFERENCES_CELL_LINES') {
             let text_change = valueCell.innerHTML;
-            // console.log(text_change)
             var formattedData = formatData(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
 
           } else if (keyCell.innerText === 'COMMENTS') {
             let text_change = valueCell.innerHTML;
-            // console.log(text_change)
             var formattedData = formatData2(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
@@ -1099,7 +989,6 @@ if (isset($_POST['drugName2'])) {
           } else
           if (keyCell.innerText === 'REFERENCE_ID') {
             let text_change = valueCell.innerHTML;
-            // console.log(text_change)
             var formattedData = formatData3(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
@@ -1183,7 +1072,6 @@ if (isset($_POST['drugName2'])) {
     const svgWidth = +svg.node().getBoundingClientRect().width;
     const svgHeight = +svg.node().getBoundingClientRect().height;
 
-    // console.log("width", svgWidth, "height", svgHeight);
 
     function force_network_grapgh() {
 
@@ -1263,9 +1151,6 @@ if (isset($_POST['drugName2'])) {
 
           let r = event.target.__data__;
 
-          console.log("Hovered Link Data:", r);
-          console.log(d)
-          console.log("hover")
           tooltip2.transition()
             .style("opacity", 0.9);
           tooltip2.html("<strong>Link Value:</strong> " + r.value)
@@ -1284,8 +1169,6 @@ if (isset($_POST['drugName2'])) {
       var tooltip2 = d3.select("body").append("div")
         .attr("class", "tooltip2")
         .style("opacity", 0);
-
-
 
       node = g
         .selectAll(".node")
@@ -1351,9 +1234,6 @@ if (isset($_POST['drugName2'])) {
         .style("opacity", (d) => ((d.type === "parentnode" && (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown")) ? 0 : 1)); // hide initially for specific nodes
 
       node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
-
-
-
 
       function handleMouseOver(d) {
         // Show tooltip only for the hovered node
@@ -1493,10 +1373,6 @@ if (isset($_POST['drugName2'])) {
 
         node.attr("transform", (d) => `translate(${Math.max(0, Math.min(svgWidth, d.x))},${Math.max(0, Math.min(svgHeight, d.y))})`);
       });
-
-
-
-
       var zoom = d3.zoom()
         .scaleExtent([0.1, 10]) // Set the zoom scale extent as needed
         .on("zoom", zoomed);
@@ -1505,7 +1381,6 @@ if (isset($_POST['drugName2'])) {
 
       function zoomed() {
         if (g) {
-          // console.log(d3.event.transform)
           // g.attr("transform", d3.event.transform);
 
           var transform = d3.zoomTransform(this);
@@ -1525,11 +1400,6 @@ if (isset($_POST['drugName2'])) {
         svg.transition().call(zoom.scaleBy, 0.8);
       });
     }
-
-
-
-
-
 
     // here is the function to start the limitations 
     function range_of_links(min_range, max_range, valueofslider) {
@@ -1720,29 +1590,39 @@ if (isset($_POST['drugName2'])) {
       // export csv 
       csvfile = [];
       visible_node = [];
+   
+
+      link.filter(function(linkshow) {
+        // 'this' refers to the current DOM element
+        let visibility2 = d3.select(this).style("display");
+
+        // Check if the visibility is "inline" or any other condition you need
+        if (visibility2 === "inline") {
+          response.filter(maindata => {
+            if (linkshow.value === maindata.VALUE) {
+              if (!csvfile.includes(maindata)) {
+
+                csvfile.push(maindata);
+              }
+
+            }
+
+          })
+        }
+      });
       node.filter(function(node) {
         // Select the current node using D3 and get its "display" property
         let visibility = d3.select(this).style("display");
-        // Check if the display property is "inline"
         if (visibility === "inline") {
-          response.filter(function(maindata) {
-            if (maindata.COMPOUND_NAME === node.id) {
-              //  if(!csvfile.includes(maindata))
-              csvfile.push(maindata);
-            }
-          })
-
-          if (visibility === "inline") {
-            visible_node.push(node.id);
-
-          }
-
-
-
-          // If true, push the node into the csvfile array
+          visible_node.push(node.id);
         }
+
       });
-      generateNameList();
+
+      if (true) {
+        generateNameList();
+      }
+
 
     }
     // legenddata
@@ -2050,7 +1930,15 @@ if (isset($_POST['drugName2'])) {
       matric_color = matric_link
         .append("div")
         .attr("class", "line")
-        .style("background", "repeating-radial-gradient(circle, #000000 0, #000000 1px, transparent 1px, transparent 2px)")
+        .style("background", function(d) {
+          if (d.category === 'pIC50') {
+            return "repeating-radial-gradient(circle, #000000 0, #000000 1px, transparent 1px, transparent 2px)";
+          } else if (d.category === 'pEC50') {
+            return "repeating-radial-gradient(circle, #000000 0, #000000 1px, transparent 1px, transparent 2px)";
+          } else if (d.category === 'pGI50') {
+            return "black";
+          }
+        })
         .style("height", "2px");
 
       matric_click = matric_link.append("span").text((d) => d.category);
@@ -2071,7 +1959,6 @@ if (isset($_POST['drugName2'])) {
       max_phase_categories = []
       ONCOTREE_LINEAGE_legend = [];
 
-      console.log(max_phase_categories, "max empty ");
     }
 
     //colorpicker 
@@ -2271,60 +2158,50 @@ if (isset($_POST['drugName2'])) {
         element.classList.remove("error-border");
       });
 
-      if (false) {
+      if (Chembl_id1.length === 0 && DataPlatform.length === 0 && MaxPhase1.length === 0 && oncotree_change1.length === 0) {
         // Show error messages for the empty dropdowns
-
-        if (document.getElementById("dropdown1").value === "") {
-          document.querySelector("#dropdown1 + .alert2").style.display = "block";
-          document.getElementById("dropdown1").classList.add("error-border");
-        }
-
-        if (document.getElementById("dropdown2").value === "") {
-          document.querySelector("#dropdown2 + .alert2").style.display = "block";
-          document.getElementById("dropdown2").classList.add("error-border");
-        }
-        if (document.getElementById("dropdown3").value === "") {
-          document.querySelector("#dropdown3 + .alert2").style.display = "block";
-          document.getElementById("dropdown3").classList.add("error-border");
-        }
-        if (document.getElementById("dropdown4").value === "") {
-          document.querySelector("#dropdown4 + .alert2").style.display = "block";
-          document.getElementById("dropdown4").classList.add("error-border");
-        }
-
-        // Prevent form submission
         event.preventDefault();
+
+
+        // Get the screen width
+        var screenWidth = window.innerWidth;
+        // Set the threshold value for hiding elements (e.g., 100px)
+        var threshold = 1000;
+
+        // Get the elements by their IDs
+        var dp1 = document.getElementById("dp1");
+        var dp2 = document.getElementById("dp2");
+        var dp3 = document.getElementById("dp3");
+        var dp4 = document.getElementById("dp4");
+        // Check the screen size and hide elements if the condition is met
+        if (screenWidth <= threshold) {
+          alert("select the option first ");
+          dp1.style.display = "none";
+          dp2.style.display = "none";
+          dp3.style.display = "none";
+          dp4.style.display = "none";
+        } else {
+          // Show elements if the screen size is greater than the threshold
+          dp1.style.display = "block";
+          dp2.style.display = "block";
+          dp3.style.display = "block";
+          dp4.style.display = "block";
+        }
+
+
 
       } else {
 
+
         event.preventDefault();
+
+        document.getElementById("dp1").style.display = "none";
+        document.getElementById("dp2").style.display = "none";
+        document.getElementById("dp3").style.display = "none";
+        document.getElementById("dp4").style.display = "none";
+
         ajax();
       }
-
-
-
-      // document.getElementById("dropdown1").addEventListener("change", function() {
-      //   removeError(this);
-      // });
-
-      // document.getElementById("dropdown2").addEventListener("change", function() {
-      //   removeError(this);
-      // });
-
-      // document.getElementById("dropdown3").addEventListener("change", function() {
-      //   removeError(this);
-      // });
-      // document.getElementById("dropdown4").addEventListener("change", function() {
-      //   removeError(this);
-      // });
-
-      // function removeError(dropdown) {
-      //   // Remove error message and border when a selection is made
-      //   dropdown.nextElementSibling.style.display = "none";
-      //   dropdown.classList.remove("error-border");
-      // }
-
-
     });
 
     // slider code 
@@ -2332,7 +2209,7 @@ if (isset($_POST['drugName2'])) {
     const rangeInput = document.querySelectorAll(".range-input input");
     const priceInput = document.querySelectorAll(".price-input input");
     const range = document.querySelector(".slider .progress");
-    let priceGap = 0.1; // Change the step to 0.1
+    let priceGap = 0.1;
 
     priceInput.forEach(input => {
       input.addEventListener("input", (e) => {
@@ -2401,7 +2278,6 @@ if (isset($_POST['drugName2'])) {
         success: function(response) {
 
           jsondata2 = response;
-          // console.log(jsondata2);
 
           fetchData(jsondata2);
 
@@ -2516,6 +2392,7 @@ if (isset($_POST['drugName2'])) {
     document.getElementById('csv').addEventListener('click', function() {
       section.classList.remove("active")
 
+      range_of_links(minValue, maxValue, slider_range);
       // downloadCSV(csvfile);  
       cenvertxlsx(csvfile);
     });
@@ -2547,7 +2424,7 @@ if (isset($_POST['drugName2'])) {
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
 
       // Save the workbook to an XLSX file
-      XLSX.writeFile(wb, 'output.xlsx');
+      XLSX.writeFile(wb, 'DrugTargetNetwork_exported.xlsx');
 
       alert('XLSX file created successfully');
 
@@ -2556,6 +2433,8 @@ if (isset($_POST['drugName2'])) {
 
   <script>
     let checkbox_names = [];
+    let checkbox_saves =[] ;
+
 
     // Make the dialog draggable
     dragElement(document.getElementById("dialog-container"));
@@ -2563,17 +2442,28 @@ if (isset($_POST['drugName2'])) {
     nameList.innerHTML = ''; // Clear existing list
 
     function generateNameList() {
-      console.log(visible_node, "here is visible node");
-
 
       nameList.innerHTML = '';
+      for (var i = 0; i < checkbox_saves.length; i++) {
+        var nameId = 'name' + (i + 1);
+        var listItem = document.createElement('li');
+        let name1 = checkbox_saves[i];
+        listItem.innerHTML = `<input type="checkbox" id="${name1}" checked > <label for="${name1}">${name1}</label>`;
+        nameList.appendChild(listItem);
+      }
+
       for (var i = 0; i < visible_node.length; i++) {
         var nameId = 'name' + (i + 1);
         var listItem = document.createElement('li');
         let name1 = visible_node[i];
         listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
         nameList.appendChild(listItem);
+       
       }
+      console.log(visible_node.length)
+
+     
+
     }
 
     function toggleCLoseFilterSearch() {
@@ -2585,6 +2475,14 @@ if (isset($_POST['drugName2'])) {
       var dialog = document.getElementById("dialog-container");
       dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
 
+    }
+
+    function toggleDialog2() {
+
+      var dialog = document.getElementById("dialog-container");
+      dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
+
+      create_it = true;
     }
 
     function dragElement(elmnt) {
@@ -2666,22 +2564,22 @@ if (isset($_POST['drugName2'])) {
 
     // Function to save selected names in an array
     function saveNames() {
+      create_it = false;
       var checkboxes = document.getElementById("name-list").getElementsByTagName("input");
       checkbox_names = [];
 
       for (var i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
+
           checkbox_names.push(checkboxes[i].id);
-        }
+          
+          if(!checkbox_saves.includes(checkboxes[i].id))
+          checkbox_saves.push(checkboxes[i].id);
+        }                                                              
       }
       range_of_links(minValue, maxValue, slider_range);
     }
   </script>
-
-
-
-
-
 
 </body>
 
