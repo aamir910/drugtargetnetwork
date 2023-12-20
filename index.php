@@ -168,7 +168,7 @@ if (isset($_POST['drugName2'])) {
 
         <div class="dropdown" id="dropdown1">
 
-          <label id="dropdownBtn" onclick="toggleDropdown(event)">Select Tissues</label>
+          <label id="dropdownBtn" onclick="toggleDropdown(event)">Tissues</label>
           <div id="dropdownContent1" class="dropdown-content">
             <label><input type="checkbox" value="Bone">Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
@@ -206,7 +206,7 @@ if (isset($_POST['drugName2'])) {
 
         <div class="dropdown" id="dropdown2">
 
-          <label id="dropdownBtn2" onclick="toggleDropdown2(event)">Select Max Clinical phase</label>
+          <label id="dropdownBtn2" onclick="toggleDropdown2(event)"> Max Clinical phase</label>
           <div id="dropdownContent2" class="dropdown-content">
             <label><input type="checkbox" value="Approved">Approved</label>
             <label><input type="checkbox" value="Preclinical">Preclinical</label>
@@ -223,7 +223,7 @@ if (isset($_POST['drugName2'])) {
         </div>
         <div class="dropdown" id="dropdown3">
 
-          <label id="dropdownBtn4" onclick="toggleDropdown4(event)">Select Data Platform</label>
+          <label id="dropdownBtn4" onclick="toggleDropdown4(event)"> Data Platform</label>
           <div id="dropdownContent4" class="dropdown-content">
             <label><input type="checkbox" value="GDSC1">GDSC1</label>
             <label><input type="checkbox" value="GDSC2">GDSC2</label>
@@ -241,7 +241,7 @@ if (isset($_POST['drugName2'])) {
         </div>
         <!-- third Dropdown -->
         <div class="dropdown" id="dropdown4">
-          <label id="dropdownBtn3" onclick="toggleDropdown3(event)">Select Drugs</label>
+          <label id="dropdownBtn3" onclick="toggleDropdown3(event)"> Drugs</label>
           <div id="dropdownContent3" class="dropdown-content">
             <label><input type="checkbox" value="CHEMBL553">CHEMBL553</label>
             <label><input type="checkbox" value="CHEMBL413">CHEMBL413</label>
@@ -1961,15 +1961,28 @@ let degree ;
         .attr("class", "line")
         .style("background", function(d) {
           if (d.category === 'pIC50') {
-            return "repeating-radial-gradient(circle, #000000 0, #000000 1px, transparent 1px, transparent 2px)";
+            return "tranparent";
           } else if (d.category === 'pEC50') {
-            return "repeating-radial-gradient(circle, #000000 0, #000000 1px, transparent 1px, transparent 2px)";
-          } else if (d.category === 'pGI50') {
+            return "tranparent";
+              } 
+              else if (d.category === 'pGI50') {
             return "black";
           }
         })
         .style("height", "2px");
-
+        matric_color
+  .append("h6")
+  // .text(".......");
+  .text(function(d) {
+          if (d.category === 'pIC50') {
+            return ".......";
+          } else if (d.category === 'pEC50') {
+            return "-----";
+          } else if (d.category === 'pGI50') {
+            return " ";
+          }
+        });
+  
       matric_click = matric_link.append("span").text((d) => d.category);
 
 
