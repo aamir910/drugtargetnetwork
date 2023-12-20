@@ -367,7 +367,7 @@
     font-size: 20px;
     font-weight: 600;
     font-family: Open Sans;
-    padding-left: 30px;
+    padding-left: 10px;
     color: black;
   }
 
@@ -735,9 +735,11 @@
 
   .slider2size {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 19rem;
+    /* width: 21rem; */
+    margin-bottom: 2rem;
   }
 
   .form-select {
@@ -904,8 +906,8 @@
     }
 
     .slider2size {
-
       width: 9rem;
+
     }
 
     .form-select {

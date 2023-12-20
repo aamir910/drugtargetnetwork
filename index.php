@@ -294,7 +294,7 @@ if (isset($_POST['drugName2'])) {
                justify-content: center;
                align-items: center;
                height:100%;
-               background-color: lightgrey ;
+         
              " class=" forcenetwork  ">
         <!-- Loader embedded inside SVG -->
       </svg>
@@ -313,10 +313,10 @@ if (isset($_POST['drugName2'])) {
           <div id="dialog-container">
             <div id="dialog-header">
               <button onclick="toggleDialog2()" class="close-btn-search" style="background:none   ;  position: absolute;
-                top: 10px;right: 10px;cursor: pointer;max-height: 100px;overflow: auto;
+                top: 10px;right: 3px;cursor: pointer;max-height: 100px;overflow: auto;
 "><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
               <h5>Filter Compounds/Celline</h5>
-              <label for="search-bar">Search:</label>
+              <label for="search-bar">Filter:</label>
               <input type="text" id="search-bar" oninput="filterNames()" onclick="focusSearch()">
             </div>
             <ul id="name-list">
@@ -367,8 +367,11 @@ if (isset($_POST['drugName2'])) {
         <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
         <button class="sliderbtn " id="zoom-out-button">zoom out</button>
         <div class="slider2size">
+           <div style="display: flex;">
+             <p id="rangeValue" >50 </p>
+             <p>Connected Compounds</p>
+           </div>
           <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
-          <p id="rangeValue" style="margin-right: 30px;">50</p>
 
         </div>
         <!-- btntag -->
@@ -644,25 +647,25 @@ if (isset($_POST['drugName2'])) {
     });
 
 
-    // function closeAllDropdowns() {
-    //   var dropdowns = document.querySelectorAll('.dropdown-content');
-    //   dropdowns.forEach(function(dropdown) {
-    //     dropdown.style.display = 'none';
-    //   });
-    // }
+    function closeAllDropdowns() {
+      var dropdowns = document.querySelectorAll('.dropdown-content');
+      dropdowns.forEach(function(dropdown) {
+        dropdown.style.display = 'none';
+      });
+    }
 
-    // // Click event handler for the window
-    // window.onclick = function(event) {
-    //   // Check if the clicked element is a dropdown button or its content
-    //   if (
-    //     !event.target.matches('.dropdown') &&
-    //     !event.target.matches('.dropdown-content') &&
-    //     !event.target.closest('.dropdown-content')
-    //   ) {
-    //     // Close all dropdowns
-    //     closeAllDropdowns();
-    //   }
-    // };
+    // Click event handler for the window
+    window.onclick = function(event) {
+      // Check if the clicked element is a dropdown button or its content
+      if (
+        !event.target.matches('.dropdown') &&
+        !event.target.matches('.dropdown-content') &&
+        !event.target.closest('.dropdown-content')
+      ) {
+        // Close all dropdowns
+        closeAllDropdowns();
+      }
+    };
 
 
 
@@ -703,7 +706,10 @@ if (isset($_POST['drugName2'])) {
 
     let minValue;
     let maxValue;
-    let slider_range = 100;
+    
+    
+
+    let slider_range = 100; 
     const slider2 = document.getElementById("nodeCountSlider2");
     // onclick dataset   
 
@@ -1074,8 +1080,11 @@ if (isset($_POST['drugName2'])) {
 
 
     function force_network_grapgh() {
-
-
+    // tag
+    let bodyElement = document.body;
+    let y_graph = bodyElement.clientHeight/2;
+    let x_graph = bodyElement.clientWidth/2; 
+  
 
       const g = svg.append("g");
       // simulationtag
@@ -1087,10 +1096,10 @@ if (isset($_POST['drugName2'])) {
           .id((d) => d.id)
           .distance((link, index) => (index % 2 === 0 ? 150 : 200))
         )
-        // tag
+    
         .force("charge", d3.forceManyBody().strength(-100))
-        .force("x", d3.forceX(500))
-        .force("y", d3.forceY(270));
+        .force("x", d3.forceX(x_graph))
+        .force("y", d3.forceY(y_graph));
 
 
       legendinfo();
@@ -1222,41 +1231,12 @@ if (isset($_POST['drugName2'])) {
           div.classList.remove('show');
         });
       }
-      // Add tooltips
-      const tooltip = node
-        .append("text")
-        .text((d) => d.id)
-        .attr("dx", 6)
-        .attr("dy", "1.5em")
-        .attr("font-size", "10px")
-        .attr("text-anchor", "middle")
-        .style("fill", "black")
-        .style("opacity", (d) => ((d.type === "parentnode" && (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown")) ? 0 : 1)); // hide initially for specific nodes
-
-      node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
-
-      function handleMouseOver(d) {
-        // Show tooltip only for the hovered node
-        d3.select(this).select("text").style("opacity", 1);
-
-        // You might want to adjust the tooltip position based on your visualization
-        // tooltip.attr("x", d.x).attr("y", d.y);
-      }
-
-
-      function handleMouseOut(d) {
-        // Hide tooltip when the mouse is out  
-        d3.select(this).select("text").style("opacity", (d) => (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown") && d.type === "parentnode" ? 0 : 1);
-
-      }
-
-
-      //  create childnode here
-
-      node.filter((d) => d.type === "childnode")
+         //  create childnode here
+let degree ; 
+         node.filter((d) => d.type === "childnode")
         .append("circle")
         .attr("r", function(d) {
-          const degree = links.filter(
+           degree = links.filter(
             (link) => link.source.id === d.id || link.target.id === d.id
           ).length;
           if (degree < 8) {
@@ -1362,7 +1342,54 @@ if (isset($_POST['drugName2'])) {
         .attr("stroke", "#fff")
         .attr("stroke-width", 1.5);
 
+        let parentnodes = node.filter(function(node) {
+        if (node.type === "parentnode") {
+          return node;
+        }
+      })
+      const rangetext = document.getElementById("rangeValue");
+  
+      logSliderValues();
+  console.log(parentnodes.size())
+    //   slider2.max = parentnodes.size();
+      
+    // const rangetext = document.getElementById("rangeValue");
+    // rangetext = parentnodes.size();
 
+
+
+
+      // Add tooltips
+      const tooltip = node
+        .append("text")
+        .text((d) => d.id)
+        .attr("dx", 6)
+        .attr("dy", `1.5rem`)
+        .attr("font-size", "10px")
+        .attr("text-anchor", "middle")
+        .style("fill", "black")
+        .style("z-index" , 999)
+        .style("opacity", (d) => ((d.type === "parentnode" && (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown")) ? 0 : 1)); // hide initially for specific nodes
+
+      node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
+
+      function handleMouseOver(d) {
+        // Show tooltip only for the hovered node
+        d3.select(this).select("text").style("opacity", 1);
+
+        // You might want to adjust the tooltip position based on your visualization
+        // tooltip.attr("x", d.x).attr("y", d.y);
+      }
+
+
+      function handleMouseOut(d) {
+        // Hide tooltip when the mouse is out  
+        d3.select(this).select("text").style("opacity", (d) => (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown") && d.type === "parentnode" ? 0 : 1);
+
+      }
+
+
+   
 
       simulation.on("tick", () => {
         link
@@ -1399,6 +1426,8 @@ if (isset($_POST['drugName2'])) {
       zoomOutButton.addEventListener("click", function() {
         svg.transition().call(zoom.scaleBy, 0.8);
       });
+
+     
     }
 
     // here is the function to start the limitations 
@@ -1828,7 +1857,7 @@ if (isset($_POST['drugName2'])) {
 
       const ul = d3.select("#myList");
 
-      // ul.selectAll("li").remove();
+      ul.selectAll("li").remove();
 
       listItems = ul
         .selectAll("li")
@@ -2443,6 +2472,14 @@ if (isset($_POST['drugName2'])) {
 
     function generateNameList() {
 
+      for (var i = 0; i < visible_node.length; i++) {
+        var nameId = 'name' + (i + 1);
+        var listItem = document.createElement('li');
+        let name1 = visible_node[i];
+        if(checkbox_saves.includes(name1)){
+          checkbox_saves.remove(name1);
+        }
+      }
       nameList.innerHTML = '';
       for (var i = 0; i < checkbox_saves.length; i++) {
         var nameId = 'name' + (i + 1);
@@ -2460,7 +2497,6 @@ if (isset($_POST['drugName2'])) {
         nameList.appendChild(listItem);
        
       }
-      console.log(visible_node.length)
 
      
 
