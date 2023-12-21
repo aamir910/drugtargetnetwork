@@ -2150,7 +2150,18 @@ let degree ;
       clicked3 = event.target.textContent;
 
       const index = list_hidden_childnode.indexOf(clicked3);
-
+      if (clicked3 === "Unknown") {
+        // If 'clicked' is "unknown", check if an empty string ("") is in 'list_hidden'
+        const emptyStringIndex = list_hidden_childnode.indexOf("");
+        if (emptyStringIndex === -1) {
+          // If an empty string is not in the array, push it
+          list_hidden_childnode.push("");
+          list_hidden_childnode.push("Unknown")
+        } else {
+          // If an empty string is already in the array, splice it (remove)
+          list_hidden_childnode.splice(emptyStringIndex, 2);
+        }
+      } else
 
       if (index === -1) {
         list_hidden_childnode.push(clicked3);
@@ -2159,8 +2170,8 @@ let degree ;
       }
       range_of_links(minValue, maxValue, slider_range);
 
+      console.log("list_hidden_childnode" ,list_hidden_childnode)
     }
-
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
