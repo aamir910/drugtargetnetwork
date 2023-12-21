@@ -148,10 +148,9 @@ if (isset($_POST['drugName2'])) {
   <link rel="stylesheet" type="text/css" href="./css/styles.css">
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-<style>
-
-  /* Style for the dropdown button */
-  .dropdownBtn {
+  <style>
+    /* Style for the dropdown button */
+    .dropdownBtn {
       cursor: pointer;
       padding: 10px;
       border: 1px solid #ccc;
@@ -162,7 +161,8 @@ if (isset($_POST['drugName2'])) {
 
     /* Style for the arrow icon */
     .dropdownBtn::after {
-      content: '\25BC'; /* Unicode character for a downward-pointing triangle */
+      content: '\25BC';
+      /* Unicode character for a downward-pointing triangle */
       font-size: 12px;
       position: absolute;
       top: 50%;
@@ -175,7 +175,7 @@ if (isset($_POST['drugName2'])) {
       display: none;
       position: absolute;
       background-color: #f9f9f9;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
       z-index: 1;
     }
 
@@ -187,11 +187,11 @@ if (isset($_POST['drugName2'])) {
     }
 
     /* Show the dropdown content when the dropdown button is clicked */
-    .dropdownBtn:focus + .dropdown-content,
+    .dropdownBtn:focus+.dropdown-content,
     .dropdown-content:hover {
       display: block;
     }
-</style>
+  </style>
 
 
 
@@ -338,8 +338,6 @@ if (isset($_POST['drugName2'])) {
                justify-content: center;
                align-items: center;
                height:100%;
-           background-color: lightgrey;
-           
              " class=" forcenetwork  ">
         <!-- Loader embedded inside SVG -->
       </svg>
@@ -352,7 +350,7 @@ if (isset($_POST['drugName2'])) {
         <header style="
   justify-content: space-between;" |>
           <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
-              <!-- heading  -->
+          <!-- heading  -->
           <p>Drug response (-pIC50)</p>
 
 
@@ -361,7 +359,7 @@ if (isset($_POST['drugName2'])) {
               <button onclick="toggleDialog2()" class="close-btn-search" style="background:none   ;  position: absolute;
                 top: 10px;right: 3px;cursor: pointer;max-height: 100px;overflow: auto;
 "><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
-<!-- heading  -->
+              <!-- heading  -->
               <p>Filter Compounds/Celline</p>
               <label for="search-bar">Apply filter:</label>
               <input type="text" id="search-bar" oninput="filterNames()" onclick="focusSearch()">
@@ -414,10 +412,10 @@ if (isset($_POST['drugName2'])) {
         <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
         <button class="sliderbtn " id="zoom-out-button">zoom out</button>
         <div class="slider2size">
-           <div style="display: flex;margin-bottom: -9px;">
-             <p id="rangeValue" >50 </p>
-             <p>Connected compounds</p>
-           </div>
+          <div style="display: flex;margin-bottom: -9px;">
+            <p id="rangeValue">50 </p>
+            <p>Connected compounds</p>
+          </div>
           <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
 
         </div>
@@ -448,7 +446,7 @@ if (isset($_POST['drugName2'])) {
     <span class='overlay'></span>
     <div class="modal-box">
       <div class="model_box_inner">
-          <!-- heading  -->
+        <!-- heading  -->
         <p>Export Chart as</p>
 
         <div class="buttons exportbtn">
@@ -488,7 +486,7 @@ if (isset($_POST['drugName2'])) {
           <tbody id="compoundTableBody">
             <!-- Data will be dynamically inserted here using JavaScript -->
           </tbody>
-          <img src="image_not_available.png" alt="Structure Image" class="structure-image" style="margin : 0% 20%;">
+          <img src="image_not_available.png" alt="Structure Image" class="structure-image">
         </table>
       </div>
       <button style="background:none " id='parent_des_close'><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
@@ -507,17 +505,17 @@ if (isset($_POST['drugName2'])) {
   <script>
     let oncotree_change1 = [];
 
-   function Close_other_dropdown(){
+    function Close_other_dropdown() {
 
-    for (let i = 1; i <= 4; i++) {
-  let dropdownContent = document.getElementById(`dropdownContent${i}`);
+      for (let i = 1; i <= 4; i++) {
+        let dropdownContent = document.getElementById(`dropdownContent${i}`);
 
-  if (dropdownContent.style.display === "block") {
-    dropdownContent.style.display = "none";
-  }
-}
+        if (dropdownContent.style.display === "block") {
+          dropdownContent.style.display = "none";
+        }
+      }
 
-   }
+    }
 
 
 
@@ -528,7 +526,7 @@ if (isset($_POST['drugName2'])) {
       Close_other_dropdown();
       var dropdownContent = document.getElementById("dropdownContent1");
       var dropdownBtn = document.getElementById("dropdownBtn");
- 
+
       if (dropdownContent.style.display === "block") {
         dropdownContent.style.display = "none";
 
@@ -565,11 +563,11 @@ if (isset($_POST['drugName2'])) {
       });
     });
 
-  
+
     let MaxPhase1 = [];
 
     function toggleDropdown2(event) {
-   
+
       Close_other_dropdown();
       var dropdownContent = document.getElementById("dropdownContent2");
       var dropdownBtn = document.getElementById("dropdownBtn2");
@@ -614,7 +612,7 @@ if (isset($_POST['drugName2'])) {
     let DataPlatform = [];
 
     function toggleDropdown4(event) {
-      
+
       Close_other_dropdown();
       var dropdownContent = document.getElementById("dropdownContent4");
       var dropdownBtn = document.getElementById("dropdownBtn4");
@@ -659,7 +657,7 @@ if (isset($_POST['drugName2'])) {
     let Chembl_id1 = [];
 
     function toggleDropdown3(event) {
-      
+
       Close_other_dropdown();
       var dropdownContent = document.getElementById("dropdownContent3");
       var dropdownBtn = document.getElementById("dropdownBtn3");
@@ -715,11 +713,6 @@ if (isset($_POST['drugName2'])) {
         closeAllDropdowns();
       }
     };
-
-
-
-
-
   </script>
 
 
@@ -755,10 +748,10 @@ if (isset($_POST['drugName2'])) {
 
     let minValue;
     let maxValue;
-    
-    
 
-    let slider_range = 100; 
+
+
+    let slider_range = 100;
     const slider2 = document.getElementById("nodeCountSlider2");
     // onclick dataset   
 
@@ -816,6 +809,24 @@ if (isset($_POST['drugName2'])) {
       event.preventDefault();
       count_increment += 1;
       ajax();
+      let buttonDisable = document.getElementById("increment");
+
+      buttonDisable.disabled = true;
+
+      let originalColor = buttonDisable.style.backgroundColor;
+      let originalText = buttonDisable.innerHTML;
+
+      // Change the background color
+      buttonDisable.style.backgroundColor = "#ccc";
+      buttonDisable.innerHTML = "Wait"
+      // Enable the button and restore the original background color after 5 seconds
+      setTimeout(function() {
+        buttonDisable.disabled = false;
+        buttonDisable.style.backgroundColor = originalColor;
+        buttonDisable.innerHTML = originalText
+      }, 5000);
+
+
     });
 
 
@@ -824,6 +835,23 @@ if (isset($_POST['drugName2'])) {
       if (count_increment > 1) {
         count_increment -= 1;
         ajax();
+        let buttonDisable = document.getElementById("decrement");
+
+        buttonDisable.disabled = true;
+
+        let originalColor = buttonDisable.style.backgroundColor;
+        let originalText = buttonDisable.innerHTML;
+
+        // Change the background color
+        buttonDisable.style.backgroundColor = "#ccc";
+        buttonDisable.innerHTML = "Wait"
+        // Enable the button and restore the original background color after 5 seconds
+        setTimeout(function() {
+          buttonDisable.disabled = false;
+          buttonDisable.style.backgroundColor = originalColor;
+          buttonDisable.innerHTML = originalText
+        }, 5000);
+
       } else {
         alert("mininum data fetched")
       }
@@ -863,14 +891,12 @@ if (isset($_POST['drugName2'])) {
 
         }
         if (!ONCOTREE_LINEAGE_legend.includes(item.ONCOTREE_LINEAGE)) {
-          if(item.ONCOTREE_LINEAGE === "")
-          {
-            if(!ONCOTREE_LINEAGE_legend.includes("Unknown")){
+          if (item.ONCOTREE_LINEAGE === "") {
+            if (!ONCOTREE_LINEAGE_legend.includes("Unknown")) {
               ONCOTREE_LINEAGE_legend.push("Unknown")
 
             }
-          }
-          else{
+          } else {
             ONCOTREE_LINEAGE_legend.push(item.ONCOTREE_LINEAGE)
 
           }
@@ -1135,22 +1161,22 @@ if (isset($_POST['drugName2'])) {
 
     const svg = d3.select("#forcenetwork");
     const svgWidth = +svg.node().getBoundingClientRect().width - 40;
-const svgHeight = +svg.node().getBoundingClientRect().height - 40;
+    const svgHeight = +svg.node().getBoundingClientRect().height - 40;
 
 
 
     function force_network_grapgh() {
-    // tag
+      // tag
 
 
-    let bodyElement = document.body;
-    let y_graph = bodyElement.clientHeight/2;
-    let x_graph = bodyElement.clientWidth/2; 
-  
+      let bodyElement = document.body;
+      let y_graph = bodyElement.clientHeight / 2;
+      let x_graph = bodyElement.clientWidth / 2;
 
 
 
-    
+
+
       const g = svg.append("g");
       // simulationtag
       simulation = d3
@@ -1161,7 +1187,7 @@ const svgHeight = +svg.node().getBoundingClientRect().height - 40;
           .id((d) => d.id)
           .distance((link, index) => (index % 2 === 0 ? 150 : 200))
         )
-    
+
         .force("charge", d3.forceManyBody().strength(-100))
         .force("x", d3.forceX(x_graph))
         .force("y", d3.forceY(y_graph));
@@ -1258,16 +1284,18 @@ const svgHeight = +svg.node().getBoundingClientRect().height - 40;
         }
       })
 
-      slider2.max = parentnodes2.size(); 
+      slider2.max = parentnodes2.size();
+
       const rangetext = document.getElementById("rangeValue");
-              
+
       rangeValue.textContent = slider2.value;
 
-console.log(rangeValue , "here is the range value ")
+      console.log(rangeValue, "here is the range value ")
+      console.log(slider2.value, "slider2.value")
+
       function handleClick(event) {
 
         clickedData = event.target.__data__;
-        // alert(clickedData.id);
         name_of_drug = clickedData.id;
 
 
@@ -1308,12 +1336,12 @@ console.log(rangeValue , "here is the range value ")
           div.classList.remove('show');
         });
       }
-         //  create childnode here
-let degree ; 
-         node.filter((d) => d.type === "childnode")
+      //  create childnode here
+      let degree;
+      node.filter((d) => d.type === "childnode")
         .append("circle")
         .attr("r", function(d) {
-           degree = links.filter(
+          degree = links.filter(
             (link) => link.source.id === d.id || link.target.id === d.id
           ).length;
           if (degree < 8) {
@@ -1419,8 +1447,8 @@ let degree ;
         .attr("stroke", "#fff")
         .attr("stroke-width", 1.5);
 
-      
-      
+
+
 
       // Add tooltips
       const tooltip = node
@@ -1428,12 +1456,12 @@ let degree ;
         .text((d) => d.id)
         .attr("dx", 6)
         .attr("dy", `1.5rem`)
-        .style("font-size", "14.208px") .style("font-family", "Arial")
+        .style("font-size", "14.208px").style("font-family", "Arial")
 
 
         .attr("text-anchor", "middle")
         .style("fill", "black")
-        .style("z-index" , 999)
+        .style("z-index", 999)
         .style("opacity", (d) => ((d.type === "parentnode" && (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown")) ? 0 : 1)); // hide initially for specific nodes
 
       node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
@@ -1454,7 +1482,7 @@ let degree ;
       }
 
 
-   
+
 
       simulation.on("tick", () => {
         link
@@ -1492,10 +1520,10 @@ let degree ;
         svg.transition().call(zoom.scaleBy, 0.8);
       });
 
-      
 
 
-     
+
+
     }
 
     // here is the function to start the limitations 
@@ -1687,7 +1715,7 @@ let degree ;
       // export csv 
       csvfile = [];
       visible_node = [];
-   
+
 
       link.filter(function(linkshow) {
         // 'this' refers to the current DOM element
@@ -1949,7 +1977,7 @@ let degree ;
       pax_phasecliked = listItems
         .append("span")
         .text((d) => (d.category === "" ? "Unknown" : d.category))
-        .style("font-size", "14.208px") 
+        .style("font-size", "14.208px")
         .style("font-family", "Arial");
 
 
@@ -1979,8 +2007,7 @@ let degree ;
 
 
       datasettext_click = dataSet_link.append("span").text((d) => d.category)
-      .style("font-size", "14.208px") .style("font-family", "Arial");
-;
+        .style("font-size", "14.208px").style("font-family", "Arial");;
 
 
       //appending the data of the child nodes
@@ -2017,8 +2044,8 @@ let degree ;
         })
 
       child_clicked = dataSet_child.append("span")
-      .text((d) => d.category)
-  .style("font-size", "14.208px") .style("font-family", "Arial");
+        .text((d) => d.category)
+        .style("font-size", "14.208px").style("font-family", "Arial");
 
 
       // appending the data of the matric 
@@ -2039,16 +2066,15 @@ let degree ;
             return "tranparent";
           } else if (d.category === 'pEC50') {
             return "tranparent";
-              } 
-              else if (d.category === 'pGI50') {
+          } else if (d.category === 'pGI50') {
             return "black";
           }
         })
         .style("height", "2px");
-        matric_color
-  .append("h6")
-  // .text(".......");
-  .text(function(d) {
+      matric_color
+        .append("h6")
+        // .text(".......");
+        .text(function(d) {
           if (d.category === 'pIC50') {
             return ".......";
           } else if (d.category === 'pEC50') {
@@ -2057,10 +2083,9 @@ let degree ;
             return " ";
           }
         });
-  
+
       matric_click = matric_link.append("span").text((d) => d.category)
-      .style("font-size", "14.208px") .style("font-family", "Arial")
-;
+        .style("font-size", "14.208px").style("font-family", "Arial");
 
       // color picker
       for (const categoryObj of max_phase_categories) {
@@ -2223,8 +2248,9 @@ let degree ;
       }
       range_of_links(minValue, maxValue, slider_range);
 
-      console.log("list_hidden_childnode" ,list_hidden_childnode)
+      console.log("list_hidden_childnode", list_hidden_childnode)
     }
+
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
@@ -2557,7 +2583,7 @@ let degree ;
 
   <script>
     let checkbox_names = [];
-    let checkbox_saves =[] ;
+    let checkbox_saves = [];
 
 
     // Make the dialog draggable
@@ -2568,16 +2594,16 @@ let degree ;
     function generateNameList() {
 
       for (var i = 0; i < visible_node.length; i++) {
-    var nameId = 'name' + (i + 1);
-    var listItem = document.createElement('li');
-    let name1 = visible_node[i];
-    if (checkbox_saves.includes(name1)) {
-        var index = checkbox_saves.indexOf(name1);
-        if (index !== -1) {
+        var nameId = 'name' + (i + 1);
+        var listItem = document.createElement('li');
+        let name1 = visible_node[i];
+        if (checkbox_saves.includes(name1)) {
+          var index = checkbox_saves.indexOf(name1);
+          if (index !== -1) {
             checkbox_saves.splice(index, 1);
+          }
         }
-    }
-}
+      }
 
       nameList.innerHTML = '';
       for (var i = 0; i < checkbox_saves.length; i++) {
@@ -2594,10 +2620,10 @@ let degree ;
         let name1 = visible_node[i];
         listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
         nameList.appendChild(listItem);
-       
+
       }
 
-     
+
 
     }
 
@@ -2707,10 +2733,10 @@ let degree ;
         if (checkboxes[i].checked) {
 
           checkbox_names.push(checkboxes[i].id);
-          
-          if(!checkbox_saves.includes(checkboxes[i].id))
-          checkbox_saves.push(checkboxes[i].id);
-        }                                                              
+
+          if (!checkbox_saves.includes(checkboxes[i].id))
+            checkbox_saves.push(checkboxes[i].id);
+        }
       }
       range_of_links(minValue, maxValue, slider_range);
     }

@@ -613,8 +613,8 @@ label ,button ,span{
 
 
   .parent_description {
-    width: 90%;
-    height: 60%;
+    /* width: 90%;
+    height: 60%; */
     display: none;
     position: absolute;
 
