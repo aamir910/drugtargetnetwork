@@ -1,4 +1,20 @@
 
+
+
+body {
+  font-family: 'Arial' !important;
+  font-size: 0.888rem !important;
+}
+p {
+  font-size: 0.888rem;
+  font-weight: bold;
+}
+label ,button ,span{
+  font-size: 0.888rem;
+  
+}
+
+
   .selection_box {
     display: flex;
     justify-content: center;
@@ -81,13 +97,13 @@
   }
 
   header h2 {
-    font-size: 24px;
+    font-size: 0.888rem;
     font-weight: 600;
   }
 
   header p {
     margin-top: 5px;
-    font-size: 16px;
+    font-size: 0.888rem;
   }
 
   .price-input {
@@ -107,7 +123,7 @@
     width: 100%;
     height: 100%;
     outline: none;
-    font-size: 19px;
+    font-size: 0.888rem;
     margin-left: 12px;
     border-radius: 5px;
     text-align: center;
@@ -123,7 +139,7 @@
   .price-input .separator {
     width: 130px;
     display: flex;
-    font-size: 19px;
+    font-size: 0.888rem;
     align-items: center;
     justify-content: center;
   }
@@ -194,14 +210,12 @@
 
   }
   .legend_inner{
-   
-    
-    font-size: 11px;
+    font-size: 0.888rem;
   }
 
   .legenddata {
     font-weight: 500;
-    font-size: 15px;
+    font-size: 0.888rem;
     padding-left: 1rem;
   }
 
@@ -364,21 +378,12 @@
   }
 
   .sliderpart2 p {
-    font-size: 20px;
+    font-size: 0.888rem;
     font-weight: 600;
-    font-family: Open Sans;
     padding-left: 10px;
     color: black;
   }
 
-  /* .sliderpart2 input[type="range"] {
-    -webkit-appearance: none !important;
-    width: 420px;
-    height: 2px;
-    background: black;
-    border: none;
-    outline: none;
-  } */
   .sliderpart2 input[type="range"] {
     -webkit-appearance: none !important;
     width: 420px;
@@ -436,7 +441,7 @@
     /* Remove underlines from links */
     display: inline-block;
     /* Make it an inline block element */
-    font-size: 16px;
+    font-size: 0.888rem;
     /* Font size */
     margin: 4px 2px;
     /* Add margin to the button */
@@ -460,7 +465,7 @@
   }
 
   button {
-    /* font-size: 18px; */
+    /*font-size: 0.888rem;*/
     /* font-weight: 400; */
     color: #fff;
     /* padding: 14px 22px; */
@@ -540,13 +545,13 @@
 
   .modal-box h2 {
     margin-top: 20px;
-    font-size: 25px;
+    font-size: 0.888rem;
     font-weight: 500;
     color: #333;
   }
 
   .modal-box h3 {
-    font-size: 16px;
+    font-size: 0.888rem;
     font-weight: 400;
     color: #333;
     text-align: center;
@@ -557,7 +562,7 @@
   }
 
   .modal-box button {
-    font-size: 14px;
+    font-size: 0.888rem;
     padding: 6px 12px;
     margin: 0 10px;
 
@@ -753,7 +758,7 @@
   /* Style for the dropdown button */
   .dropdown label {
     padding: 10px;
-    font-size: 16px;
+    font-size: 0.888rem;
     /* border: 1px solid #ccc; */
     cursor: pointer;
     background-color: #fff;
@@ -769,7 +774,7 @@
   .dropdown button::after {
     content: '\25BC';
     /* Unicode character for downward arrow */
-    font-size: 12px;
+    font-size: 0.888rem;
     position: absolute;
     top: 50%;
     right: 10px;
@@ -807,7 +812,7 @@
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 12px;
+    font-size: 0.888rem;
     pointer-events: none;
   }
 
@@ -870,7 +875,7 @@
   .fitlerbtn {
     background-color: transparent;
     color: blue;
-    font-size: 14px;
+    font-size: 0.888rem;
     text-decoration: underline;
     text-align: start;
     padding-left: 0;

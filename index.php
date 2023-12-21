@@ -148,7 +148,50 @@ if (isset($_POST['drugName2'])) {
   <link rel="stylesheet" type="text/css" href="./css/styles.css">
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<style>
 
+  /* Style for the dropdown button */
+  .dropdownBtn {
+      cursor: pointer;
+      padding: 10px;
+      border: 1px solid #ccc;
+      display: inline-block;
+      position: relative;
+      user-select: none;
+    }
+
+    /* Style for the arrow icon */
+    .dropdownBtn::after {
+      content: '\25BC'; /* Unicode character for a downward-pointing triangle */
+      font-size: 12px;
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+    }
+
+    /* Style for the dropdown content */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    /* Style for the checkboxes within the dropdown content */
+    .dropdown-content label {
+      display: block;
+      padding: 8px 16px;
+      white-space: nowrap;
+    }
+
+    /* Show the dropdown content when the dropdown button is clicked */
+    .dropdownBtn:focus + .dropdown-content,
+    .dropdown-content:hover {
+      display: block;
+    }
+</style>
 
 
 
@@ -158,7 +201,8 @@ if (isset($_POST['drugName2'])) {
   <div class=" searchBar">
     <form class="selection_box flex" id="searchForm">
       <div class="in_de_Crement">
-        <h4 style="width: 12rem;text-align:center;display: flex;justify-content: center;align-items: center;">More data </h4>
+        <!-- heading  -->
+        <p style="/* text-align:center; */display: flex;justify-content: center;align-items: center;margin-bottom: 0px;width: 5rem;;">More data </p>
         <button class="btn1" id="increment" title='fetch 400 more row'>400+</button>
         <button class="btn1" id="decrement" title='less 400 more row'>400-</button>
 
@@ -168,7 +212,7 @@ if (isset($_POST['drugName2'])) {
 
         <div class="dropdown" id="dropdown1">
 
-          <label id="dropdownBtn" onclick="toggleDropdown(event)">Tissues</label>
+          <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)"> Select tissues</label>
           <div id="dropdownContent1" class="dropdown-content">
             <label><input type="checkbox" value="Bone">Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
@@ -199,31 +243,31 @@ if (isset($_POST['drugName2'])) {
             <!-- Add more options as needed -->
           </div>
           <div class="alert-message alert2  " style="position: absolute; top: 80px; " id="dp1">
-            <span class="alert alert-danger">Please select option</span>
+            <span class="alert alert-danger">please select option</span>
           </div>
         </div>
         <!-- here is second-->
 
         <div class="dropdown" id="dropdown2">
 
-          <label id="dropdownBtn2" onclick="toggleDropdown2(event)"> Max Clinical phase</label>
+          <label class="dropdownBtn" id="dropdownBtn2" onclick="toggleDropdown2(event)"> Select max clinical phase</label>
           <div id="dropdownContent2" class="dropdown-content">
-            <label><input type="checkbox" value="Approved">Approved</label>
+            <label><input type="checkbox" value="Approved">Approved drugs</label>
+            <label><input type="checkbox" value="PHASE 1">Phase I</label>
+            <label><input type="checkbox" value="PHASE 2">Phase II</label>
+            <label><input type="checkbox" value="PHASE 3">Phase III</label>
             <label><input type="checkbox" value="Preclinical">Preclinical</label>
-            <label><input type="checkbox" value="PHASE 2">PHASE 2</label>
-            <label><input type="checkbox" value="PHASE 3">PHASE 3</label>
-            <label><input type="checkbox" value="PHASE 1">PHASE 1</label>
             <label><input type="checkbox" value="Unknown">Unknown</label>
             <!-- Add more options as needed -->
           </div>
           <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp2">
-            <span class="alert alert-danger">Please select option</span>
+            <span class="alert alert-danger">please select option</span>
           </div>
 
         </div>
         <div class="dropdown" id="dropdown3">
 
-          <label id="dropdownBtn4" onclick="toggleDropdown4(event)"> Data Platform</label>
+          <label class="dropdownBtn" id="dropdownBtn4" onclick="toggleDropdown4(event)">Select data platform</label>
           <div id="dropdownContent4" class="dropdown-content">
             <label><input type="checkbox" value="GDSC1">GDSC1</label>
             <label><input type="checkbox" value="GDSC2">GDSC2</label>
@@ -235,13 +279,13 @@ if (isset($_POST['drugName2'])) {
           </div>
 
           <div class="alert-message alert2  " style="position: absolute; top: 80px; " id="dp3">
-            <span class="alert alert-danger">Please select option</span>
+            <span class="alert alert-danger">please select option</span>
           </div>
 
         </div>
         <!-- third Dropdown -->
         <div class="dropdown" id="dropdown4">
-          <label id="dropdownBtn3" onclick="toggleDropdown3(event)"> Drugs</label>
+          <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select drugs</label>
           <div id="dropdownContent3" class="dropdown-content">
             <label><input type="checkbox" value="CHEMBL553">CHEMBL553</label>
             <label><input type="checkbox" value="CHEMBL413">CHEMBL413</label>
@@ -271,7 +315,7 @@ if (isset($_POST['drugName2'])) {
             <!-- Add more options as needed -->
           </div>
           <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
-            <span class="alert alert-danger">Please select option</span>
+            <span class="alert alert-danger">please select option</span>
           </div>
 
         </div>
@@ -308,7 +352,8 @@ if (isset($_POST['drugName2'])) {
         <header style="
   justify-content: space-between;" |>
           <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
-          <h5>Drug response (-pIC50)</h5>
+              <!-- heading  -->
+          <p>Drug response (-pIC50)</p>
 
 
           <div id="dialog-container">
@@ -316,8 +361,9 @@ if (isset($_POST['drugName2'])) {
               <button onclick="toggleDialog2()" class="close-btn-search" style="background:none   ;  position: absolute;
                 top: 10px;right: 3px;cursor: pointer;max-height: 100px;overflow: auto;
 "><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
-              <h5>Filter Compounds/Celline</h5>
-              <label for="search-bar">Filter:</label>
+<!-- heading  -->
+              <p>Filter Compounds/Celline</p>
+              <label for="search-bar">Apply filter:</label>
               <input type="text" id="search-bar" oninput="filterNames()" onclick="focusSearch()">
             </div>
             <ul id="name-list">
@@ -350,11 +396,11 @@ if (isset($_POST['drugName2'])) {
             <ul id="myList" class="legend_inner"></ul>
             <legend class="legenddata">Data platform</legend>
             <ul id="dataset" class="legend_inner"></ul>
-            <legend class="legenddata">Matric</legend>
+            <legend class="legenddata">Metric</legend>
             <ul id="matric_set" class="legend_inner"></ul>
           </div>
           <div style="width : 60%">
-            <legend class="legenddata">Tissues</legend>
+            <legend class="legenddata">tissues</legend>
             <ul id="child_node" class="legend_inner"></ul>
           </div>
         </div>
@@ -368,9 +414,9 @@ if (isset($_POST['drugName2'])) {
         <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
         <button class="sliderbtn " id="zoom-out-button">zoom out</button>
         <div class="slider2size">
-           <div style="display: flex;">
+           <div style="display: flex;margin-bottom: -9px;">
              <p id="rangeValue" >50 </p>
-             <p>Connected Compounds</p>
+             <p>Connected compounds</p>
            </div>
           <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
 
@@ -402,7 +448,8 @@ if (isset($_POST['drugName2'])) {
     <span class='overlay'></span>
     <div class="modal-box">
       <div class="model_box_inner">
-        <h2>Export Chart as</h2>
+          <!-- heading  -->
+        <p>Export Chart as</p>
 
         <div class="buttons exportbtn">
 
@@ -423,7 +470,8 @@ if (isset($_POST['drugName2'])) {
 
   <div class="blur_the_background">
     <div class="parent_description ">
-      <h4 id="drugname">name</h4>
+      <!-- heading  -->
+      <p id="drugname">name</p>
       <div class="container">
 
         <form class="toggle">
@@ -1380,7 +1428,9 @@ let degree ;
         .text((d) => d.id)
         .attr("dx", 6)
         .attr("dy", `1.5rem`)
-        .attr("font-size", "10px")
+        .style("font-size", "14.208px") .style("font-family", "Arial")
+
+
         .attr("text-anchor", "middle")
         .style("fill", "black")
         .style("z-index" , 999)
@@ -1899,6 +1949,9 @@ let degree ;
       pax_phasecliked = listItems
         .append("span")
         .text((d) => (d.category === "" ? "Unknown" : d.category))
+        .style("font-size", "14.208px") 
+        .style("font-family", "Arial");
+
 
 
       // appending the data of the dataset
@@ -1925,7 +1978,9 @@ let degree ;
         }).on("click", color_click_onchange);;
 
 
-      datasettext_click = dataSet_link.append("span").text((d) => d.category);
+      datasettext_click = dataSet_link.append("span").text((d) => d.category)
+      .style("font-size", "14.208px") .style("font-family", "Arial");
+;
 
 
       //appending the data of the child nodes
@@ -1961,7 +2016,9 @@ let degree ;
           return "#6a329f";
         })
 
-      child_clicked = dataSet_child.append("span").text((d) => d.category);
+      child_clicked = dataSet_child.append("span")
+      .text((d) => d.category)
+  .style("font-size", "14.208px") .style("font-family", "Arial");
 
 
       // appending the data of the matric 
@@ -2001,13 +2058,9 @@ let degree ;
           }
         });
   
-      matric_click = matric_link.append("span").text((d) => d.category);
-
-
-
-
-
-
+      matric_click = matric_link.append("span").text((d) => d.category)
+      .style("font-size", "14.208px") .style("font-family", "Arial")
+;
 
       // color picker
       for (const categoryObj of max_phase_categories) {
@@ -2177,10 +2230,10 @@ let degree ;
       svg.selectAll("*").remove();
       nodes = [];
       links = [];
-      // slider_range = 100;
-      // slider2.max = 100;
+      slider_range = 100;
+      slider2.max = 100;
 
-      // // rangeValue.textContent = 100;
+      // rangeValue.textContent = 100;
     }
     /// here is the code of applying the logic of theslider_rangeclear maxphase 
     // setting the sidler valus 
@@ -2515,13 +2568,17 @@ let degree ;
     function generateNameList() {
 
       for (var i = 0; i < visible_node.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem = document.createElement('li');
-        let name1 = visible_node[i];
-        if(checkbox_saves.includes(name1)){
-          checkbox_saves.remove(name1);
+    var nameId = 'name' + (i + 1);
+    var listItem = document.createElement('li');
+    let name1 = visible_node[i];
+    if (checkbox_saves.includes(name1)) {
+        var index = checkbox_saves.indexOf(name1);
+        if (index !== -1) {
+            checkbox_saves.splice(index, 1);
         }
-      }
+    }
+}
+
       nameList.innerHTML = '';
       for (var i = 0; i < checkbox_saves.length; i++) {
         var nameId = 'name' + (i + 1);
