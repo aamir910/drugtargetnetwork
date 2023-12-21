@@ -294,7 +294,8 @@ if (isset($_POST['drugName2'])) {
                justify-content: center;
                align-items: center;
                height:100%;
-         
+           background-color: lightgrey;
+           
              " class=" forcenetwork  ">
         <!-- Loader embedded inside SVG -->
       </svg>
@@ -814,7 +815,17 @@ if (isset($_POST['drugName2'])) {
 
         }
         if (!ONCOTREE_LINEAGE_legend.includes(item.ONCOTREE_LINEAGE)) {
-          ONCOTREE_LINEAGE_legend.push(item.ONCOTREE_LINEAGE)
+          if(item.ONCOTREE_LINEAGE === "")
+          {
+            if(!ONCOTREE_LINEAGE_legend.includes("Unknown")){
+              ONCOTREE_LINEAGE_legend.push("Unknown")
+
+            }
+          }
+          else{
+            ONCOTREE_LINEAGE_legend.push(item.ONCOTREE_LINEAGE)
+
+          }
         }
 
         if (!phases.includes(item.MAX_PHASE)) {
@@ -1075,17 +1086,23 @@ if (isset($_POST['drugName2'])) {
 
 
     const svg = d3.select("#forcenetwork");
-    const svgWidth = +svg.node().getBoundingClientRect().width;
-    const svgHeight = +svg.node().getBoundingClientRect().height;
+    const svgWidth = +svg.node().getBoundingClientRect().width - 40;
+const svgHeight = +svg.node().getBoundingClientRect().height - 40;
+
 
 
     function force_network_grapgh() {
     // tag
+
+
     let bodyElement = document.body;
     let y_graph = bodyElement.clientHeight/2;
     let x_graph = bodyElement.clientWidth/2; 
   
 
+
+
+    
       const g = svg.append("g");
       // simulationtag
       simulation = d3
@@ -1187,6 +1204,18 @@ if (isset($_POST['drugName2'])) {
         .attr("class", "node").call(customDrag(simulation));
       node.on("click", handleClick);
 
+      let parentnodes2 = node.filter(function(node) {
+        if (node.type === "parentnode") {
+          return node;
+        }
+      })
+
+      slider2.max = parentnodes2.size(); 
+      const rangetext = document.getElementById("rangeValue");
+              
+      rangeValue.textContent = slider2.value;
+
+console.log(rangeValue , "here is the range value ")
       function handleClick(event) {
 
         clickedData = event.target.__data__;
@@ -1342,22 +1371,8 @@ let degree ;
         .attr("stroke", "#fff")
         .attr("stroke-width", 1.5);
 
-        let parentnodes = node.filter(function(node) {
-        if (node.type === "parentnode") {
-          return node;
-        }
-      })
-      const rangetext = document.getElementById("rangeValue");
-  
-      logSliderValues();
-  console.log(parentnodes.size())
-    //   slider2.max = parentnodes.size();
       
-    // const rangetext = document.getElementById("rangeValue");
-    // rangetext = parentnodes.size();
-
-
-
+      
 
       // Add tooltips
       const tooltip = node
@@ -1426,6 +1441,9 @@ let degree ;
       zoomOutButton.addEventListener("click", function() {
         svg.transition().call(zoom.scaleBy, 0.8);
       });
+
+      
+
 
      
     }
@@ -1823,7 +1841,7 @@ let degree ;
         '#e377c2', // pink
         '#7f7f7f', // gray
         '#17becf', // cyan
-        '#1f77b4', // light blue (replacing yellow-green)
+        '#E75480', // light blue (replacing yellow-green)
         '#ff9896', // light red
         '#98df8a', // light green
         '#aec7e8', // light purple
@@ -2148,10 +2166,10 @@ let degree ;
       svg.selectAll("*").remove();
       nodes = [];
       links = [];
-      slider_range = 100;
-      slider2.max = 100;
+      // slider_range = 100;
+      // slider2.max = 100;
 
-      rangeValue.textContent = 100;
+      // // rangeValue.textContent = 100;
     }
     /// here is the code of applying the logic of theslider_rangeclear maxphase 
     // setting the sidler valus 
