@@ -906,6 +906,7 @@ if (isset($_POST['drugName2'])) {
           phases.push(item.MAX_PHASE);
 
         }
+        console.log(phases, "here are the phases ");
         if (!dataset_legend.includes(item.DATASET)) {
 
           dataset_legend.push(item.DATASET);
@@ -1283,16 +1284,17 @@ if (isset($_POST['drugName2'])) {
           return node;
         }
       })
-console.log("parentnodes are " , parentnodes2.size() )
+      console.log("parentnodes are ", parentnodes2.size())
 
       slider2.max = parentnodes2.size();
       slider2.value = parentnodes2.size();
-      console.log("slider2.max are " , slider2.max )
+      console.log("slider2.max are ", slider2.max)
       const rangetext = document.getElementById("rangeValue");
 
       rangetext.textContent = parentnodes2.size();
 
       console.log(rangetext, "here is the range value ")
+
       function handleClick(event) {
 
         clickedData = event.target.__data__;
@@ -1741,7 +1743,7 @@ console.log("parentnodes are " , parentnodes2.size() )
         }
 
       });
-        generateNameList();
+      generateNameList();
     }
     // legenddata
     function legendinfo() {
@@ -1953,25 +1955,52 @@ console.log("parentnodes are " , parentnodes2.size() )
         .data(max_phase_categories)
         .enter()
         .append("li");
+        let check2 =true;
 
       max_phase_color = listItems
         .append("div")
         .attr("class", "rect")
         .style("background-color", (d) => {
-          for (const categoryObj of max_phase_categories) {
-            if (d.category === categoryObj.category) {
-              return categoryObj.color;
-            }
-          }
-          return "#6a329f";
-        }).on("click", color_click_onchange);
+          // Check if the category is "Unknown" or an empty string
+          if (d.category === "Unknown" || d.category === "") {
 
+            // Set the background color for "Unknown" or an empty string
+            if(check2)
+            {
+            check2=false ; 
+              return "#fe8f01"
+
+            }
+          } else {
+            // Iterate through 'max_phase_categories' to find a matching category
+            for (const categoryObj of max_phase_categories) {
+              if (d.category === categoryObj.category) {
+                return categoryObj.color; // Use the color from 'max_phase_categories'
+              }
+            }
+           
+          }
+        })
+        .on("click", color_click_onchange);
+
+
+      let unknownDisplayed = false;
 
       pax_phasecliked = listItems
         .append("span")
-        .text((d) => (d.category === "" ? "Unknown" : d.category))
+        .text((d) => {
+          if (d.category === "" || d.category === "Unknown") {
+            if (!unknownDisplayed) {
+              unknownDisplayed = true;
+              return "Unknown";
+            }
+          } else {
+            return d.category;
+          }
+        })
         .style("font-size", "14.208px")
         .style("font-family", "Arial");
+
 
 
 
@@ -2081,8 +2110,18 @@ console.log("parentnodes are " , parentnodes2.size() )
         .style("font-size", "14.208px").style("font-family", "Arial");
 
       // color picker
+      let check3_color = true ;  
       for (const categoryObj of max_phase_categories) {
-        addColor(categoryObj.color);
+        if(categoryObj.category === "Unknown" || categoryObj.category === "")
+        {
+             if(check3_color){
+              addColor(categoryObj.color);
+              check3_color =false;
+             }
+        }
+        else{
+          addColor(categoryObj.color);
+        }
       }
 
       phases = [];
