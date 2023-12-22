@@ -1955,7 +1955,7 @@ if (isset($_POST['drugName2'])) {
         .data(max_phase_categories)
         .enter()
         .append("li");
-        let check2 =true;
+      let check2 = true;
 
       max_phase_color = listItems
         .append("div")
@@ -1965,9 +1965,8 @@ if (isset($_POST['drugName2'])) {
           if (d.category === "Unknown" || d.category === "") {
 
             // Set the background color for "Unknown" or an empty string
-            if(check2)
-            {
-            check2=false ; 
+            if (check2) {
+              check2 = false;
               return "#fe8f01"
 
             }
@@ -1978,7 +1977,7 @@ if (isset($_POST['drugName2'])) {
                 return categoryObj.color; // Use the color from 'max_phase_categories'
               }
             }
-           
+
           }
         })
         .on("click", color_click_onchange);
@@ -2110,16 +2109,14 @@ if (isset($_POST['drugName2'])) {
         .style("font-size", "14.208px").style("font-family", "Arial");
 
       // color picker
-      let check3_color = true ;  
+      let check3_color = true;
       for (const categoryObj of max_phase_categories) {
-        if(categoryObj.category === "Unknown" || categoryObj.category === "")
-        {
-             if(check3_color){
-              addColor(categoryObj.color);
-              check3_color =false;
-             }
-        }
-        else{
+        if (categoryObj.category === "Unknown" || categoryObj.category === "") {
+          if (check3_color) {
+            addColor(categoryObj.color);
+            check3_color = false;
+          }
+        } else {
           addColor(categoryObj.color);
         }
       }
@@ -2185,8 +2182,14 @@ if (isset($_POST['drugName2'])) {
 
       //error 
       node.each(function(node) {
-        if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
+
+        if (selected_maxphase === "Unknown" || selected_maxphase === "" ) {
+          if ((node.MAX_PHASE === "Unknown" || node.MAX_PHASE === "") && node.type === "parentnode") {
+            d3.select(this).select("rect").attr("fill", colorpick);
+          }
+        } else if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
           d3.select(this).select("rect").attr("fill", colorpick);
+          console.log( selected_maxphase ,"not unknown" )
 
         }
       });
