@@ -207,6 +207,13 @@ if (isset($_POST['drugName2'])) {
     padding: 0;
     margin: 0;
   }
+  #search-bar2 {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+  }
   </style>
 
 
@@ -383,14 +390,14 @@ if (isset($_POST['drugName2'])) {
               <!-- compound filteration -->
               <div>
                 <label for="search-bar">Apply compound filter:</label>
-                <input type="text" id="search-bar" oninput="filterNames('name-list')" onclick="focusSearch()">
+                <input type="text" id="search-bar" oninput="filterNames('name-list')" onclick="focusSearch('search-bar')">
                 <ul id="name-list">
                 </ul>
               </div>
               <!-- cellline filteration -->
               <div>
-                <label for="search-bar">Apply cellline filter:</label>
-                <input type="text" id="search-bar" oninput="filterNames('name-list2')" >
+                <label for="search-bar2">Apply cellline filter:</label>
+                <input type="text" id="search-bar2" oninput="filterNames2('name-list2')" onclick="focusSearch('search-bar2')">
                 <ul id="name-list2">
                 </ul>
               </div>
@@ -840,57 +847,52 @@ if (isset($_POST['drugName2'])) {
     let count_increment = 1;
 
     document.getElementById("increment").addEventListener("click", function(event) {
-      event.preventDefault();
-      count_increment += 1;
-      ajax();
-      let buttonDisable = document.getElementById("increment");
+  event.preventDefault();
+  disableButtons("increment");
+    disableButtons("decrement");
+  count_increment += 1;
+  ajax();
+});
 
-      buttonDisable.disabled = true;
+document.getElementById("decrement").addEventListener("click", function(event) {
+  event.preventDefault();
+  if (count_increment > 1) {
+    disableButtons("decrement");
+  disableButtons("increment");
+    count_increment -= 1;
+    ajax();
+  } else {
+    alert("Minimum data fetched");
+  }
+});
 
-      let originalColor = buttonDisable.style.backgroundColor;
-      let originalText = buttonDisable.innerHTML;
+function disableButtons(buttonId) {
+  let buttonDisable = document.getElementById(buttonId);
+  buttonDisable.disabled = true;
 
-      // Change the background color
-      buttonDisable.style.backgroundColor = "#ccc";
-      buttonDisable.innerHTML = "Wait"
-      // Enable the button and restore the original background color after 5 seconds
-      setTimeout(function() {
-        buttonDisable.disabled = false;
-        buttonDisable.style.backgroundColor = originalColor;
-        buttonDisable.innerHTML = originalText
-      }, 5000);
+  let originalColor = buttonDisable.style.backgroundColor;
+  let originalText = buttonDisable.innerHTML;
 
+  // Change the background color
+  buttonDisable.style.backgroundColor = "#ccc";
+  buttonDisable.innerHTML = "Wait";
 
-    });
+  // Disable the other button
+  let otherButtonId = buttonId === "increment" ? "decrement" : "increment";
+  let otherButton = document.getElementById(otherButtonId);
+  otherButton.disabled = true;
 
+  // Enable both buttons and restore the original background color after 5 seconds
+  setTimeout(function() {
+    buttonDisable.disabled = false;
+    buttonDisable.style.backgroundColor = originalColor;
+    buttonDisable.innerHTML = originalText;
 
-    document.getElementById("decrement").addEventListener("click", function(event) {
-      event.preventDefault();
-      if (count_increment > 1) {
-        count_increment -= 1;
-        ajax();
-        let buttonDisable = document.getElementById("decrement");
+    // Enable the other button
+    otherButton.disabled = false;
+  }, 5000);
+}
 
-        buttonDisable.disabled = true;
-
-        let originalColor = buttonDisable.style.backgroundColor;
-        let originalText = buttonDisable.innerHTML;
-
-        // Change the background color
-        buttonDisable.style.backgroundColor = "#ccc";
-        buttonDisable.innerHTML = "Wait"
-        // Enable the button and restore the original background color after 5 seconds
-        setTimeout(function() {
-          buttonDisable.disabled = false;
-          buttonDisable.style.backgroundColor = originalColor;
-          buttonDisable.innerHTML = originalText
-        }, 5000);
-
-      } else {
-        alert("mininum data fetched")
-      }
-
-    });
 
     async function fetchData(data) {
       try {
@@ -2659,6 +2661,7 @@ if (isset($_POST['drugName2'])) {
 
   <script>
     let checkbox_names = [];
+
     let checkbox_saves = [];
 
 
@@ -2748,9 +2751,8 @@ if (isset($_POST['drugName2'])) {
 
     }
 
-    function toggleCLoseFilterSearch() {
-
-    }
+  
+    
     // Initial generation of the name list
     function toggleDialog() {
 
@@ -2801,12 +2803,46 @@ if (isset($_POST['drugName2'])) {
       }
     }
 
-    function focusSearch() {
-      document.getElementById("search-bar").focus();
+    function focusSearch(search_val) {
+      document.getElementById(search_val).focus();
     }
 
 
     // Function to filter names based on the search bar input
+    function filterNames2(id_vlaue) {
+      var input, filter, checkboxes, names, i;
+      input = document.getElementById("search-bar2");
+      filter = input.value.toLowerCase();
+      checkboxes2 = document.getElementById(id_vlaue).getElementsByTagName("input");
+      
+       var noMatches = document.getElementById("no-matches");
+      var matchesFound = false;
+
+      for (i = 0; i < checkboxes2.length; i++) {
+        names = checkboxes2[i].id;
+        var label = document.querySelector('label[for=' + names + ']');
+
+        // Check if the names contain the filter string
+        var containsFilter = names.toLowerCase().indexOf(filter) > -1;
+
+        // Check if the label text contains the filter string
+        var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
+
+        // Display or hide based on filter conditions
+        if (containsFilter || labelContainsFilter) {
+          checkboxes2[i].style.display = "";
+          label.style.display = "";
+          matchesFound = true;
+        } else {
+          checkboxes[i].style.display = "none";
+          label.style.display = "none";
+        }
+      }
+    }
+
+
+
+
     function filterNames(id_vlaue) {
       var input, filter, checkboxes, names, i;
       input = document.getElementById("search-bar");
@@ -2815,7 +2851,7 @@ if (isset($_POST['drugName2'])) {
       
        var noMatches = document.getElementById("no-matches");
       var matchesFound = false;
-
+      
       for (i = 0; i < checkboxes.length; i++) {
         names = checkboxes[i].id;
         var label = document.querySelector('label[for=' + names + ']');
@@ -2836,12 +2872,7 @@ if (isset($_POST['drugName2'])) {
           label.style.display = "none";
         }
       }
-function filterNames2(){
-
-}
-
-
-      
+    
       // namelist2
 
       for (i = 0; i < checkboxes2.length; i++) {
