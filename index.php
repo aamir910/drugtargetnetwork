@@ -191,6 +191,22 @@ if (isset($_POST['drugName2'])) {
     .dropdown-content:hover {
       display: block;
     }
+    .filter_cell_cmd{
+      display: flex; 
+      gap: 20px;
+      margin-top: 10px;
+
+    }
+    #name-list li {
+    margin-bottom: 5px;
+  }
+  #name-list2 {
+    max-height: 200px;
+    overflow-y: auto;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
   </style>
 
 
@@ -354,18 +370,34 @@ if (isset($_POST['drugName2'])) {
           <p>Drug response (-pIC50)</p>
 
 
-          <div id="dialog-container">
+          <div id="dialog-container" style = 'max-width:500px; min-width: 350px;'>
             <div id="dialog-header">
               <button onclick="toggleDialog2()" class="close-btn-search" style="background:none   ;  position: absolute;
                 top: 10px;right: 3px;cursor: pointer;max-height: 100px;overflow: auto;
 "><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
               <!-- heading  -->
               <p>Filter Compounds/Celline</p>
-              <label for="search-bar">Apply filter:</label>
-              <input type="text" id="search-bar" oninput="filterNames()" onclick="focusSearch()">
             </div>
-            <ul id="name-list">
-            </ul>
+
+            <div class = "filter_cell_cmd">
+              <!-- compound filteration -->
+              <div>
+                <label for="search-bar">Apply compound filter:</label>
+                <input type="text" id="search-bar" oninput="filterNames('name-list')" onclick="focusSearch()">
+                <ul id="name-list">
+                </ul>
+              </div>
+              <!-- cellline filteration -->
+              <div>
+                <label for="search-bar">Apply cellline filter:</label>
+                <input type="text" id="search-bar" oninput="filterNames('name-list2')" >
+                <ul id="name-list2">
+                </ul>
+              </div>
+
+            </div>
+
+
             <button style=" margin: 12px 38px 0px; " class="sliderbtn" onclick="saveNames()">Filter</button>
           </div>
 
@@ -765,6 +797,8 @@ if (isset($_POST['drugName2'])) {
 
 
     let visible_node = [];
+    let visible_parentnode = [];
+    let visible_childnode = [];
 
 
     let simulation;
@@ -994,7 +1028,7 @@ if (isset($_POST['drugName2'])) {
 
 
     // here the function to fetch the data from the databse for the biologics description 
-    generate_table
+    // generate_table
 
     function fetchData2(drugName) {
       // Make AJAX request to PHP script
@@ -1717,6 +1751,8 @@ if (isset($_POST['drugName2'])) {
       // export csv 
       csvfile = [];
       visible_node = [];
+      visible_parentnode = [];
+     visible_childnode = [];
 
       link.filter(function(linkshow) {
         // 'this' refers to the current DOM element
@@ -1740,6 +1776,12 @@ if (isset($_POST['drugName2'])) {
         let visibility = d3.select(this).style("display");
         if (visibility === "inline") {
           visible_node.push(node.id);
+          if(node.type ==="parentnode"){
+               visible_parentnode.push(node.id) ;
+          }
+          if(node.type ==="childnode"){
+               visible_childnode.push(node.id) ;
+          }
         }
 
       });
@@ -2183,13 +2225,13 @@ if (isset($_POST['drugName2'])) {
       //error 
       node.each(function(node) {
 
-        if (selected_maxphase === "Unknown" || selected_maxphase === "" ) {
+        if (selected_maxphase === "Unknown" || selected_maxphase === "") {
           if ((node.MAX_PHASE === "Unknown" || node.MAX_PHASE === "") && node.type === "parentnode") {
             d3.select(this).select("rect").attr("fill", colorpick);
           }
         } else if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
           d3.select(this).select("rect").attr("fill", colorpick);
-          console.log( selected_maxphase ,"not unknown" )
+          console.log(selected_maxphase, "not unknown")
 
         }
       });
@@ -2625,12 +2667,39 @@ if (isset($_POST['drugName2'])) {
     var nameList = document.getElementById("name-list");
     nameList.innerHTML = ''; // Clear existing list
 
+
+    var nameList2 = document.getElementById("name-list2");
+    nameList2.innerHTML = ''; // Clear existing list
+
+
     function generateNameList() {
 
-      for (var i = 0; i < visible_node.length; i++) {
+      // for (var i = 0; i < visible_node.length; i++) {
+      //   var nameId = 'name' + (i + 1);
+      //   var listItem = document.createElement('li');
+      //   let name1 = visible_node[i];
+      //   if (checkbox_saves.includes(name1)) {
+      //     var index = checkbox_saves.indexOf(name1);
+      //     if (index !== -1) {
+      //       checkbox_saves.splice(index, 1);
+      //     }
+      //   }
+      // }
+      for (var i = 0; i < visible_parentnode.length; i++) {
         var nameId = 'name' + (i + 1);
         var listItem = document.createElement('li');
-        let name1 = visible_node[i];
+        let name1 = visible_parentnode[i];
+        if (checkbox_saves.includes(name1)) {
+          var index = checkbox_saves.indexOf(name1);
+          if (index !== -1) {
+            checkbox_saves.splice(index, 1);
+          }
+        }
+      }
+      for (var i = 0; i < visible_childnode.length; i++) {
+        var nameId = 'name' + (i + 1);
+        var listItem = document.createElement('li');
+        let name1 = visible_childnode[i];
         if (checkbox_saves.includes(name1)) {
           var index = checkbox_saves.indexOf(name1);
           if (index !== -1) {
@@ -2648,15 +2717,33 @@ if (isset($_POST['drugName2'])) {
         nameList.appendChild(listItem);
       }
 
-      for (var i = 0; i < visible_node.length; i++) {
+      // for (var i = 0; i < visible_node.length; i++) {
+      //   var nameId = 'name' + (i + 1);
+      //   var listItem = document.createElement('li');
+      //   let name1 = visible_node[i];
+      //   listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
+      //   nameList.appendChild(listItem);
+
+      // }
+      
+      for (var i = 0; i < visible_parentnode.length; i++) {
         var nameId = 'name' + (i + 1);
         var listItem = document.createElement('li');
-        let name1 = visible_node[i];
+        let name1 = visible_parentnode[i];
         listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
         nameList.appendChild(listItem);
 
       }
 
+      nameList2.innerHTML = '';
+      for (var i = 0; i < visible_childnode.length; i++) {
+        var nameId = 'name' + (i + 1);
+        var listItem = document.createElement('li');
+        let name1 = visible_childnode[i];
+        listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
+        nameList2.appendChild(listItem);
+
+      }
 
 
     }
@@ -2720,12 +2807,13 @@ if (isset($_POST['drugName2'])) {
 
 
     // Function to filter names based on the search bar input
-    function filterNames() {
+    function filterNames(id_vlaue) {
       var input, filter, checkboxes, names, i;
       input = document.getElementById("search-bar");
       filter = input.value.toLowerCase();
-      checkboxes = document.getElementById("name-list").getElementsByTagName("input");
-      var noMatches = document.getElementById("no-matches");
+      checkboxes = document.getElementById(id_vlaue).getElementsByTagName("input");
+      
+       var noMatches = document.getElementById("no-matches");
       var matchesFound = false;
 
       for (i = 0; i < checkboxes.length; i++) {
@@ -2748,19 +2836,52 @@ if (isset($_POST['drugName2'])) {
           label.style.display = "none";
         }
       }
+function filterNames2(){
 
+}
+
+
+      
+      // namelist2
+
+      for (i = 0; i < checkboxes2.length; i++) {
+        names = checkboxes2[i].id;
+        var label = document.querySelector('label[for=' + names + ']');
+
+        // Check if the names contain the filter string
+        var containsFilter = names.toLowerCase().indexOf(filter) > -1;
+
+        // Check if the label text contains the filter string
+        var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
+
+        // Display or hide based on filter conditions
+        if (containsFilter || labelContainsFilter) {
+          checkboxes2[i].style.display = "";
+          label.style.display = "";
+          matchesFound = true;
+        } else {
+          checkboxes2[i].style.display = "none";
+          label.style.display = "none";
+        }
+      }
       // Show or hide the entire list based on matches
       var nameList = document.getElementById("name-list");
       nameList.style.display = matchesFound ? "block" : "none";
 
+      
+      var nameList2 = document.getElementById("name-list2");
+      nameList2.style.display = matchesFound ? "block" : "none";
+
       // Show or hide "No matches" message
       noMatches.style.display = matchesFound ? "none" : "block";
     }
-
+ var checkboxes2 ;
     // Function to save selected names in an array
     function saveNames() {
       create_it = false;
       var checkboxes = document.getElementById("name-list").getElementsByTagName("input");
+      
+     checkboxes2 = document.getElementById("name-list2").getElementsByTagName("input");
       checkbox_names = [];
 
       for (var i = 0; i < checkboxes.length; i++) {
@@ -2770,6 +2891,16 @@ if (isset($_POST['drugName2'])) {
 
           if (!checkbox_saves.includes(checkboxes[i].id))
             checkbox_saves.push(checkboxes[i].id);
+        }
+      }
+      // namelist2
+      for (var i = 0; i < checkboxes2.length; i++) {
+        if (checkboxes2[i].checked) {
+
+          checkbox_names.push(checkboxes2[i].id);
+
+          if (!checkbox_saves.includes(checkboxes2[i].id))
+            checkbox_saves.push(checkboxes2[i].id);
         }
       }
       range_of_links(minValue, maxValue, slider_range);
