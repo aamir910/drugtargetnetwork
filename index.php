@@ -1283,16 +1283,16 @@ if (isset($_POST['drugName2'])) {
           return node;
         }
       })
+console.log("parentnodes are " , parentnodes2.size() )
 
       slider2.max = parentnodes2.size();
-
+      slider2.value = parentnodes2.size();
+      console.log("slider2.max are " , slider2.max )
       const rangetext = document.getElementById("rangeValue");
 
-      rangeValue.textContent = slider2.value;
+      rangetext.textContent = parentnodes2.size();
 
-      console.log(rangeValue, "here is the range value ")
-      console.log(slider2.value, "slider2.value")
-
+      console.log(rangetext, "here is the range value ")
       function handleClick(event) {
 
         clickedData = event.target.__data__;
@@ -1539,7 +1539,7 @@ if (isset($_POST['drugName2'])) {
         }
       })
 
-      slider2.max = parentnodes.size();
+      // slider2.max = parentnodes.size();
       let filternodes3 = parentnodes.each(function(drugNode, i) {
         if (i < valueofslider) {
           d3.select(this).style("display", null);
@@ -1716,11 +1716,9 @@ if (isset($_POST['drugName2'])) {
       csvfile = [];
       visible_node = [];
 
-
       link.filter(function(linkshow) {
         // 'this' refers to the current DOM element
         let visibility2 = d3.select(this).style("display");
-
         // Check if the visibility is "inline" or any other condition you need
         if (visibility2 === "inline") {
           response.filter(maindata => {
@@ -1743,12 +1741,7 @@ if (isset($_POST['drugName2'])) {
         }
 
       });
-
-      if (true) {
         generateNameList();
-      }
-
-
     }
     // legenddata
     function legendinfo() {
@@ -2248,7 +2241,6 @@ if (isset($_POST['drugName2'])) {
       }
       range_of_links(minValue, maxValue, slider_range);
 
-      console.log("list_hidden_childnode", list_hidden_childnode)
     }
 
     function clearGraph() {
@@ -2259,7 +2251,7 @@ if (isset($_POST['drugName2'])) {
       slider_range = 100;
       slider2.max = 100;
 
-      // rangeValue.textContent = 100;
+      rangeValue.textContent = 100;
     }
     /// here is the code of applying the logic of theslider_rangeclear maxphase 
     // setting the sidler valus 
