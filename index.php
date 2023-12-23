@@ -398,7 +398,7 @@ if (isset($_POST['drugName2'])) {
                 <ul id="name-list">
                 </ul>
                 
-                <p id="no-matches" style="display: none;">No matches found</p>
+                <p id="no-matches" style="display: none;">No match found</p>
               </div>
               <!-- cellline filteration -->
               <div>
@@ -406,6 +406,8 @@ if (isset($_POST['drugName2'])) {
                 <input type="text" id="search-bar2" oninput="filterNames2('name-list2')" onclick="focusSearch('search-bar2')">
                 <ul id="name-list2">
                 </ul>
+                
+                <p id="no-matches2" style="display: none;">No match found</p>
               </div>
 
             </div>
@@ -2870,66 +2872,45 @@ document.getElementById(search_val).focus();
 
 
 
-
     function filterNames2(id_vlaue) {
-      console.log("here is the error ")
-      // var input, filter, checkboxes, names, i;
-      // input = document.getElementById("search-bar2");
-      // filter = input.value.toLowerCase();
-      // checkboxes2 = document.getElementById(id_vlaue).getElementsByTagName("input");
+     
+      var input, filter, checkboxes3, names, i;
+      input = document.getElementById("search-bar2");
+      filter = input.value.toLowerCase();
+      checkboxes3 = document.getElementById(id_vlaue).getElementsByTagName("input");
 
-      // var noMatches = document.getElementById("no-matches");
-      // var matchesFound = false;
-      // for (i = 0; i < checkboxes2.length; i++) {
-      //   names = checkboxes2[i].id;
-      //   var label = document.querySelector('label[for=' + names + ']');
-
-      //   // Check if the names contain the filter string
-      //   var containsFilter = names.toLowerCase().indexOf(filter) > -1;
-
-      //   // Check if the label text contains the filter string
-      //   var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
-
-      //   // Display or hide based on filter conditions
-      //   if (containsFilter || labelContainsFilter) {
-      //     checkboxes2[i].style.display = "";
-      //     label.style.display = "";
-      //     matchesFound = true;
-      //   } else {
-      //     checkboxes[i].style.display = "none";
-      //     label.style.display = "none";
-      //   }
-      // }
+      var noMatches = document.getElementById("no-matches2");
+      var matchesFound = false;
 
 
+      for (i = 0; i < checkboxes3.length; i++) {
+        names = checkboxes3[i].id;
 
-      // for (i = 0; i < checkboxes2.length; i++) {
-      //   names = checkboxes2[i].id;
-      //   var label = document.querySelector('label[for=' + names + ']');
+        var label = document.querySelector('label[for=' + names + ']');
 
-      //   // Check if the names contain the filter string
-      //   var containsFilter = names.toLowerCase().indexOf(filter) > -1;
+        // Check if the names contain the filter string
+        var containsFilter = names.toLowerCase().indexOf(filter) > -1;
 
-      //   // Check if the label text contains the filter string
-      //   var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
+        // Check if the label text contains the filter string
+        var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
 
-      //   // Display or hide based on filter conditions
-      //   if (containsFilter || labelContainsFilter) {
-      //     checkboxes2[i].style.display = "";
-      //     label.style.display = "";
-      //     matchesFound = true;
-      //   } else {
-      //     checkboxes2[i].style.display = "none";
-      //     label.style.display = "none";
-      //   }
-      // }
-      
-      // var nameList2 = document.getElementById("name-list2");
-      // nameList2.style.display = matchesFound ? "block" : "none";
+        // Display or hide based on filter conditions
+        if (containsFilter || labelContainsFilter) {
+          checkboxes3[i].style.display = "";
+          label.style.display = "";
+          matchesFound = true;
+        } else {
+          checkboxes3[i].style.display = "none";
+          label.style.display = "none";
+        }
 
-      // // Show or hide "No matches" message
-      // noMatches.style.display = matchesFound ? "none" : "block";
-
+      }
+      // Show or hide the entire list based on matches
+      var nameList2 = document.getElementById("name-list2");
+      nameList2.style.display = matchesFound ? "block" : "none";
+      // Show or hide "No matches" message
+      noMatches.style.display = matchesFound ? "none" : "block";
+     
     }
 
 
