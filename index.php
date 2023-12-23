@@ -2761,10 +2761,10 @@ document.getElementById(search_val).focus();
         var nameId = 'name' + (i + 1);
         var listItem = document.createElement('li');
         let name1 = visible_childnode[i];
-        if (checkbox_saves.includes(name1)) {
-          var index = checkbox_saves.indexOf(name1);
+        if (checkbox_saves_child.includes(name1)) {
+          var index = checkbox_saves_child.indexOf(name1);
           if (index !== -1) {
-            checkbox_saves.splice(index, 1);
+            checkbox_saves_child.splice(index, 1);
           }
         }
       }
@@ -2785,12 +2785,13 @@ document.getElementById(search_val).focus();
         listItem.innerHTML = `<input type="checkbox" id="${name1}" checked > <label for="${name1}">${name1}</label>`;
         nameList.appendChild(listItem);
       }
+
       for (var i = 0; i < checkbox_saves_child.length; i++) {
         var nameId = 'name' + (i + 1);
         var listItem2 = document.createElement('li');
         let name1 = checkbox_saves_child[i];
         listItem2.innerHTML = `<input type="checkbox" id="${name1}" checked > <label for="${name1}">${name1}</label>`;
-        nameList.appendChild(listItem);
+        nameList2.appendChild(listItem2);
       }
 
 
@@ -2867,11 +2868,6 @@ document.getElementById(search_val).focus();
 
 
 
-
-
-
-
-
     function filterNames2(id_vlaue) {
      
       var input, filter, checkboxes3, names, i;
@@ -2912,14 +2908,6 @@ document.getElementById(search_val).focus();
       noMatches.style.display = matchesFound ? "none" : "block";
      
     }
-
-
-
-
-   
-
-
-
 
 
     var checkboxes2;
