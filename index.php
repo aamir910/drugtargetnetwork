@@ -280,9 +280,9 @@ if (isset($_POST['drugName2'])) {
           <label class="dropdownBtn" id="dropdownBtn2" onclick="toggleDropdown2(event)"> Select max clinical phase</label>
           <div id="dropdownContent2" class="dropdown-content">
             <label><input type="checkbox" value="Approved">Approved drugs</label>
-            <label><input type="checkbox" value="PHASE 1">Phase I</label>
-            <label><input type="checkbox" value="PHASE 2">Phase II</label>
-            <label><input type="checkbox" value="PHASE 3">Phase III</label>
+            <label><input type="checkbox" value="Phase I">Phase I</label>
+            <label><input type="checkbox" value="Phase II">Phase II</label>
+            <label><input type="checkbox" value="Phase III">Phase III</label>
             <label><input type="checkbox" value="Preclinical">Preclinical</label>
             <label><input type="checkbox" value="Unknown">Unknown</label>
             <!-- Add more options as needed -->
@@ -1466,12 +1466,12 @@ if (isset($_POST['drugName2'])) {
         .attr("fill", function(node) {
           if (node.MAX_PHASE === "Approved") {
             return "#0bc00f"; // Updated color for "Approved"
-          } else if (node.MAX_PHASE === "PHASE 1") {
-            return "#4372c4"; // Updated color for "PHASE 1"
-          } else if (node.MAX_PHASE === "PHASE 2") {
-            return "#fe0000"; // Updated color for "PHASE 2"
-          } else if (node.MAX_PHASE === "PHASE 3") {
-            return "#9B35C8"; // Updated color for "PHASE 3"
+          } else if (node.MAX_PHASE === "Phase I") {
+            return "#4372c4"; // Updated color for "Phase I"
+          } else if (node.MAX_PHASE === "Phase II") {
+            return "#fe0000"; // Updated color for "Phase II"
+          } else if (node.MAX_PHASE === "Phase III") {
+            return "#9B35C8"; // Updated color for "Phase III"
           } else if (node.MAX_PHASE === "") {
             return "#fe8f01"; // Updated color for empty string
           } else if (node.MAX_PHASE === "Unknown") {
@@ -1800,11 +1800,11 @@ if (isset($_POST['drugName2'])) {
           let color;
           if (category === "Approved") {
             color = colors[3];
-          } else if (category === "PHASE 1") {
+          } else if (category === "Phase I") {
             color = colors[0];
-          } else if (category === "PHASE 2") {
+          } else if (category === "Phase II") {
             color = colors[1];
-          } else if (category === "PHASE 3") {
+          } else if (category === "Phase III") {
             color = colors[2];
           } else if (category === "Preclinical") {
             color = colors[5]; // Fixed index for "Preclinical"
