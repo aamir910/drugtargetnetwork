@@ -191,29 +191,33 @@ if (isset($_POST['drugName2'])) {
     .dropdown-content:hover {
       display: block;
     }
-    .filter_cell_cmd{
-      display: flex; 
+
+    .filter_cell_cmd {
+      display: flex;
       gap: 20px;
       margin-top: 10px;
 
     }
+
     #name-list li {
-    margin-bottom: 5px;
-  }
-  #name-list2 {
-    max-height: 200px;
-    overflow-y: auto;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  #search-bar2 {
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-  }
+      margin-bottom: 5px;
+    }
+
+    #name-list2 {
+      max-height: 200px;
+      overflow-y: auto;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #search-bar2 {
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+    }
   </style>
 
 
@@ -377,7 +381,7 @@ if (isset($_POST['drugName2'])) {
           <p>Drug response (-pIC50)</p>
 
 
-          <div id="dialog-container" style = 'max-width:500px; min-width: 350px;'>
+          <div id="dialog-container" style='max-width:500px; min-width: 350px;'>
             <div id="dialog-header">
               <button onclick="toggleDialog2()" class="close-btn-search" style="background:none   ;  position: absolute;
                 top: 10px;right: 3px;cursor: pointer;max-height: 100px;overflow: auto;
@@ -386,13 +390,15 @@ if (isset($_POST['drugName2'])) {
               <p>Filter Compounds/Celline</p>
             </div>
 
-            <div class = "filter_cell_cmd">
+            <div class="filter_cell_cmd">
               <!-- compound filteration -->
               <div>
                 <label for="search-bar">Apply compound filter:</label>
                 <input type="text" id="search-bar" oninput="filterNames('name-list')" onclick="focusSearch('search-bar')">
                 <ul id="name-list">
                 </ul>
+                
+                <p id="no-matches" style="display: none;">No matches found</p>
               </div>
               <!-- cellline filteration -->
               <div>
@@ -847,51 +853,51 @@ if (isset($_POST['drugName2'])) {
     let count_increment = 1;
 
     document.getElementById("increment").addEventListener("click", function(event) {
-  event.preventDefault();
-  disableButtons("increment");
-    disableButtons("decrement");
-  count_increment += 1;
-  ajax();
-});
+      event.preventDefault();
+      disableButtons("increment");
+      disableButtons("decrement");
+      count_increment += 1;
+      ajax();
+    });
 
-document.getElementById("decrement").addEventListener("click", function(event) {
-  event.preventDefault();
-  if (count_increment > 1) {
-    disableButtons("decrement");
-  disableButtons("increment");
-    count_increment -= 1;
-    ajax();
-  } else {
-    alert("Minimum data fetched");
-  }
-});
+    document.getElementById("decrement").addEventListener("click", function(event) {
+      event.preventDefault();
+      if (count_increment > 1) {
+        disableButtons("decrement");
+        disableButtons("increment");
+        count_increment -= 1;
+        ajax();
+      } else {
+        alert("Minimum data fetched");
+      }
+    });
 
-function disableButtons(buttonId) {
-  let buttonDisable = document.getElementById(buttonId);
-  buttonDisable.disabled = true;
+    function disableButtons(buttonId) {
+      let buttonDisable = document.getElementById(buttonId);
+      buttonDisable.disabled = true;
 
-  let originalColor = buttonDisable.style.backgroundColor;
-  let originalText = buttonDisable.innerHTML;
+      let originalColor = buttonDisable.style.backgroundColor;
+      let originalText = buttonDisable.innerHTML;
 
-  // Change the background color
-  buttonDisable.style.backgroundColor = "#ccc";
-  buttonDisable.innerHTML = "Wait";
+      // Change the background color
+      buttonDisable.style.backgroundColor = "#ccc";
+      buttonDisable.innerHTML = "Wait";
 
-  // Disable the other button
-  let otherButtonId = buttonId === "increment" ? "decrement" : "increment";
-  let otherButton = document.getElementById(otherButtonId);
-  otherButton.disabled = true;
+      // Disable the other button
+      let otherButtonId = buttonId === "increment" ? "decrement" : "increment";
+      let otherButton = document.getElementById(otherButtonId);
+      otherButton.disabled = true;
 
-  // Enable both buttons and restore the original background color after 5 seconds
-  setTimeout(function() {
-    buttonDisable.disabled = false;
-    buttonDisable.style.backgroundColor = originalColor;
-    buttonDisable.innerHTML = originalText;
+      // Enable both buttons and restore the original background color after 5 seconds
+      setTimeout(function() {
+        buttonDisable.disabled = false;
+        buttonDisable.style.backgroundColor = originalColor;
+        buttonDisable.innerHTML = originalText;
 
-    // Enable the other button
-    otherButton.disabled = false;
-  }, 5000);
-}
+        // Enable the other button
+        otherButton.disabled = false;
+      }, 5000);
+    }
 
 
     async function fetchData(data) {
@@ -942,7 +948,6 @@ function disableButtons(buttonId) {
           phases.push(item.MAX_PHASE);
 
         }
-        console.log(phases, "here are the phases ");
         if (!dataset_legend.includes(item.DATASET)) {
 
           dataset_legend.push(item.DATASET);
@@ -1320,16 +1325,13 @@ function disableButtons(buttonId) {
           return node;
         }
       })
-      console.log("parentnodes are ", parentnodes2.size())
 
       slider2.max = parentnodes2.size();
       slider2.value = parentnodes2.size();
-      console.log("slider2.max are ", slider2.max)
       const rangetext = document.getElementById("rangeValue");
 
       rangetext.textContent = parentnodes2.size();
 
-      console.log(rangetext, "here is the range value ")
 
       function handleClick(event) {
 
@@ -1754,7 +1756,7 @@ function disableButtons(buttonId) {
       csvfile = [];
       visible_node = [];
       visible_parentnode = [];
-     visible_childnode = [];
+      visible_childnode = [];
 
       link.filter(function(linkshow) {
         // 'this' refers to the current DOM element
@@ -1778,11 +1780,11 @@ function disableButtons(buttonId) {
         let visibility = d3.select(this).style("display");
         if (visibility === "inline") {
           visible_node.push(node.id);
-          if(node.type ==="parentnode"){
-               visible_parentnode.push(node.id) ;
+          if (node.type === "parentnode") {
+            visible_parentnode.push(node.id);
           }
-          if(node.type ==="childnode"){
-               visible_childnode.push(node.id) ;
+          if (node.type === "childnode") {
+            visible_childnode.push(node.id);
           }
         }
 
@@ -2233,7 +2235,6 @@ function disableButtons(buttonId) {
           }
         } else if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
           d3.select(this).select("rect").attr("fill", colorpick);
-          console.log(selected_maxphase, "not unknown")
 
         }
       });
@@ -2664,110 +2665,15 @@ function disableButtons(buttonId) {
 
     let checkbox_saves = [];
 
+    let checkbox_saves_child = [];
+
+
+
+
+
 
     // Make the dialog draggable
     dragElement(document.getElementById("dialog-container"));
-    var nameList = document.getElementById("name-list");
-    nameList.innerHTML = ''; // Clear existing list
-
-
-    var nameList2 = document.getElementById("name-list2");
-    nameList2.innerHTML = ''; // Clear existing list
-
-
-    function generateNameList() {
-
-      // for (var i = 0; i < visible_node.length; i++) {
-      //   var nameId = 'name' + (i + 1);
-      //   var listItem = document.createElement('li');
-      //   let name1 = visible_node[i];
-      //   if (checkbox_saves.includes(name1)) {
-      //     var index = checkbox_saves.indexOf(name1);
-      //     if (index !== -1) {
-      //       checkbox_saves.splice(index, 1);
-      //     }
-      //   }
-      // }
-      for (var i = 0; i < visible_parentnode.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem = document.createElement('li');
-        let name1 = visible_parentnode[i];
-        if (checkbox_saves.includes(name1)) {
-          var index = checkbox_saves.indexOf(name1);
-          if (index !== -1) {
-            checkbox_saves.splice(index, 1);
-          }
-        }
-      }
-      for (var i = 0; i < visible_childnode.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem = document.createElement('li');
-        let name1 = visible_childnode[i];
-        if (checkbox_saves.includes(name1)) {
-          var index = checkbox_saves.indexOf(name1);
-          if (index !== -1) {
-            checkbox_saves.splice(index, 1);
-          }
-        }
-      }
-
-      nameList.innerHTML = '';
-      for (var i = 0; i < checkbox_saves.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem = document.createElement('li');
-        let name1 = checkbox_saves[i];
-        listItem.innerHTML = `<input type="checkbox" id="${name1}" checked > <label for="${name1}">${name1}</label>`;
-        nameList.appendChild(listItem);
-      }
-
-      // for (var i = 0; i < visible_node.length; i++) {
-      //   var nameId = 'name' + (i + 1);
-      //   var listItem = document.createElement('li');
-      //   let name1 = visible_node[i];
-      //   listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
-      //   nameList.appendChild(listItem);
-
-      // }
-      
-      for (var i = 0; i < visible_parentnode.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem = document.createElement('li');
-        let name1 = visible_parentnode[i];
-        listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
-        nameList.appendChild(listItem);
-
-      }
-
-      nameList2.innerHTML = '';
-      for (var i = 0; i < visible_childnode.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem = document.createElement('li');
-        let name1 = visible_childnode[i];
-        listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
-        nameList2.appendChild(listItem);
-
-      }
-
-
-    }
-
-  
-    
-    // Initial generation of the name list
-    function toggleDialog() {
-
-      var dialog = document.getElementById("dialog-container");
-      dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
-
-    }
-
-    function toggleDialog2() {
-
-      var dialog = document.getElementById("dialog-container");
-      dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
-
-      create_it = true;
-    }
 
     function dragElement(elmnt) {
       var pos1 = 0,
@@ -2802,58 +2708,131 @@ function disableButtons(buttonId) {
         document.onmousemove = null;
       }
     }
+    // drag ended here 
+// Initial generation of the name list
 
-    function focusSearch(search_val) {
-      document.getElementById(search_val).focus();
-    }
+function toggleDialog() {
+
+var dialog = document.getElementById("dialog-container");
+dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
+
+}
+
+function toggleDialog2() {
+
+var dialog = document.getElementById("dialog-container");
+dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
+
+create_it = true;
+}
 
 
-    // Function to filter names based on the search bar input
-    function filterNames2(id_vlaue) {
-      var input, filter, checkboxes, names, i;
-      input = document.getElementById("search-bar2");
-      filter = input.value.toLowerCase();
-      checkboxes2 = document.getElementById(id_vlaue).getElementsByTagName("input");
-      
-       var noMatches = document.getElementById("no-matches");
-      var matchesFound = false;
 
-      for (i = 0; i < checkboxes2.length; i++) {
-        names = checkboxes2[i].id;
-        var label = document.querySelector('label[for=' + names + ']');
+function focusSearch(search_val) {
+document.getElementById(search_val).focus();
+}
+// ENDED 
 
-        // Check if the names contain the filter string
-        var containsFilter = names.toLowerCase().indexOf(filter) > -1;
+ 
+    var nameList = document.getElementById("name-list");
+    nameList.innerHTML = ''; // Clear existing list
 
-        // Check if the label text contains the filter string
-        var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
+    var nameList2 = document.getElementById("name-list2");
+    nameList2.innerHTML = ''; // Clear existing list
 
-        // Display or hide based on filter conditions
-        if (containsFilter || labelContainsFilter) {
-          checkboxes2[i].style.display = "";
-          label.style.display = "";
-          matchesFound = true;
-        } else {
-          checkboxes[i].style.display = "none";
-          label.style.display = "none";
+    function generateNameList() {
+
+      //  HERE REMOVE  THE UN CHECKBOX THAT DISAPPEARS 
+
+      for (var i = 0; i < visible_parentnode.length; i++) {
+        var nameId = 'name' + (i + 1);
+        var listItem = document.createElement('li');
+        let name1 = visible_parentnode[i];
+        if (checkbox_saves.includes(name1)) {
+          var index = checkbox_saves.indexOf(name1);
+          if (index !== -1) {
+            checkbox_saves.splice(index, 1);
+          }
         }
       }
+      for (var i = 0; i < visible_childnode.length; i++) {
+        var nameId = 'name' + (i + 1);
+        var listItem = document.createElement('li');
+        let name1 = visible_childnode[i];
+        if (checkbox_saves.includes(name1)) {
+          var index = checkbox_saves.indexOf(name1);
+          if (index !== -1) {
+            checkbox_saves.splice(index, 1);
+          }
+        }
+      }
+      // ENDED 
+
+      // CLEAR THE LIST  
+      
+            nameList.innerHTML = '';
+            nameList2.innerHTML = '';
+            
+      // ENDED 
+      //  UPDATED THE LIST WITH THE CHECK BOX 
+
+      for (var i = 0; i < checkbox_saves.length; i++) {
+        var nameId = 'name' + (i + 1);
+        var listItem = document.createElement('li');
+        let name1 = checkbox_saves[i];
+        listItem.innerHTML = `<input type="checkbox" id="${name1}" checked > <label for="${name1}">${name1}</label>`;
+        nameList.appendChild(listItem);
+      }
+      for (var i = 0; i < checkbox_saves_child.length; i++) {
+        var nameId = 'name' + (i + 1);
+        var listItem2 = document.createElement('li');
+        let name1 = checkbox_saves_child[i];
+        listItem2.innerHTML = `<input type="checkbox" id="${name1}" checked > <label for="${name1}">${name1}</label>`;
+        nameList.appendChild(listItem);
+      }
+
+
+      // ENDED 
+      // LIST OF THE COMPOUND_NAME 
+      for (var i = 0; i < visible_parentnode.length; i++) {
+        var nameId = 'name' + (i + 1);
+        var listItem = document.createElement('li');
+        let name1 = visible_parentnode[i];
+        listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
+        nameList.appendChild(listItem);
+
+      }
+// ENDED 
+// LIST OF CELL_LINE_NAME 
+      for (var i = 0; i < visible_childnode.length; i++) {
+        var nameId = 'name' + (i + 1);
+        var listItem = document.createElement('li');
+        let name1 = visible_childnode[i];
+        listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
+        nameList2.appendChild(listItem);
+
+      }
+// ENDED
+
     }
+// generateNameList ENDED 
 
-
-
+    // Function to filter names based on the search bar input
+    //  FILTERNAMES 
 
     function filterNames(id_vlaue) {
       var input, filter, checkboxes, names, i;
       input = document.getElementById("search-bar");
       filter = input.value.toLowerCase();
       checkboxes = document.getElementById(id_vlaue).getElementsByTagName("input");
-      
-       var noMatches = document.getElementById("no-matches");
+
+      var noMatches = document.getElementById("no-matches");
       var matchesFound = false;
-      
+
+
       for (i = 0; i < checkboxes.length; i++) {
         names = checkboxes[i].id;
+
         var label = document.querySelector('label[for=' + names + ']');
 
         // Check if the names contain the filter string
@@ -2871,48 +2850,104 @@ function disableButtons(buttonId) {
           checkboxes[i].style.display = "none";
           label.style.display = "none";
         }
-      }
-    
-      // namelist2
 
-      for (i = 0; i < checkboxes2.length; i++) {
-        names = checkboxes2[i].id;
-        var label = document.querySelector('label[for=' + names + ']');
-
-        // Check if the names contain the filter string
-        var containsFilter = names.toLowerCase().indexOf(filter) > -1;
-
-        // Check if the label text contains the filter string
-        var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
-
-        // Display or hide based on filter conditions
-        if (containsFilter || labelContainsFilter) {
-          checkboxes2[i].style.display = "";
-          label.style.display = "";
-          matchesFound = true;
-        } else {
-          checkboxes2[i].style.display = "none";
-          label.style.display = "none";
-        }
       }
       // Show or hide the entire list based on matches
       var nameList = document.getElementById("name-list");
       nameList.style.display = matchesFound ? "block" : "none";
-
-      
-      var nameList2 = document.getElementById("name-list2");
-      nameList2.style.display = matchesFound ? "block" : "none";
-
       // Show or hide "No matches" message
       noMatches.style.display = matchesFound ? "none" : "block";
     }
- var checkboxes2 ;
+
+
+    // first filteration ended here 
+    // ENDED 
+
+
+
+
+
+
+
+
+
+    function filterNames2(id_vlaue) {
+      console.log("here is the error ")
+      // var input, filter, checkboxes, names, i;
+      // input = document.getElementById("search-bar2");
+      // filter = input.value.toLowerCase();
+      // checkboxes2 = document.getElementById(id_vlaue).getElementsByTagName("input");
+
+      // var noMatches = document.getElementById("no-matches");
+      // var matchesFound = false;
+      // for (i = 0; i < checkboxes2.length; i++) {
+      //   names = checkboxes2[i].id;
+      //   var label = document.querySelector('label[for=' + names + ']');
+
+      //   // Check if the names contain the filter string
+      //   var containsFilter = names.toLowerCase().indexOf(filter) > -1;
+
+      //   // Check if the label text contains the filter string
+      //   var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
+
+      //   // Display or hide based on filter conditions
+      //   if (containsFilter || labelContainsFilter) {
+      //     checkboxes2[i].style.display = "";
+      //     label.style.display = "";
+      //     matchesFound = true;
+      //   } else {
+      //     checkboxes[i].style.display = "none";
+      //     label.style.display = "none";
+      //   }
+      // }
+
+
+
+      // for (i = 0; i < checkboxes2.length; i++) {
+      //   names = checkboxes2[i].id;
+      //   var label = document.querySelector('label[for=' + names + ']');
+
+      //   // Check if the names contain the filter string
+      //   var containsFilter = names.toLowerCase().indexOf(filter) > -1;
+
+      //   // Check if the label text contains the filter string
+      //   var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
+
+      //   // Display or hide based on filter conditions
+      //   if (containsFilter || labelContainsFilter) {
+      //     checkboxes2[i].style.display = "";
+      //     label.style.display = "";
+      //     matchesFound = true;
+      //   } else {
+      //     checkboxes2[i].style.display = "none";
+      //     label.style.display = "none";
+      //   }
+      // }
+      
+      // var nameList2 = document.getElementById("name-list2");
+      // nameList2.style.display = matchesFound ? "block" : "none";
+
+      // // Show or hide "No matches" message
+      // noMatches.style.display = matchesFound ? "none" : "block";
+
+    }
+
+
+
+
+   
+
+
+
+
+
+    var checkboxes2;
     // Function to save selected names in an array
     function saveNames() {
       create_it = false;
       var checkboxes = document.getElementById("name-list").getElementsByTagName("input");
-      
-     checkboxes2 = document.getElementById("name-list2").getElementsByTagName("input");
+
+      checkboxes2 = document.getElementById("name-list2").getElementsByTagName("input");
       checkbox_names = [];
 
       for (var i = 0; i < checkboxes.length; i++) {
@@ -2930,8 +2965,8 @@ function disableButtons(buttonId) {
 
           checkbox_names.push(checkboxes2[i].id);
 
-          if (!checkbox_saves.includes(checkboxes2[i].id))
-            checkbox_saves.push(checkboxes2[i].id);
+          if (!checkbox_saves_child.includes(checkboxes2[i].id))
+            checkbox_saves_child.push(checkboxes2[i].id);
         }
       }
       range_of_links(minValue, maxValue, slider_range);
