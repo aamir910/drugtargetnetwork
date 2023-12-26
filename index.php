@@ -1387,8 +1387,11 @@ if (isset($_POST['drugName2'])) {
             (link) => link.source.id === d.id || link.target.id === d.id
           ).length;
           if (degree < 8) {
-            return 5;
-          } else {
+            return  5;
+          } else if(degree > 80) {
+            return 45;
+          }
+          else{
             return degree / 2;
           }
         })
@@ -1497,7 +1500,14 @@ if (isset($_POST['drugName2'])) {
         .append("text")
         .text((d) => d.id)
         .attr("dx", 6)
-        .attr("dy", `1.5rem`)
+        .attr("dy", function(d){
+          if(d.type === "parentnode"){
+            return `1.5rem`
+          }
+          else if(d.type ==="childnode"){
+            return  1;
+          }
+        })
         .style("font-size", "14.208px").style("font-family", "Arial")
 
 
@@ -2735,7 +2745,7 @@ document.getElementById(search_val).focus();
 }
 // ENDED 
 
- 
+     
     var nameList = document.getElementById("name-list");
     nameList.innerHTML = ''; // Clear existing list
 
