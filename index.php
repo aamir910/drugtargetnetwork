@@ -368,7 +368,7 @@ if (isset($_POST['drugName2'])) {
              " class=" forcenetwork  ">
         <!-- Loader embedded inside SVG -->
       </svg>
-      <foreignObject width="100%" height="100%">
+      <foreignObject width="100%" height="100%" class = 'loaderplacement'>
         <div class="loader" id="loader"></div>
       </foreignObject>
 
@@ -1214,8 +1214,8 @@ if (isset($_POST['drugName2'])) {
 
 
       let bodyElement = document.body;
-      let y_graph = bodyElement.clientHeight / 2;
-      let x_graph = bodyElement.clientWidth / 2;
+      let y_graph = bodyElement.clientHeight / 2 - 90;
+      let x_graph = bodyElement.clientWidth / 2 -85;
 
 
 
@@ -1229,14 +1229,28 @@ if (isset($_POST['drugName2'])) {
           "link",
           d3.forceLink(links)
           .id((d) => d.id)
-          .distance((link, index) => (index % 2 === 0 ? 150 : 200))
+          .distance((link, index) => (index % 2 === 0 ? 250 : 300))
         )
 
         .force("charge", d3.forceManyBody().strength(-100))
         .force("x", d3.forceX(x_graph))
-        .force("y", d3.forceY(y_graph));
+        .force("y", d3.forceY(y_graph))
+        .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
+;
 
 
+        // if(links.length >300){
+        //   simulation = d3
+        // .forceSimulation(nodes)
+        // .force(
+        //   "link",
+        //   d3.forceLink(links)
+        //   .id((d) => d.id)
+        //   .distance((link, index) => (index % 2 === 0 ? 650 : 800))
+        // )
+
+        // .force("charge", d3.forceManyBody().strength(-200))
+        // }
       legendinfo();
       // Manually set colors based on the dataset value
       link = g
@@ -1546,11 +1560,11 @@ if (isset($_POST['drugName2'])) {
         node.attr("transform", (d) => `translate(${Math.max(0, Math.min(svgWidth, d.x))},${Math.max(0, Math.min(svgHeight, d.y))})`);
       });
       var zoom = d3.zoom()
-        .scaleExtent([0.1, 10]) // Set the zoom scale extent as needed
+        .scaleExtent([0.5, 10]) // Set the zoom scale extent as needed
         .on("zoom", zoomed);
 
       g.call(zoom);
-
+      
       function zoomed() {
         if (g) {
           // g.attr("transform", d3.event.transform);
@@ -2498,7 +2512,9 @@ if (isset($_POST['drugName2'])) {
     function ajax() {
       // Prevent the default form submission
       event.preventDefault();
+
       document.getElementById('loader').style.display = 'block';
+    
       clearGraph();
 
       document.getElementById('wrapper').style.display = 'none';

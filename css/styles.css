@@ -633,7 +633,7 @@ label ,button ,span{
     width: 100%;
     top: 0%;
 
-    height: 900px;
+    height: 100vh;
     backdrop-filter: blur(10px);
     position: absolute;
   }
