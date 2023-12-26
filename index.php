@@ -368,9 +368,9 @@ if (isset($_POST['drugName2'])) {
              " class=" forcenetwork  ">
         <!-- Loader embedded inside SVG -->
       </svg>
-      <foreignObject width="100%" height="100%" class = 'loaderplacement'>
+      <div id="loader_id">
         <div class="loader" id="loader"></div>
-      </foreignObject>
+      </div>
 
 
       <div class="wrapper  " id='wrapper'>
@@ -397,7 +397,7 @@ if (isset($_POST['drugName2'])) {
                 <input type="text" id="search-bar" oninput="filterNames('name-list')" onclick="focusSearch('search-bar')">
                 <ul id="name-list">
                 </ul>
-                
+
                 <p id="no-matches" style="display: none;">No match found</p>
               </div>
               <!-- cellline filteration -->
@@ -406,7 +406,7 @@ if (isset($_POST['drugName2'])) {
                 <input type="text" id="search-bar2" oninput="filterNames2('name-list2')" onclick="focusSearch('search-bar2')">
                 <ul id="name-list2">
                 </ul>
-                
+
                 <p id="no-matches2" style="display: none;">No match found</p>
               </div>
 
@@ -1215,7 +1215,7 @@ if (isset($_POST['drugName2'])) {
 
       let bodyElement = document.body;
       let y_graph = bodyElement.clientHeight / 2 - 90;
-      let x_graph = bodyElement.clientWidth / 2 -85;
+      let x_graph = bodyElement.clientWidth / 2 - 85;
 
 
 
@@ -1236,21 +1236,21 @@ if (isset($_POST['drugName2'])) {
         .force("x", d3.forceX(x_graph))
         .force("y", d3.forceY(y_graph))
         .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
-;
+      ;
 
 
-        // if(links.length >300){
-        //   simulation = d3
-        // .forceSimulation(nodes)
-        // .force(
-        //   "link",
-        //   d3.forceLink(links)
-        //   .id((d) => d.id)
-        //   .distance((link, index) => (index % 2 === 0 ? 650 : 800))
-        // )
+      // if(links.length >300){
+      //   simulation = d3
+      // .forceSimulation(nodes)
+      // .force(
+      //   "link",
+      //   d3.forceLink(links)
+      //   .id((d) => d.id)
+      //   .distance((link, index) => (index % 2 === 0 ? 650 : 800))
+      // )
 
-        // .force("charge", d3.forceManyBody().strength(-200))
-        // }
+      // .force("charge", d3.forceManyBody().strength(-200))
+      // }
       legendinfo();
       // Manually set colors based on the dataset value
       link = g
@@ -1401,11 +1401,10 @@ if (isset($_POST['drugName2'])) {
             (link) => link.source.id === d.id || link.target.id === d.id
           ).length;
           if (degree < 8) {
-            return  5;
-          } else if(degree > 80) {
+            return 5;
+          } else if (degree > 80) {
             return 45;
-          }
-          else{
+          } else {
             return degree / 2;
           }
         })
@@ -1514,12 +1513,20 @@ if (isset($_POST['drugName2'])) {
         .append("text")
         .text((d) => d.id)
         .attr("dx", 6)
-        .attr("dy", function(d){
-          if(d.type === "parentnode"){
+        .attr("dy", function(d) {
+          if (d.type === "parentnode") {
             return `1.5rem`
+          } else if (d.type === "childnode") {
+            degree = links.filter(
+            (link) => link.source.id === d.id || link.target.id === d.id
+          ).length;
+          if (degree < 8) {
+            return 8;
+          } else if (degree > 80) {
+            return 70;
+          } else {
+            return degree -10;
           }
-          else if(d.type ==="childnode"){
-            return  1;
           }
         })
         .style("font-size", "14.208px").style("font-family", "Arial")
@@ -1564,7 +1571,7 @@ if (isset($_POST['drugName2'])) {
         .on("zoom", zoomed);
 
       g.call(zoom);
-      
+
       function zoomed() {
         if (g) {
           // g.attr("transform", d3.event.transform);
@@ -2513,8 +2520,19 @@ if (isset($_POST['drugName2'])) {
       // Prevent the default form submission
       event.preventDefault();
 
-      document.getElementById('loader').style.display = 'block';
-    
+      let bodyElement = document.body;
+      let y_graph = bodyElement.clientHeight / 2 - 90;
+      let x_graph = bodyElement.clientWidth / 2 - 85;
+
+      // Assuming 'loader' is the ID of your loader element
+      let loaderElement = document.getElementById('loader');
+
+      // Set the position of the loader
+      loaderElement.style.display = 'block';
+      loaderElement.style.top = y_graph + 'px';
+      loaderElement.style.left = x_graph + 'px';
+
+
       clearGraph();
 
       document.getElementById('wrapper').style.display = 'none';
@@ -2737,31 +2755,31 @@ if (isset($_POST['drugName2'])) {
       }
     }
     // drag ended here 
-// Initial generation of the name list
+    // Initial generation of the name list
 
-function toggleDialog() {
+    function toggleDialog() {
 
-var dialog = document.getElementById("dialog-container");
-dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
+      var dialog = document.getElementById("dialog-container");
+      dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
 
-}
+    }
 
-function toggleDialog2() {
+    function toggleDialog2() {
 
-var dialog = document.getElementById("dialog-container");
-dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
+      var dialog = document.getElementById("dialog-container");
+      dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
 
-create_it = true;
-}
+      create_it = true;
+    }
 
 
 
-function focusSearch(search_val) {
-document.getElementById(search_val).focus();
-}
-// ENDED 
+    function focusSearch(search_val) {
+      document.getElementById(search_val).focus();
+    }
+    // ENDED 
 
-     
+
     var nameList = document.getElementById("name-list");
     nameList.innerHTML = ''; // Clear existing list
 
@@ -2797,10 +2815,10 @@ document.getElementById(search_val).focus();
       // ENDED 
 
       // CLEAR THE LIST  
-      
-            nameList.innerHTML = '';
-            nameList2.innerHTML = '';
-            
+
+      nameList.innerHTML = '';
+      nameList2.innerHTML = '';
+
       // ENDED 
       //  UPDATED THE LIST WITH THE CHECK BOX 
 
@@ -2831,8 +2849,8 @@ document.getElementById(search_val).focus();
         nameList.appendChild(listItem);
 
       }
-// ENDED 
-// LIST OF CELL_LINE_NAME 
+      // ENDED 
+      // LIST OF CELL_LINE_NAME 
       for (var i = 0; i < visible_childnode.length; i++) {
         var nameId = 'name' + (i + 1);
         var listItem = document.createElement('li');
@@ -2841,10 +2859,10 @@ document.getElementById(search_val).focus();
         nameList2.appendChild(listItem);
 
       }
-// ENDED
+      // ENDED
 
     }
-// generateNameList ENDED 
+    // generateNameList ENDED 
 
     // Function to filter names based on the search bar input
     //  FILTERNAMES 
@@ -2895,7 +2913,7 @@ document.getElementById(search_val).focus();
 
 
     function filterNames2(id_vlaue) {
-     
+
       var input, filter, checkboxes3, names, i;
       input = document.getElementById("search-bar2");
       filter = input.value.toLowerCase();
@@ -2932,7 +2950,7 @@ document.getElementById(search_val).focus();
       nameList2.style.display = matchesFound ? "block" : "none";
       // Show or hide "No matches" message
       noMatches.style.display = matchesFound ? "none" : "block";
-     
+
     }
 
 

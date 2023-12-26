@@ -88,7 +88,7 @@ label ,button ,span{
   .wrapper {
     /* width: 400px; */
     width: 250px;
-
+z-index: 9999;
     background: #fff;
     border-radius: 10px;
     padding: 20px 25px 40px;
@@ -326,7 +326,6 @@ label ,button ,span{
   .loader {
 
     position: absolute;
-    margin: 15% -38%;
     display: none;
     border: 16px solid #f3f3f3;
     border-radius: 50%;
