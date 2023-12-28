@@ -149,6 +149,15 @@ if (isset($_POST['drugName2'])) {
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <style>
+    footer {
+ 
+    color: #fff; /* Choose your preferred text color */
+    text-align: center;
+    padding: 10px; /* Adjust as needed */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
     /* Style for the dropdown button */
     .dropdownBtn {
       cursor: pointer;
@@ -489,7 +498,7 @@ if (isset($_POST['drugName2'])) {
   </div>
 
   <!-- overlay  -->
-  <section style="background-color : white">
+  <section style="background-color : white;  z-index : 5" >
     <span class='overlay'></span>
     <div class="modal-box">
       <div class="model_box_inner">
@@ -552,13 +561,17 @@ if (isset($_POST['drugName2'])) {
   <script>
     let oncotree_change1 = [];
 
-    function Close_other_dropdown() {
+    function Close_other_dropdown(drophere) {
 
       for (let i = 1; i <= 4; i++) {
         let dropdownContent = document.getElementById(`dropdownContent${i}`);
+                
 
-        if (dropdownContent.style.display === "block") {
-          dropdownContent.style.display = "none";
+        if (dropdownContent !=  drophere){
+
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+          }
         }
       }
 
@@ -570,10 +583,9 @@ if (isset($_POST['drugName2'])) {
     function toggleDropdown(event) {
 
       // event.preventDefault();
-      Close_other_dropdown();
       var dropdownContent = document.getElementById("dropdownContent1");
       var dropdownBtn = document.getElementById("dropdownBtn");
-
+      
       if (dropdownContent.style.display === "block") {
         dropdownContent.style.display = "none";
 
@@ -581,6 +593,7 @@ if (isset($_POST['drugName2'])) {
         dropdownContent.style.display = "block";
         event.stopPropagation();
       }
+      Close_other_dropdown(dropdownContent);
     }
 
     // Function to handle checkbox changes and update the button text
@@ -615,7 +628,6 @@ if (isset($_POST['drugName2'])) {
 
     function toggleDropdown2(event) {
 
-      Close_other_dropdown();
       var dropdownContent = document.getElementById("dropdownContent2");
       var dropdownBtn = document.getElementById("dropdownBtn2");
       if (dropdownContent.style.display === "block") {
@@ -624,6 +636,7 @@ if (isset($_POST['drugName2'])) {
         dropdownContent.style.display = "block";
         event.stopPropagation();
       }
+      Close_other_dropdown(dropdownContent);
     }
 
 
@@ -660,7 +673,6 @@ if (isset($_POST['drugName2'])) {
 
     function toggleDropdown4(event) {
 
-      Close_other_dropdown();
       var dropdownContent = document.getElementById("dropdownContent4");
       var dropdownBtn = document.getElementById("dropdownBtn4");
 
@@ -670,6 +682,8 @@ if (isset($_POST['drugName2'])) {
         dropdownContent.style.display = "block";
         event.stopPropagation();
       }
+      
+      Close_other_dropdown(dropdownContent);
     }
 
 
@@ -705,7 +719,6 @@ if (isset($_POST['drugName2'])) {
 
     function toggleDropdown3(event) {
 
-      Close_other_dropdown();
       var dropdownContent = document.getElementById("dropdownContent3");
       var dropdownBtn = document.getElementById("dropdownBtn3");
 
@@ -715,6 +728,8 @@ if (isset($_POST['drugName2'])) {
         dropdownContent.style.display = "block";
         event.stopPropagation();
       }
+      
+      Close_other_dropdown(dropdownContent);
     }
 
     function handleCheckboxChange3() {
@@ -850,6 +865,26 @@ if (isset($_POST['drugName2'])) {
     //  childnode entry 
     let ONCOTREE_LINEAGE_legend = [];
     let child_categories;
+    const ONCOTREE_LINEAGE_Data = [
+
+      'Lymphoid', 'Endometrium',
+      'Bone', 'Skin', 'Central Nervous System', 'Lung', 'Peripheral Nervous System', 'Soft Tissue', 'Esophagus',
+      'Breast',
+      'Head and Neck',
+      'Haematopoietic and Lymphoid',
+      'Bladder', 'Kidney', 'Pancreas',
+      'Large Intestine',
+      'Ovary',
+      'Stomach',
+      'Biliary Tract',
+      'Small Intestine',
+      'Placenta',
+      'Prostate',
+      'Testis',
+      'Uterus',
+      'Vulva',
+      'Thyroid'
+    ];
 
 
     let count_increment = 1;
@@ -935,7 +970,7 @@ if (isset($_POST['drugName2'])) {
 
         }
         if (!ONCOTREE_LINEAGE_legend.includes(item.ONCOTREE_LINEAGE)) {
-          if (item.ONCOTREE_LINEAGE === "") {
+          if (item.ONCOTREE_LINEAGE === "" || !ONCOTREE_LINEAGE_Data.includes(item.ONCOTREE_LINEAGE)) {
             if (!ONCOTREE_LINEAGE_legend.includes("Unknown")) {
               ONCOTREE_LINEAGE_legend.push("Unknown")
 
@@ -1518,15 +1553,15 @@ if (isset($_POST['drugName2'])) {
             return `1.5rem`
           } else if (d.type === "childnode") {
             degree = links.filter(
-            (link) => link.source.id === d.id || link.target.id === d.id
-          ).length;
-          if (degree < 8) {
-            return 8;
-          } else if (degree > 80) {
-            return 70;
-          } else {
-            return degree -10;
-          }
+              (link) => link.source.id === d.id || link.target.id === d.id
+            ).length;
+            if (degree < 20) {
+              return 15;
+            } else if (degree > 80) {
+              return 70;
+            } else {
+              return degree - (degree / 2) + 25;
+            }
           }
         })
         .style("font-size", "14.208px").style("font-family", "Arial")
@@ -1956,32 +1991,7 @@ if (isset($_POST['drugName2'])) {
         });
 
       }
-      // const ONCOTREE_LINEAGE = [
-      //   'Bone',
-      //   'Skin',
-      //   'Central Nervous System',
-      //   'Lung',
-      //   'Peripheral Nervous System',
-      //   'Soft Tissue',
-      //   'Esophagus',
-      //   'Breast',
-      //   'Head and Neck',
-      //   'Haematopoietic and Lymphoid',
-      //   'Bladder',
-      //   'Kidney',
-      //   'Pancreas',
-      //   'Large Intestine',
-      //   'Ovary',
-      //   'Stomach',
-      //   'Biliary Tract',
-      //   'Small Intestine',
-      //   'Placenta',
-      //   'Prostate',
-      //   'Testis',
-      //   'Uterus',
-      //   'Vulva',
-      //   'Thyroid'
-      // ];
+
 
       child_colors = [
         '#1f77b4', // blue
@@ -2646,10 +2656,24 @@ if (isset($_POST['drugName2'])) {
 
       document.getElementById('buttonbar').style.display = 'none';
       section.classList.remove("active")
+      //  tag5
+      var dialog = document.getElementById("dialog-container");
+      let check1= false ;
+      if( dialog.style.display ===  "block"){
+
+        dialog.style.display =  "none" ;
+        check =true;
+
+      }
 
 
       downlaodPNG("png");
       document.getElementById('buttonbar').style.display = 'block';
+
+      if(check1){
+        dialog.style.display =  "block" ;
+      }
+
 
 
     });
@@ -2788,7 +2812,7 @@ if (isset($_POST['drugName2'])) {
 
     function generateNameList() {
 
-      //  HERE REMOVE  THE UN CHECKBOX THAT DISAPPEARS 
+      //  HERE REMOVE  THE UNCHECKBOX THAT DISAPPEARS 
 
       for (var i = 0; i < visible_parentnode.length; i++) {
         var nameId = 'name' + (i + 1);
@@ -2826,7 +2850,8 @@ if (isset($_POST['drugName2'])) {
         var nameId = 'name' + (i + 1);
         var listItem = document.createElement('li');
         let name1 = checkbox_saves[i];
-        listItem.innerHTML = `<input type="checkbox" id="${name1}" checked > <label for="${name1}">${name1}</label>`;
+        listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
+        
         nameList.appendChild(listItem);
       }
 
@@ -2834,28 +2859,28 @@ if (isset($_POST['drugName2'])) {
         var nameId = 'name' + (i + 1);
         var listItem2 = document.createElement('li');
         let name1 = checkbox_saves_child[i];
-        listItem2.innerHTML = `<input type="checkbox" id="${name1}" checked > <label for="${name1}">${name1}</label>`;
+        listItem2.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
         nameList2.appendChild(listItem2);
       }
-
-
       // ENDED 
+
       // LIST OF THE COMPOUND_NAME 
       for (var i = 0; i < visible_parentnode.length; i++) {
         var nameId = 'name' + (i + 1);
         var listItem = document.createElement('li');
         let name1 = visible_parentnode[i];
-        listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
+        listItem.innerHTML = `<input type="checkbox" id="${name1}" checked > <label for="${name1}">${name1}</label>`;
         nameList.appendChild(listItem);
 
       }
       // ENDED 
+
       // LIST OF CELL_LINE_NAME 
       for (var i = 0; i < visible_childnode.length; i++) {
         var nameId = 'name' + (i + 1);
         var listItem = document.createElement('li');
         let name1 = visible_childnode[i];
-        listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
+        listItem.innerHTML = `<input type="checkbox" id="${name1}" checked  > <label for="${name1}">${name1}</label>`;
         nameList2.appendChild(listItem);
 
       }
@@ -2964,7 +2989,7 @@ if (isset($_POST['drugName2'])) {
       checkbox_names = [];
 
       for (var i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
+        if (!checkboxes[i].checked) {
 
           checkbox_names.push(checkboxes[i].id);
 
@@ -2974,14 +2999,16 @@ if (isset($_POST['drugName2'])) {
       }
       // namelist2
       for (var i = 0; i < checkboxes2.length; i++) {
-        if (checkboxes2[i].checked) {
+        if (!checkboxes2[i].checked) {
 
+          console.log("checkbox_names");
           checkbox_names.push(checkboxes2[i].id);
 
           if (!checkbox_saves_child.includes(checkboxes2[i].id))
             checkbox_saves_child.push(checkboxes2[i].id);
         }
       }
+      console.log(checkbox_names);
       range_of_links(minValue, maxValue, slider_range);
     }
   </script>
