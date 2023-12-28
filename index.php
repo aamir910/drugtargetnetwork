@@ -227,6 +227,29 @@ if (isset($_POST['drugName2'])) {
       border-radius: 4px;
       width: 100%;
     }
+
+     /* Your existing alert styles */
+    
+    
+
+    /* New alert styles with a different background color */
+    #applyfilter {
+      display: none;
+      position: fixed;
+      color: white;
+      bottom: 30px;
+      left: 20px;
+      transition: opacity 1s ease-in-out
+    }
+    #applyfilter span {
+      /* display: none; */
+      color: white;
+    }
+
+
+    .alert-success {
+      background-color: #28a5fb; /* New background color */
+    }
   </style>
 
 
@@ -360,8 +383,8 @@ if (isset($_POST['drugName2'])) {
 
         <!-- button  -->
       </div>
-      <button class="btn btn-success" id="submitButton" type='submit'>
-        <i class="bi bi-search"></i> Search
+      <button class="btn btn-success" id="submitButton" type='submit' style="width:11rem">
+        <i class="bi bi-search"></i> Apply Filter
       </button>
     </form>
     <!-- end of the navbar -->
@@ -402,7 +425,7 @@ if (isset($_POST['drugName2'])) {
             <div class="filter_cell_cmd">
               <!-- compound filteration -->
               <div>
-                <label for="search-bar">Apply compound filter:</label>
+                <label for="search-bar">Search compounds:</label>
                 <input type="text" id="search-bar" oninput="filterNames('name-list')" onclick="focusSearch('search-bar')">
                 <ul id="name-list">
                 </ul>
@@ -411,7 +434,7 @@ if (isset($_POST['drugName2'])) {
               </div>
               <!-- cellline filteration -->
               <div>
-                <label for="search-bar2">Apply cellline filter:</label>
+                <label for="search-bar2">Searh Cell lines:</label>
                 <input type="text" id="search-bar2" oninput="filterNames2('name-list2')" onclick="focusSearch('search-bar2')">
                 <ul id="name-list2">
                 </ul>
@@ -454,7 +477,7 @@ if (isset($_POST['drugName2'])) {
             <ul id="matric_set" class="legend_inner"></ul>
           </div>
           <div style="width : 60%">
-            <legend class="legenddata">tissues</legend>
+            <legend class="legenddata">Tissues</legend>
             <ul id="child_node" class="legend_inner"></ul>
           </div>
         </div>
@@ -496,6 +519,12 @@ if (isset($_POST['drugName2'])) {
 
   </div>
   </div>
+  
+
+  <div id="applyfilter">
+    <span class="alert alert-success">filtering applied </span>
+  </div>
+
 
   <!-- overlay  -->
   <section style="background-color : white;  z-index : 5" >
@@ -549,7 +578,7 @@ if (isset($_POST['drugName2'])) {
 
     </div>
   </div>
-
+  
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://d3js.org/d3-force.v3.min.js"></script>
@@ -2739,6 +2768,27 @@ if (isset($_POST['drugName2'])) {
 
 
 
+// function ton show the alert MessageEvent of apply filteration 
+function showSuccessAlert() {
+      // Make sure to hide the existing alert
+
+      // Show the new alert
+      var successAlert = document.getElementById('applyfilter');
+      successAlert.style.display = 'block';
+
+      // Set a timeout to start the fade-out effect after 3 seconds
+      setTimeout(function () {
+        successAlert.style.opacity = '0';
+
+        // Hide the alert after the fade-out effect completes
+        setTimeout(function () {
+          successAlert.style.display = 'none';
+          // Reset opacity for future use
+          successAlert.style.opacity = '1';
+        }, 1000); // 1 second matches the duration of the fade-out transition
+      }, 3000);
+    }
+    // ENDED    
 
 
 
@@ -2982,6 +3032,7 @@ if (isset($_POST['drugName2'])) {
     var checkboxes2;
     // Function to save selected names in an array
     function saveNames() {
+      showSuccessAlert();
       create_it = false;
       var checkboxes = document.getElementById("name-list").getElementsByTagName("input");
 
