@@ -559,10 +559,10 @@ if (isset($_POST['drugName2'])) {
 
         <form class="toggle">
 
-          <input type="radio" id="choice2" name="choice" value="productive" checked>
+          <!-- <input type="radio" id="choice2" name="choice" value="productive" checked>
           <label for="choice2">Biologics Structure </label>
           <input type="radio" id="choice1" name="choice" value="creative">
-          <label for="choice1">Properties</label>
+          <label for="choice1">Properties</label> -->
 
         </form>
       </div>
@@ -571,7 +571,7 @@ if (isset($_POST['drugName2'])) {
           <tbody id="compoundTableBody">
             <!-- Data will be dynamically inserted here using JavaScript -->
           </tbody>
-          <img src="image_not_available.png" alt="Structure Image" class="structure-image">
+          <!-- <img src="image_not_available.png" alt="Structure Image" class="structure-image"> -->
         </table>
       </div>
       <button style="background:none " id='parent_des_close'><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
@@ -1245,23 +1245,23 @@ if (isset($_POST['drugName2'])) {
       }
       // Call the function to populate the table
       populateTable();
-      const toggleForm = document.querySelector('.toggle');
+      // const toggleForm = document.querySelector('.toggle');
       const compoundTable = document.querySelector('table');
-      const structureImage = document.querySelector('.structure-image');
+      // const structureImage = document.querySelector('.structure-image');
       // structureImage.style.display = 'none';
-      compoundTable.style.display = 'none';
+      // compoundTable.style.display = 'none';
 
-      toggleForm.addEventListener('change', function() {
+      // toggleForm.addEventListener('change', function() {
 
-        if (document.getElementById('choice1').checked) {
-          compoundTable.style.display = 'table'; // Show the table
-          structureImage.style.display = 'none'; // Hide the image
-          populateTable(); // Call the function to populate the table
-        } else if (document.getElementById('choice2').checked) {
-          compoundTable.style.display = 'none'; // Hide the table
-          structureImage.style.display = 'block'; // Show the image
-        }
-      });
+      //   if (document.getElementById('choice1').checked) {
+      //     compoundTable.style.display = 'table'; // Show the table
+      //     structureImage.style.display = 'none'; // Hide the image
+      //     populateTable(); // Call the function to populate the table
+      //   } else if (document.getElementById('choice2').checked) {
+      //     compoundTable.style.display = 'none'; // Hide the table
+      //     structureImage.style.display = 'block'; // Show the image
+      //   }
+      // });
     }
 
     //  initialize the graph for the first time  
@@ -1282,6 +1282,9 @@ if (isset($_POST['drugName2'])) {
       let x_graph = bodyElement.clientWidth / 2 - 85;
 
 
+     checkbox_names = [];
+     checkbox_saves = [];
+     checkbox_saves_child = [];
 
 
 
@@ -1445,11 +1448,11 @@ if (isset($_POST['drugName2'])) {
         var closeButton = document.getElementById('parent_des_close');
         closeButton.addEventListener('click', function() {
 
-          document.getElementById('choice2').checked = true;
-          document.getElementById('choice1').checked = false;
+          // document.getElementById('choice2').checked = true;
+          // document.getElementById('choice1').checked = false;
 
-          const structureImage = document.querySelector('.structure-image');
-          structureImage.style.display = 'block'; // Show the image
+          // const structureImage = document.querySelector('.structure-image');
+          // structureImage.style.display = 'block'; // Show the image
           var div = document.querySelector('.parent_description');
           div.classList.remove('show');
           var div = document.querySelector('.blur_the_background');
