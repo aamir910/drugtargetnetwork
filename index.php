@@ -150,14 +150,17 @@ if (isset($_POST['drugName2'])) {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <style>
     footer {
- 
-    color: #fff; /* Choose your preferred text color */
-    text-align: center;
-    padding: 10px; /* Adjust as needed */
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
+
+      color: #fff;
+      /* Choose your preferred text color */
+      text-align: center;
+      padding: 10px;
+      /* Adjust as needed */
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
     /* Style for the dropdown button */
     .dropdownBtn {
       cursor: pointer;
@@ -228,9 +231,9 @@ if (isset($_POST['drugName2'])) {
       width: 100%;
     }
 
-     /* Your existing alert styles */
-    
-    
+    /* Your existing alert styles */
+
+
 
     /* New alert styles with a different background color */
     #applyfilter {
@@ -241,6 +244,7 @@ if (isset($_POST['drugName2'])) {
       left: 20px;
       transition: opacity 1s ease-in-out
     }
+
     #applyfilter span {
       /* display: none; */
       color: white;
@@ -248,7 +252,8 @@ if (isset($_POST['drugName2'])) {
 
 
     .alert-success {
-      background-color: #28a5fb; /* New background color */
+      background-color: #28a5fb;
+      /* New background color */
     }
   </style>
 
@@ -452,7 +457,7 @@ if (isset($_POST['drugName2'])) {
         <div class="price-input">
           <div class="field">
             <span>Min</span>
-            <input type="number" class="input-min" value="4.0" step="0.1">
+            <input type="number" class="input-min" value="6.0" step="0.1">
           </div>
           <div class="separator">-</div>
           <div class="field">
@@ -464,7 +469,7 @@ if (isset($_POST['drugName2'])) {
           <div class="progress"></div>
         </div>
         <div class="range-input">
-          <input id="min_slider" type="range" class="range-min" min="4.0" max="9.0" step="0.1" value="4.0">
+          <input id="min_slider" type="range" class="range-min" min="4.0" max="9.0" step="0.1" value="6.0">
           <input id="max_slider" type="range" class="range-max" min="4.0" max="9.0" step="0.1" value="9.0">
         </div>
         <div class="legend">
@@ -519,7 +524,7 @@ if (isset($_POST['drugName2'])) {
 
   </div>
   </div>
-  
+
 
   <div id="applyfilter">
     <span class="alert alert-success">filtering applied </span>
@@ -527,7 +532,7 @@ if (isset($_POST['drugName2'])) {
 
 
   <!-- overlay  -->
-  <section style="background-color : white;  z-index : 5" >
+  <section style="background-color : white;  z-index : 5">
     <span class='overlay'></span>
     <div class="modal-box">
       <div class="model_box_inner">
@@ -578,7 +583,7 @@ if (isset($_POST['drugName2'])) {
 
     </div>
   </div>
-  
+
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://d3js.org/d3-force.v3.min.js"></script>
@@ -594,9 +599,9 @@ if (isset($_POST['drugName2'])) {
 
       for (let i = 1; i <= 4; i++) {
         let dropdownContent = document.getElementById(`dropdownContent${i}`);
-                
 
-        if (dropdownContent !=  drophere){
+
+        if (dropdownContent != drophere) {
 
           if (dropdownContent.style.display === "block") {
             dropdownContent.style.display = "none";
@@ -614,7 +619,7 @@ if (isset($_POST['drugName2'])) {
       // event.preventDefault();
       var dropdownContent = document.getElementById("dropdownContent1");
       var dropdownBtn = document.getElementById("dropdownBtn");
-      
+
       if (dropdownContent.style.display === "block") {
         dropdownContent.style.display = "none";
 
@@ -711,7 +716,7 @@ if (isset($_POST['drugName2'])) {
         dropdownContent.style.display = "block";
         event.stopPropagation();
       }
-      
+
       Close_other_dropdown(dropdownContent);
     }
 
@@ -757,7 +762,7 @@ if (isset($_POST['drugName2'])) {
         dropdownContent.style.display = "block";
         event.stopPropagation();
       }
-      
+
       Close_other_dropdown(dropdownContent);
     }
 
@@ -837,7 +842,7 @@ if (isset($_POST['drugName2'])) {
     //  onclick matric 
     let matric_link = [];
 
-    let minValue;
+    let minValue = 6;
     let maxValue;
 
 
@@ -1282,9 +1287,9 @@ if (isset($_POST['drugName2'])) {
       let x_graph = bodyElement.clientWidth / 2 - 85;
 
 
-     checkbox_names = [];
-     checkbox_saves = [];
-     checkbox_saves_child = [];
+      checkbox_names = [];
+      checkbox_saves = [];
+      checkbox_saves_child = [];
 
 
 
@@ -2412,6 +2417,12 @@ if (isset($_POST['drugName2'])) {
       links = [];
       slider_range = 100;
       slider2.max = 100;
+      minValue = 6;
+      // minSlider.min = 6 
+      minSlider.value = 6;
+      var inputElement = document.querySelector('.input-min');
+      // Get the value of the input element
+      inputElement.value = 6;
 
       rangeValue.textContent = 100;
     }
@@ -2421,6 +2432,7 @@ if (isset($_POST['drugName2'])) {
     const maxSlider = document.getElementById("max_slider");
     const rangetext = document.getElementById("rangeValue");
     // Function to log the values of both sliders
+
     function logSliderValues() {
 
       // tag2
@@ -2690,11 +2702,11 @@ if (isset($_POST['drugName2'])) {
       section.classList.remove("active")
       //  tag5
       var dialog = document.getElementById("dialog-container");
-      let check1= false ;
-      if( dialog.style.display ===  "block"){
+      let check1 = false;
+      if (dialog.style.display === "block") {
 
-        dialog.style.display =  "none" ;
-        check =true;
+        dialog.style.display = "none";
+        check = true;
 
       }
 
@@ -2702,8 +2714,8 @@ if (isset($_POST['drugName2'])) {
       downlaodPNG("png");
       document.getElementById('buttonbar').style.display = 'block';
 
-      if(check1){
-        dialog.style.display =  "block" ;
+      if (check1) {
+        dialog.style.display = "block";
       }
 
 
@@ -2771,8 +2783,8 @@ if (isset($_POST['drugName2'])) {
 
 
 
-// function ton show the alert MessageEvent of apply filteration 
-function showSuccessAlert() {
+    // function ton show the alert MessageEvent of apply filteration 
+    function showSuccessAlert() {
       // Make sure to hide the existing alert
 
       // Show the new alert
@@ -2780,11 +2792,11 @@ function showSuccessAlert() {
       successAlert.style.display = 'block';
 
       // Set a timeout to start the fade-out effect after 3 seconds
-      setTimeout(function () {
+      setTimeout(function() {
         successAlert.style.opacity = '0';
 
         // Hide the alert after the fade-out effect completes
-        setTimeout(function () {
+        setTimeout(function() {
           successAlert.style.display = 'none';
           // Reset opacity for future use
           successAlert.style.opacity = '1';
@@ -2904,7 +2916,7 @@ function showSuccessAlert() {
         var listItem = document.createElement('li');
         let name1 = checkbox_saves[i];
         listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
-        
+
         nameList.appendChild(listItem);
       }
 
