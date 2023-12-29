@@ -1208,11 +1208,11 @@ if (isset($_POST['drugName2'])) {
 
         for (var i = 0; i < lines.length - 1; i++) {
           var parts = lines[i].split(';');
-          var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
+        var formattedText = '<b>' + parts[0] + '</b>' + '<a href="https://cancer.sanger.ac.uk/cosmic" target="_blank">' + parts[1] + '</a>';
           formattedLines.push(formattedText);
         }
 
-
+     console.log(formattedLines);  
 
         return formattedLines.join('<br>');
       }
