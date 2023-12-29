@@ -29,12 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $conditions[] = "MAX_PHASE IN ('$MaxPhase_condition')";
     }
 
-    // if ($count_increment == 1) {
-    //   // When count increment is not 1, include conditions for "Preclinical" and "Unknown"
-    //   $conditions[] = "MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
-    // } 
-
-
     // Check and add condition for ONCOTREE_LINEAGE
     if (isset($_POST['oncotree_change1']) && !empty($_POST['oncotree_change1'])) {
       $oncotree_change1 = $_POST['oncotree_change1'];
@@ -56,8 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if ($count_increment != 1) {
 
         $sql .= " " . implode(" AND ", $conditions);
-      }
-       else {
+      } else {
         $sql .= " " . implode(" AND ", $conditions) . " AND MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
       }
     }
@@ -527,7 +520,7 @@ if (isset($_POST['drugName2'])) {
 
 
 
-    <div class="card" id="cardid" style="display: none;">
+    <div class="card" id="cardid" style="display: none; z-index:9999">
       <p class="cl-picker">change color</p>
       <ul class="ul_of_color_picker" id="colorList">
 
@@ -813,6 +806,13 @@ if (isset($_POST['drugName2'])) {
     // Click event handler for the window
     window.onclick = function(event) {
       // Check if the clicked element is a dropdown button or its content
+      
+    // var cardshow = document.getElementById("cardid");
+
+    //   if (cardshow.style.display === "block") {
+    //     cardshow.style.display = "none";
+    // }
+
       if (
         !event.target.matches('.dropdown') &&
         !event.target.matches('.dropdown-content') &&
@@ -2182,7 +2182,7 @@ if (isset($_POST['drugName2'])) {
             }
           }
           return "#6a329f";
-        }).on("click", color_click_onchange);;
+        }).on("click", color_click_onchange);
 
 
       datasettext_click = dataSet_link.append("span").text((d) => d.category)
@@ -2308,22 +2308,46 @@ if (isset($_POST['drugName2'])) {
     }
 
     function color_click_onchange(event, d) {
-      selected_maxphase = d.category;
-      clickedDiv = d3.select(this);
+  // Check if the click occurred on the max_phase_color or line elements or their descendants
+  if (event.target.closest('.rect') || event.target.closest('.line')) {
 
-      var clickX = event.clientX;
-      var clickY = event.clientY;
+    selected_maxphase = d.category;
+  clickedDiv = d3.select(this);
 
-      cardshow = document.getElementById("cardid");
-      cardshow.style.display = "block";
+  var clickX = event.clientX;
+  var clickY = event.clientY;
 
-      // Set the position of cardshow based on the click coordinates
-      cardshow.style.left = clickX + "px";
-      cardshow.style.top = clickY + "px";
+  cardshow = document.getElementById("cardid");
+  cardshow.style.display = "block";
+  cardshow.style.left = clickX + "px";
+  cardshow.style.top = clickY + "px";
+  count = 0;
 
-      count = 0;
 
+
+
+ 
+    return; // Ignore the click on max_phase_color or line elements
+  }
+
+  // Rest of your code for color_click_onchange
+  
+  // Add a click event listener to the document body
+  
+}
+
+document.body.addEventListener('click', function(e) {
+    // Check if the click is outside the cardid
+    if (event.target.closest('.rect') || event.target.closest('.line')) {
+    }else{
+
+      var cardshow = document.getElementById("cardid");
+    cardshow.style.display = "none";
+    
     }
+  });
+
+
     ul_color.addEventListener("click", function(event) {
 
       let clickedLi = "";
