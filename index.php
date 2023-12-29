@@ -245,22 +245,28 @@ if (isset($_POST['drugName2'])) {
     #applyfilter {
       display: none;
       position: fixed;
-      color: white;
-      bottom: 30px;
-      left: 20px;
-      transition: opacity 1s ease-in-out
+      font-weight: 700;
+      bottom: 20px;
+      right: 20px;
+      /* border: 2px solid green; */
+      text-align: center;
+      transition: opacity 1s ease-in-out ; 
+      width: 300px;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background-color: #00a600;
+      z-index: 999;
+
     }
 
     #applyfilter span {
-      /* display: none; */
-      color: white;
+      color: black;
     }
 
-
-    .alert-success {
-      background-color: #28a5fb;
-      /* New background color */
-    }
+   
   </style>
 
 
@@ -354,7 +360,7 @@ if (isset($_POST['drugName2'])) {
 
         </div>
         <!-- third Dropdown -->
-        <div class="dropdown" id="dropdown4">
+        <div class="dropdown" id="dropdown4" style="display: none;" >
           <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select drugs</label>
           <div id="dropdownContent3" class="dropdown-content">
             <label><input type="checkbox" value="CHEMBL553">CHEMBL553</label>
@@ -533,7 +539,7 @@ if (isset($_POST['drugName2'])) {
 
 
   <div id="applyfilter">
-    <span class="alert alert-success">filtering applied </span>
+    <span class="alertfilter">filtering applied </span>
   </div>
 
 
@@ -649,7 +655,7 @@ if (isset($_POST['drugName2'])) {
 
       // Update the button text with selected values
       var dropdownBtn = document.getElementById("dropdownBtn");
-      dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Select Options";
+      dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Select tissues";
 
 
     }
@@ -692,7 +698,7 @@ if (isset($_POST['drugName2'])) {
 
       // Update the button text with selected values
       var dropdownBtn = document.getElementById("dropdownBtn2");
-      dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Select Options";
+      dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Select max clinical phase";
 
 
 
@@ -739,7 +745,7 @@ if (isset($_POST['drugName2'])) {
 
       // Update the button text with selected values
       var dropdownBtn = document.getElementById("dropdownBtn4");
-      dropdownBtn.textContent = DataPlatform.length > 0 ? DataPlatform.join(', ') : "Select Options";
+      dropdownBtn.textContent = DataPlatform.length > 0 ? DataPlatform.join(', ') : "Select data platform";
 
 
       // Close the dropdown
