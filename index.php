@@ -1208,11 +1208,11 @@ if (isset($_POST['drugName2'])) {
 
         for (var i = 0; i < lines.length - 1; i++) {
           var parts = lines[i].split(';');
-        var formattedText = '<b>' + parts[0] + '</b>' + '<a href="https://cancer.sanger.ac.uk/cosmic" target="_blank">' + parts[1] + '</a>';
+          var formattedText = '<b>' + parts[0] + '</b>' + '<a href="https://cancer.sanger.ac.uk/cosmic" target="_blank">' + parts[1] + '</a>';
           formattedLines.push(formattedText);
         }
 
-     console.log(formattedLines);  
+        console.log(formattedLines);
 
         return formattedLines.join('<br>');
       }
@@ -1466,19 +1466,44 @@ if (isset($_POST['drugName2'])) {
       }
       //  create childnode here
       let degree;
+      let min_degree = 500;
+      let max_degree = 0;
+      let x_value ;
+      let linksize ;
       node.filter((d) => d.type === "childnode")
         .append("circle")
         .attr("r", function(d) {
           degree = links.filter(
             (link) => link.source.id === d.id || link.target.id === d.id
           ).length;
-          if (degree < 8) {
-            return 5;
-          } else if (degree > 80) {
-            return 45;
-          } else {
-            return degree / 2;
+
+          if (max_degree < degree) {
+            max_degree = degree;
           }
+
+          if (min_degree > degree) {
+            min_degree = degree;
+          }
+          if ( min_degree!= max_degree){
+         x_value = 16/(max_degree-min_degree);
+          }
+ 
+          if(min_degree === max_degree){
+        return 4
+      } else {
+        linksize = (degree - min_degree) * x_value + 4;   
+        console.log(linksize , "final link size ") 
+          return linksize ;    
+      }
+
+
+          // if (degree < 8) {
+          //   return 20;
+          // } else if (degree > 80) {
+          //   return 4;
+          // } else {
+          //   return 4;
+          // }
         })
         .attr("fill", (d) => {
           let category = d.oncotree_change;
@@ -1547,6 +1572,10 @@ if (isset($_POST['drugName2'])) {
             }
           })
         .attr("stroke-width", 3)
+
+
+      console.log(min_degree, "min degree")
+      console.log(max_degree, "max degree")
 
 
       node.filter((d) => d.type === "parentnode")
