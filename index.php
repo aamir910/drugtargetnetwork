@@ -22,11 +22,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Check and add condition for MAX_PHASE
+    // Check and add condition for MAX_PHASE
     if (isset($_POST['MaxPhase1']) && !empty($_POST['MaxPhase1'])) {
       $MaxPhase1 = $_POST['MaxPhase1'];
       $MaxPhase_condition = implode("','", $MaxPhase1);
       $conditions[] = "MAX_PHASE IN ('$MaxPhase_condition')";
     }
+
+    // if ($count_increment == 1) {
+    //   // When count increment is not 1, include conditions for "Preclinical" and "Unknown"
+    //   $conditions[] = "MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
+    // } 
+
 
     // Check and add condition for ONCOTREE_LINEAGE
     if (isset($_POST['oncotree_change1']) && !empty($_POST['oncotree_change1'])) {
@@ -41,14 +48,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $conditions[] = "DATASET IN ('$DataPlatform_condition')";
     }
 
+    $count_increment = intval($_POST['count_increment']);
 
     if (!empty($conditions)) {
+      // $sql = "SELECT * FROM drugresponse WHERE " . implode(" AND ", $conditions) ;
 
-      // $sql = "SELECT * FROM drugresponse WHERE " . implode(" AND ", $conditions);
-      $sql .= " " . implode(" AND ", $conditions);
+      if ($count_increment != 1) {
+
+        $sql .= " " . implode(" AND ", $conditions);
+      }
+       else {
+        $sql .= " " . implode(" AND ", $conditions) . " AND MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
+      }
     }
 
-    $count_increment = intval($_POST['count_increment']);
     // Limit the result to 400 rows
     $limit = 400 * $count_increment;
 
@@ -1468,8 +1481,8 @@ if (isset($_POST['drugName2'])) {
       let degree;
       let min_degree = 500;
       let max_degree = 0;
-      let x_value ;
-      let linksize ;
+      let x_value;
+      let linksize;
       node.filter((d) => d.type === "childnode")
         .append("circle")
         .attr("r", function(d) {
@@ -1484,26 +1497,16 @@ if (isset($_POST['drugName2'])) {
           if (min_degree > degree) {
             min_degree = degree;
           }
-          if ( min_degree!= max_degree){
-         x_value = 16/(max_degree-min_degree);
+          if (min_degree != max_degree) {
+            x_value = 16 / (max_degree - min_degree);
           }
- 
-          if(min_degree === max_degree){
-        return 4
-      } else {
-        linksize = (degree - min_degree) * x_value + 4;   
-        console.log(linksize , "final link size ") 
-          return linksize ;    
-      }
 
-
-          // if (degree < 8) {
-          //   return 20;
-          // } else if (degree > 80) {
-          //   return 4;
-          // } else {
-          //   return 4;
-          // }
+          if (min_degree === max_degree) {
+            return 4
+          } else {
+            linksize = (degree - min_degree) * x_value + 4;
+            return linksize;
+          }
         })
         .attr("fill", (d) => {
           let category = d.oncotree_change;
@@ -1622,15 +1625,15 @@ if (isset($_POST['drugName2'])) {
               (link) => link.source.id === d.id || link.target.id === d.id
             ).length;
             if (degree < 20) {
-              return 15;
+              return 10;
             } else if (degree > 80) {
-              return 70;
+              return 10;
             } else {
-              return degree - (degree / 2) + 25;
+              return 10;
             }
           }
         })
-        .style("font-size", "14.208px").style("font-family", "Arial")
+        .style("font-size", "12.208px").style("font-family", "Arial")
 
 
         .attr("text-anchor", "middle")
