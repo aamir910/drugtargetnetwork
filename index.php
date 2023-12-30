@@ -15,13 +15,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $sql = "SELECT * FROM drugresponse WHERE";
     // Check and add condition for CHEMBL_ID
+
+    // Check and add condition  ONCOTREE_PRIMARY_DISEASE
     if (isset($_POST['Chembl_id1']) && !empty($_POST['Chembl_id1'])) {
       $Chembl_id1 = $_POST['Chembl_id1'];
       $Chembl_id_condition = implode("','", $Chembl_id1);
-      $conditions[] = "CHEMBL_ID IN ('$Chembl_id_condition')";
+      $conditions[] = "ONCOTREE_PRIMARY_DISEASE IN ('$Chembl_id_condition')";
     }
 
-    // Check and add condition for MAX_PHASE
     // Check and add condition for MAX_PHASE
     if (isset($_POST['MaxPhase1']) && !empty($_POST['MaxPhase1'])) {
       $MaxPhase1 = $_POST['MaxPhase1'];
@@ -35,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $oncotree_change_condition = implode("','", $oncotree_change1);
       $conditions[] = "ONCOTREE_LINEAGE IN ('$oncotree_change_condition')";
     }
+
     if (isset($_POST['DataPlatform']) && !empty($_POST['DataPlatform'])) {
       $DataPlatform = $_POST['DataPlatform'];
 
@@ -250,7 +252,7 @@ if (isset($_POST['drugName2'])) {
       right: 20px;
       /* border: 2px solid green; */
       text-align: center;
-      transition: opacity 1s ease-in-out ; 
+      transition: opacity 1s ease-in-out;
       width: 300px;
       color: #721c24;
       border: 1px solid #f5c6cb;
@@ -265,8 +267,6 @@ if (isset($_POST['drugName2'])) {
     #applyfilter span {
       color: black;
     }
-
-   
   </style>
 
 
@@ -360,35 +360,11 @@ if (isset($_POST['drugName2'])) {
 
         </div>
         <!-- third Dropdown -->
-        <div class="dropdown" id="dropdown4" style="display: none;" >
+        <div class="dropdown" id="dropdown4" style=" z-index : 999">
           <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select drugs</label>
           <div id="dropdownContent3" class="dropdown-content">
-            <label><input type="checkbox" value="CHEMBL553">CHEMBL553</label>
-            <label><input type="checkbox" value="CHEMBL413">CHEMBL413</label>
-            <label><input type="checkbox" value="CHEMBL535">CHEMBL535</label>
-            <label><input type="checkbox" value="CHEMBL4872316">CHEMBL4872316</label>
-            <label><input type="checkbox" value="CHEMBL4851750">CHEMBL4851750</label>
-            <label><input type="checkbox" value="CHEMBL428647">CHEMBL428647</label>
-            <label><input type="checkbox" value="CHEMBL254129">CHEMBL254129</label>
-            <label><input type="checkbox" value="CHEMBL2144069">CHEMBL2144069</label>
-            <label><input type="checkbox" value="CHEMBL1336">CHEMBL1336</label>
-            <label><input type="checkbox" value="CHEMBL572878">CHEMBL572878</label>
-            <label><input type="checkbox" value="CHEMBL941">CHEMBL941</label>
-            <label><input type="checkbox" value="CHEMBL4873176">CHEMBL4873176</label>
-            <label><input type="checkbox" value="CHEMBL601719">CHEMBL601719</label>
-            <label><input type="checkbox" value="CHEMBL217092">CHEMBL217092</label>
-            <label><input type="checkbox" value="CHEMBL392695">CHEMBL392695</label>
-            <label><input type="checkbox" value="CHEMBL159822">CHEMBL159822</label>
-            <label><input type="checkbox" value="CHEMBL1421">CHEMBL1421</label>
-            <label><input type="checkbox" value="CHEMBL483847">CHEMBL483847</label>
-            <label><input type="checkbox" value="CHEMBL4860897">CHEMBL4860897</label>
-            <label><input type="checkbox" value="CHEMBL1242367">CHEMBL1242367</label>
-            <label><input type="checkbox" value="CHEMBL197603">CHEMBL197603</label>
-            <label><input type="checkbox" value="CHEMBL213100">CHEMBL213100</label>
-            <label><input type="checkbox" value="CHEMBL1643959">CHEMBL1643959</label>
-            <label><input type="checkbox" value="CHEMBL513909">CHEMBL513909</label>
-            <label><input type="checkbox" value="CHEMBL209148">CHEMBL209148</label>
             <!-- Add more options as needed -->
+
           </div>
           <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
             <span class="alert alert-danger">please select option</span>
@@ -505,6 +481,10 @@ if (isset($_POST['drugName2'])) {
     <footer class="sliderpart2" id='buttonbar'>
 
       <div class='alignitems'>
+        <div style = "margin-top : 15px">
+          <p id="parent_count" style="margin-bottom: 0;">Total compounds:</p>
+          <p id="child_count" >Total cell line:</p>
+        </div>
         <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
         <button class="sliderbtn " id="zoom-out-button">zoom out</button>
         <div class="slider2size">
@@ -601,6 +581,94 @@ if (isset($_POST['drugName2'])) {
   <script src="https://d3js.org/d3-force.v3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
+
+
+
+  <script>
+    const diseases = [
+      "Ewing's Sarcoma", "Melanoma", "Glioblastoma", "Lung Carcinoid Tumor",
+      "Lung Adenocarcinoma", "Bronchiolo-Alveolar Lung Carcinoma", "Non-Small Cell Lung Carcinoma",
+      "Small Cell Lung Carcinoma", "Neuroblastoma", "Epithelioid Sarcoma", "Giant Cell Lung Carcinoma",
+      "Esophageal Squamous Cell Carcinoma", "Ductal Breast Carcinoma", "Head and Neck Squamous Cell Carcinoma",
+      "Adult T Acute Lymphoblastic Leukemia", "Bladder Carcinoma", "Renal Cell Carcinoma", "Non-Cancerous",
+      "Chronic Myelogenous Leukemia", "Pancreatic Ductal Adenocarcinoma", "Plasma Cell Myeloma",
+      "Adult Acute Myeloid Leukemia", "Pleural Epithelioid Mesothelioma", "Childhood T Acute Lymphoblastic Leukemia",
+      "Anaplastic Large Cell Lymphoma", "Colon Adenocarcinoma", "Amelanotic Melanoma",
+      "Clear Cell Renal Cell Carcinoma", "Gliosarcoma", "Astrocytoma", "Colon Carcinoma",
+      "High Grade Ovarian Serous Adenocarcinoma", "Salivary Gland Squamous Cell Carcinoma",
+      "Childhood B Acute Lymphoblastic Leukemia", "Breast Carcinoma",
+      "Epstein-Barr Virus-Related Burkitt's Lymphoma", "Diffuse Large B-Cell Lymphoma", "Medulloblastoma",
+      "Burkitt's Lymphoma", "Skin Squamous Cell Carcinoma", "Gastric Small Cell Neuroendocrine Carcinoma",
+      "Chronic Eosinophilic Leukemia", "Intrahepatic Cholangiocarcinoma", "Gastric Adenocarcinoma",
+      "Mycosis Fungoides and Sezary Syndrome", "Hairy Cell Leukemia", "Erythroleukemia", "Duodenal Adenocarcinoma",
+      "Gestational Choriocarcinoma", "Mantle Cell Lymphoma", "B-Cell Prolymphocytic Leukemia",
+      "Childhood Acute Myeloid Leukemia with Maturation", "Anaplastic Astrocytoma", "Chondrosarcoma",
+      "Acute Myelomonocytic Leukemia", "Hodgkin's Lymphoma", "Prostate Carcinoma", "Cecum Adenocarcinoma",
+      "B-Cell Non-Hodgkin's Lymphoma", "B Acute Lymphoblastic Leukemia", "Adult Acute Monocytic Leukemia",
+      "Pleural Biphasic Mesothelioma", "Childhood Acute Differentiated Monocytic Leukemia",
+      "Adult B Acute Lymphoblastic Leukemia", "Testicular Embryonal Carcinoma", "Gastric Carcinoma",
+      "Large Cell Lung Carcinoma", "Acute Myeloid Leukemia", "Lymphoma", "Gastric Choriocarcinoma",
+      "Osteosarcoma", "Vulvar Leiomyosarcoma", "Primitive Neuroectodermal Tumor", "Uterine Corpus Leiomyosarcoma",
+      "Childhood Precursor T Lymphoblastic Lymphoma", "Fibrosarcoma", "Liposarcoma", "Vulvar Carcinoma",
+      "Undifferentiated Gallbladder Carcinoma", "Precursor Lymphoblastic Lymphoma", "Follicular Lymphoma",
+      "Pancreatic Adenocarcinoma", "Thyroid Gland Anaplastic Carcinoma Squamous Cell",
+      "Endometrial Adenocarcinoma", "Adrenal Gland Neuroblastoma",
+      "Invasive Ductal Carcinoma Not Otherwise Specified", "Tongue Squamous Cell Carcinoma",
+      "Primary Effusion Lymphoma", "Ovarian Granulosa Cell Tumor", "Follicular Thyroid Carcinoma",
+      "Vulvar Squamous Cell Carcinoma", "Rhabdomyosarcoma", "Undifferentiated Pleomorphic Sarcoma",
+      "Adenosquamous Endometrial Carcinoma", "Natural Killer Cell Lymphoblastic Leukemia or Lymphoma",
+      "Ovarian Clear Cell Adenocarcinoma", "Signet Ring Cell Gastric Adenocarcinoma",
+      "Acute Promyelocytic Leukemia", "Acute Biphenotypic Leukemia", "ONCOTREE_PRIMARY_DISEASE",
+      "Splenic Marginal Zone B-Cell Lymphoma with Villous", "Hereditary Spherocytosis",
+      "Gastric Tubular Adenocarcinoma", "Gallbladder Carcinoma", "Vulvar Melanoma",
+      "Cervical Small Cell Carcinoma", "Alveolar Rhabdomyosarcoma", "Synovial Sarcoma",
+      "Cervical Squamous Cell Carcinoma", "Human Papilloma Virus-Related Cervical Squamous Cell Carcinoma",
+      "Bronchogenic Carcinoma", "Squamous Cell Lung Carcinoma", "Pleural Sarcomatoid Mesothelioma",
+      "Gingival Squamous Cell Carcinoma", "Lung Mucoepidermoid Carcinoma", "Oral Cavity Squamous Cell Carcinoma",
+      "Pancreatic Carcinoma", "Papillary Renal Cell Carcinoma", "Cutaneous Melanoma",
+      "Ovarian Serous Cystadenocarcinoma", "Breast Adenocarcinoma", "Ovarian Endometrioid Adenocarcinoma",
+      "Thyroid Gland Anaplastic Carcinoma", "Pharyngeal Squamous Cell Carcinoma", "Cervical Carcinoma",
+      "Ovarian Mucinous Adenocarcinoma", "Hypopharyngeal Squamous Cell Carcinoma",
+      "Endometrial Stromal Sarcoma", "Squamous Cell Breast Carcinoma Acantholytic Variant",
+      "Hepatocellular Carcinoma", "Epithelioid Cell Type Gastrointestinal Stromal Tumor",
+      "Rhabdoid Tumour of the Kidney", "Askin's Tumor", "Uterine Corpus Sarcoma",
+      "Gastric Adenosquamous Carcinoma", "Adenosquamous Lung Carcinoma", "Papillary Lung Adenocarcinoma",
+      "Ovarian Mixed Germ Cell Tumor", "Ovarian Serous Adenocarcinoma", "Embryonal Rhabdomyosarcoma",
+      "Adrenal Cortex Carcinoma", "Rectal Adenocarcinoma", "Esophageal Adenocarcinoma", "Barrett's Adenocarcinoma",
+      "Renal Pelvis Urothelial Carcinoma", "Hepatoblastoma", "Oral Dysplasia", "Papillary Thyroid Carcinoma",
+      "Benign Prostatic Hyperplasia", "Hereditary Thyroid Gland Medullary Carcinoma", "Endometrial Carcinoma",
+      "Malignant Pleural Mesothelioma", "Parotid Gland Mucoepidermoid Carcinoma", "Oligodendroglioma",
+      "Laryngeal Squamous Cell Carcinoma", "Ovarian Adenocarcinoma", "Pyriform Fossa Squamous Cell Carcinoma",
+      "Cervical Adenocarcinoma", "Pancreatic Adenosquamous Carcinoma", "Ovarian Leiomyosarcoma",
+      "Pancreatic Somatostatinoma", "Lung Carcinoma", "Ovarian Carcinoma", "Ovarian Cystadenocarcinoma",
+      "Childhood Acute Megakaryoblastic Leukemia", "Mediastinal Thymic Large B-Cell Cell Lymphoma",
+      "Gastric Fundus Carcinoma", "Colorectal Carcinoma", "Sacral Chordoma", "Myelodysplastic syndrome",
+      "Squamous Papilloma", "Mucinous Gastric Adenocarcinoma", "Cutaneous T-Cell Lymphoma",
+      "Chronic Lymphocytic Leukemia", "Adult Acute Megakaryoblastic Leukemia"
+    ];
+
+    const dropdownContent = document.getElementById('dropdownContent3');
+
+    // Loop through the diseases array and create checkboxes and labels
+    for (let i = 0; i < diseases.length; i++) {
+      // Create a label element
+      const label = document.createElement('label');
+
+      // Create an input element with type 'checkbox'
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.value = diseases[i]; // Set the value attribute to the disease name
+
+      // Add the checkbox to the label
+      label.appendChild(checkbox);
+
+      // Add the disease name as text content to the label
+      label.appendChild(document.createTextNode(diseases[i]));
+
+      // Append the label to the dropdownContent div
+      dropdownContent.appendChild(label);
+    }
+  </script>
   <!-- Dragable div  -->
 
 
@@ -798,6 +866,7 @@ if (isset($_POST['drugName2'])) {
     checkboxList3.forEach(function(checkbox) {
       checkbox.addEventListener('change', function() {
         handleCheckboxChange3();
+        console.log(Chembl_id1)
       });
     });
 
@@ -812,12 +881,12 @@ if (isset($_POST['drugName2'])) {
     // Click event handler for the window
     window.onclick = function(event) {
       // Check if the clicked element is a dropdown button or its content
-      
-    // var cardshow = document.getElementById("cardid");
 
-    //   if (cardshow.style.display === "block") {
-    //     cardshow.style.display = "none";
-    // }
+      // var cardshow = document.getElementById("cardid");
+
+      //   if (cardshow.style.display === "block") {
+      //     cardshow.style.display = "none";
+      // }
 
       if (
         !event.target.matches('.dropdown') &&
@@ -1932,7 +2001,17 @@ if (isset($_POST['drugName2'])) {
         }
 
       });
-      generateNameList();
+      let child_count =  visible_childnode.length ;
+      let parent_count =  visible_parentnode.length ;
+      let child_count_D =document.getElementById("child_count")
+      child_count_D.innerHTML = `Total cell line: ${child_count}`;
+      let parent_count_D =document.getElementById("parent_count")
+      parent_count_D.innerHTML = `Total compounds: ${parent_count}`;
+      
+      console.log(child_count);
+      
+
+       generateNameList();
     }
     // legenddata
     function legendinfo() {
@@ -2314,44 +2393,43 @@ if (isset($_POST['drugName2'])) {
     }
 
     function color_click_onchange(event, d) {
-  // Check if the click occurred on the max_phase_color or line elements or their descendants
-  if (event.target.closest('.rect') || event.target.closest('.line')) {
+      // Check if the click occurred on the max_phase_color or line elements or their descendants
+      if (event.target.closest('.rect') || event.target.closest('.line')) {
 
-    selected_maxphase = d.category;
-  clickedDiv = d3.select(this);
+        selected_maxphase = d.category;
+        clickedDiv = d3.select(this);
 
-  var clickX = event.clientX;
-  var clickY = event.clientY;
+        var clickX = event.clientX;
+        var clickY = event.clientY;
 
-  cardshow = document.getElementById("cardid");
-  cardshow.style.display = "block";
-  cardshow.style.left = clickX + "px";
-  cardshow.style.top = clickY + "px";
-  count = 0;
-
-
+        cardshow = document.getElementById("cardid");
+        cardshow.style.display = "block";
+        cardshow.style.left = clickX + "px";
+        cardshow.style.top = clickY + "px";
+        count = 0;
 
 
- 
-    return; // Ignore the click on max_phase_color or line elements
-  }
 
-  // Rest of your code for color_click_onchange
-  
-  // Add a click event listener to the document body
-  
-}
 
-document.body.addEventListener('click', function(e) {
-    // Check if the click is outside the cardid
-    if (event.target.closest('.rect') || event.target.closest('.line')) {
-    }else{
 
-      var cardshow = document.getElementById("cardid");
-    cardshow.style.display = "none";
-    
+        return; // Ignore the click on max_phase_color or line elements
+      }
+
+      // Rest of your code for color_click_onchange
+
+      // Add a click event listener to the document body
+
     }
-  });
+
+    document.body.addEventListener('click', function(e) {
+      // Check if the click is outside the cardid
+      if (event.target.closest('.rect') || event.target.closest('.line')) {} else {
+
+        var cardshow = document.getElementById("cardid");
+        cardshow.style.display = "none";
+
+      }
+    });
 
 
     ul_color.addEventListener("click", function(event) {
