@@ -316,6 +316,11 @@ if (isset($_POST['drugName2'])) {
             <label><input type="checkbox" value="Thyroid">Thyroid</label>
             <label><input type="checkbox" value="Lymphoid">Lymphoid</label>
             <label><input type="checkbox" value="Endometrium">Endometrium</label>
+            <label><input type="checkbox" value="Cervix">Cervix</label>
+            <label><input type="checkbox" value="Liver">Liver</label>
+            <label><input type="checkbox" value="Adrenal Gland">Adrenal Gland</label>
+            <label><input type="checkbox" value="Bowel">Bowel</label>
+            <label><input type="checkbox" value="Unknown">Unknown</label>
             <!-- Add more options as needed -->
           </div>
           <div class="alert-message alert2  " style="position: absolute; top: 80px; " id="dp1">
@@ -481,9 +486,9 @@ if (isset($_POST['drugName2'])) {
     <footer class="sliderpart2" id='buttonbar'>
 
       <div class='alignitems'>
-        <div style = "margin-top : 15px">
+        <div style="margin-top : 15px">
           <p id="parent_count" style="margin-bottom: 0;">Total compounds:</p>
-          <p id="child_count" >Total cell line:</p>
+          <p id="child_count">Total cell line:</p>
         </div>
         <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
         <button class="sliderbtn " id="zoom-out-button">zoom out</button>
@@ -1092,7 +1097,7 @@ if (isset($_POST['drugName2'])) {
 
         }
         if (!ONCOTREE_LINEAGE_legend.includes(item.ONCOTREE_LINEAGE)) {
-          if (item.ONCOTREE_LINEAGE === "" || !ONCOTREE_LINEAGE_Data.includes(item.ONCOTREE_LINEAGE)) {
+          if (item.ONCOTREE_LINEAGE === "") {
             if (!ONCOTREE_LINEAGE_legend.includes("Unknown")) {
               ONCOTREE_LINEAGE_legend.push("Unknown")
 
@@ -1614,6 +1619,10 @@ if (isset($_POST['drugName2'])) {
             color = child_colors[12];
           } else if (category === 'Lymphoid') {
             color = child_colors[13];
+          } else if (category === 'Adrenal Gland') {
+            color = child_colors[14];
+          } else if (category === 'Bowel') {
+            color = child_colors[15];
           } else if (category === 'Pancreas') {
             color = child_colors[0]; // Repeat the color for category 11
           } else if (category === 'Large Intestine') {
@@ -1638,6 +1647,11 @@ if (isset($_POST['drugName2'])) {
             color = child_colors[10];
           } else if (category === 'Thyroid') {
             color = child_colors[11];
+          } else
+          if (category === 'Cervix') {
+            color = child_colors[12];
+          } else if (category === 'Liver') {
+            color = child_colors[13];
           } else {
             color = "black"
           }
@@ -2001,17 +2015,17 @@ if (isset($_POST['drugName2'])) {
         }
 
       });
-      let child_count =  visible_childnode.length ;
-      let parent_count =  visible_parentnode.length ;
-      let child_count_D =document.getElementById("child_count")
-      child_count_D.innerHTML = `Total cell line: ${child_count}`;
-      let parent_count_D =document.getElementById("parent_count")
-      parent_count_D.innerHTML = `Total compounds: ${parent_count}`;
-      
-      console.log(child_count);
-      
+      let child_count = visible_childnode.length;
+      let parent_count = visible_parentnode.length;
+      let child_count_D = document.getElementById("child_count")
+      child_count_D.innerHTML = `Total cell line visible: ${child_count}`;
+      let parent_count_D = document.getElementById("parent_count")
+      parent_count_D.innerHTML = `Total compounds visible: ${parent_count}`;
 
-       generateNameList();
+      console.log(child_count);
+
+
+      generateNameList();
     }
     // legenddata
     function legendinfo() {
@@ -2106,9 +2120,15 @@ if (isset($_POST['drugName2'])) {
             color = child_colors[11];
           } else if (category === 'Endometrium') {
             color = child_colors[12];
-          } else if (category === 'Lymphoid') {
+          } else if (category === 'Lymphoid')
+           {
             color = child_colors[13];
-          } else if (category === 'Pancreas') {
+          } else if (category === 'Adrenal Gland') {
+            color = child_colors[14];
+          } else if (category === 'Bowel') {
+            color = child_colors[15];
+          } 
+          else if (category === 'Pancreas') {
             color = child_colors[0]; // Repeat the color for category 11
           } else if (category === 'Large Intestine') {
             color = child_colors[1];
@@ -2132,7 +2152,13 @@ if (isset($_POST['drugName2'])) {
             color = child_colors[10];
           } else if (category === 'Thyroid') {
             color = child_colors[11];
-          } else {
+          }
+          else if (category === 'Cervix') {
+            color = child_colors[12];
+          } else if (category === 'Liver') {
+            color = child_colors[13];
+          }
+           else {
             color = "black"
           }
 
@@ -2161,11 +2187,11 @@ if (isset($_POST['drugName2'])) {
         '#ff9896', // light red
         '#98df8a', // light green
         '#aec7e8', // light purple
-        '#ffbb78' // light orange
-
-
-
+        '#ffbb78', // light orange
+        '#FFD700', // gold
+        '#00CED1' // dark turquoise
       ];
+
       child_categories_border = [
         'Pancreas',
         'Large Intestine',
@@ -2178,8 +2204,9 @@ if (isset($_POST['drugName2'])) {
         'Testis',
         'Uterus',
         'Vulva',
-        'Thyroid'
-
+        'Thyroid',
+        'Cervix',
+        'Liver'
       ];
       //  gererating the dynamic nodes 
       data_Set = generateDataSet();
