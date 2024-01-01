@@ -18,14 +18,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check and add condition  ONCOTREE_PRIMARY_DISEASE
     if (isset($_POST['Chembl_id1']) && !empty($_POST['Chembl_id1'])) {
-      $Chembl_id1 = $_POST['Chembl_id1']; 
-       $escaped_chembl_ids = array_map(function ($value) use ($conn) {
+      $Chembl_id1 = $_POST['Chembl_id1'];
+      $escaped_chembl_ids = array_map(function ($value) use ($conn) {
         return mysqli_real_escape_string($conn, $value);
-    }, $Chembl_id1);
+      }, $Chembl_id1);
 
-    $Chembl_id_condition = implode("','", $escaped_chembl_ids);;
+      $Chembl_id_condition = implode("','", $escaped_chembl_ids);;
       $conditions[] = "ONCOTREE_PRIMARY_DISEASE IN ('$Chembl_id_condition')";
-      
     }
 
     // Check and add condition for MAX_PHASE
@@ -488,7 +487,7 @@ if (isset($_POST['drugName2'])) {
     </main>
     <!-- second slider and btns  -->
 
-    <footer class="sliderpart2" id='buttonbar' style = "justify-content: start;">
+    <footer class="sliderpart2" id='buttonbar' style="justify-content: start;">
 
       <div class='alignitems'>
         <div style="margin-top : 15px">
@@ -1519,6 +1518,12 @@ if (isset($_POST['drugName2'])) {
       rangetext.textContent = parentnodes2.size();
 
 
+
+
+
+
+
+
       function handleClick(event) {
 
         clickedData = event.target.__data__;
@@ -1563,35 +1568,46 @@ if (isset($_POST['drugName2'])) {
         });
       }
       //  create childnode here
+
       let degree;
       let min_degree = 500;
       let max_degree = 0;
       let x_value;
       let linksize;
+
+
+//  here we are calculating the link 
+
+ function calculateLinkSize(d) {
+        const degree = links.filter(
+          (link) => link.source.id === d.id || link.target.id === d.id
+        ).length;
+
+        if (max_degree < degree) {
+          max_degree = degree;
+        }
+
+        if (min_degree > degree) {
+          min_degree = degree;
+        }
+
+        if (min_degree !== max_degree) {
+          x_value = 16 / (max_degree - min_degree);
+        }
+
+        if (min_degree === max_degree) {
+          return 4;
+        } else {
+          linksize = (degree - min_degree) * x_value + 4;
+          return linksize;
+        }
+      }
+
       node.filter((d) => d.type === "childnode")
         .append("circle")
         .attr("r", function(d) {
-          degree = links.filter(
-            (link) => link.source.id === d.id || link.target.id === d.id
-          ).length;
-
-          if (max_degree < degree) {
-            max_degree = degree;
-          }
-
-          if (min_degree > degree) {
-            min_degree = degree;
-          }
-          if (min_degree != max_degree) {
-            x_value = 16 / (max_degree - min_degree);
-          }
-
-          if (min_degree === max_degree) {
-            return 4
-          } else {
-            linksize = (degree - min_degree) * x_value + 4;
-            return linksize;
-          }
+          return calculateLinkSize(d);
+        
         })
         .attr("fill", (d) => {
           let category = d.oncotree_change;
@@ -1707,27 +1723,13 @@ if (isset($_POST['drugName2'])) {
 
 
       // Add tooltips
-      const tooltip = node
+      let tooltip = node
         .append("text")
         .text((d) => d.id)
         .attr("dx", 6)
-        .attr("dy", function(d) {
-          if (d.type === "parentnode") {
-            return `1.5rem`
-          } else if (d.type === "childnode") {
-            degree = links.filter(
-              (link) => link.source.id === d.id || link.target.id === d.id
-            ).length;
-            if (degree < 20) {
-              return 10;
-            } else if (degree > 80) {
-              return 10;
-            } else {
-              return 10;
-            }
-          }
-        })
+        .attr("dy", 0)
         .style("font-size", "12.208px").style("font-family", "Arial")
+
 
 
         .attr("text-anchor", "middle")
@@ -1736,6 +1738,16 @@ if (isset($_POST['drugName2'])) {
         .style("opacity", (d) => ((d.type === "parentnode" && (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown")) ? 0 : 1)); // hide initially for specific nodes
 
       node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
+
+
+
+      tooltip.attr('dy', function(d) {
+        if (d.type === "parentnode") {
+          return `1.5rem`
+        } else if (d.type === "childnode") {
+          return calculateLinkSize(d)+ 9;
+        }
+      });
 
       function handleMouseOver(d) {
         // Show tooltip only for the hovered node
