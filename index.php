@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        $escaped_chembl_ids = array_map(function ($value) use ($conn) {
         return mysqli_real_escape_string($conn, $value);
     }, $Chembl_id1);
-    
+
     $Chembl_id_condition = implode("','", $escaped_chembl_ids);;
       $conditions[] = "ONCOTREE_PRIMARY_DISEASE IN ('$Chembl_id_condition')";
       
@@ -371,7 +371,7 @@ if (isset($_POST['drugName2'])) {
         </div>
         <!-- third Dropdown -->
         <div class="dropdown" id="dropdown4" style=" z-index : 999">
-          <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select drugs</label>
+          <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select desease</label>
           <div id="dropdownContent3" class="dropdown-content">
             <!-- Add more options as needed -->
 
@@ -866,7 +866,7 @@ if (isset($_POST['drugName2'])) {
       });
       // Update the button text with selected values
       var dropdownBtn = document.getElementById("dropdownBtn3");
-      dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Select Options";
+      dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Select decease";
 
       // Close the dropdown
 
