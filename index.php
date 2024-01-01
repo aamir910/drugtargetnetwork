@@ -1739,6 +1739,12 @@ if (isset($_POST['drugName2'])) {
 
       node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
 
+      if(links.length >1200){
+        tooltip.style("opacity",0 ); // hide initially for specific nodes
+
+      
+      }
+
 
 
       tooltip.attr('dy', function(d) {
@@ -1760,8 +1766,12 @@ if (isset($_POST['drugName2'])) {
 
       function handleMouseOut(d) {
         // Hide tooltip when the mouse is out  
-        d3.select(this).select("text").style("opacity", (d) => (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown") && d.type === "parentnode" ? 0 : 1);
+        if(links.length >1200){
+          d3.select(this).select("text").style("opacity", 0)
+        } else {
+            d3.select(this).select("text").style("opacity", (d) => (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown") && d.type === "parentnode" ? 0 : 1);
 
+          }
       }
 
 
