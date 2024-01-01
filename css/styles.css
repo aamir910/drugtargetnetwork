@@ -566,7 +566,7 @@ section.active .modal-box {
 .alignitems {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   /* margin: 20px; */
   gap: 20px;

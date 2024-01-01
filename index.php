@@ -18,9 +18,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check and add condition  ONCOTREE_PRIMARY_DISEASE
     if (isset($_POST['Chembl_id1']) && !empty($_POST['Chembl_id1'])) {
-      $Chembl_id1 = $_POST['Chembl_id1'];
-      $Chembl_id_condition = implode("','", $Chembl_id1);
+      $Chembl_id1 = $_POST['Chembl_id1']; 
+       $escaped_chembl_ids = array_map(function ($value) use ($conn) {
+        return mysqli_real_escape_string($conn, $value);
+    }, $Chembl_id1);
+    
+    $Chembl_id_condition = implode("','", $escaped_chembl_ids);;
       $conditions[] = "ONCOTREE_PRIMARY_DISEASE IN ('$Chembl_id_condition')";
+      
     }
 
     // Check and add condition for MAX_PHASE
@@ -483,7 +488,7 @@ if (isset($_POST['drugName2'])) {
     </main>
     <!-- second slider and btns  -->
 
-    <footer class="sliderpart2" id='buttonbar'>
+    <footer class="sliderpart2" id='buttonbar' style = "justify-content: start;">
 
       <div class='alignitems'>
         <div style="margin-top : 15px">
@@ -2120,15 +2125,13 @@ if (isset($_POST['drugName2'])) {
             color = child_colors[11];
           } else if (category === 'Endometrium') {
             color = child_colors[12];
-          } else if (category === 'Lymphoid')
-           {
+          } else if (category === 'Lymphoid') {
             color = child_colors[13];
           } else if (category === 'Adrenal Gland') {
             color = child_colors[14];
           } else if (category === 'Bowel') {
             color = child_colors[15];
-          } 
-          else if (category === 'Pancreas') {
+          } else if (category === 'Pancreas') {
             color = child_colors[0]; // Repeat the color for category 11
           } else if (category === 'Large Intestine') {
             color = child_colors[1];
@@ -2152,13 +2155,11 @@ if (isset($_POST['drugName2'])) {
             color = child_colors[10];
           } else if (category === 'Thyroid') {
             color = child_colors[11];
-          }
-          else if (category === 'Cervix') {
+          } else if (category === 'Cervix') {
             color = child_colors[12];
           } else if (category === 'Liver') {
             color = child_colors[13];
-          }
-           else {
+          } else {
             color = "black"
           }
 
