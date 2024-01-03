@@ -272,9 +272,31 @@ if (isset($_POST['drugName2'])) {
       color: black;
     }
 
-   #parent_count , #child_count {
+    #parent_count,
+    #child_count {
       font-weight: 50;
-   }
+    }
+
+    /* Style for the dropdown button */
+    .dropdown label {
+      padding: 10px;
+      font-size: 0.888rem;
+      /* border: 1px solid #ccc; */
+      cursor: pointer;
+      background-color: #fff;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 200px;
+      max-width: 100%;
+      /* Adjust the width as needed */
+      position: relative;
+    }
+
+    #dropdownContent3 label {
+      width: 400px;
+      word-wrap: break-word;
+    }
   </style>
 
 
@@ -298,7 +320,7 @@ if (isset($_POST['drugName2'])) {
 
           <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)"> Select tissues</label>
           <div id="dropdownContent1" class="dropdown-content">
-            <label><input type="checkbox" value="Bone" >Bone</label>
+            <label><input type="checkbox" value="Bone">Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
             <label><input type="checkbox" value="Central Nervous System">Central Nervous System</label>
             <label><input type="checkbox" value="Lung">Lung</label>
@@ -372,8 +394,27 @@ if (isset($_POST['drugName2'])) {
           </div>
 
         </div>
-        <!-- third Dropdown -->
-        <div class="dropdown" id="dropdown4" style=" z-index : 1">
+        <!-- 5th dropdown  -->
+        <div class="dropdown" id="dropdown3">
+
+          <label class="dropdownBtn" id="dropdownBtn4" onclick="toggleDropdown4(event)">Select data platform</label>
+          <div id="dropdownContent4" class="dropdown-content">
+            <label><input type="checkbox" value="GDSC1">GDSC1</label>
+            <label><input type="checkbox" value="GDSC2">GDSC2</label>
+            <label><input type="checkbox" value="CCLE_NP24">CCLE_NP24</label>
+            <label><input type="checkbox" value="NCI-60">NCI-60</label>
+            <label><input type="checkbox" value="gCSI">gCSI</label>
+            <label><input type="checkbox" value="FIMM">FIMM</label>
+            <!-- Add more options as needed -->
+          </div>
+
+          <div class="alert-message alert2  " style="position: absolute; top: 80px; " id="dp3">
+            <span class="alert alert-danger">please select option</span>
+          </div>
+
+        </div>
+        <!-- forth Dropdown -->
+        <div class="dropdown" id="dropdown4" style=" z-index : 40">
           <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select desease</label>
           <div id="dropdownContent3" class="dropdown-content">
             <!-- Add more options as needed -->
@@ -495,15 +536,15 @@ if (isset($_POST['drugName2'])) {
 
       <div class='alignitems'>
         <div style="margin-top : 15px">
-          <p  style="margin-bottom: 0;">Total compounds visible: <span id="parent_count" ></span></p>
-           <p>Total cell line visible: <span id="child_count" ></span> </p>
-          </div>
-          <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
-          <button class="sliderbtn " id="zoom-out-button">zoom out</button>
-          <div class="slider2size">
-            <div style="display: flex;margin-bottom: -9px;">
+          <p style="margin-bottom: 0;">Total compounds visible: <span id="parent_count"></span></p>
+          <p>Total cell line visible: <span id="child_count"></span> </p>
+        </div>
+        <button class="sliderbtn " id="zoom-in-button">zoom-in</button>
+        <button class="sliderbtn " id="zoom-out-button">zoom out</button>
+        <div class="slider2size">
+          <div style="display: flex;margin-bottom: -9px;">
             <p style="display: none;" id="rangeValue">50 </p>
-            <p id = "parent_count2">20</p>
+            <p id="parent_count2">20</p>
             <p>Connected compounds</p>
           </div>
           <input id="nodeCountSlider2" type="range" min="0" max="100" value="50" />
@@ -914,8 +955,8 @@ if (isset($_POST['drugName2'])) {
       }
     };
   </script>
- <!-- JavaScript for handling form submission and AJAX -->
- <script>
+  <!-- JavaScript for handling form submission and AJAX -->
+  <script>
     function ajax() {
       // Prevent the default form submission
       event.preventDefault();
@@ -968,6 +1009,8 @@ if (isset($_POST['drugName2'])) {
 
           force_network_grapgh();
 
+          range_of_links(minValue, maxValue, slider_range);
+
           pax_phasecliked.on("click", onclickmax_phase);
 
           datasettext_click.on("click", onclick_dataSet);
@@ -975,7 +1018,6 @@ if (isset($_POST['drugName2'])) {
           matric_click.on("click", onclick_dataSet);
 
           child_clicked.on("click", onclick_childnodes);
-          range_of_links(minValue, maxValue, slider_range);
 
 
 
@@ -988,12 +1030,11 @@ if (isset($_POST['drugName2'])) {
       });
 
     }
-    
-     </script>
+  </script>
 
 
 
-<script>
+  <script>
     let checkbox_names = [];
 
     let checkbox_saves = [];
@@ -1411,8 +1452,8 @@ if (isset($_POST['drugName2'])) {
 
 
 
-    
 
+    let not_remove = true;
 
 
 
@@ -1511,10 +1552,10 @@ if (isset($_POST['drugName2'])) {
           }
         }
 
-        if (!phases.includes(item.MAX_PHASE)) {
-          phases.push(item.MAX_PHASE);
+        // if (!phases.includes(item.MAX_PHASE)) {
+        //   phases.push(item.MAX_PHASE);
 
-        }
+        // }
         if (!dataset_legend.includes(item.DATASET)) {
 
           dataset_legend.push(item.DATASET);
@@ -1748,7 +1789,7 @@ if (isset($_POST['drugName2'])) {
       populateTable();
       // const toggleForm = document.querySelector('.toggle');
       const compoundTable = document.querySelector('table');
-  
+
     }
 
     //  initialize the graph for the first time  
@@ -1961,9 +2002,9 @@ if (isset($_POST['drugName2'])) {
       let linksize;
 
 
-//  here we are calculating the link 
+      //  here we are calculating the link 
 
- function calculateLinkSize(d) {
+      function calculateLinkSize(d) {
         const degree = links.filter(
           (link) => link.source.id === d.id || link.target.id === d.id
         ).length;
@@ -1992,7 +2033,7 @@ if (isset($_POST['drugName2'])) {
         .append("circle")
         .attr("r", function(d) {
           return calculateLinkSize(d);
-        
+
         })
         .attr("fill", (d) => {
           let category = d.oncotree_change;
@@ -2124,10 +2165,10 @@ if (isset($_POST['drugName2'])) {
 
       node.on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
 
-      if(links.length >1200){
-        tooltip.style("opacity",0 ); // hide initially for specific nodes
+      if (links.length > 1200) {
+        tooltip.style("opacity", 0); // hide initially for specific nodes
 
-      
+
       }
 
 
@@ -2136,7 +2177,7 @@ if (isset($_POST['drugName2'])) {
         if (d.type === "parentnode") {
           return `1.5rem`
         } else if (d.type === "childnode") {
-          return calculateLinkSize(d)+ 9;
+          return calculateLinkSize(d) + 9;
         }
       });
 
@@ -2151,12 +2192,12 @@ if (isset($_POST['drugName2'])) {
 
       function handleMouseOut(d) {
         // Hide tooltip when the mouse is out  
-        if(links.length >1200){
+        if (links.length > 1200) {
           d3.select(this).select("text").style("opacity", 0)
         } else {
-            d3.select(this).select("text").style("opacity", (d) => (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown") && d.type === "parentnode" ? 0 : 1);
+          d3.select(this).select("text").style("opacity", (d) => (d.MAX_PHASE === "" || d.MAX_PHASE === "Unknown") && d.type === "parentnode" ? 0 : 1);
 
-          }
+        }
       }
 
 
@@ -2212,7 +2253,7 @@ if (isset($_POST['drugName2'])) {
 
 
 
-////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
     // here is the function to start the limitations 
     function range_of_links(min_range, max_range, valueofslider) {
 
@@ -2308,11 +2349,35 @@ if (isset($_POST['drugName2'])) {
             filterlinks2.filter(link => {
               if (link.source === node) {
                 visiblenode.push(link.target.id);
+
+                  if (!phases.includes(node.MAX_PHASE)) {
+                    phases.push(node.MAX_PHASE);
+
+                  }
+                
               }
             })
           }
         }
       })
+
+      console.log("phases", phases);
+
+      if(not_remove){
+        legendinfo();
+      }
+
+      pax_phasecliked.on("click", onclickmax_phase);
+
+      datasettext_click.on("click", onclick_dataSet);
+
+      matric_click.on("click", onclick_dataSet);
+
+      child_clicked.on("click", onclick_childnodes);
+
+      // phases =[]
+      console.log("phases", phases);
+
 
       node.filter(function(node) {
         if (visiblenode.includes(node.id)) {
@@ -2441,10 +2506,10 @@ if (isset($_POST['drugName2'])) {
       let child_count_D = document.getElementById("child_count")
       child_count_D.innerHTML = child_count;
       let parent_count_D = document.getElementById("parent_count")
-      
+
       let parent_count_D2 = document.getElementById("parent_count2")
       parent_count_D.innerHTML = parent_count;
-      
+
       parent_count_D2.innerHTML = parent_count;
 
       console.log(child_count);
@@ -2457,6 +2522,10 @@ if (isset($_POST['drugName2'])) {
       colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
 
       function createMaxPhaseCategories() {
+
+        phases.push(...list_hidden);
+
+
         const maxPhaseCategories = phases.map((category, index) => {
           let color;
           if (category === "Approved") {
@@ -2464,7 +2533,7 @@ if (isset($_POST['drugName2'])) {
           } else if (category === "Phase I") {
             color = colors[0];
           } else if (category === "Phase II") {
-            color = colors[1];
+            color = colors[1]
           } else if (category === "Phase III") {
             color = colors[2];
           } else if (category === "Preclinical") {
@@ -2478,7 +2547,6 @@ if (isset($_POST['drugName2'])) {
             color
           };
         });
-
         return maxPhaseCategories;
       }
 
@@ -2646,6 +2714,7 @@ if (isset($_POST['drugName2'])) {
         .data(max_phase_categories)
         .enter()
         .append("li");
+        
       let check2 = true;
 
       max_phase_color = listItems
@@ -2689,7 +2758,11 @@ if (isset($_POST['drugName2'])) {
           }
         })
         .style("font-size", "14.208px")
-        .style("font-family", "Arial");
+        .style("font-family", "Arial")
+        .classed("marked", (d) => {
+          
+  return list_hidden.includes(d.category);
+  });
 
 
 
@@ -2919,8 +2992,10 @@ if (isset($_POST['drugName2'])) {
     });
 
     function onclickmax_phase(event) {
+      not_remove =false ;
       d3.select(this)
-        .classed("marked", function() {
+      .classed("marked", function() {
+        
           return !d3.select(this).classed("marked");
         });
       clicked = event.target.textContent;
@@ -2945,6 +3020,7 @@ if (isset($_POST['drugName2'])) {
         list_hidden.splice(index, 1);
       }
       range_of_links(minValue, maxValue, slider_range);
+      console.log(list_hidden ," here are the hidden value ");
     }
 
     function onclick_dataSet(event) {
@@ -3022,7 +3098,7 @@ if (isset($_POST['drugName2'])) {
     // Function to log the values of both sliders
 
     function logSliderValues() {
-
+      not_remove =true ;
       // tag2
       rangeValue.textContent = slider2.value;
       minValue = parseFloat(minSlider.value);
@@ -3108,7 +3184,7 @@ if (isset($_POST['drugName2'])) {
       }
     });
 
-    
+
     document.getElementById("submitButton").click();
     // slider code 
 
@@ -3155,7 +3231,7 @@ if (isset($_POST['drugName2'])) {
     });
   </script>
 
- 
+
 
   <!-- overlayascript?  -->
   <script>
@@ -3288,7 +3364,7 @@ if (isset($_POST['drugName2'])) {
     }
   </script>
 
-  
+
 
 </body>
 
