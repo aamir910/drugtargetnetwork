@@ -1540,31 +1540,32 @@ if (isset($_POST['drugName2'])) {
 
 
         }
-        if (!ONCOTREE_LINEAGE_legend.includes(item.ONCOTREE_LINEAGE)) {
-          if (item.ONCOTREE_LINEAGE === "") {
-            if (!ONCOTREE_LINEAGE_legend.includes("Unknown")) {
-              ONCOTREE_LINEAGE_legend.push("Unknown")
+        // if (!ONCOTREE_LINEAGE_legend.includes(item.ONCOTREE_LINEAGE)) {
+        //   if (item.ONCOTREE_LINEAGE === "") {
+        //     if (!ONCOTREE_LINEAGE_legend.includes("Unknown")) {
+        //       ONCOTREE_LINEAGE_legend.push("Unknown")
 
-            }
-          } else {
-            ONCOTREE_LINEAGE_legend.push(item.ONCOTREE_LINEAGE)
+        //     }
+        //   } else {
+        //     ONCOTREE_LINEAGE_legend.push(item.ONCOTREE_LINEAGE)
 
-          }
-        }
+        //   }
+        // }
 
         // if (!phases.includes(item.MAX_PHASE)) {
         //   phases.push(item.MAX_PHASE);
 
         // }
-        if (!dataset_legend.includes(item.DATASET)) {
+        // if (!dataset_legend.includes(item.DATASET)) {
 
-          dataset_legend.push(item.DATASET);
+        //   dataset_legend.push(item.DATASET);
 
-        }
-        if (!matric_legend.includes(item.METRIC)) {
+        // }
+        // if (!matric_legend.includes(item.METRIC)) {
 
-          matric_legend.push(item.METRIC);
-        }
+        //   matric_legend.push(item.METRIC);
+        // }
+
       })
       data.forEach((item) => {
         if (!uniqueProteins.has(item.CELL_LINE_NAME)) {
@@ -1574,7 +1575,8 @@ if (isset($_POST['drugName2'])) {
             id: item.CELL_LINE_NAME,
             type: "childnode",
             MAX_PHASE: item.MAX_PHASE,
-            oncotree_change: item.ONCOTREE_LINEAGE
+            oncotree_change: item.ONCOTREE_LINEAGE,
+            dataset: item.DATASET,
           });
 
 
@@ -1582,7 +1584,7 @@ if (isset($_POST['drugName2'])) {
       });
 
       //  creating the links  
-
+      // tag5
       links = data.map((item) => ({
         source: item.COMPOUND_NAME,
         target: item.CELL_LINE_NAME,
@@ -2349,12 +2351,31 @@ if (isset($_POST['drugName2'])) {
             filterlinks2.filter(link => {
               if (link.source === node) {
                 visiblenode.push(link.target.id);
+                // tag4 
+                if (!phases.includes(node.MAX_PHASE)) {
+                  phases.push(node.MAX_PHASE);
 
-                  if (!phases.includes(node.MAX_PHASE)) {
-                    phases.push(node.MAX_PHASE);
+                }
+                if (!dataset_legend.includes(link.dataset)) {
 
+                  dataset_legend.push(link.dataset);
+                }
+                if (!matric_legend.includes(link.link_matric)) {
+
+                  matric_legend.push(link.link_matric);
+                }
+
+                if (!ONCOTREE_LINEAGE_legend.includes(link.target.oncotree_change)) {
+                  if (link.target.oncotree_change === "") {
+                    if (!ONCOTREE_LINEAGE_legend.includes("Unknown")) {
+                      ONCOTREE_LINEAGE_legend.push("Unknown")
+
+                    }
+                  } else {
+                    ONCOTREE_LINEAGE_legend.push(link.target.oncotree_change);
                   }
-                
+                }
+
               }
             })
           }
@@ -2363,7 +2384,13 @@ if (isset($_POST['drugName2'])) {
 
       console.log("phases", phases);
 
-      if(not_remove){
+      console.log(" dataset_legend", dataset_legend);
+
+      console.log(" matric_legend", matric_legend);
+      
+      console.log(" ONCOTREE_LINEAGE_legend", ONCOTREE_LINEAGE_legend);
+
+      if (not_remove) {
         legendinfo();
       }
 
@@ -2551,6 +2578,8 @@ if (isset($_POST['drugName2'])) {
       }
 
       function generateDataSet() {
+
+        // dataset_legend.push(...list_hidden_dataset);
         const dataSet_legend_color = dataset_legend.map((category, index) => {
           let color;
 
@@ -2714,7 +2743,7 @@ if (isset($_POST['drugName2'])) {
         .data(max_phase_categories)
         .enter()
         .append("li");
-        
+
       let check2 = true;
 
       max_phase_color = listItems
@@ -2745,6 +2774,7 @@ if (isset($_POST['drugName2'])) {
 
       let unknownDisplayed = false;
 
+
       pax_phasecliked = listItems
         .append("span")
         .text((d) => {
@@ -2760,9 +2790,9 @@ if (isset($_POST['drugName2'])) {
         .style("font-size", "14.208px")
         .style("font-family", "Arial")
         .classed("marked", (d) => {
-          
-  return list_hidden.includes(d.category);
-  });
+
+          return list_hidden.includes(d.category);
+        });
 
 
 
@@ -2791,8 +2821,15 @@ if (isset($_POST['drugName2'])) {
         }).on("click", color_click_onchange);
 
 
-      datasettext_click = dataSet_link.append("span").text((d) => d.category)
-        .style("font-size", "14.208px").style("font-family", "Arial");;
+      datasettext_click = dataSet_link.append("span")
+        .text((d) => d.category)
+        .style("font-size", "14.208px")
+        .style("font-family", "Arial")
+        .classed("marked", (d) => {
+
+          return list_hidden_dataset.includes(d.category);
+        });
+
 
 
       //appending the data of the child nodes
@@ -2830,7 +2867,11 @@ if (isset($_POST['drugName2'])) {
 
       child_clicked = dataSet_child.append("span")
         .text((d) => d.category)
-        .style("font-size", "14.208px").style("font-family", "Arial");
+        .style("font-size", "14.208px").style("font-family", "Arial")
+        .classed("marked", (d) => {
+
+return list_hidden_childnode.includes(d.category);
+});;
 
 
       // appending the data of the matric 
@@ -2992,12 +3033,12 @@ if (isset($_POST['drugName2'])) {
     });
 
     function onclickmax_phase(event) {
-      not_remove =false ;
+      not_remove = false;
       d3.select(this)
-      .classed("marked", function() {
-        
+        .classed("marked", function() {
           return !d3.select(this).classed("marked");
         });
+
       clicked = event.target.textContent;
       const index = list_hidden.indexOf(clicked);
 
@@ -3020,7 +3061,6 @@ if (isset($_POST['drugName2'])) {
         list_hidden.splice(index, 1);
       }
       range_of_links(minValue, maxValue, slider_range);
-      console.log(list_hidden ," here are the hidden value ");
     }
 
     function onclick_dataSet(event) {
@@ -3098,7 +3138,7 @@ if (isset($_POST['drugName2'])) {
     // Function to log the values of both sliders
 
     function logSliderValues() {
-      not_remove =true ;
+      not_remove = true;
       // tag2
       rangeValue.textContent = slider2.value;
       minValue = parseFloat(minSlider.value);
