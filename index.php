@@ -2387,7 +2387,7 @@ if (isset($_POST['drugName2'])) {
       console.log(" dataset_legend", dataset_legend);
 
       console.log(" matric_legend", matric_legend);
-      
+
       console.log(" ONCOTREE_LINEAGE_legend", ONCOTREE_LINEAGE_legend);
 
       if (not_remove) {
@@ -2870,8 +2870,8 @@ if (isset($_POST['drugName2'])) {
         .style("font-size", "14.208px").style("font-family", "Arial")
         .classed("marked", (d) => {
 
-return list_hidden_childnode.includes(d.category);
-});;
+          return list_hidden_childnode.includes(d.category);
+        });;
 
 
       // appending the data of the matric 
@@ -2911,7 +2911,10 @@ return list_hidden_childnode.includes(d.category);
         });
 
       matric_click = matric_link.append("span").text((d) => d.category)
-        .style("font-size", "14.208px").style("font-family", "Arial");
+        .style("font-size", "14.208px").style("font-family", "Arial").classed("marked", (d) => {
+
+          return list_hidden_dataset.includes(d.category);
+        });
 
       // color picker
       let check3_color = true;
