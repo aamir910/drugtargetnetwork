@@ -296,12 +296,29 @@ if (isset($_POST['drugName2'])) {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      width: 200px;
+      width: 220px;
       max-width: 100%;
       /* Adjust the width as needed */
       position: relative;
     }
+/* here is the dropdown search css  */
 
+#searchInput {
+        width: 95%;
+        padding: 8px;
+        margin-bottom: 8px;
+        margin-top: 5px;
+        margin-left: 5px;
+        box-sizing: border-box;
+    }
+
+    /* No matches found message styles */
+    #noMatchesMessage {
+        display: none;
+        padding: 8px;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
     
   </style>
 
@@ -423,10 +440,12 @@ if (isset($_POST['drugName2'])) {
 
         <!-- forth Dropdown -->
         <div class="dropdown" id="dropdown4" style=" z-index : 40">
-          <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select desease</label>
-          <div id="dropdownContent3" class="dropdown-content">
-            <!-- Add more options as needed -->
-
+          
+        <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select desease</label>
+        <div id="dropdownContent3" class="dropdown-content">
+             <!-- Add more options as needed -->
+             <input type="text" id="searchInput" onkeyup="filterOptions()" placeholder="Search...">
+      
           </div>
           <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
             <span class="alert alert-danger">please select option</span>
@@ -732,6 +751,48 @@ if (isset($_POST['drugName2'])) {
 
       // Append the label to the dropdownContent div
       dropdownContent.appendChild(label);
+    }
+
+// fitleration for the dropdown 
+function filterOptions() {
+        var input, filter, options, i, noMatchesMessage;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        options = document.getElementById("dropdownContent3").getElementsByTagName("label");
+        noMatchesMessage = document.getElementById("noMatchesMessage");
+
+        for (i = 0; i < options.length; i++) {
+            var optionText = options[i].innerText || options[i].textContent;
+            if (optionText.toUpperCase().indexOf(filter) > -1) {
+                options[i].style.display = "";
+            } else {
+                options[i].style.display = "none";
+            }
+        }
+
+        // Check if there are no matching options
+        var noMatches = true;
+        for (i = 0; i < options.length; i++) {
+            if (options[i].style.display !== "none") {
+                noMatches = false;
+                break;
+            }
+        }
+
+        // Display or hide the "No matches found" message
+        if (noMatches) {
+            if (!noMatchesMessage) {
+                noMatchesMessage = document.createElement("span");
+                noMatchesMessage.id = "noMatchesMessage";
+                noMatchesMessage.innerText = "No match found";
+                document.getElementById("dropdownContent3").appendChild(noMatchesMessage);
+            }
+            noMatchesMessage.style.display = "block";
+        } else {
+            if (noMatchesMessage) {
+                noMatchesMessage.style.display = "none";
+            }
+        }
     }
 
   </script>
