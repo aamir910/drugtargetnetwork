@@ -37,10 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check and add condition for pic50
     if (isset($_POST['pic50']) && !empty($_POST['pic50'])) {
-      $pic50 = $_POST['pic50'];
-      $pic50_condition = implode("','", $pic50);
-      $conditions[] = "VALUE >= '$pic50_condition'";
+      $pic50 = floatval($_POST['pic50']); // Convert pic50 to a float value
+      $conditions[] = "VALUE >= $pic50";
     }
+
 
 
     // Check and add condition for ONCOTREE_LINEAGE
@@ -301,25 +301,25 @@ if (isset($_POST['drugName2'])) {
       /* Adjust the width as needed */
       position: relative;
     }
-/* here is the dropdown search css  */
 
-#searchInput {
-        width: 95%;
-        padding: 8px;
-        margin-bottom: 8px;
-        margin-top: 5px;
-        margin-left: 5px;
-        box-sizing: border-box;
+    /* here is the dropdown search css  */
+
+    #searchInput {
+      width: 95%;
+      padding: 8px;
+      margin-bottom: 8px;
+      margin-top: 5px;
+      margin-left: 5px;
+      box-sizing: border-box;
     }
 
     /* No matches found message styles */
     #noMatchesMessage {
-        display: none;
-        padding: 8px;
-        margin-bottom: 8px;
-        font-weight: bold;
+      display: none;
+      padding: 8px;
+      margin-bottom: 8px;
+      font-weight: bold;
     }
-    
   </style>
 
 
@@ -386,7 +386,7 @@ if (isset($_POST['drugName2'])) {
 
           <label class="dropdownBtn" id="dropdownBtn2" onclick="toggleDropdown2(event)"> Select max clinical phase</label>
           <div id="dropdownContent2" class="dropdown-content">
-            <label><input type="checkbox" value="Approved"  >Approved drugs</label>
+            <label><input type="checkbox" value="Approved">Approved drugs</label>
             <label><input type="checkbox" value="Phase I">Phase I</label>
             <label><input type="checkbox" value="Phase II">Phase II</label>
             <label><input type="checkbox" value="Phase III">Phase III</label>
@@ -440,12 +440,12 @@ if (isset($_POST['drugName2'])) {
 
         <!-- forth Dropdown -->
         <div class="dropdown" id="dropdown4" style=" z-index : 40">
-          
-        <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select desease</label>
-        <div id="dropdownContent3" class="dropdown-content">
-             <!-- Add more options as needed -->
-             <input type="text" id="searchInput" onkeyup="filterOptions()" placeholder="Search...">
-      
+
+          <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select desease</label>
+          <div id="dropdownContent3" class="dropdown-content">
+            <!-- Add more options as needed -->
+            <input type="text" id="searchInput" onkeyup="filterOptions()" placeholder="Search...">
+
           </div>
           <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
             <span class="alert alert-danger">please select option</span>
@@ -737,7 +737,7 @@ if (isset($_POST['drugName2'])) {
     for (let i = 0; i < diseases.length; i++) {
       // Create a label element
       const label = document.createElement('label');
-      label.title =diseases[i];
+      label.title = diseases[i];
       // Create an input element with type 'checkbox'
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
@@ -753,48 +753,47 @@ if (isset($_POST['drugName2'])) {
       dropdownContent.appendChild(label);
     }
 
-// fitleration for the dropdown 
-function filterOptions() {
-        var input, filter, options, i, noMatchesMessage;
-        input = document.getElementById("searchInput");
-        filter = input.value.toUpperCase();
-        options = document.getElementById("dropdownContent3").getElementsByTagName("label");
-        noMatchesMessage = document.getElementById("noMatchesMessage");
+    // fitleration for the dropdown 
+    function filterOptions() {
+      var input, filter, options, i, noMatchesMessage;
+      input = document.getElementById("searchInput");
+      filter = input.value.toUpperCase();
+      options = document.getElementById("dropdownContent3").getElementsByTagName("label");
+      noMatchesMessage = document.getElementById("noMatchesMessage");
 
-        for (i = 0; i < options.length; i++) {
-            var optionText = options[i].innerText || options[i].textContent;
-            if (optionText.toUpperCase().indexOf(filter) > -1) {
-                options[i].style.display = "";
-            } else {
-                options[i].style.display = "none";
-            }
-        }
-
-        // Check if there are no matching options
-        var noMatches = true;
-        for (i = 0; i < options.length; i++) {
-            if (options[i].style.display !== "none") {
-                noMatches = false;
-                break;
-            }
-        }
-
-        // Display or hide the "No matches found" message
-        if (noMatches) {
-            if (!noMatchesMessage) {
-                noMatchesMessage = document.createElement("span");
-                noMatchesMessage.id = "noMatchesMessage";
-                noMatchesMessage.innerText = "No match found";
-                document.getElementById("dropdownContent3").appendChild(noMatchesMessage);
-            }
-            noMatchesMessage.style.display = "block";
+      for (i = 0; i < options.length; i++) {
+        var optionText = options[i].innerText || options[i].textContent;
+        if (optionText.toUpperCase().indexOf(filter) > -1) {
+          options[i].style.display = "";
         } else {
-            if (noMatchesMessage) {
-                noMatchesMessage.style.display = "none";
-            }
+          options[i].style.display = "none";
         }
-    }
+      }
 
+      // Check if there are no matching options
+      var noMatches = true;
+      for (i = 0; i < options.length; i++) {
+        if (options[i].style.display !== "none") {
+          noMatches = false;
+          break;
+        }
+      }
+
+      // Display or hide the "No matches found" message
+      if (noMatches) {
+        if (!noMatchesMessage) {
+          noMatchesMessage = document.createElement("span");
+          noMatchesMessage.id = "noMatchesMessage";
+          noMatchesMessage.innerText = "No match found";
+          document.getElementById("dropdownContent3").appendChild(noMatchesMessage);
+        }
+        noMatchesMessage.style.display = "block";
+      } else {
+        if (noMatchesMessage) {
+          noMatchesMessage.style.display = "none";
+        }
+      }
+    }
   </script>
   <!-- Dragable div  -->
 
@@ -955,10 +954,9 @@ function filterOptions() {
 
 
     // 5th dropdown pic50 
-    let pic50 = [];
+    let pic50;
 
     function toggleDropdown5(event) {
-
       var dropdownContent = document.getElementById("dropdownContent5");
       var dropdownBtn = document.getElementById("dropdownBtn5");
 
@@ -972,35 +970,53 @@ function filterOptions() {
       Close_other_dropdown(dropdownContent);
     }
 
-
-    function handleCheckboxChange5() {
-      pic50 = [];
-
-      // Get all checkboxes within the dropdown
-      var checkboxes = document.querySelectorAll('#dropdownContent5 input[type="checkbox"]:checked');
-      // Update the array with the selected values
-      checkboxes.forEach(function(checkbox) {
-        pic50.push(checkbox.value);
-      });
-
-      // Update the button text with selected values
+    function handleCheckboxChange5(value) {
+      pic50 = value;
+      console.log(pic50);
+      // Update the button text with selected value
       var dropdownBtn = document.getElementById("dropdownBtn5");
-      dropdownBtn.textContent = pic50.length > 0 ? pic50.join(', ') : "Select pic50";
-
+      dropdownBtn.textContent = pic50 !== undefined ? pic50 : "Select pIC50";
 
       // Close the dropdown
-      // var dropdownContent = document.getElementById("dropdownContent4");
-      // dropdownContent.style.display = "none";
+      var dropdownContent = document.getElementById("dropdownContent5");
+      dropdownContent.style.display = "none";
     }
 
     var checkboxList5 = document.querySelectorAll('#dropdownContent5 input[type="checkbox"]');
     checkboxList5.forEach(function(checkbox) {
       checkbox.addEventListener('change', function() {
-        handleCheckboxChange5();
+        if (this.checked) {
+          // Uncheck other checkboxes
+          checkboxList5.forEach(function(otherCheckbox) {
+            if (otherCheckbox !== checkbox) {
+              otherCheckbox.checked = false;
+            }
+          });
+          handleCheckboxChange5(checkbox.value);
+        } else {
+          // If a checkbox is unchecked, clear the selection
+          handleCheckboxChange5(undefined);
+        }
       });
+
     });
 
 
+    // Close dropdown on document click
+    document.addEventListener('click', function() {
+      var dropdownContent = document.getElementById("dropdownContent5");
+      dropdownContent.style.display = "none";
+    });
+
+    function Close_other_dropdown(currentDropdown) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      for (var i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown !== currentDropdown) {
+          openDropdown.style.display = 'none';
+        }
+      }
+    }
 
 
 
@@ -1041,7 +1057,6 @@ function filterOptions() {
     checkboxList3.forEach(function(checkbox) {
       checkbox.addEventListener('change', function() {
         handleCheckboxChange3();
-        console.log(Chembl_id1)
       });
     });
 
@@ -1449,14 +1464,12 @@ function filterOptions() {
       for (var i = 0; i < checkboxes2.length; i++) {
         if (!checkboxes2[i].checked) {
 
-          console.log("checkbox_names");
           checkbox_names.push(checkboxes2[i].id);
 
           if (!checkbox_saves_child.includes(checkboxes2[i].id))
             checkbox_saves_child.push(checkboxes2[i].id);
         }
       }
-      console.log(checkbox_names);
       range_of_links(minValue, maxValue, slider_range);
     }
   </script>
@@ -1873,7 +1886,6 @@ function filterOptions() {
           formattedLines.push(formattedText);
         }
 
-        console.log(formattedLines);
 
         return formattedLines.join('<br>');
       }
@@ -2237,9 +2249,6 @@ function filterOptions() {
         .attr("stroke-width", 3)
 
 
-      console.log(min_degree, "min degree")
-      console.log(max_degree, "max degree")
-
 
       node.filter((d) => d.type === "parentnode")
         .append("rect")
@@ -2465,6 +2474,7 @@ function filterOptions() {
       })
       childNode2.style("display", "none");
 
+      console.log(matric_legend , "here is the matric_legend empty ") ; 
       let visiblenode = [];
       node.filter(function(node) {
         if (node.type === "parentnode") {
@@ -2503,15 +2513,7 @@ function filterOptions() {
           }
         }
       })
-
-      console.log("phases", phases);
-
-      console.log(" dataset_legend", dataset_legend);
-
-      console.log(" matric_legend", matric_legend);
-
-      console.log(" ONCOTREE_LINEAGE_legend", ONCOTREE_LINEAGE_legend);
-
+      console.log(matric_legend , "here is the matric_legend") ; 
       if (not_remove) {
         legendinfo();
       }
@@ -2525,7 +2527,6 @@ function filterOptions() {
       child_clicked.on("click", onclick_childnodes);
 
       // phases =[]
-      console.log("phases", phases);
 
 
       node.filter(function(node) {
@@ -2660,8 +2661,6 @@ function filterOptions() {
       parent_count_D.innerHTML = parent_count;
 
       parent_count_D2.innerHTML = parent_count;
-
-      console.log(child_count);
 
 
       generateNameList();
@@ -3055,6 +3054,7 @@ function filterOptions() {
       dataset_legend = [];
       max_phase_categories = []
       ONCOTREE_LINEAGE_legend = [];
+      matric_legend = [];  
 
     }
 
