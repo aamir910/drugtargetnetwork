@@ -972,7 +972,6 @@ if (isset($_POST['drugName2'])) {
 
     function handleCheckboxChange5(value) {
       pic50 = value;
-      console.log(pic50);
       // Update the button text with selected value
       var dropdownBtn = document.getElementById("dropdownBtn5");
       dropdownBtn.textContent = pic50 !== undefined ? pic50 : "Select pIC50";
@@ -3248,10 +3247,18 @@ if (isset($_POST['drugName2'])) {
       slider2.max = 100;
       minValue = 6;
       // minSlider.min = 6 
-      minSlider.value = 6;
       var inputElement = document.querySelector('.input-min');
       // Get the value of the input element
-      inputElement.value = 6;
+      if(pic50){
+        inputElement.value = pic50;
+        minSlider.value = pic50;
+      }
+      else{
+        inputElement.value = 6;
+        
+        minSlider.value = 6;
+
+      }
 
       rangeValue.textContent = 100;
     }
