@@ -376,6 +376,7 @@ if (isset($_POST['drugName2'])) {
           </div>
 
         </div>
+
         <div class="dropdown" id="dropdown3">
 
           <label class="dropdownBtn" id="dropdownBtn4" onclick="toggleDropdown4(event)">Select data platform</label>
@@ -395,24 +396,25 @@ if (isset($_POST['drugName2'])) {
 
         </div>
         <!-- 5th dropdown  -->
-        <div class="dropdown" id="dropdown3">
+        <div class="dropdown" id="dropdown5">
 
-          <label class="dropdownBtn" id="dropdownBtn4" onclick="toggleDropdown4(event)">Select data platform</label>
-          <div id="dropdownContent4" class="dropdown-content">
-            <label><input type="checkbox" value="GDSC1">GDSC1</label>
-            <label><input type="checkbox" value="GDSC2">GDSC2</label>
-            <label><input type="checkbox" value="CCLE_NP24">CCLE_NP24</label>
-            <label><input type="checkbox" value="NCI-60">NCI-60</label>
-            <label><input type="checkbox" value="gCSI">gCSI</label>
-            <label><input type="checkbox" value="FIMM">FIMM</label>
+          <label class="dropdownBtn" id="dropdownBtn5" onclick="toggleDropdown5(event)">Select pIC50</label>
+          <div id="dropdownContent5" class="dropdown-content">
+            <label><input type="checkbox" value="4">4-9</label>
+            <label><input type="checkbox" value="5">5-9</label>
+            <label><input type="checkbox" value="6">6-9</label>
+            <label><input type="checkbox" value="7">7-9</label>
+            <label><input type="checkbox" value="8">8-9</label>
             <!-- Add more options as needed -->
           </div>
 
-          <div class="alert-message alert2  " style="position: absolute; top: 80px; " id="dp3">
+          <div class="alert-message alert2  " style="position: absolute; top: 80px; " id="dp5">
             <span class="alert alert-danger">please select option</span>
           </div>
 
-        </div>
+        </div> 
+
+
         <!-- forth Dropdown -->
         <div class="dropdown" id="dropdown4" style=" z-index : 40">
           <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select desease</label>
@@ -730,11 +732,10 @@ if (isset($_POST['drugName2'])) {
 
 
   <script>
-    let oncotree_change1 = ['Bone'];
-
+    // function to close the other dropdown 
     function Close_other_dropdown(drophere) {
 
-      for (let i = 1; i <= 4; i++) {
+      for (let i = 1; i <= 5; i++) {
         let dropdownContent = document.getElementById(`dropdownContent${i}`);
 
 
@@ -747,6 +748,11 @@ if (isset($_POST['drugName2'])) {
       }
 
     }
+
+    // dropdown 1 
+
+    let oncotree_change1 = [];
+
 
 
 
@@ -795,10 +801,10 @@ if (isset($_POST['drugName2'])) {
     });
 
 
-    let MaxPhase1 = ['Phase II', 'Approved'];
+    let MaxPhase1 = ["Approved" , "Phase II"];
 
     function toggleDropdown2(event) {
-
+      MaxPhase1 = [];
       var dropdownContent = document.getElementById("dropdownContent2");
       var dropdownBtn = document.getElementById("dropdownBtn2");
       if (dropdownContent.style.display === "block") {
@@ -812,8 +818,7 @@ if (isset($_POST['drugName2'])) {
 
 
     function handleCheckboxChange2() {
-      MaxPhase1 = [];
-
+      MaxPhase1 =[];
       // Get all checkboxes within the dropdown
       var checkboxes = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]:checked');
       // Update the array with the selected values
@@ -825,11 +830,6 @@ if (isset($_POST['drugName2'])) {
       var dropdownBtn = document.getElementById("dropdownBtn2");
       dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Select max clinical phase";
 
-
-
-      // Close the dropdown
-      // var dropdownContent = document.getElementById("dropdownContent2");
-      // dropdownContent.style.display = "none";
     }
 
     var checkboxList2 = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]');
@@ -885,6 +885,57 @@ if (isset($_POST['drugName2'])) {
       });
     });
 
+
+// 5th dropdown pic50 
+let pic50 = [];
+
+function toggleDropdown5(event) {
+
+  var dropdownContent = document.getElementById("dropdownContent5");
+  var dropdownBtn = document.getElementById("dropdownBtn5");
+
+  if (dropdownContent.style.display === "block") {
+    dropdownContent.style.display = "none";
+  } else {
+    dropdownContent.style.display = "block";
+    event.stopPropagation();
+  }
+
+  Close_other_dropdown(dropdownContent);
+}
+
+
+function handleCheckboxChange5() {
+  pic50 = [];
+
+  // Get all checkboxes within the dropdown
+  var checkboxes = document.querySelectorAll('#dropdownContent5 input[type="checkbox"]:checked');
+  // Update the array with the selected values
+  checkboxes.forEach(function(checkbox) {
+    pic50.push(checkbox.value);
+  });
+
+  // Update the button text with selected values
+  var dropdownBtn = document.getElementById("dropdownBtn5");
+  dropdownBtn.textContent = pic50.length > 0 ? pic50.join(', ') : "Select pic50";
+
+
+  // Close the dropdown
+  // var dropdownContent = document.getElementById("dropdownContent4");
+  // dropdownContent.style.display = "none";
+}
+
+var checkboxList5 = document.querySelectorAll('#dropdownContent5 input[type="checkbox"]');
+checkboxList5.forEach(function(checkbox) {
+  checkbox.addEventListener('change', function() {
+    handleCheckboxChange5();
+  });
+});
+
+
+
+
+
     // Add script for the third dropdown
     let Chembl_id1 = [];
 
@@ -915,10 +966,9 @@ if (isset($_POST['drugName2'])) {
       var dropdownBtn = document.getElementById("dropdownBtn3");
       dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Select decease";
 
-      // Close the dropdown
-
+      
     }
-
+    // Close the dropdown
     var checkboxList3 = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]');
     checkboxList3.forEach(function(checkbox) {
       checkbox.addEventListener('change', function() {
@@ -928,6 +978,7 @@ if (isset($_POST['drugName2'])) {
     });
 
 
+  
     function closeAllDropdowns() {
       var dropdowns = document.querySelectorAll('.dropdown-content');
       dropdowns.forEach(function(dropdown) {
@@ -1029,7 +1080,10 @@ if (isset($_POST['drugName2'])) {
         }
       });
 
+
+      MaxPhase1 = [] ;
     }
+
   </script>
 
 
@@ -3196,6 +3250,7 @@ if (isset($_POST['drugName2'])) {
         var dp2 = document.getElementById("dp2");
         var dp3 = document.getElementById("dp3");
         var dp4 = document.getElementById("dp4");
+        var dp5 = document.getElementById("dp5");
         // Check the screen size and hide elements if the condition is met
         if (screenWidth <= threshold) {
           alert("select the option first ");
@@ -3203,12 +3258,14 @@ if (isset($_POST['drugName2'])) {
           dp2.style.display = "none";
           dp3.style.display = "none";
           dp4.style.display = "none";
+          dp5.style.display = "none";
         } else {
           // Show elements if the screen size is greater than the threshold
           dp1.style.display = "block";
           dp2.style.display = "block";
           dp3.style.display = "block";
           dp4.style.display = "block";
+          dp5.style.display = "block";
         }
 
 
@@ -3222,6 +3279,7 @@ if (isset($_POST['drugName2'])) {
         document.getElementById("dp2").style.display = "none";
         document.getElementById("dp3").style.display = "none";
         document.getElementById("dp4").style.display = "none";
+        document.getElementById("dp5").style.display = "none";
 
         ajax();
       }
