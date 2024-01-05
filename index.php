@@ -439,7 +439,7 @@ if (isset($_POST['drugName2'])) {
 
 
         <!-- forth Dropdown -->
-        <div class="dropdown" id="dropdown4" style=" z-index : 40">
+        <div class="dropdown" id="dropdown4" style=" z-index:3">
 
           <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select desease</label>
           <div id="dropdownContent3" class="dropdown-content">
@@ -458,15 +458,13 @@ if (isset($_POST['drugName2'])) {
         <!-- button  -->
       </div>
       <button class="btn btn-success" id="submitButton" type='submit' style="width:11rem">
-        <i class="bi bi-search"></i> Apply Filter
-      </button>
+        <i class="bi bi-search"></i> Apply Filter</button>
     </form>
     <!-- end of the navbar -->
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
 
 
       <svg id="forcenetwork" width="100%" style="
-             
                display: flex;
                justify-content: center;
                align-items: center;
@@ -501,7 +499,7 @@ if (isset($_POST['drugName2'])) {
               <div>
                 <label for="search-bar">Search compounds:</label>
                 <input type="text" id="search-bar" oninput="filterNames('name-list')" onclick="focusSearch('search-bar')">
-                <a href="javascript:void(0)" id="selectAllLink" onclick ="toggleCheckboxes('name-list' ,'selectAllLink')">UnselectAll</a>
+                <a href="javascript:void(0)" id="selectAllLink" onclick="toggleCheckboxes('name-list' ,'selectAllLink')">UnselectAll</a>
                 <ul id="name-list">
                 </ul>
 
@@ -1276,11 +1274,11 @@ if (isset($_POST['drugName2'])) {
     nameList2.innerHTML = ''; // Clear existing list
 
     // filter the select All 
-    function toggleCheckboxes(listname , id) {
+    function toggleCheckboxes(listname, id) {
       var checkboxes = document.querySelectorAll(`#${listname} input[type="checkbox"]`);
       var selectAllLink = document.querySelector(`#${id}`);
 
-      checkboxes.forEach(function (checkbox) {
+      checkboxes.forEach(function(checkbox) {
         checkbox.checked = !checkbox.checked;
       });
 
@@ -2357,9 +2355,9 @@ if (isset($_POST['drugName2'])) {
       simulation.on("tick", () => {
         link
           .attr("x1", (d) => Math.max(0, Math.min(svgWidth, d.source.x)))
-          .attr("y1", (d) => Math.max(0, Math.min(svgHeight, d.source.y))+50)
+          .attr("y1", (d) => Math.max(0, Math.min(svgHeight, d.source.y)) + 50)
           .attr("x2", (d) => Math.max(0, Math.min(svgWidth, d.target.x)))
-          .attr("y2", (d) => Math.max(0, Math.min(svgHeight, d.target.y))+50);
+          .attr("y2", (d) => Math.max(0, Math.min(svgHeight, d.target.y)) + 50);
 
         node.attr("transform", (d) => `translate(${Math.max(0, Math.min(svgWidth, d.x))}
         ,${Math.max(0, Math.min(svgHeight, d.y))+50})`);
@@ -2495,6 +2493,13 @@ if (isset($_POST['drugName2'])) {
 
       console.log(matric_legend, "here is the matric_legend empty ");
       let visiblenode = [];
+
+      let maxphase = ['Approved',
+        'Phase I',
+        'Phase II',
+        'Phase III',
+        'Preclinical', 'Unknown'
+      ]
       node.filter(function(node) {
         if (node.type === "parentnode") {
           let maxnode = d3.select(this).style("display");
@@ -2505,8 +2510,9 @@ if (isset($_POST['drugName2'])) {
                 // tag4 
                 if (!phases.includes(node.MAX_PHASE)) {
                   phases.push(node.MAX_PHASE);
-
                 }
+
+
                 if (!dataset_legend.includes(link.dataset)) {
 
                   dataset_legend.push(link.dataset);
@@ -2533,6 +2539,7 @@ if (isset($_POST['drugName2'])) {
         }
       })
       console.log(matric_legend, "here is the matric_legend");
+
       if (not_remove) {
         legendinfo();
       }
@@ -2545,7 +2552,7 @@ if (isset($_POST['drugName2'])) {
 
       child_clicked.on("click", onclick_childnodes);
 
-      // phases =[]
+      
 
 
       node.filter(function(node) {
@@ -3090,7 +3097,7 @@ if (isset($_POST['drugName2'])) {
     let selected_maxphase;
 
     function addColor(color) {
-   
+
       li = document.createElement('li');
       li.className = 'color-item';
       li.id = color;
@@ -3262,6 +3269,8 @@ if (isset($_POST['drugName2'])) {
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
+      
+      not_remove = true;
       nodes = [];
       links = [];
       slider_range = 100;
