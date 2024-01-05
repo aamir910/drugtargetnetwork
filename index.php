@@ -466,7 +466,7 @@ if (isset($_POST['drugName2'])) {
 
 
       <svg id="forcenetwork" width="100%" style="
-               
+             
                display: flex;
                justify-content: center;
                align-items: center;
@@ -501,6 +501,7 @@ if (isset($_POST['drugName2'])) {
               <div>
                 <label for="search-bar">Search compounds:</label>
                 <input type="text" id="search-bar" oninput="filterNames('name-list')" onclick="focusSearch('search-bar')">
+                <a href="javascript:void(0)" id="selectAllLink" onclick ="toggleCheckboxes('name-list' ,'selectAllLink')">UnselectAll</a>
                 <ul id="name-list">
                 </ul>
 
@@ -509,7 +510,10 @@ if (isset($_POST['drugName2'])) {
               <!-- cellline filteration -->
               <div>
                 <label for="search-bar2">Searh Cell lines:</label>
+
                 <input type="text" id="search-bar2" oninput="filterNames2('name-list2')" onclick="focusSearch('search-bar2')">
+                <a href="javascript:void(0)" id="selectAllLink2" onclick="toggleCheckboxes('name-list2' ,'selectAllLink2')">UnselectAll</a>
+
                 <ul id="name-list2">
                 </ul>
 
@@ -1271,6 +1275,20 @@ if (isset($_POST['drugName2'])) {
     var nameList2 = document.getElementById("name-list2");
     nameList2.innerHTML = ''; // Clear existing list
 
+    // filter the select All 
+    function toggleCheckboxes(listname , id) {
+      var checkboxes = document.querySelectorAll(`#${listname} input[type="checkbox"]`);
+      var selectAllLink = document.querySelector(`#${id}`);
+
+      checkboxes.forEach(function (checkbox) {
+        checkbox.checked = !checkbox.checked;
+      });
+
+      selectAllLink.textContent = checkboxes[0].checked ? 'UnselectAll' : 'SelectAll';
+    }
+    // ended 
+
+
     function generateNameList() {
 
       //  HERE REMOVE  THE UNCHECKBOX THAT DISAPPEARS 
@@ -1931,8 +1949,8 @@ if (isset($_POST['drugName2'])) {
 
 
     const svg = d3.select("#forcenetwork");
-    const svgWidth = +svg.node().getBoundingClientRect().width - 40;
-    const svgHeight = +svg.node().getBoundingClientRect().height - 40;
+    const svgWidth = +svg.node().getBoundingClientRect().width - 100;
+    const svgHeight = +svg.node().getBoundingClientRect().height - 100;
 
 
 
@@ -1963,8 +1981,9 @@ if (isset($_POST['drugName2'])) {
         )
 
         .force("charge", d3.forceManyBody().strength(-100))
-        .force("x", d3.forceX(x_graph))
-        .force("y", d3.forceY(y_graph))
+        // .force("x", d3.forceX(x_graph))
+        // .force("y", d3.forceY(y_graph))
+        .force("center", d3.forceCenter(x_graph, y_graph))
         .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
       ;
 
@@ -2338,11 +2357,12 @@ if (isset($_POST['drugName2'])) {
       simulation.on("tick", () => {
         link
           .attr("x1", (d) => Math.max(0, Math.min(svgWidth, d.source.x)))
-          .attr("y1", (d) => Math.max(0, Math.min(svgHeight, d.source.y)))
+          .attr("y1", (d) => Math.max(0, Math.min(svgHeight, d.source.y))+50)
           .attr("x2", (d) => Math.max(0, Math.min(svgWidth, d.target.x)))
-          .attr("y2", (d) => Math.max(0, Math.min(svgHeight, d.target.y)));
+          .attr("y2", (d) => Math.max(0, Math.min(svgHeight, d.target.y))+50);
 
-        node.attr("transform", (d) => `translate(${Math.max(0, Math.min(svgWidth, d.x))},${Math.max(0, Math.min(svgHeight, d.y))})`);
+        node.attr("transform", (d) => `translate(${Math.max(0, Math.min(svgWidth, d.x))}
+        ,${Math.max(0, Math.min(svgHeight, d.y))+50})`);
       });
       var zoom = d3.zoom()
         .scaleExtent([0.5, 10]) // Set the zoom scale extent as needed
@@ -2473,7 +2493,7 @@ if (isset($_POST['drugName2'])) {
       })
       childNode2.style("display", "none");
 
-      console.log(matric_legend , "here is the matric_legend empty ") ; 
+      console.log(matric_legend, "here is the matric_legend empty ");
       let visiblenode = [];
       node.filter(function(node) {
         if (node.type === "parentnode") {
@@ -2512,7 +2532,7 @@ if (isset($_POST['drugName2'])) {
           }
         }
       })
-      console.log(matric_legend , "here is the matric_legend") ; 
+      console.log(matric_legend, "here is the matric_legend");
       if (not_remove) {
         legendinfo();
       }
@@ -3053,7 +3073,7 @@ if (isset($_POST['drugName2'])) {
       dataset_legend = [];
       max_phase_categories = []
       ONCOTREE_LINEAGE_legend = [];
-      matric_legend = [];  
+      matric_legend = [];
 
     }
 
@@ -3070,6 +3090,7 @@ if (isset($_POST['drugName2'])) {
     let selected_maxphase;
 
     function addColor(color) {
+   
       li = document.createElement('li');
       li.className = 'color-item';
       li.id = color;
@@ -3249,13 +3270,12 @@ if (isset($_POST['drugName2'])) {
       // minSlider.min = 6 
       var inputElement = document.querySelector('.input-min');
       // Get the value of the input element
-      if(pic50){
+      if (pic50) {
         inputElement.value = pic50;
         minSlider.value = pic50;
-      }
-      else{
+      } else {
         inputElement.value = 6;
-        
+
         minSlider.value = 6;
 
       }
