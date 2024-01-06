@@ -2508,9 +2508,20 @@ if (isset($_POST['drugName2'])) {
               if (link.source === node) {
                 visiblenode.push(link.target.id);
                 // tag4 
+
+
                 if (!phases.includes(node.MAX_PHASE)) {
-                  phases.push(node.MAX_PHASE);
+                  if (node.MAX_PHASE === "" || node.MAX_PHASE === null) {
+                    if(!phases.includes("Unknown")){
+                      phases.push("Unknown");
+                    }
+                  }
+                  else{
+                    phases.push(node.MAX_PHASE);
+                  }
+
                 }
+console.log(phases , "phases" )
 
 
                 if (!dataset_legend.includes(link.dataset)) {
@@ -2552,7 +2563,7 @@ if (isset($_POST['drugName2'])) {
 
       child_clicked.on("click", onclick_childnodes);
 
-      
+phases = [];
 
 
       node.filter(function(node) {
@@ -3064,6 +3075,7 @@ if (isset($_POST['drugName2'])) {
         });
 
       // color picker
+
       let check3_color = true;
       for (const categoryObj of max_phase_categories) {
         if (categoryObj.category === "Unknown" || categoryObj.category === "") {
@@ -3096,15 +3108,25 @@ if (isset($_POST['drugName2'])) {
     ul_color = document.getElementById('colorList');
     let selected_maxphase;
 
-    function addColor(color) {
+  function addColor(color) {
+    // Check if an element with the same id already exists
+    var existingLi = document.getElementById(color);
 
-      li = document.createElement('li');
-      li.className = 'color-item';
-      li.id = color;
-      li.style.backgroundColor = color; // Set background color
-      ul_color.appendChild(li);
-
+    // If it exists, remove it
+    if (existingLi) {
+        existingLi.remove();
     }
+
+    // Create a new li element
+    var li = document.createElement('li');
+    li.className = 'color-item';
+    li.id = color;
+    li.style.backgroundColor = color; // Set background color
+
+    // Append the new li element to the ul
+    ul_color.appendChild(li);
+}
+
 
     function color_click_onchange(event, d) {
       // Check if the click occurred on the max_phase_color or line elements or their descendants
@@ -3269,7 +3291,7 @@ if (isset($_POST['drugName2'])) {
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
-      
+
       not_remove = true;
       nodes = [];
       links = [];
