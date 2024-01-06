@@ -1978,7 +1978,7 @@ if (isset($_POST['drugName2'])) {
           .distance((link, index) => (index % 2 === 0 ? 250 : 300))
         )
 
-        .force("charge", d3.forceManyBody().strength(-100))
+        .force("charge", d3.forceManyBody().strength(-35))
         // .force("x", d3.forceX(x_graph))
         // .force("y", d3.forceY(y_graph))
         .force("center", d3.forceCenter(x_graph, y_graph))
