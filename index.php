@@ -1698,10 +1698,8 @@ if (isset($_POST['drugName2'])) {
       'Haematopoietic and Lymphoid',
       'Bladder', 'Kidney', 'Pancreas',
       'Large Intestine',
-      'Ovary',
-      'Stomach',
-      'Biliary Tract',
-      'Small Intestine',
+      'Ovary', 'Stomach',
+      'Biliary Tract', 'Small Intestine',
       'Placenta',
       'Prostate',
       'Testis',
@@ -1709,6 +1707,26 @@ if (isset($_POST['drugName2'])) {
       'Vulva',
       'Thyroid'
     ];
+
+    // disease_class entry 
+    let disease_Class_legend = [];
+    let disease_categories;
+    const disease_Class_Data = [
+      'Cardiovascular',
+      'Chemically-Induced disorders', 'Congenital and neonatal', 'Digestive system', 'Endocrine system', 'Eye', 'Female urogenital',
+      'Genetic inborn',
+      'Hemic and lymphatic', 'Immune system', 'Infections', 'Male urogenital',
+      'Mental disorders', 'Musculoskeletal', 'Neoplasm',
+      'Nervous system', 'Nutritional and Metabolic',
+      'Occupational diseases', 'Otorhinolaryngologic',
+      'Pathological conditions', 'Respiratory tract',
+      'Skin and connective tissue', 'Stomatognathic', 'Wounds and injuries'
+    ];
+
+
+    // disease_class entry ended 
+
+
 
 
 
@@ -2996,6 +3014,7 @@ if (isset($_POST['drugName2'])) {
         '#00CED1' // dark turquoise
       ];
 
+
       child_categories_border = [
         'Pancreas',
         'Large Intestine',
@@ -3012,6 +3031,132 @@ if (isset($_POST['drugName2'])) {
         'Cervix',
         'Liver'
       ];
+
+      function GenerateDisease_class() {
+
+      }
+
+      const disease_classColors = [
+        'red',
+        'orange',
+        'yellow', 'green',
+        'blue', 'indigo',
+        'violet', 'brown',
+        'pink', 'cyan',
+        'purple', 'teal',
+        'gray',
+        'lime',
+        'maroon',
+        'navy',
+        'olive',
+        'pink',
+        'salmon',
+        'turquoise',
+        'sienna',
+        'gold',
+        'plum',
+        'coral'
+      ];
+      const healthCategoriesWithColors = [{
+          name: 'Cardiovascular',
+          color: 'red'
+        },
+        {
+          name: 'Chemically-Induced disorders',
+          color: 'orange'
+        },
+        {
+          name: 'Congenital and neonatal',
+          color: 'yellow'
+        },
+        {
+          name: 'Digestive system',
+          color: 'green'
+        },
+        {
+          name: 'Endocrine system',
+          color: 'blue'
+        },
+        {
+          name: 'Eye',
+          color: 'indigo'
+        },
+        {
+          name: 'Female urogenital',
+          color: 'violet'
+        },
+        {
+          name: 'Genetic inborn',
+          color: 'brown'
+        },
+        {
+          name: 'Hemic and lymphatic',
+          color: 'pink'
+        },
+        {
+          name: 'Immune system',
+          color: 'cyan'
+        },
+        {
+          name: 'Infections',
+          color: 'purple'
+        },
+        {
+          name: 'Male urogenital',
+          color: 'teal'
+        },
+        {
+          name: 'Mental disorders',
+          color: 'gray'
+        },
+        {
+          name: 'Musculoskeletal',
+          color: 'lime'
+        },
+        {
+          name: 'Neoplasm',
+          color: 'maroon'
+        },
+        {
+          name: 'Nervous system',
+          color: 'navy'
+        },
+        {
+          name: 'Nutritional and Metabolic',
+          color: 'olive'
+        },
+        {
+          name: 'Occupational diseases',
+          color: 'pink'
+        },
+        {
+          name: 'Otorhinolaryngologic',
+          color: 'salmon'
+        },
+        {
+          name: 'Pathological conditions',
+          color: 'turquoise'
+        },
+        {
+          name: 'Respiratory tract',
+          color: 'sienna'
+        },
+        {
+          name: 'Skin and connective tissue',
+          color: 'gold'
+        },
+        {
+          name: 'Stomatognathic',
+          color: 'plum'
+        },
+        {
+          name: 'Wounds and injuries',
+          color: 'coral'
+        }
+      ];
+
+
+
       //  gererating the dynamic nodes 
       data_Set = generateDataSet();
       max_phase_categories = createMaxPhaseCategories();
@@ -3158,6 +3303,33 @@ if (isset($_POST['drugName2'])) {
 
           return list_hidden_childnode.includes(d.category);
         });;
+
+
+
+
+
+
+
+      //appending the data of the disease nodes
+      const ul6 = d3.select("#disease_Class");
+
+      ul6.selectAll("li").remove();
+      diseaseClass_child = ul6
+        .selectAll("li")
+        .data(healthCategoriesWithColors)
+        .enter()
+        .append("li");
+
+
+      child_color = diseaseClass
+        .append("div")
+        .attr("class", "circle")
+        .style("background-color", "Red");
+
+        diseaseClass.append("span")
+        .text((d) => d.name)
+        .style("font-size", "14.208px").style("font-family", "Arial");
+
 
 
       // appending the data of the matric 
