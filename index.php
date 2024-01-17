@@ -14,25 +14,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Array to store conditions
     $conditions = array();
 
-    $sql = "SELECT * FROM drugresponse WHERE";
-    // Check and add condition for CHEMBL_ID
+    $sql = "SELECT drugresponse.*, compounds_updated1.INCHI_KEY, drug_disease.Disease_class, drug_disease.Phase FROM drugresponse";
 
-    // Check and add condition  ONCOTREE_PRIMARY_DISEASE
+    // Join with compounds_updated1 table
+    $sql .= " LEFT JOIN compounds_updated1 ON drugresponse.COMPOUND_NAME = compounds_updated1.COMPOUND_NAME";
+
+    // Join with drug_disease table
+    $sql .= " LEFT JOIN drug_disease ON compounds_updated1.INCHI_KEY = drug_disease.INCHI_KEY";
+
+    $sql .= " WHERE";
+
+
+    // Check and add condition for ONCOTREE_PRIMARY_DISEASE
     if (isset($_POST['Chembl_id1']) && !empty($_POST['Chembl_id1'])) {
       $Chembl_id1 = $_POST['Chembl_id1'];
       $escaped_chembl_ids = array_map(function ($value) use ($conn) {
         return mysqli_real_escape_string($conn, $value);
       }, $Chembl_id1);
 
-      $Chembl_id_condition = implode("','", $escaped_chembl_ids);;
-      $conditions[] = "ONCOTREE_PRIMARY_DISEASE IN ('$Chembl_id_condition')";
+      $Chembl_id_condition = implode("','", $escaped_chembl_ids);
+      $conditions[] = "drugresponse.ONCOTREE_PRIMARY_DISEASE IN ('$Chembl_id_condition')";
     }
 
     // Check and add condition for MAX_PHASE
     if (isset($_POST['MaxPhase1']) && !empty($_POST['MaxPhase1'])) {
       $MaxPhase1 = $_POST['MaxPhase1'];
       $MaxPhase_condition = implode("','", $MaxPhase1);
-      $conditions[] = "MAX_PHASE IN ('$MaxPhase_condition')";
+      $conditions[] = "drugresponse.MAX_PHASE IN ('$MaxPhase_condition')";
     }
 
     // Check and add condition for pic50
@@ -41,20 +49,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $conditions[] = "VALUE >= $pic50";
     }
 
-
-
     // Check and add condition for ONCOTREE_LINEAGE
     if (isset($_POST['oncotree_change1']) && !empty($_POST['oncotree_change1'])) {
       $oncotree_change1 = $_POST['oncotree_change1'];
       $oncotree_change_condition = implode("','", $oncotree_change1);
-      $conditions[] = "ONCOTREE_LINEAGE IN ('$oncotree_change_condition')";
+      $conditions[] = "drugresponse.ONCOTREE_LINEAGE IN ('$oncotree_change_condition')";
     }
 
     if (isset($_POST['DataPlatform']) && !empty($_POST['DataPlatform'])) {
       $DataPlatform = $_POST['DataPlatform'];
-
       $DataPlatform_condition = implode("','", $DataPlatform);
-      $conditions[] = "DATASET IN ('$DataPlatform_condition')";
+      $conditions[] = "drugresponse.DATASET IN ('$DataPlatform_condition')";
     }
 
     $count_increment = intval($_POST['count_increment']);
@@ -66,12 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $sql .= " " . implode(" AND ", $conditions);
       } else {
-        $sql .= " " . implode(" AND ", $conditions) . " AND MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
+        $sql .= " " . implode(" AND ", $conditions) . " AND drugresponse.MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
       }
     }
 
     // Limit the result to 400 rows
-    $limit = 400 * $count_increment;
+    $limit = 200 * $count_increment;
 
     // Append the LIMIT clause to your SQL query
     $sql .= " LIMIT " . $limit;
@@ -91,10 +96,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Echo the JSON-encoded data
     echo $json_result;
     exit(); // Stop further execution
-
   }
 }
 ?>
+
 
 <?php
 
@@ -437,7 +442,6 @@ if (isset($_POST['drugName2'])) {
 
         </div>
 
-
         <!-- forth Dropdown -->
         <div class="dropdown" id="dropdown4" style=" z-index:3">
 
@@ -451,10 +455,27 @@ if (isset($_POST['drugName2'])) {
             <span class="alert alert-danger">please select option</span>
           </div>
 
+          <!-- sixth Dropdown -->
+          <div class="dropdown" id="dropdown6" style=" z-index:3">
+
+            <label class="dropdownBtn" id="dropdownBtn6" onclick="toggleDropdown6(event)">Select desease class</label>
+            <div id="dropdownContent6" class="dropdown-content">
+
+              <!-- Add more options as needed -->
+            
+            </div>
+            <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
+              <span class="alert alert-danger">please select option</span>
+            </div>
+
+
+          </div>
+
+
+
+
+
         </div>
-
-
-
         <!-- button  -->
       </div>
       <button class="btn btn-success" id="submitButton" type='submit' style="width:11rem">
@@ -462,7 +483,13 @@ if (isset($_POST['drugName2'])) {
     </form>
     <!-- end of the navbar -->
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
+      <!-- here is the disease legend  -->
 
+      <div style="width: 10%;">
+        <legend class="legenddata ">disease value</legend>
+        <ul id="disease_value" class="legend_inner"></ul>
+
+      </div>
 
       <svg id="forcenetwork" width="100%" style="
                display: flex;
@@ -477,9 +504,8 @@ if (isset($_POST['drugName2'])) {
       </div>
 
 
-      <div class="wrapper  " id='wrapper'>
-        <header style="
-  justify-content: space-between;" |>
+      <div class="wrapper" id='wrapper'>
+        <header style="justify-content: space-between;">
           <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
           <!-- heading  -->
           <p>Drug response (pIC50)</p>
@@ -544,7 +570,7 @@ if (isset($_POST['drugName2'])) {
           <input id="max_slider" type="range" class="range-max" min="4.0" max="9.0" step="0.1" value="9.0">
         </div>
         <div class="legend">
-          <div style="width : 40%">
+          <div style="width :40%">
             <legend class="legenddata">Max clinical phase</legend>
             <ul id="myList" class="legend_inner"></ul>
             <legend class="legenddata">Data platform</legend>
@@ -585,10 +611,6 @@ if (isset($_POST['drugName2'])) {
 
       </div>
     </footer>
-
-
-
-
 
     <div class="card" id="cardid" style="display: none; z-index:9999">
       <p class="cl-picker">change color</p>
@@ -733,6 +755,10 @@ if (isset($_POST['drugName2'])) {
       "Chronic Lymphocytic Leukemia", "Adult Acute Megakaryoblastic Leukemia"
     ];
 
+
+
+
+
     const dropdownContent = document.getElementById('dropdownContent3');
 
     // Loop through the diseases array and create checkboxes and labels
@@ -796,6 +822,40 @@ if (isset($_POST['drugName2'])) {
         }
       }
     }
+
+    const Drug_class_Categories = [
+      'Cardiovascular',
+      'Chemically-Induced disorders', 'Congenital and neonatal', 'Digestive system', 'Endocrine system', 'Eye', 'Female urogenital',
+      'Genetic inborn',
+      'Hemic and lymphatic', 'Immune system', 'Infections', 'Male urogenital',
+      'Mental disorders', 'Musculoskeletal', 'Neoplasm',
+      'Nervous system', 'Nutritional and Metabolic',
+      'Occupational diseases', 'Otorhinolaryngologic',
+      'Pathological conditions', 'Respiratory tract',
+      'Skin and connective tissue', 'Stomatognathic', 'Wounds and injuries'
+    ];
+
+    const dropdownContent2 = document.getElementById('dropdownContent6');
+
+    // Loop through the diseases array and create checkboxes and labels
+    for (let i = 0; i < Drug_class_Categories.length; i++) {
+      // Create a label element
+      const label = document.createElement('label');
+      label.title = Drug_class_Categories[i];
+      // Create an input element with type 'checkbox'
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.value = Drug_class_Categories[i]; // Set the value attribute to the disease name
+
+      // Add the checkbox to the label
+      label.appendChild(checkbox);
+
+      // Add the disease name as text content to the label
+      label.appendChild(document.createTextNode(Drug_class_Categories[i]));
+
+      // Append the label to the dropdownContent div
+      dropdownContent2.appendChild(label);
+    }
   </script>
   <!-- Dragable div  -->
 
@@ -804,7 +864,7 @@ if (isset($_POST['drugName2'])) {
     // function to close the other dropdown 
     function Close_other_dropdown(drophere) {
 
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 6; i++) {
         let dropdownContent = document.getElementById(`dropdownContent${i}`);
 
 
@@ -1063,6 +1123,51 @@ if (isset($_POST['drugName2'])) {
 
 
 
+    // sixth dropdown 
+
+    let disease_class1 = [];
+
+    function toggleDropdown6(event) {
+
+      var dropdownContent = document.getElementById("dropdownContent6");
+      var dropdownBtn = document.getElementById("dropdownBtn6");
+
+      if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+      } else {
+        dropdownContent.style.display = "block";
+        event.stopPropagation();
+      }
+
+      Close_other_dropdown(dropdownContent);
+    }
+
+    function handleCheckboxChange6() {
+      disease_class1 = [];
+      // Get all checkboxes within the dropdown
+      var checkboxes = document.querySelectorAll('#dropdownContent6 input[type="checkbox"]:checked');
+      // Update the array with the selected values
+      checkboxes.forEach(function(checkbox) {
+        disease_class1.push(checkbox.value);
+      });
+      // Update the button text with selected values
+      var dropdownBtn = document.getElementById("dropdownBtn6");
+      dropdownBtn.textContent = disease_class1.length > 0 ? disease_class1.join(', ') : "Select decease class ";
+
+
+    }
+    // Close the dropdown
+    var checkboxList6 = document.querySelectorAll('#dropdownContent6 input[type="checkbox"]');
+    checkboxList6.forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+        handleCheckboxChange6();
+      });
+    });
+
+    // sixth dropdown closes 
+
+
+
     function closeAllDropdowns() {
       var dropdowns = document.querySelectorAll('.dropdown-content');
       dropdowns.forEach(function(dropdown) {
@@ -1130,6 +1235,7 @@ if (isset($_POST['drugName2'])) {
         success: function(response) {
 
           jsondata2 = response;
+          console.log("newData", jsondata2);
 
           fetchData(jsondata2);
 
@@ -1978,12 +2084,13 @@ if (isset($_POST['drugName2'])) {
           .distance((link, index) => (index % 2 === 0 ? 250 : 300))
         )
 
-        .force("charge", d3.forceManyBody().strength(-35))
-        // .force("x", d3.forceX(x_graph))
-        // .force("y", d3.forceY(y_graph))
-        .force("center", d3.forceCenter(x_graph, y_graph))
+        // .force("charge", d3.forceManyBody().strength(-100))
+        .force("x", d3.forceX(x_graph))
+        .force("y", d3.forceY(y_graph))
+        // .force("center", d3.forceCenter(x_graph, y_graph))
         .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
       ;
+
 
 
       // if(links.length >300){
@@ -2068,7 +2175,7 @@ if (isset($_POST['drugName2'])) {
             .style("opacity", 0);
         });
 
-      ;
+
 
       // Define a tooltip div with class "tooltip2"
       var tooltip2 = d3.select("body").append("div")
@@ -2099,6 +2206,40 @@ if (isset($_POST['drugName2'])) {
 
 
 
+      let child = 0;
+      let parent = 0;
+      let ratio = 0;
+
+
+      node.filter(function(node) {
+        if (node.type === "childnode") {
+          child = child + 1;
+        }
+        if (node.type === "parentnode") {
+          parent = parent + 1;
+        }
+      })
+      console.log(child, ' child');
+      console.log(parent, ' parent');
+
+      if (child > parent) {
+        ratio = child / (child + parent) * 100
+      } else if (child < parent) {
+        ratio = parent / (child + parent) * 100
+      }
+
+      console.log(ratio)
+
+      if (ratio > 80) {
+        simulation.force("charge", d3.forceManyBody().strength(-150))
+        console.log("hre is 80")
+
+      } else {
+        simulation.force("charge", d3.forceManyBody().strength(-75))
+
+        console.log("hre is lkess than 80")
+
+      }
 
 
 
@@ -2388,20 +2529,7 @@ if (isset($_POST['drugName2'])) {
       zoomOutButton.addEventListener("click", function() {
         svg.transition().call(zoom.scaleBy, 0.8);
       });
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
 
     ////////////////////////////////////////////////////////////////////////////
     // here is the function to start the limitations 
@@ -2491,7 +2619,6 @@ if (isset($_POST['drugName2'])) {
       })
       childNode2.style("display", "none");
 
-      console.log(matric_legend, "here is the matric_legend empty ");
       let visiblenode = [];
 
       let maxphase = ['Approved',
@@ -2512,16 +2639,14 @@ if (isset($_POST['drugName2'])) {
 
                 if (!phases.includes(node.MAX_PHASE)) {
                   if (node.MAX_PHASE === "" || node.MAX_PHASE === null) {
-                    if(!phases.includes("Unknown")){
+                    if (!phases.includes("Unknown")) {
                       phases.push("Unknown");
                     }
-                  }
-                  else{
+                  } else {
                     phases.push(node.MAX_PHASE);
                   }
 
                 }
-console.log(phases , "phases" )
 
 
                 if (!dataset_legend.includes(link.dataset)) {
@@ -2549,7 +2674,6 @@ console.log(phases , "phases" )
           }
         }
       })
-      console.log(matric_legend, "here is the matric_legend");
 
       if (not_remove) {
         legendinfo();
@@ -2563,7 +2687,7 @@ console.log(phases , "phases" )
 
       child_clicked.on("click", onclick_childnodes);
 
-phases = [];
+      phases = [];
 
 
       node.filter(function(node) {
@@ -3108,24 +3232,24 @@ phases = [];
     ul_color = document.getElementById('colorList');
     let selected_maxphase;
 
-  function addColor(color) {
-    // Check if an element with the same id already exists
-    var existingLi = document.getElementById(color);
+    function addColor(color) {
+      // Check if an element with the same id already exists
+      var existingLi = document.getElementById(color);
 
-    // If it exists, remove it
-    if (existingLi) {
+      // If it exists, remove it
+      if (existingLi) {
         existingLi.remove();
+      }
+
+      // Create a new li element
+      var li = document.createElement('li');
+      li.className = 'color-item';
+      li.id = color;
+      li.style.backgroundColor = color; // Set background color
+
+      // Append the new li element to the ul
+      ul_color.appendChild(li);
     }
-
-    // Create a new li element
-    var li = document.createElement('li');
-    li.className = 'color-item';
-    li.id = color;
-    li.style.backgroundColor = color; // Set background color
-
-    // Append the new li element to the ul
-    ul_color.appendChild(li);
-}
 
 
     function color_click_onchange(event, d) {
