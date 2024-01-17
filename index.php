@@ -462,7 +462,7 @@ if (isset($_POST['drugName2'])) {
             <div id="dropdownContent6" class="dropdown-content">
 
               <!-- Add more options as needed -->
-            
+
             </div>
             <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
               <span class="alert alert-danger">please select option</span>
@@ -485,9 +485,13 @@ if (isset($_POST['drugName2'])) {
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
       <!-- here is the disease legend  -->
 
-      <div style="width: 10%;">
-        <legend class="legenddata ">disease value</legend>
-        <ul id="disease_value" class="legend_inner"></ul>
+      <div class="legend" style="width: 10%;">
+        <div>
+          <legend class="legenddata ">Phase </legend>
+          <ul id="phases_disease" class="legend_inner"></ul>
+          <legend class="legenddata ">Disease Class </legend>
+          <ul id="disease_Class" class="legend_inner"></ul>
+        </div>
 
       </div>
 
@@ -496,7 +500,7 @@ if (isset($_POST['drugName2'])) {
                justify-content: center;
                align-items: center;
                height:100%;
-             " class=" forcenetwork  ">
+               width:65%;" class=" forcenetwork  ">
         <!-- Loader embedded inside SVG -->
       </svg>
       <div id="loader_id">
