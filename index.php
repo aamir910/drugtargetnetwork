@@ -3311,6 +3311,7 @@ if (isset($_POST['drugName2'])) {
 
 
       //appending the data of the disease nodes
+
       const ul6 = d3.select("#disease_Class");
 
       ul6.selectAll("li").remove();
@@ -3320,13 +3321,18 @@ if (isset($_POST['drugName2'])) {
         .enter()
         .append("li");
 
-
-      child_color = diseaseClass
+// tagtriangle 
+      // Append the triangle directly
+      child_triangle = diseaseClass_child
         .append("div")
-        .attr("class", "circle")
-        .style("background-color", "Red");
+        .attr("class", "triangle")
+        .style("border-left", "10px solid transparent")
+        .style("border-right", "10px solid transparent")
+        .style("border-bottom", (d) => `17px solid ${d.color}`)
+        .style("border-radius", "0").style("width", "0")
+        .style("height", "0");
 
-        diseaseClass.append("span")
+      diseaseClass_child.append("span")
         .text((d) => d.name)
         .style("font-size", "14.208px").style("font-family", "Arial");
 
