@@ -1728,16 +1728,7 @@ if (isset($_POST['drugName2'])) {
 
     // disease_class entry ended 
 
-
-
-
-
-
     let not_remove = true;
-
-
-
-
     let count_increment = 1;
 
     document.getElementById("increment").addEventListener("click", function(event) {
@@ -1792,7 +1783,7 @@ if (isset($_POST['drugName2'])) {
       try {
         response = data;
 
-        console.log('data coming from the', response);
+        // console.log('data coming from the', response);
 
         processData(response);
       } catch (error) {
@@ -1820,31 +1811,6 @@ if (isset($_POST['drugName2'])) {
 
 
         }
-        // if (!ONCOTREE_LINEAGE_legend.includes(item.ONCOTREE_LINEAGE)) {
-        //   if (item.ONCOTREE_LINEAGE === "") {
-        //     if (!ONCOTREE_LINEAGE_legend.includes("Unknown")) {
-        //       ONCOTREE_LINEAGE_legend.push("Unknown")
-
-        //     }
-        //   } else {
-        //     ONCOTREE_LINEAGE_legend.push(item.ONCOTREE_LINEAGE)
-
-        //   }
-        // }
-
-        // if (!phases.includes(item.MAX_PHASE)) {
-        //   phases.push(item.MAX_PHASE);
-
-        // }
-        // if (!dataset_legend.includes(item.DATASET)) {
-
-        //   dataset_legend.push(item.DATASET);
-
-        // }
-        // if (!matric_legend.includes(item.METRIC)) {
-
-        //   matric_legend.push(item.METRIC);
-        // }
 
       })
       data.forEach((item) => {
@@ -1873,6 +1839,8 @@ if (isset($_POST['drugName2'])) {
             MAX_PHASE: item.MAX_PHASE,
             oncotree_change: item.ONCOTREE_LINEAGE,
             dataset: item.DATASET,
+            Disease_class: item.Disease_class,
+             phase  : item.Phase
 
           });
 
@@ -1893,10 +1861,11 @@ if (isset($_POST['drugName2'])) {
         {
           source: item.COMPOUND_NAME,
           target: item.Disease_name,
-          value: item.VALUE,
-          max_range_link: item.MAX_PHASE,
-          dataset: item.DATASET,
-          link_matric: item.METRIC,
+          phase  : item.Phase
+          // value: item.VALUE,
+          // max_range_link: item.MAX_PHASE,
+          // dataset: item.DATASET,
+          // link_matric: item.METRIC,
         },
       ]);
 
@@ -2269,8 +2238,6 @@ if (isset($_POST['drugName2'])) {
           parent = parent + 1;
         }
       })
-      console.log(child, ' child');
-      console.log(parent, ' parent');
 
       if (child > parent) {
         ratio = child / (child + parent) * 100
@@ -2278,16 +2245,12 @@ if (isset($_POST['drugName2'])) {
         ratio = parent / (child + parent) * 100
       }
 
-      console.log(ratio)
 
       if (ratio > 80) {
         simulation.force("charge", d3.forceManyBody().strength(-50))
-        console.log("hre is 80")
-
       } else {
         simulation.force("charge", d3.forceManyBody().strength(-50))
 
-        console.log("hre is lkess than 80")
 
       }
 
@@ -2463,7 +2426,10 @@ if (isset($_POST['drugName2'])) {
         .append("path")
         .attr("d", "M 0 0 L 8 16 L -8 16 Z") // Path data for a triangle
         .style("fill", function(d) {
-          return healthCategoriesWithColors[d.disease_class] || "black";
+
+          // console.log(healthCategoriesWithColors , "health")
+
+          return healthCategoriesWithColors.find(category => category.category === d.Disease_class)?.color || "black";
         })
 
 
@@ -2717,6 +2683,10 @@ if (isset($_POST['drugName2'])) {
 
                   matric_legend.push(link.link_matric);
                 }
+                if (!disease_Class_legend.includes(link.target.Disease_class)) {
+
+                  disease_Class_legend.push(link.target.Disease_class);
+                }
 
                 if (!ONCOTREE_LINEAGE_legend.includes(link.target.oncotree_change)) {
                   if (link.target.oncotree_change === "") {
@@ -2728,8 +2698,8 @@ if (isset($_POST['drugName2'])) {
                     ONCOTREE_LINEAGE_legend.push(link.target.oncotree_change);
                   }
                 }
-
               }
+
             })
           }
         }
@@ -2954,82 +2924,78 @@ if (isset($_POST['drugName2'])) {
         }));
       }
 
+      function GenerateDisease_class() {
+  const categoryColorMap = {
+    'Cardiovascular': 'red',
+    'Chemically-Induced disorders': 'orange',
+    'Congenital and neonatal': 'yellow',
+    'Digestive system': 'green',
+    'Endocrine system': 'blue',
+    'Eye': 'indigo',
+    'Female urogenital': 'violet',
+    'Genetic inborn': 'brown',
+    'Hemic and lymphatic': 'pink',
+    'Immune system': 'cyan',
+    'Infections': 'purple',
+    'Male urogenital': 'teal',
+    'Mental disorders': 'gray',
+    'Musculoskeletal': 'lime',
+    'Neoplasm': 'maroon',
+    'Nervous system': 'navy',
+    'Nutritional and Metabolic': 'olive',
+    'Occupational diseases': 'pink',
+    'Otorhinolaryngologic': 'salmon',
+    'Pathological conditions': 'turquoise',
+    'Respiratory tract': 'sienna',
+    'Skin and connective tissue': 'gold',
+    'Stomatognathic': 'plum',
+    'Wounds and injuries': 'coral',
+  };
+
+  return disease_Class_legend.map((category) => ({
+    category,
+    color: categoryColorMap[category] || "black",
+  }));
+}
+
       function generateChildCategories() {
-        return ONCOTREE_LINEAGE_legend.map((category, index) => {
-          let color;
+        const categoryColorMap = {
+          'Bone': child_colors[0],
+          'Skin': child_colors[1],
+          'Central Nervous System': child_colors[2],
+          'Lung': child_colors[3],
+          'Peripheral Nervous System': child_colors[4],
+          'Soft Tissue': child_colors[5],
+          'Esophagus': child_colors[6],
+          'Breast': child_colors[7],
+          'Head and Neck': child_colors[8],
+          'Haematopoietic and Lymphoid': child_colors[9],
+          'Bladder': child_colors[10],
+          'Kidney': child_colors[11],
+          'Endometrium': child_colors[12],
+          'Lymphoid': child_colors[13],
+          'Adrenal Gland': child_colors[14],
+          'Bowel': child_colors[15],
+          'Pancreas': child_colors[0], // Repeat the color for category 11
+          'Large Intestine': child_colors[1],
+          'Ovary': child_colors[2],
+          'Stomach': child_colors[3],
+          'Biliary Tract': child_colors[4],
+          'Small Intestine': child_colors[5],
+          'Placenta': child_colors[6],
+          'Prostate': child_colors[7],
+          'Testis': child_colors[8],
+          'Uterus': child_colors[9],
+          'Vulva': child_colors[10],
+          'Thyroid': child_colors[11],
+          'Cervix': child_colors[12],
+          'Liver': child_colors[13],
+        };
 
-          if (category === 'Bone') {
-            color = child_colors[0];
-          } else if (category === 'Skin') {
-            color = child_colors[1];
-          } else if (category === 'Central Nervous System') {
-            color = child_colors[2];
-          } else if (category === 'Lung') {
-            color = child_colors[3];
-          } else if (category === 'Peripheral Nervous System') {
-            color = child_colors[4];
-          } else if (category === 'Soft Tissue') {
-            color = child_colors[5];
-          } else if (category === 'Esophagus') {
-            color = child_colors[6];
-          } else if (category === 'Breast') {
-            color = child_colors[7];
-          } else if (category === 'Head and Neck') {
-            color = child_colors[8];
-          } else if (category === 'Haematopoietic and Lymphoid') {
-            color = child_colors[9];
-          } else if (category === 'Bladder') {
-            color = child_colors[10];
-          } else if (category === 'Kidney') {
-            color = child_colors[11];
-          } else if (category === 'Endometrium') {
-            color = child_colors[12];
-          } else if (category === 'Lymphoid') {
-            color = child_colors[13];
-          } else if (category === 'Adrenal Gland') {
-            color = child_colors[14];
-          } else if (category === 'Bowel') {
-            color = child_colors[15];
-          } else if (category === 'Pancreas') {
-            color = child_colors[0]; // Repeat the color for category 11
-          } else if (category === 'Large Intestine') {
-            color = child_colors[1];
-          } else if (category === 'Ovary') {
-            color = child_colors[2];
-          } else if (category === 'Stomach') {
-            color = child_colors[3];
-          } else if (category === 'Biliary Tract') {
-            color = child_colors[4];
-          } else if (category === 'Small Intestine') {
-            color = child_colors[5];
-          } else if (category === 'Placenta') {
-            color = child_colors[6];
-          } else if (category === 'Prostate') {
-            color = child_colors[7];
-          } else if (category === 'Testis') {
-            color = child_colors[8];
-          } else if (category === 'Uterus') {
-            color = child_colors[9];
-          } else if (category === 'Vulva') {
-            color = child_colors[10];
-          } else if (category === 'Thyroid') {
-            color = child_colors[11];
-          } else if (category === 'Cervix') {
-            color = child_colors[12];
-          } else if (category === 'Liver') {
-            color = child_colors[13];
-          } else {
-            color = "black"
-          }
-
-
-          return {
-            category,
-            color
-          };
-          return child_categories;
-        });
-
+        return ONCOTREE_LINEAGE_legend.map((category) => ({
+          category,
+          color: categoryColorMap[category] || "black",
+        }));
       }
 
 
@@ -3070,9 +3036,8 @@ if (isset($_POST['drugName2'])) {
         'Liver'
       ];
 
-      function GenerateDisease_class() {
 
-      }
+
 
       const disease_classColors = [
         'red',
@@ -3095,111 +3060,111 @@ if (isset($_POST['drugName2'])) {
         'plum',
         'coral'
       ];
+
       healthCategoriesWithColors = [{
-          name: 'Cardiovascular',
+          category: 'Cardiovascular',
           color: 'red'
         },
         {
-          name: 'Chemically-Induced disorders',
+          category: 'Chemically-Induced disorders',
           color: 'orange'
         },
         {
-          name: 'Congenital and neonatal',
+          category: 'Congenital and neonatal',
           color: 'yellow'
         },
         {
-          name: 'Digestive system',
+          category: 'Digestive system',
           color: 'green'
         },
         {
-          name: 'Endocrine system',
+          category: 'Endocrine system',
           color: 'blue'
         },
         {
-          name: 'Eye',
+          category: 'Eye',
           color: 'indigo'
         },
         {
-          name: 'Female urogenital',
+          category: 'Female urogenital',
           color: 'violet'
         },
         {
-          name: 'Genetic inborn',
+          category: 'Genetic inborn',
           color: 'brown'
         },
         {
-          name: 'Hemic and lymphatic',
+          category: 'Hemic and lymphatic',
           color: 'pink'
         },
         {
-          name: 'Immune system',
+          category: 'Immune system',
           color: 'cyan'
         },
         {
-          name: 'Infections',
+          category: 'Infections',
           color: 'purple'
         },
         {
-          name: 'Male urogenital',
+          category: 'Male urogenital',
           color: 'teal'
         },
         {
-          name: 'Mental disorders',
+          category: 'Mental disorders',
           color: 'gray'
         },
         {
-          name: 'Musculoskeletal',
+          category: 'Musculoskeletal',
           color: 'lime'
         },
         {
-          name: 'Neoplasm',
+          category: 'Neoplasm',
           color: 'maroon'
         },
         {
-          name: 'Nervous system',
+          category: 'Nervous system',
           color: 'navy'
         },
         {
-          name: 'Nutritional and Metabolic',
+          category: 'Nutritional and Metabolic',
           color: 'olive'
         },
         {
-          name: 'Occupational diseases',
+          category: 'Occupational diseases',
           color: 'pink'
         },
         {
-          name: 'Otorhinolaryngologic',
+          category: 'Otorhinolaryngologic',
           color: 'salmon'
         },
         {
-          name: 'Pathological conditions',
+          category: 'Pathological conditions',
           color: 'turquoise'
         },
         {
-          name: 'Respiratory tract',
+          category: 'Respiratory tract',
           color: 'sienna'
         },
         {
-          name: 'Skin and connective tissue',
+          category: 'Skin and connective tissue',
           color: 'gold'
         },
         {
-          name: 'Stomatognathic',
+          category: 'Stomatognathic',
           color: 'plum'
         },
         {
-          name: 'Wounds and injuries',
+          category: 'Wounds and injuries',
           color: 'coral'
         }
       ];
-
-
 
       //  gererating the dynamic nodes 
       data_Set = generateDataSet();
       max_phase_categories = createMaxPhaseCategories();
       matric_categories = generateMatricCategories();
       child_categories = generateChildCategories();
+      disease_categories = GenerateDisease_class();
 
       //  appenging the maxphses
 
@@ -3355,7 +3320,7 @@ if (isset($_POST['drugName2'])) {
       ul6.selectAll("li").remove();
       diseaseClass_child = ul6
         .selectAll("li")
-        .data(healthCategoriesWithColors)
+        .data(disease_categories)
         .enter()
         .append("li")
         .style("display", "flex");
@@ -3372,7 +3337,7 @@ if (isset($_POST['drugName2'])) {
         .style("height", "0");
 
       diseaseClass_child.append("span")
-        .text((d) => d.name)
+        .text((d) => d.category)
         .style("font-size", "14.208px").style("font-family", "Arial");
 
 
@@ -3438,6 +3403,7 @@ if (isset($_POST['drugName2'])) {
       max_phase_categories = []
       ONCOTREE_LINEAGE_legend = [];
       matric_legend = [];
+      disease_Class_legend = [];
 
     }
 
