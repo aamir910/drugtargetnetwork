@@ -1843,17 +1843,27 @@ if (isset($_POST['drugName2'])) {
         if (!uniqueProteins.has(item.Disease_name)) {
           uniqueProteins.add(item.Disease_name);
 
+          // nodes.push({
+          //   id: item.Disease_name,
+          //   type: "diseasenode",
+          //   MAX_PHASE: item.MAX_PHASE,
+          //   oncotree_change: item.ONCOTREE_LINEAGE,
+          //   dataset: item.DATASET,
+          //   Disease_class: item.Disease_class,
+          //   phase: item.Phase
+
+          // });
+
           nodes.push({
             id: item.Disease_name,
             type: "diseasenode",
-            MAX_PHASE: item.MAX_PHASE,
-            oncotree_change: item.ONCOTREE_LINEAGE,
-            dataset: item.DATASET,
+            MAX_PHASE: "temp2",
+            oncotree_change: item.Disease_class,
+            dataset: "temp",
             Disease_class: item.Disease_class,
             phase: item.Phase
 
           });
-
 
         }
       });
@@ -1871,11 +1881,11 @@ if (isset($_POST['drugName2'])) {
         {
           source: item.COMPOUND_NAME,
           target: item.Disease_name,
-          phase: item.Phase
-          // value: item.VALUE,
-          // max_range_link: item.MAX_PHASE,
-          // dataset: item.DATASET,
-          // link_matric: item.METRIC,
+          // phase: item.Phase,
+          value: "temp",
+          max_range_link: "temp2",
+          dataset: "temp3",
+          link_matric: item.Phase,
         },
       ]);
       console.log("nodes", nodes)
