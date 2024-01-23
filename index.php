@@ -1726,6 +1726,11 @@ if (isset($_POST['drugName2'])) {
     ];
 
 
+    // disease_phase entry 
+    let disease_phase_legend = [];
+    let phase_categories;
+    let disease_phase_Data;
+
     // disease_class entry ended 
 
     let not_remove = true;
@@ -1810,7 +1815,10 @@ if (isset($_POST['drugName2'])) {
           });
 
 
+
         }
+
+
 
       })
       data.forEach((item) => {
@@ -1823,6 +1831,8 @@ if (isset($_POST['drugName2'])) {
             MAX_PHASE: item.MAX_PHASE,
             oncotree_change: item.ONCOTREE_LINEAGE,
             dataset: item.DATASET,
+            Disease_class: "temp",
+            phase: "temp"
           });
 
 
@@ -1840,7 +1850,7 @@ if (isset($_POST['drugName2'])) {
             oncotree_change: item.ONCOTREE_LINEAGE,
             dataset: item.DATASET,
             Disease_class: item.Disease_class,
-             phase  : item.Phase
+            phase: item.Phase
 
           });
 
@@ -1861,33 +1871,23 @@ if (isset($_POST['drugName2'])) {
         {
           source: item.COMPOUND_NAME,
           target: item.Disease_name,
-          phase  : item.Phase
+          phase: item.Phase
           // value: item.VALUE,
           // max_range_link: item.MAX_PHASE,
           // dataset: item.DATASET,
           // link_matric: item.METRIC,
         },
       ]);
-
       console.log("nodes", nodes)
-
       console.log("links", links);
 
-
       let tempdata = [];
-
 
       data.filter(data => {
         if (!tempdata.includes(data.ONCOTREE_LINEAGE))
           tempdata.push(data.ONCOTREE_LINEAGE)
       })
-
-
     }
-
-
-
-
     // custom drag function
 
     function customDrag(simulation) {
@@ -2688,6 +2688,12 @@ if (isset($_POST['drugName2'])) {
                   disease_Class_legend.push(link.target.Disease_class);
                 }
 
+                if (!disease_phase_legend.includes(link.target.phase)) {
+
+                  disease_phase_legend.push(link.target.phase);
+                }
+                console.log("disease_phase_legend", disease_phase_legend);
+
                 if (!ONCOTREE_LINEAGE_legend.includes(link.target.oncotree_change)) {
                   if (link.target.oncotree_change === "") {
                     if (!ONCOTREE_LINEAGE_legend.includes("Unknown")) {
@@ -2925,38 +2931,38 @@ if (isset($_POST['drugName2'])) {
       }
 
       function GenerateDisease_class() {
-  const categoryColorMap = {
-    'Cardiovascular': 'red',
-    'Chemically-Induced disorders': 'orange',
-    'Congenital and neonatal': 'yellow',
-    'Digestive system': 'green',
-    'Endocrine system': 'blue',
-    'Eye': 'indigo',
-    'Female urogenital': 'violet',
-    'Genetic inborn': 'brown',
-    'Hemic and lymphatic': 'pink',
-    'Immune system': 'cyan',
-    'Infections': 'purple',
-    'Male urogenital': 'teal',
-    'Mental disorders': 'gray',
-    'Musculoskeletal': 'lime',
-    'Neoplasm': 'maroon',
-    'Nervous system': 'navy',
-    'Nutritional and Metabolic': 'olive',
-    'Occupational diseases': 'pink',
-    'Otorhinolaryngologic': 'salmon',
-    'Pathological conditions': 'turquoise',
-    'Respiratory tract': 'sienna',
-    'Skin and connective tissue': 'gold',
-    'Stomatognathic': 'plum',
-    'Wounds and injuries': 'coral',
-  };
+        const categoryColorMap = {
+          'Cardiovascular': 'red',
+          'Chemically-Induced disorders': 'orange',
+          'Congenital and neonatal': 'yellow',
+          'Digestive system': 'green',
+          'Endocrine system': 'blue',
+          'Eye': 'indigo',
+          'Female urogenital': 'violet',
+          'Genetic inborn': 'brown',
+          'Hemic and lymphatic': 'pink',
+          'Immune system': 'cyan',
+          'Infections': 'purple',
+          'Male urogenital': 'teal',
+          'Mental disorders': 'gray',
+          'Musculoskeletal': 'lime',
+          'Neoplasm': 'maroon',
+          'Nervous system': 'navy',
+          'Nutritional and Metabolic': 'olive',
+          'Occupational diseases': 'pink',
+          'Otorhinolaryngologic': 'salmon',
+          'Pathological conditions': 'turquoise',
+          'Respiratory tract': 'sienna',
+          'Skin and connective tissue': 'gold',
+          'Stomatognathic': 'plum',
+          'Wounds and injuries': 'coral',
+        };
 
-  return disease_Class_legend.map((category) => ({
-    category,
-    color: categoryColorMap[category] || "black",
-  }));
-}
+        return disease_Class_legend.map((category) => ({
+          category,
+          color: categoryColorMap[category] || "black",
+        }));
+      }
 
       function generateChildCategories() {
         const categoryColorMap = {
@@ -3404,6 +3410,8 @@ if (isset($_POST['drugName2'])) {
       ONCOTREE_LINEAGE_legend = [];
       matric_legend = [];
       disease_Class_legend = [];
+      disease_phase_legend = [];
+
 
     }
 
