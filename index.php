@@ -14,15 +14,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Array to store conditions
     $conditions = array();
 
-    $sql = "SELECT drugresponse.*, compounds_updated1.INCHI_KEY, drug_disease.Disease_class, drug_disease.Phase FROM drugresponse";
+    $sql = "SELECT * FROM drugresponse_dummy WHERE";
 
-    // Join with compounds_updated1 table
-    $sql .= " LEFT JOIN compounds_updated1 ON drugresponse.COMPOUND_NAME = compounds_updated1.COMPOUND_NAME";
+    // $sql = "SELECT drugresponse.*, compounds_updated1.INCHI_KEY, drug_disease.Disease_class, drug_disease.Phase FROM drugresponse";
 
-    // Join with drug_disease table
-    $sql .= " LEFT JOIN drug_disease ON compounds_updated1.INCHI_KEY = drug_disease.INCHI_KEY";
+    // // Join with compounds_updated1 table
+    // $sql .= " LEFT JOIN compounds_updated1 ON drugresponse.COMPOUND_NAME = compounds_updated1.COMPOUND_NAME";
 
-    $sql .= " WHERE";
+    // // Join with drug_disease table
+    // $sql .= " LEFT JOIN drug_disease ON compounds_updated1.INCHI_KEY = drug_disease.INCHI_KEY";
+
+    // $sql .= " WHERE";
 
 
     // Check and add condition for ONCOTREE_PRIMARY_DISEASE
@@ -33,14 +35,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       }, $Chembl_id1);
 
       $Chembl_id_condition = implode("','", $escaped_chembl_ids);
-      $conditions[] = "drugresponse.ONCOTREE_PRIMARY_DISEASE IN ('$Chembl_id_condition')";
+      $conditions[] = "drugresponse_dummy.ONCOTREE_PRIMARY_DISEASE IN ('$Chembl_id_condition')";
     }
 
     // Check and add condition for MAX_PHASE
     if (isset($_POST['MaxPhase1']) && !empty($_POST['MaxPhase1'])) {
       $MaxPhase1 = $_POST['MaxPhase1'];
       $MaxPhase_condition = implode("','", $MaxPhase1);
-      $conditions[] = "drugresponse.MAX_PHASE IN ('$MaxPhase_condition')";
+      $conditions[] = "drugresponse_dummy.MAX_PHASE IN ('$MaxPhase_condition')";
     }
 
     // Check and add condition for pic50
@@ -53,13 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['oncotree_change1']) && !empty($_POST['oncotree_change1'])) {
       $oncotree_change1 = $_POST['oncotree_change1'];
       $oncotree_change_condition = implode("','", $oncotree_change1);
-      $conditions[] = "drugresponse.ONCOTREE_LINEAGE IN ('$oncotree_change_condition')";
+      $conditions[] = "drugresponse_dummy.ONCOTREE_LINEAGE IN ('$oncotree_change_condition')";
     }
 
     if (isset($_POST['DataPlatform']) && !empty($_POST['DataPlatform'])) {
       $DataPlatform = $_POST['DataPlatform'];
       $DataPlatform_condition = implode("','", $DataPlatform);
-      $conditions[] = "drugresponse.DATASET IN ('$DataPlatform_condition')";
+      $conditions[] = "drugresponse_dummy.DATASET IN ('$DataPlatform_condition')";
     }
 
     $count_increment = intval($_POST['count_increment']);
@@ -71,12 +73,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $sql .= " " . implode(" AND ", $conditions);
       } else {
-        $sql .= " " . implode(" AND ", $conditions) . " AND drugresponse.MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
+        $sql .= " " . implode(" AND ", $conditions) . " AND drugresponse_dummy.MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
       }
     }
 
     // Limit the result to 400 rows
-    $limit = 200 * $count_increment;
+    $limit = 400 * $count_increment;
 
     // Append the LIMIT clause to your SQL query
     $sql .= " LIMIT " . $limit;
@@ -485,7 +487,7 @@ if (isset($_POST['drugName2'])) {
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
       <!-- here is the disease legend  -->
 
-      <div class="legend" style="width: 10%;">
+      <div class="legend" style="width: 13%; min-width : 250px ; margin-left: 12px">
         <div>
           <legend class="legenddata ">Phase </legend>
           <ul id="phases_disease" class="legend_inner"></ul>
@@ -500,7 +502,7 @@ if (isset($_POST['drugName2'])) {
                justify-content: center;
                align-items: center;
                height:100%;
-               width:65%;" class=" forcenetwork  ">
+               width:60%;" class=" forcenetwork  ">
         <!-- Loader embedded inside SVG -->
       </svg>
       <div id="loader_id">
@@ -1635,7 +1637,7 @@ if (isset($_POST['drugName2'])) {
     let minValue = 6;
     let maxValue;
 
-
+    let healthCategoriesWithColors;
 
     let slider_range = 100;
     const slider2 = document.getElementById("nodeCountSlider2");
@@ -1861,16 +1863,42 @@ if (isset($_POST['drugName2'])) {
         }
       });
 
+      data.forEach((item) => {
+        if (!uniqueProteins.has(item.Disease_name)) {
+          uniqueProteins.add(item.Disease_name);
+
+          nodes.push({
+            id: item.Disease_name,
+            type: "diseasenode",
+            MAX_PHASE: item.MAX_PHASE,
+            oncotree_change: item.ONCOTREE_LINEAGE,
+            dataset: item.DATASET,
+
+          });
+
+
+        }
+      });
+
       //  creating the links  
       // tag5
-      links = data.map((item) => ({
-        source: item.COMPOUND_NAME,
-        target: item.CELL_LINE_NAME,
-        value: item.VALUE,
-        max_range_link: item.MAX_PHASE,
-        dataset: item.DATASET,
-        link_matric: item.METRIC
-      }));
+      links = data.flatMap((item) => [{
+          source: item.COMPOUND_NAME,
+          target: item.CELL_LINE_NAME,
+          value: item.VALUE,
+          max_range_link: item.MAX_PHASE,
+          dataset: item.DATASET,
+          link_matric: item.METRIC,
+        },
+        {
+          source: item.COMPOUND_NAME,
+          target: item.Disease_name,
+          value: item.VALUE,
+          max_range_link: item.MAX_PHASE,
+          dataset: item.DATASET,
+          link_matric: item.METRIC,
+        },
+      ]);
 
       console.log("nodes", nodes)
 
@@ -2109,8 +2137,8 @@ if (isset($_POST['drugName2'])) {
         // .force("charge", d3.forceManyBody().strength(-100))
         .force("x", d3.forceX(x_graph))
         .force("y", d3.forceY(y_graph))
-        // .force("center", d3.forceCenter(x_graph, y_graph))
-        .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
+      // .force("center", d3.forceCenter(x_graph, y_graph))
+      // .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
       ;
 
 
@@ -2253,11 +2281,11 @@ if (isset($_POST['drugName2'])) {
       console.log(ratio)
 
       if (ratio > 80) {
-        simulation.force("charge", d3.forceManyBody().strength(-150))
+        simulation.force("charge", d3.forceManyBody().strength(-50))
         console.log("hre is 80")
 
       } else {
-        simulation.force("charge", d3.forceManyBody().strength(-75))
+        simulation.force("charge", d3.forceManyBody().strength(-50))
 
         console.log("hre is lkess than 80")
 
@@ -2427,6 +2455,16 @@ if (isset($_POST['drugName2'])) {
           })
         .attr("stroke-width", 3)
 
+
+
+      node.filter(function(d) {
+          return d.type === 'diseasenode';
+        })
+        .append("path")
+        .attr("d", "M 0 0 L 8 16 L -8 16 Z") // Path data for a triangle
+        .style("fill", function(d) {
+          return healthCategoriesWithColors[d.disease_class] || "black";
+        })
 
 
       node.filter((d) => d.type === "parentnode")
@@ -3057,7 +3095,7 @@ if (isset($_POST['drugName2'])) {
         'plum',
         'coral'
       ];
-      const healthCategoriesWithColors = [{
+      healthCategoriesWithColors = [{
           name: 'Cardiovascular',
           color: 'red'
         },
@@ -3319,9 +3357,10 @@ if (isset($_POST['drugName2'])) {
         .selectAll("li")
         .data(healthCategoriesWithColors)
         .enter()
-        .append("li");
+        .append("li")
+        .style("display", "flex");
 
-// tagtriangle 
+      // tagtriangle 
       // Append the triangle directly
       child_triangle = diseaseClass_child
         .append("div")
