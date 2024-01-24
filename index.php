@@ -1268,7 +1268,6 @@ if (isset($_POST['drugName2'])) {
 
           child_clicked.on("click", onclick_childnodes);
 
-
           disease_clicked.on("click", onclick_childnodes);
 
           // processData(jsondata2);
@@ -1689,6 +1688,13 @@ if (isset($_POST['drugName2'])) {
 
     let matric_legend = [];
     let matric_categories;
+    let matric_legend_data = []
+    // phase disease entry 
+
+
+    let phase_legend_data = ['1', '2', '3', '4'];
+    let phase_categories;
+
 
     //  childnode entry 
     let ONCOTREE_LINEAGE_legend = [];
@@ -1730,10 +1736,7 @@ if (isset($_POST['drugName2'])) {
     ];
 
 
-    // disease_phase entry 
-    let disease_phase_legend = [];
-    let phase_categories;
-    let disease_phase_Data;
+
 
     // disease_class entry ended 
 
@@ -2734,7 +2737,7 @@ if (isset($_POST['drugName2'])) {
       matric_click.on("click", onclick_dataSet);
 
       child_clicked.on("click", onclick_childnodes);
-      
+
       disease_clicked.on("click", onclick_childnodes);
 
       phases = [];
@@ -3082,9 +3085,8 @@ if (isset($_POST['drugName2'])) {
         'coral'
       ];
 
-      healthCategoriesWithColors = [
-        {
-          
+      healthCategoriesWithColors = [{
+
           category: 'Behavior mechanisms',
           color: 'steelblue'
         },
@@ -3307,12 +3309,13 @@ if (isset($_POST['drugName2'])) {
         .enter()
         .append("li");
 
-        // Append elements to ul5 (disease class)
-const dataSet_disease = ul5
-  .selectAll("li")
-  .data(child_categories)
-  .enter()
-  .append("li");
+      // Append elements to ul5 (disease class)
+      const dataSet_disease = ul5
+        .selectAll("li")
+        .data(child_categories)
+        .enter()
+        .append("li")
+        .style('display', 'flex');;
 
 
       //aamir
@@ -3341,7 +3344,7 @@ const dataSet_disease = ul5
           return "#6a329f";
         })
 
-        dataSet_disease.filter((d) => disease_Class_Data.includes(d.category))
+      dataSet_disease.filter((d) => disease_Class_Data.includes(d.category))
         .append("div")
         .attr("class", "triangle")
         .style("position", "relative")
@@ -3354,17 +3357,17 @@ const dataSet_disease = ul5
           return "17px solid " + color
         })
         .style("border-radius", "0")
-
+      // append the disease class 
       child_clicked = dataSet_child
-      .filter((d) => ONCOTREE_LINEAGE_Data.includes(d.category))
-      .append("span")
+        .filter((d) => ONCOTREE_LINEAGE_Data.includes(d.category))
+        .append("span")
         .text((d) => d.category)
         .style("font-size", "14.208px").style("font-family", "Arial")
         .classed("marked", (d) => {
           return list_hidden_childnode.includes(d.category);
         });
 
-        disease_clicked = dataSet_disease.filter((d) => disease_Class_Data.includes(d.category))
+      disease_clicked = dataSet_disease.filter((d) => disease_Class_Data.includes(d.category))
         .append("span")
         .text((d) => d.category)
         .style("font-size", "14.208px").style("font-family", "Arial")
@@ -3372,7 +3375,7 @@ const dataSet_disease = ul5
 
           return list_hidden_childnode.includes(d.category);
         });;
-        
+
 
       //appending the data of the disease nodes
 
@@ -3406,14 +3409,26 @@ const dataSet_disease = ul5
       // appending the data of the matric 
       const ul3 = d3.select('#matric_set');
 
+      const ul3part2 = d3.select('#phases_disease');
+
       ul3.selectAll("li").remove();
+      ul3part2.selectAll("li").remove();
+
       matric_link = ul3
         .selectAll("li")
         .data(matric_categories)
         .enter()
         .append("li");
 
+      phase_link = ul3part2
+        .selectAll("li")
+        .data(matric_categories)
+        .enter()
+        .append("li");
+
+
       matric_color = matric_link
+        .filter((d) => !phase_legend_data.includes(d.category))
         .append("div")
         .attr("class", "line")
         .style("background", function(d) {
@@ -3423,9 +3438,12 @@ const dataSet_disease = ul5
             return "tranparent";
           } else if (d.category === 'pGI50') {
             return "black";
-          }
+          } 
         })
         .style("height", "2px");
+
+
+
       matric_color
         .append("h6")
         // .text(".......");
@@ -3438,13 +3456,32 @@ const dataSet_disease = ul5
             return " ";
           }
         });
-
-      matric_click = matric_link.append("span").text((d) => d.category)
+      matric_click = matric_link
+        .filter((d) => !phase_legend_data.includes(d.category))
+        .append("span").text((d) => d.category)
         .style("font-size", "14.208px").style("font-family", "Arial").classed("marked", (d) => {
-
           return list_hidden_dataset.includes(d.category);
         });
 
+      // appending the phases 
+
+
+     phase_link
+        .filter((d) => phase_legend_data.includes(d.category))
+        .append("div")
+        .attr("class", "line")
+        .style("background", "black"
+        )
+        .style("height", "2px");
+
+
+      matric_click = phase_link
+        .filter((d) => phase_legend_data.includes(d.category))
+        .append("span").text((d) => d.category)
+        .style("font-size", "14.208px").style("font-family", "Arial").classed("marked", (d) => {
+          return list_hidden_dataset.includes(d.category);
+        });
+        
       // color picker
 
       let check3_color = true;
@@ -3710,7 +3747,7 @@ const dataSet_disease = ul5
       matric_click.on("click", onclick_dataSet);
 
       child_clicked.on("click", onclick_childnodes);
-      
+
       disease_clicked.on("click", onclick_childnodes);
 
       range_of_links(minValue, maxValue, slider_range);
