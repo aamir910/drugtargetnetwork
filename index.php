@@ -327,6 +327,17 @@ if (isset($_POST['drugName2'])) {
       margin-bottom: 8px;
       font-weight: bold;
     }
+
+    .legend1{
+      /* display: flex; */
+    border: 2px solid black;
+    margin-top: 1rem;
+    border-radius: 1rem;
+    background-color: white;
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+    }
   </style>
 
 
@@ -486,23 +497,23 @@ if (isset($_POST['drugName2'])) {
     <!-- end of the navbar -->
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
       <!-- here is the disease legend  -->
+<div>
 
-      <div class="legend" style="width: 13%; min-width : 250px ; margin-left: 12px">
-        <div>
-          <legend class="legenddata ">Phase </legend>
-          <ul id="phases_disease" class="legend_inner"></ul>
-          <legend class="legenddata ">Disease Class </legend>
-          <ul id="disease_Class" class="legend_inner"></ul>
-        </div>
-
-      </div>
+  <div class="legend1" style="width: 13%; min-width : 250px ; margin-left: 12px">
+   
+      <legend class="legenddata ">Phase </legend>
+      <ul id="phases_disease" class="legend_inner"></ul>
+      <legend class="legenddata ">Disease Class </legend>
+      <ul id="disease_Class" class="legend_inner"></ul>
+  </div>
+</div>
 
       <svg id="forcenetwork" width="100%" style="
                display: flex;
                justify-content: center;
                align-items: center;
                height:100%;
-               width:60%;" class=" forcenetwork  ">
+               width:63%;" class=" forcenetwork  ">
         <!-- Loader embedded inside SVG -->
       </svg>
       <div id="loader_id">
@@ -1265,6 +1276,8 @@ if (isset($_POST['drugName2'])) {
           datasettext_click.on("click", onclick_dataSet);
 
           matric_click.on("click", onclick_dataSet);
+          
+          phase_click.on("click", onclick_dataSet);
 
           child_clicked.on("click", onclick_childnodes);
 
@@ -2735,6 +2748,8 @@ if (isset($_POST['drugName2'])) {
       datasettext_click.on("click", onclick_dataSet);
 
       matric_click.on("click", onclick_dataSet);
+      
+      phase_click.on("click", onclick_dataSet);
 
       child_clicked.on("click", onclick_childnodes);
 
@@ -3475,7 +3490,7 @@ if (isset($_POST['drugName2'])) {
         .style("height", "2px");
 
 
-      matric_click = phase_link
+      phase_click = phase_link
         .filter((d) => phase_legend_data.includes(d.category))
         .append("span").text((d) => d.category)
         .style("font-size", "14.208px").style("font-family", "Arial").classed("marked", (d) => {
@@ -3745,6 +3760,8 @@ if (isset($_POST['drugName2'])) {
       datasettext_click.on("click", onclick_dataSet);
 
       matric_click.on("click", onclick_dataSet);
+
+      phase_click.on("click", onclick_dataSet);
 
       child_clicked.on("click", onclick_childnodes);
 
