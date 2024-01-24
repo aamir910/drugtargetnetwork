@@ -14,17 +14,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Array to store conditions
     $conditions = array();
 
-    $sql = "SELECT * FROM drugresponse_dummy WHERE";
 
-    // $sql = "SELECT drugresponse.*, compounds_updated1.INCHI_KEY, drug_disease.Disease_class, drug_disease.Phase FROM drugresponse";
+    $sql = "SELECT drugresponse.*, compounds_updated1.INCHI_KEY, drug_disease.Disease_class, 
+    drug_disease.Disease_name , drug_disease.Phase FROM drugresponse";
 
-    // // Join with compounds_updated1 table
-    // $sql .= " LEFT JOIN compounds_updated1 ON drugresponse.COMPOUND_NAME = compounds_updated1.COMPOUND_NAME";
+    // Join with compounds_updated1 table
+    $sql .= " LEFT JOIN compounds_updated1 ON drugresponse.COMPOUND_NAME = compounds_updated1.COMPOUND_NAME";
 
-    // // Join with drug_disease table
-    // $sql .= " LEFT JOIN drug_disease ON compounds_updated1.INCHI_KEY = drug_disease.INCHI_KEY";
+    // Join with drug_disease table
+    $sql .= " LEFT JOIN drug_disease ON compounds_updated1.INCHI_KEY = drug_disease.INCHI_KEY";
 
-    // $sql .= " WHERE";
+    $sql .= " WHERE";
 
 
     // Check and add condition for ONCOTREE_PRIMARY_DISEASE
@@ -35,14 +35,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       }, $Chembl_id1);
 
       $Chembl_id_condition = implode("','", $escaped_chembl_ids);
-      $conditions[] = "drugresponse_dummy.ONCOTREE_PRIMARY_DISEASE IN ('$Chembl_id_condition')";
+      $conditions[] = "drugresponse.ONCOTREE_PRIMARY_DISEASE IN ('$Chembl_id_condition')";
     }
 
     // Check and add condition for MAX_PHASE
     if (isset($_POST['MaxPhase1']) && !empty($_POST['MaxPhase1'])) {
       $MaxPhase1 = $_POST['MaxPhase1'];
       $MaxPhase_condition = implode("','", $MaxPhase1);
-      $conditions[] = "drugresponse_dummy.MAX_PHASE IN ('$MaxPhase_condition')";
+      $conditions[] = "drugresponse.MAX_PHASE IN ('$MaxPhase_condition')";
     }
 
     // Check and add condition for pic50
@@ -55,13 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['oncotree_change1']) && !empty($_POST['oncotree_change1'])) {
       $oncotree_change1 = $_POST['oncotree_change1'];
       $oncotree_change_condition = implode("','", $oncotree_change1);
-      $conditions[] = "drugresponse_dummy.ONCOTREE_LINEAGE IN ('$oncotree_change_condition')";
+      $conditions[] = "drugresponse.ONCOTREE_LINEAGE IN ('$oncotree_change_condition')";
     }
 
     if (isset($_POST['DataPlatform']) && !empty($_POST['DataPlatform'])) {
       $DataPlatform = $_POST['DataPlatform'];
       $DataPlatform_condition = implode("','", $DataPlatform);
-      $conditions[] = "drugresponse_dummy.DATASET IN ('$DataPlatform_condition')";
+      $conditions[] = "drugresponse.DATASET IN ('$DataPlatform_condition')";
     }
 
     $count_increment = intval($_POST['count_increment']);
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $sql .= " " . implode(" AND ", $conditions);
       } else {
-        $sql .= " " . implode(" AND ", $conditions) . " AND drugresponse_dummy.MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
+        $sql .= " " . implode(" AND ", $conditions) . " AND drugresponse.MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
       }
     }
 
@@ -830,6 +830,7 @@ if (isset($_POST['drugName2'])) {
     }
 
     const Drug_class_Categories = [
+      'Behavior mechanisms',
       'Cardiovascular',
       'Chemically-Induced disorders', 'Congenital and neonatal', 'Digestive system', 'Endocrine system', 'Eye', 'Female urogenital',
       'Genetic inborn',
@@ -1268,6 +1269,7 @@ if (isset($_POST['drugName2'])) {
           child_clicked.on("click", onclick_childnodes);
 
 
+          disease_clicked.on("click", onclick_childnodes);
 
           // processData(jsondata2);
           // You can parse the JSON and use the data as needed
@@ -1707,13 +1709,15 @@ if (isset($_POST['drugName2'])) {
       'Testis',
       'Uterus',
       'Vulva',
-      'Thyroid'
+      'Thyroid',
+      'Unknown'
     ];
 
     // disease_class entry 
     let disease_Class_legend = [];
     let disease_categories;
     const disease_Class_Data = [
+      'Behavior mechanisms',
       'Cardiovascular',
       'Chemically-Induced disorders', 'Congenital and neonatal', 'Digestive system', 'Endocrine system', 'Eye', 'Female urogenital',
       'Genetic inborn',
@@ -2437,7 +2441,6 @@ if (isset($_POST['drugName2'])) {
         .attr("d", "M 0 0 L 8 16 L -8 16 Z") // Path data for a triangle
         .style("fill", function(d) {
 
-          // console.log(healthCategoriesWithColors , "health")
 
           return healthCategoriesWithColors.find(category => category.category === d.Disease_class)?.color || "black";
         })
@@ -2693,16 +2696,15 @@ if (isset($_POST['drugName2'])) {
 
                   matric_legend.push(link.link_matric);
                 }
-                if (!disease_Class_legend.includes(link.target.Disease_class)) {
+                // if (!disease_Class_legend.includes(link.target.Disease_class)) {
 
-                  disease_Class_legend.push(link.target.Disease_class);
-                }
+                //   disease_Class_legend.push(link.target.Disease_class);
+                // }
 
                 if (!disease_phase_legend.includes(link.target.phase)) {
 
                   disease_phase_legend.push(link.target.phase);
                 }
-                console.log("disease_phase_legend", disease_phase_legend);
 
                 if (!ONCOTREE_LINEAGE_legend.includes(link.target.oncotree_change)) {
                   if (link.target.oncotree_change === "") {
@@ -2732,6 +2734,8 @@ if (isset($_POST['drugName2'])) {
       matric_click.on("click", onclick_dataSet);
 
       child_clicked.on("click", onclick_childnodes);
+      
+      disease_clicked.on("click", onclick_childnodes);
 
       phases = [];
 
@@ -2942,6 +2946,7 @@ if (isset($_POST['drugName2'])) {
 
       function GenerateDisease_class() {
         const categoryColorMap = {
+          'Behavior mechanisms': 'steelblue',
           'Cardiovascular': 'red',
           'Chemically-Induced disorders': 'orange',
           'Congenital and neonatal': 'yellow',
@@ -3077,7 +3082,13 @@ if (isset($_POST['drugName2'])) {
         'coral'
       ];
 
-      healthCategoriesWithColors = [{
+      healthCategoriesWithColors = [
+        {
+          
+          category: 'Behavior mechanisms',
+          color: 'steelblue'
+        },
+        {
           category: 'Cardiovascular',
           color: 'red'
         },
@@ -3284,14 +3295,29 @@ if (isset($_POST['drugName2'])) {
 
       //appending the data of the child nodes
       const ul4 = d3.select("#child_node");
+      // added the disease to the disease phase 
 
+      const ul5 = d3.select("#disease_Class");
+
+      ul5.selectAll("li").remove();
       ul4.selectAll("li").remove();
       dataSet_child = ul4
         .selectAll("li")
         .data(child_categories)
         .enter()
         .append("li");
-      child_color = dataSet_child
+
+        // Append elements to ul5 (disease class)
+const dataSet_disease = ul5
+  .selectAll("li")
+  .data(child_categories)
+  .enter()
+  .append("li");
+
+
+      //aamir
+      child_color = dataSet_child;
+      dataSet_child.filter((d) => ONCOTREE_LINEAGE_Data.includes(d.category))
         .append("div")
         .attr("class", "circle")
         .style("background-color", (d) => {
@@ -3315,46 +3341,65 @@ if (isset($_POST['drugName2'])) {
           return "#6a329f";
         })
 
-      child_clicked = dataSet_child.append("span")
+        dataSet_disease.filter((d) => disease_Class_Data.includes(d.category))
+        .append("div")
+        .attr("class", "triangle")
+        .style("position", "relative")
+        .style("width", "0")
+        .style("height", "0")
+        .style("border-left", "10px solid transparent")
+        .style("border-right", "10px solid transparent")
+        .style("border-bottom", function(d) {
+          var color = healthCategoriesWithColors.find(category => category.category === d.category)?.color || "black";
+          return "17px solid " + color
+        })
+        .style("border-radius", "0")
+
+      child_clicked = dataSet_child
+      .filter((d) => ONCOTREE_LINEAGE_Data.includes(d.category))
+      .append("span")
+        .text((d) => d.category)
+        .style("font-size", "14.208px").style("font-family", "Arial")
+        .classed("marked", (d) => {
+          return list_hidden_childnode.includes(d.category);
+        });
+
+        disease_clicked = dataSet_disease.filter((d) => disease_Class_Data.includes(d.category))
+        .append("span")
         .text((d) => d.category)
         .style("font-size", "14.208px").style("font-family", "Arial")
         .classed("marked", (d) => {
 
           return list_hidden_childnode.includes(d.category);
         });;
-
-
-
-
-
-
+        
 
       //appending the data of the disease nodes
 
-      const ul6 = d3.select("#disease_Class");
+      // const ul6 = d3.select("#disease_Class");
 
-      ul6.selectAll("li").remove();
-      diseaseClass_child = ul6
-        .selectAll("li")
-        .data(disease_categories)
-        .enter()
-        .append("li")
-        .style("display", "flex");
+      // ul6.selectAll("li").remove();
+      // diseaseClass_child = ul6
+      //   .selectAll("li")
+      //   .data(disease_categories)
+      //   .enter()
+      //   .append("li")
+      //   .style("display", "flex");
 
-      // tagtriangle 
-      // Append the triangle directly
-      child_triangle = diseaseClass_child
-        .append("div")
-        .attr("class", "triangle")
-        .style("border-left", "10px solid transparent")
-        .style("border-right", "10px solid transparent")
-        .style("border-bottom", (d) => `17px solid ${d.color}`)
-        .style("border-radius", "0").style("width", "0")
-        .style("height", "0");
+      // // tagtriangle 
+      // // Append the triangle directly
+      // child_triangle = diseaseClass_child
+      //   .append("div")
+      //   .attr("class", "triangle")
+      //   .style("border-left", "10px solid transparent")
+      //   .style("border-right", "10px solid transparent")
+      //   .style("border-bottom", (d) => `17px solid ${d.color}`)
+      //   .style("border-radius", "0").style("width", "0")
+      //   .style("height", "0");
 
-      diseaseClass_child.append("span")
-        .text((d) => d.category)
-        .style("font-size", "14.208px").style("font-family", "Arial");
+      // diseaseClass_child.append("span")
+      //   .text((d) => d.category)
+      //   .style("font-size", "14.208px").style("font-family", "Arial");
 
 
 
@@ -3665,6 +3710,8 @@ if (isset($_POST['drugName2'])) {
       matric_click.on("click", onclick_dataSet);
 
       child_clicked.on("click", onclick_childnodes);
+      
+      disease_clicked.on("click", onclick_childnodes);
 
       range_of_links(minValue, maxValue, slider_range);
 
