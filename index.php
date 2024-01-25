@@ -9,7 +9,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['MaxPhase1']) ||
     isset($_POST['oncotree_change1']) ||
     isset($_POST['DataPlatform']) ||
-    isset($_POST['pic50'])
+    isset($_POST['pic50']) ||
+    isset($_POST['disease_class1'])
+    
+
   ) {
     // Array to store conditions
     $conditions = array();
@@ -63,6 +66,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $DataPlatform_condition = implode("','", $DataPlatform);
       $conditions[] = "drugresponse.DATASET IN ('$DataPlatform_condition')";
     }
+// for the data of the drug_disease  
+
+if (isset($_POST['disease_class1']) && !empty($_POST['disease_class1'])) {
+  $disease_class1 = $_POST['disease_class1'];
+  $disease_class1_condition = implode("','", $disease_class1);
+  $conditions[] = "drug_disease.Disease_class IN ('$disease_class1_condition')";
+}
+
+
+
 
     $count_increment = intval($_POST['count_increment']);
 
@@ -1248,6 +1261,7 @@ if (isset($_POST['drugName2'])) {
           MaxPhase1: MaxPhase1,
           oncotree_change1: oncotree_change1,
           DataPlatform: DataPlatform,
+          disease_class1 : disease_class1 , 
           pic50: pic50
         },
         success: function(response) {
@@ -3791,7 +3805,7 @@ if (isset($_POST['drugName2'])) {
         element.classList.remove("error-border");
       });
 
-      if (Chembl_id1.length === 0 && DataPlatform.length === 0 && MaxPhase1.length === 0 && oncotree_change1.length === 0 && pic50.length === 0) {
+      if (Chembl_id1.length === 0 && DataPlatform.length === 0 && MaxPhase1.length === 0 && oncotree_change1.length === 0 && pic50.length === 0 && disease_class1.length === 0 ) {
         // Show error messages for the empty dropdowns
         event.preventDefault();
 
