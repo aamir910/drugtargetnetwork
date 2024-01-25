@@ -1148,9 +1148,7 @@ if (isset($_POST['drugName2'])) {
         handleCheckboxChange3();
       });
     });
-
-
-
+    
     // sixth dropdown 
 
     let disease_class1 = [];
@@ -1270,15 +1268,12 @@ if (isset($_POST['drugName2'])) {
 
           fetchData(jsondata2);
 
-
           document.getElementById('wrapper').style.display = 'block';
 
 
           document.getElementById('legend1').style.display = 'block';
           
           document.getElementById('buttonbar').style.display = 'block';
-
-
 
           document.getElementById('loader').style.display = 'none';
 
@@ -1400,11 +1395,10 @@ if (isset($_POST['drugName2'])) {
       create_it = true;
     }
 
-
-
     function focusSearch(search_val) {
       document.getElementById(search_val).focus();
     }
+
     // ENDED 
 
 
