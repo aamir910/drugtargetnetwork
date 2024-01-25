@@ -1874,17 +1874,7 @@ if (isset($_POST['drugName2'])) {
         if (!uniqueProteins.has(item.Disease_name)) {
           uniqueProteins.add(item.Disease_name);
 
-          // nodes.push({
-          //   id: item.Disease_name,
-          //   type: "diseasenode",
-          //   MAX_PHASE: item.MAX_PHASE,
-          //   oncotree_change: item.ONCOTREE_LINEAGE,
-          //   dataset: item.DATASET,
-          //   Disease_class: item.Disease_class,
-          //   phase: item.Phase
-
-          // });
-
+     
           nodes.push({
             id: item.Disease_name,
             type: "diseasenode",
@@ -2679,7 +2669,7 @@ if (isset($_POST['drugName2'])) {
       let connectedNodes;
       let allconnedtednodes = [];
       let childNode2 = node.filter(node => {
-        if (node.type === "childnode") {
+        if (node.type === "childnode" || node.type === "diseasenode" ) {
           return node;
         }
       })
@@ -2885,7 +2875,7 @@ if (isset($_POST['drugName2'])) {
           if (node.type === "parentnode") {
             visible_parentnode.push(node.id);
           }
-          if (node.type === "childnode") {
+          if (node.type === "childnode" ) {
             visible_childnode.push(node.id);
           }
         }
