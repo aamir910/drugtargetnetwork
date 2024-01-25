@@ -74,9 +74,6 @@ if (isset($_POST['disease_class1']) && !empty($_POST['disease_class1'])) {
   $conditions[] = "drug_disease.Disease_class IN ('$disease_class1_condition')";
 }
 
-
-
-
     $count_increment = intval($_POST['count_increment']);
 
     if (!empty($conditions)) {
@@ -1719,7 +1716,7 @@ if (isset($_POST['drugName2'])) {
     // phase disease entry 
 
 
-    let phase_legend_data = ['1', '2', '3', '4'];
+    let phase_legend_data = ["phase 1", "phase 2", "phase 3", "phase 4"];
     let phase_categories;
 
 
@@ -1895,7 +1892,7 @@ if (isset($_POST['drugName2'])) {
             oncotree_change: item.Disease_class,
             dataset: "temp",
             Disease_class: item.Disease_class,
-            phase: item.Phase
+            phase: `phase ${item.Phase}`
 
           });
 
@@ -1919,7 +1916,7 @@ if (isset($_POST['drugName2'])) {
           value: "temp",
           max_range_link: "temp2",
           dataset: "temp3",
-          link_matric: item.Phase,
+          link_matric:  `phase ${item.Phase}`,
         },
       ]);
       console.log("nodes", nodes)
@@ -3223,7 +3220,7 @@ if (isset($_POST['drugName2'])) {
       matric_categories = generateMatricCategories();
       child_categories = generateChildCategories();
       disease_categories = GenerateDisease_class();
-
+console.log(matric_categories , "here are the matric CategoriesWithColors")
       //  appenging the maxphses
 
       const ul = d3.select("#myList");
