@@ -88,7 +88,7 @@ if (isset($_POST['disease_class1']) && !empty($_POST['disease_class1'])) {
     }
 
     // Limit the result to 400 rows
-    $limit = 400 * $count_increment;
+    $limit = 200 * $count_increment;
 
     // Append the LIMIT clause to your SQL query
     $sql .= " LIMIT " . $limit;
@@ -360,8 +360,8 @@ if (isset($_POST['drugName2'])) {
       <div class="in_de_Crement">
         <!-- heading  -->
         <p style="/* text-align:center; */display: flex;justify-content: center;align-items: center;margin-bottom: 0px;width: 5rem;;">More data </p>
-        <button class="btn1" id="increment" title='fetch 400 more row'>400+</button>
-        <button class="btn1" id="decrement" title='less 400 more row'>400-</button>
+        <button class="btn1" id="increment" title='fetch 200 more row'>200+</button>
+        <button class="btn1" id="decrement" title='less 200 more row'>200-</button>
 
       </div>
       <div class="form-row rowData">
@@ -509,7 +509,7 @@ if (isset($_POST['drugName2'])) {
       <!-- here is the disease legend  -->
 <div>
 
-  <div class="legend1" style="width: 13%; min-width : 250px ; margin-left: 12px">
+  <div class="legend1" id="legend1" style="width: 13%; min-width : 250px ; margin-left: 12px">
    
       <legend class="legenddata ">Phase </legend>
       <ul id="phases_disease" class="legend_inner"></ul>
@@ -1246,6 +1246,8 @@ if (isset($_POST['drugName2'])) {
 
       document.getElementById('wrapper').style.display = 'none';
 
+      document.getElementById('legend1').style.display = 'none';
+
       document.getElementById('buttonbar').style.dispajaxfetchdatalay = 'none';
 
       // Make an AJAX request to the current PHP script
@@ -1272,6 +1274,8 @@ if (isset($_POST['drugName2'])) {
           document.getElementById('wrapper').style.display = 'block';
 
 
+          document.getElementById('legend1').style.display = 'block';
+          
           document.getElementById('buttonbar').style.display = 'block';
 
 
@@ -2114,7 +2118,7 @@ if (isset($_POST['drugName2'])) {
 
       let bodyElement = document.body;
       let y_graph = bodyElement.clientHeight / 2 - 90;
-      let x_graph = bodyElement.clientWidth / 2 - 85;
+      let x_graph = bodyElement.clientWidth / 2 - 300;
 
 
       checkbox_names = [];
@@ -2704,8 +2708,8 @@ if (isset($_POST['drugName2'])) {
 
                 }
 
-
-                if (!dataset_legend.includes(link.dataset)) {
+    let uniquedataset = ['GDSC1','GDSC2' , 'CCLE_NP24', 'NCI-60' ,'gCSI','FIMM' ] ; 
+                if (!dataset_legend.includes(link.dataset) && uniquedataset.includes(link.dataset)) {
 
                   dataset_legend.push(link.dataset);
                 }
