@@ -724,7 +724,20 @@ if (isset($_POST['drugName2'])) {
   <script>
     function tableData() {
       // Specify the URL of the new page (e.g., https://www.example.com) in the window.open() function
-      window.open('table.html', '_blank');
+      // window.open('table.html', '_blank');
+    // Construct the URL with query parameters
+    var url = 'table.html?arr1=' + JSON.stringify(oncotree_change1) +
+                      '&arr2=' + JSON.stringify(MaxPhase1) +
+                      '&arr3=' + JSON.stringify(DataPlatform) +
+                      '&singleValue=' + pic50;
+
+            // Redirect to index2.html
+
+            window.location.href = url;
+
+
+
+
     }
   </script>
 
@@ -733,6 +746,7 @@ if (isset($_POST['drugName2'])) {
 
   <script>
     const diseases = [
+
       "Ewing's Sarcoma", "Melanoma", "Glioblastoma", "Lung Carcinoid Tumor",
       "Lung Adenocarcinoma", "Bronchiolo-Alveolar Lung Carcinoma", "Non-Small Cell Lung Carcinoma",
       "Small Cell Lung Carcinoma", "Neuroblastoma", "Epithelioid Sarcoma", "Giant Cell Lung Carcinoma",
