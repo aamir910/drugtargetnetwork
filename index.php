@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['DataPlatform']) ||
     isset($_POST['pic50']) ||
     isset($_POST['disease_class1'])
-    
+
 
   ) {
     // Array to store conditions
@@ -66,13 +66,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $DataPlatform_condition = implode("','", $DataPlatform);
       $conditions[] = "drugresponse.DATASET IN ('$DataPlatform_condition')";
     }
-// for the data of the drug_disease  
+    // for the data of the drug_disease  
 
-if (isset($_POST['disease_class1']) && !empty($_POST['disease_class1'])) {
-  $disease_class1 = $_POST['disease_class1'];
-  $disease_class1_condition = implode("','", $disease_class1);
-  $conditions[] = "drug_disease.Disease_class IN ('$disease_class1_condition')";
-}
+    if (isset($_POST['disease_class1']) && !empty($_POST['disease_class1'])) {
+      $disease_class1 = $_POST['disease_class1'];
+      $disease_class1_condition = implode("','", $disease_class1);
+      $conditions[] = "drug_disease.Disease_class IN ('$disease_class1_condition')";
+    }
 
     $count_increment = intval($_POST['count_increment']);
 
@@ -338,15 +338,15 @@ if (isset($_POST['drugName2'])) {
       font-weight: bold;
     }
 
-    .legend1{
+    .legend1 {
       /* display: flex; */
-    border: 2px solid black;
-    margin-top: 1rem;
-    border-radius: 1rem;
-    background-color: white;
-    width: 100%;
-    height: auto;
-    min-height: 200px;
+      border: 2px solid black;
+      margin-top: 1rem;
+      border-radius: 1rem;
+      background-color: white;
+      width: 100%;
+      height: auto;
+      min-height: 200px;
     }
   </style>
 
@@ -479,7 +479,7 @@ if (isset($_POST['drugName2'])) {
           </div>
 
           <!-- sixth Dropdown -->
-          <div class="dropdown" id="dropdown6" style=" z-index:3">
+          <div class="dropdown" id="dropdown6" style=" z-index:3 ; display: none;">
 
             <label class="dropdownBtn" id="dropdownBtn6" onclick="toggleDropdown6(event)">Select desease class</label>
             <div id="dropdownContent6" class="dropdown-content">
@@ -507,16 +507,16 @@ if (isset($_POST['drugName2'])) {
     <!-- end of the navbar -->
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
       <!-- here is the disease legend  -->
-<div>
+      <div>
 
-  <div class="legend1" id="legend1" style="width: 13%; min-width : 250px ; margin-left: 12px">
-   
-      <legend class="legenddata ">Phase </legend>
-      <ul id="phases_disease" class="legend_inner"></ul>
-      <legend class="legenddata ">Disease Class </legend>
-      <ul id="disease_Class" class="legend_inner"></ul>
-  </div>
-</div>
+        <div class="legend1" id="legend1" style="width: 13%; min-width : 250px ; margin-left: 12px">
+
+          <legend class="legenddata ">Phase </legend>
+          <ul id="phases_disease" class="legend_inner"></ul>
+          <legend class="legenddata ">Disease Class </legend>
+          <ul id="disease_Class" class="legend_inner"></ul>
+        </div>
+      </div>
 
       <svg id="forcenetwork" width="100%" style="
                display: flex;
@@ -535,7 +535,10 @@ if (isset($_POST['drugName2'])) {
         <header style="justify-content: space-between;">
           <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
           <!-- heading  -->
-          <p>Drug response (pIC50)</p>
+          <div>
+            <p>Drug response (pIC50)</p>
+            <button class="btn btn-success" onclick="tableData()">TABLE</button>
+          </div>
 
 
           <div id="dialog-container" style='max-width:500px; min-width: 350px;'>
@@ -716,6 +719,15 @@ if (isset($_POST['drugName2'])) {
 
   <!---Script to fetch data  from php script --->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <!-- here is the script of the table to be load  -->
+
+  <script>
+    function tableData() {
+      // Specify the URL of the new page (e.g., https://www.example.com) in the window.open() function
+      window.open('table.html', '_blank');
+    }
+  </script>
+
 
 
 
@@ -1148,7 +1160,7 @@ if (isset($_POST['drugName2'])) {
         handleCheckboxChange3();
       });
     });
-    
+
     // sixth dropdown 
 
     let disease_class1 = [];
@@ -1258,7 +1270,7 @@ if (isset($_POST['drugName2'])) {
           MaxPhase1: MaxPhase1,
           oncotree_change1: oncotree_change1,
           DataPlatform: DataPlatform,
-          disease_class1 : disease_class1 , 
+          disease_class1: disease_class1,
           pic50: pic50
         },
         success: function(response) {
@@ -1272,7 +1284,7 @@ if (isset($_POST['drugName2'])) {
 
 
           document.getElementById('legend1').style.display = 'block';
-          
+
           document.getElementById('buttonbar').style.display = 'block';
 
           document.getElementById('loader').style.display = 'none';
@@ -1286,7 +1298,7 @@ if (isset($_POST['drugName2'])) {
           datasettext_click.on("click", onclick_dataSet);
 
           matric_click.on("click", onclick_dataSet);
-          
+
           phase_click.on("click", onclick_dataSet);
 
           child_clicked.on("click", onclick_childnodes);
@@ -1872,7 +1884,7 @@ if (isset($_POST['drugName2'])) {
         if (!uniqueProteins.has(item.Disease_name)) {
           uniqueProteins.add(item.Disease_name);
 
-     
+
           nodes.push({
             id: item.Disease_name,
             type: "diseasenode",
@@ -1904,7 +1916,7 @@ if (isset($_POST['drugName2'])) {
           value: "temp",
           max_range_link: "temp2",
           dataset: "temp3",
-          link_matric:  `phase ${item.Phase}`,
+          link_matric: `phase ${item.Phase}`,
         },
       ]);
       console.log("nodes", nodes)
@@ -2667,7 +2679,7 @@ if (isset($_POST['drugName2'])) {
       let connectedNodes;
       let allconnedtednodes = [];
       let childNode2 = node.filter(node => {
-        if (node.type === "childnode" || node.type === "diseasenode" ) {
+        if (node.type === "childnode" || node.type === "diseasenode") {
           return node;
         }
       })
@@ -2702,7 +2714,7 @@ if (isset($_POST['drugName2'])) {
 
                 }
 
-    let uniquedataset = ['GDSC1','GDSC2' , 'CCLE_NP24', 'NCI-60' ,'gCSI','FIMM' ] ; 
+                let uniquedataset = ['GDSC1', 'GDSC2', 'CCLE_NP24', 'NCI-60', 'gCSI', 'FIMM'];
                 if (!dataset_legend.includes(link.dataset) && uniquedataset.includes(link.dataset)) {
 
                   dataset_legend.push(link.dataset);
@@ -2747,7 +2759,7 @@ if (isset($_POST['drugName2'])) {
       datasettext_click.on("click", onclick_dataSet);
 
       matric_click.on("click", onclick_dataSet);
-      
+
       phase_click.on("click", onclick_dataSet);
 
       child_clicked.on("click", onclick_childnodes);
@@ -2873,7 +2885,7 @@ if (isset($_POST['drugName2'])) {
           if (node.type === "parentnode") {
             visible_parentnode.push(node.id);
           }
-          if (node.type === "childnode" ) {
+          if (node.type === "childnode") {
             visible_childnode.push(node.id);
           }
         }
@@ -3208,7 +3220,7 @@ if (isset($_POST['drugName2'])) {
       matric_categories = generateMatricCategories();
       child_categories = generateChildCategories();
       disease_categories = GenerateDisease_class();
-console.log(matric_categories , "here are the matric CategoriesWithColors")
+      console.log(matric_categories, "here are the matric CategoriesWithColors")
       //  appenging the maxphses
 
       const ul = d3.select("#myList");
@@ -3452,7 +3464,7 @@ console.log(matric_categories , "here are the matric CategoriesWithColors")
             return "tranparent";
           } else if (d.category === 'pGI50') {
             return "black";
-          } 
+          }
         })
         .style("height", "2px");
 
@@ -3480,12 +3492,11 @@ console.log(matric_categories , "here are the matric CategoriesWithColors")
       // appending the phases 
 
 
-     phase_link
+      phase_link
         .filter((d) => phase_legend_data.includes(d.category))
         .append("div")
         .attr("class", "line")
-        .style("background", "black"
-        )
+        .style("background", "black")
         .style("height", "2px");
 
 
@@ -3495,7 +3506,7 @@ console.log(matric_categories , "here are the matric CategoriesWithColors")
         .style("font-size", "14.208px").style("font-family", "Arial").classed("marked", (d) => {
           return list_hidden_dataset.includes(d.category);
         });
-        
+
       // color picker
 
       let check3_color = true;
@@ -3790,7 +3801,7 @@ console.log(matric_categories , "here are the matric CategoriesWithColors")
         element.classList.remove("error-border");
       });
 
-      if (Chembl_id1.length === 0 && DataPlatform.length === 0 && MaxPhase1.length === 0 && oncotree_change1.length === 0 && pic50.length === 0 && disease_class1.length === 0 ) {
+      if (Chembl_id1.length === 0 && DataPlatform.length === 0 && MaxPhase1.length === 0 && oncotree_change1.length === 0 && pic50.length === 0 && disease_class1.length === 0) {
         // Show error messages for the empty dropdowns
         event.preventDefault();
 
