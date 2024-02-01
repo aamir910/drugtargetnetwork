@@ -1,3 +1,117 @@
+<?php
+
+include("fetchdata.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Check if all array values are set
+  if (
+    // isset($_POST['Chembl_id1']) ||
+    isset($_POST['MaxPhase1']) ||
+    isset($_POST['oncotree_change1']) ||
+    isset($_POST['DataPlatform']) ||
+    isset($_POST['pic50']) ||
+    isset($_POST['disease_class1'])
+
+
+  ) {
+    // Array to store conditions
+    $conditions = array();
+
+
+    $sql = "SELECT drugresponse.*, compounds_updated1.INCHI_KEY, drug_disease.Disease_class, 
+    drug_disease.Disease_name , drug_disease.Phase FROM drugresponse";
+
+    // Join with compounds_updated1 table
+    $sql .= " LEFT JOIN compounds_updated1 ON drugresponse.COMPOUND_NAME = compounds_updated1.COMPOUND_NAME";
+
+    // Join with drug_disease table
+    $sql .= " LEFT JOIN drug_disease ON compounds_updated1.INCHI_KEY = drug_disease.INCHI_KEY";
+
+    $sql .= " WHERE";
+
+
+    // Check and add condition for ONCOTREE_PRIMARY_DISEASE
+    if (isset($_POST['Chembl_id1']) && !empty($_POST['Chembl_id1'])) {
+      $Chembl_id1 = $_POST['Chembl_id1'];
+      $escaped_chembl_ids = array_map(function ($value) use ($conn) {
+        return mysqli_real_escape_string($conn, $value);
+      }, $Chembl_id1);
+
+      $Chembl_id_condition = implode("','", $escaped_chembl_ids);
+      $conditions[] = "drugresponse.ONCOTREE_PRIMARY_DISEASE IN ('$Chembl_id_condition')";
+    }
+
+    // Check and add condition for MAX_PHASE
+    if (isset($_POST['MaxPhase1']) && !empty($_POST['MaxPhase1'])) {
+      $MaxPhase1 = $_POST['MaxPhase1'];
+      $MaxPhase_condition = implode("','", $MaxPhase1);
+      $conditions[] = "drugresponse.MAX_PHASE IN ('$MaxPhase_condition')";
+    }
+
+    // Check and add condition for pic50
+    if (isset($_POST['pic50']) && !empty($_POST['pic50'])) {
+      $pic50 = floatval($_POST['pic50']); // Convert pic50 to a float value
+      $conditions[] = "VALUE >= $pic50";
+    }
+
+    // Check and add condition for ONCOTREE_LINEAGE
+    if (isset($_POST['oncotree_change1']) && !empty($_POST['oncotree_change1'])) {
+      $oncotree_change1 = $_POST['oncotree_change1'];
+      $oncotree_change_condition = implode("','", $oncotree_change1);
+      $conditions[] = "drugresponse.ONCOTREE_LINEAGE IN ('$oncotree_change_condition')";
+    }
+
+    if (isset($_POST['DataPlatform']) && !empty($_POST['DataPlatform'])) {
+      $DataPlatform = $_POST['DataPlatform'];
+      $DataPlatform_condition = implode("','", $DataPlatform);
+      $conditions[] = "drugresponse.DATASET IN ('$DataPlatform_condition')";
+    }
+    // for the data of the drug_disease  
+
+    if (isset($_POST['disease_class1']) && !empty($_POST['disease_class1'])) {
+      $disease_class1 = $_POST['disease_class1'];
+      $disease_class1_condition = implode("','", $disease_class1);
+      $conditions[] = "drug_disease.Disease_class IN ('$disease_class1_condition')";
+    }
+
+    $count_increment = intval($_POST['count_increment']);
+
+    if (!empty($conditions)) {
+      // $sql = "SELECT * FROM drugresponse WHERE " . implode(" AND ", $conditions) ;
+
+      if ($count_increment != 1) {
+
+        $sql .= " " . implode(" AND ", $conditions);
+      } else {
+        $sql .= " " . implode(" AND ", $conditions) . " AND drugresponse.MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
+      }
+    }
+
+    // Limit the result to 400 rows
+    $limit = 5000 * $count_increment;
+
+    // Append the LIMIT clause to your SQL query
+    $sql .= " LIMIT " . $limit;
+
+    $result = $conn->query($sql);
+
+    // Fetch the result into an associative array
+    $data = array();
+    while ($row = $result->fetch_assoc()) {
+      $data[] = $row;
+    }
+
+    // Convert the result to JSON format
+    $json_result = json_encode($data);
+    header('Content-Type: application/json');
+
+    // Echo the JSON-encoded data
+    echo $json_result;
+    exit(); // Stop further execution
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -20,7 +134,14 @@
   <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script defer src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- ajax  -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </head>
+
 <title>DrugTargetNetwork</title>
 </head>
 <body>
@@ -225,7 +346,8 @@
     
     $(document).ready(function () {
       $('#example').dataTable({
-        "scrollX": true
+        "scrollX": true, 
+        "paging": false 
       });
     });
     //new DataTable('#example');
@@ -249,18 +371,48 @@
   }
 
   // Retrieve arrays and single value from query parameters
-  var retrievedArray1 = JSON.parse(getQueryVariable('arr1'));
-  var retrievedArray2 = JSON.parse(getQueryVariable('arr2'));
-  var retrievedArray3 = JSON.parse(getQueryVariable('arr3'));
-  var retrievedSingleValue = parseInt(getQueryVariable('singleValue'));
+  let count_increment = 1 ; 
+  var oncotree_change1 = JSON.parse(getQueryVariable('arr1'));
+  var MaxPhase1 = JSON.parse(getQueryVariable('arr2'));
+  var DataPlatform = JSON.parse(getQueryVariable('arr3'));
+  var disease_class1 = JSON.parse(getQueryVariable('arr4'));
+  var pic50 = parseInt(getQueryVariable('singleValue'));
 
   // Now you can use the retrieved arrays and single value in your index2.html
-  console.log('Array 1:', retrievedArray1);
-  console.log('Array 2:', retrievedArray2);
-  console.log('Array 3:', retrievedArray3);
-  console.log('Single Value:', retrievedSingleValue);
-</script>
+  console.log('Array 1:', oncotree_change1);
+  console.log('Array 2:', MaxPhase1);
+  console.log('Array 3:', DataPlatform);
+  console.log('Single Value:', pic50);
 
+
+    function ajax() {
+      $.ajax({
+        type: "POST",
+        url: "", // Leave it empty to target the current page
+        data: {
+          count_increment: count_increment,
+          // Chembl_id1: Chembl_id1,
+          MaxPhase1: MaxPhase1,
+          oncotree_change1: oncotree_change1,
+          DataPlatform: DataPlatform,
+          disease_class1: disease_class1,
+          pic50: pic50
+
+        },
+        success: function(response) {
+
+          jsondata2 = response;
+          console.log("newData", jsondata2);
+
+        },
+        error: function(xhr, status, error) {
+          console.error("AJAX Error: " + status + " - close-btn" + error);
+        }
+      });
+    }
+
+    ajax();
+  </script>
 
 
 

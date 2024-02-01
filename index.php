@@ -184,6 +184,8 @@ if (isset($_POST['drugName2'])) {
   <!-- Include Bootstrap 5 CSS and JavaScript -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="./css/styles.css">
+ 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <style>
@@ -351,7 +353,6 @@ if (isset($_POST['drugName2'])) {
   </style>
 
 
-
 </head>
 
 <body>
@@ -501,8 +502,13 @@ if (isset($_POST['drugName2'])) {
         </div>
         <!-- button  -->
       </div>
-      <button class="btn btn-success" id="submitButton" type='submit' style="width:11rem">
-        <i class="bi bi-search"></i> Apply Filter</button>
+      <div style = "display : flex">
+        
+      <button class="btn btn-success" onclick="tableData()"><i class="das fa-table"></i></button>
+        <button class="btn btn-success" id="submitButton" type='submit' style="width:11rem">
+          <i class="bi bi-search"></i> Apply Filter</button>
+
+        </div>
     </form>
     <!-- end of the navbar -->
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
@@ -537,8 +543,7 @@ if (isset($_POST['drugName2'])) {
           <!-- heading  -->
           <div>
             <p>Drug response (pIC50)</p>
-            <button class="btn btn-success" onclick="tableData()">TABLE</button>
-          </div>
+            </div>
 
 
           <div id="dialog-container" style='max-width:500px; min-width: 350px;'>
@@ -723,21 +728,22 @@ if (isset($_POST['drugName2'])) {
 
   <script>
     function tableData() {
+      event.preventDefault();
       // Specify the URL of the new page (e.g., https://www.example.com) in the window.open() function
       // window.open('table.html', '_blank');
     // Construct the URL with query parameters
-    var url = 'table.html?arr1=' + JSON.stringify(oncotree_change1) +
+    var url = 'table.php?arr1=' + JSON.stringify(oncotree_change1) +
                       '&arr2=' + JSON.stringify(MaxPhase1) +
                       '&arr3=' + JSON.stringify(DataPlatform) +
+                      
+                      '&arr4=' + JSON.stringify(disease_class1) +
                       '&singleValue=' + pic50;
 
             // Redirect to index2.html
 
-            window.location.href = url;
+            window.open(url, '_blank');
 
-
-
-
+            
     }
   </script>
 
