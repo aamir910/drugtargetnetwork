@@ -166,95 +166,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <th>RRID</th>
                 <th>ONCOTREE_LINEAGE</th>
                 <th>ONCOTREE_PRIMARY_DISEASE</th>
+                <th>Disease_class</th>
+                <th>Disease_name</th>
+                <th>Phase</th>
+
               </tr>
               
             </thead>
-            <tbody>
-              <tr>
-                <td>Erlotinib</td>
-                <td>ES5</td>
-                <td>4.28</td>
-                <td>pIC50</td>
-                <td>GDSC1</td>
-                <td>22460902 | 23180760</td>
-                <td>-1.0</td>
-                <td>CHEMBL553</td>
-                <td>Approved</td>
-                <td>CVCL_1201</td>
-                <td>Bone</td>
-                <td>Ewing's Sarcoma</td>
-              </tr>
-              <!-- Add more rows with your data as needed -->
-              <tr>
-                <td>Erlotinib</td>
-                <td>EW-11</td>
-                <td>4.92</td>
-                <td>pIC50</td>
-                <td>GDSC1</td>
-                <td>22460902 | 23180760</td>
-                <td>-1.0</td>
-                <td>CHEMBL553</td>
-                <td>Approved</td>
-                <td>CVCL_1209</td>
-                <td>Bone</td>
-                <td>Ewing's Sarcoma</td>
-              </tr>
-              <tr>
-                <td>Erlotinib</td>
-                <td>EW-11</td>
-                <td>4.92</td>
-                <td>pIC50</td>
-                <td>GDSC1</td>
-                <td>22460902 | 23180760</td>
-                <td>-1.0</td>
-                <td>CHEMBL553</td>
-                <td>Approved</td>
-                <td>CVCL_1209</td>
-                <td>Bone</td>
-                <td>Ewing's Sarcoma</td>
-              </tr>
-              <tr>
-                <td>Erlotinib</td>
-                <td>EW-11</td>
-                <td>4.92</td>
-                <td>pIC50</td>
-                <td>GDSC1</td>
-                <td>22460902 | 23180760</td>
-                <td>-1.0</td>
-                <td>CHEMBL553</td>
-                <td>Approved</td>
-                <td>CVCL_1209</td>
-                <td>Bone</td>
-                <td>Ewing's Sarcoma</td>
-              </tr>
-              <tr>
-                <td>Erlotinib</td>
-                <td>EW-11</td>
-                <td>4.92</td>
-                <td>pIC50</td>
-                <td>GDSC1</td>
-                <td>22460902 | 23180760</td>
-                <td>-1.0</td>
-                <td>CHEMBL553</td>
-                <td>Approved</td>
-                <td>CVCL_1209</td>
-                <td>Bone</td>
-                <td>Ewing's Sarcoma</td>
-              </tr>
-              <tr>
-                <td>Erlotinib</td>
-                <td>EW-11</td>
-                <td>4.92</td>
-                <td>pIC50</td>
-                <td>GDSC1</td>
-                <td>22460902 | 23180760</td>
-                <td>-1.0</td>
-                <td>CHEMBL553</td>
-                <td>Approved</td>
-                <td>CVCL_1209</td>
-                <td>Bone</td>
-                <td>Ewing's Sarcoma</td>
-              </tr>
+            <tbody id="tableBody" >
+          
             </tbody>
             <tfoot>
               <!-- Add footer content if needed -->
@@ -342,17 +262,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </hr>
   </footer> -->
 
-  <script>
-    
-    $(document).ready(function () {
-      $('#example').dataTable({
-        "scrollX": true, 
-        "paging": false 
-      });
-    });
-    //new DataTable('#example');
-
-  </script>
+  
 <script>
   // Function to parse query parameters from the URL
   function getQueryVariable(variable) {
@@ -403,6 +313,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
           jsondata2 = response;
           console.log("newData", jsondata2);
+
+          var tableBody = $('#tableBody');
+            tableBody.empty();
+
+          $.each(response, function (index, row) {
+            // console.log(row ,"here is row ")
+              var newRow = '<tr>';
+              newRow += '<td>' + row.COMPOUND_NAME + '</td>';
+              newRow += '<td>' + row.CELL_LINE_NAME + '</td>';
+              newRow += '<td>' + row.VALUE + '</td>';
+              newRow += '<td>' + row.METRIC + '</td>';
+              newRow += '<td>' + row.DATASET + '</td>';
+              newRow += '<td>' + row.Pubmed_ID + '</td>';
+              newRow += '<td>' + row.PUBCHEM_ID + '</td>';
+              newRow += '<td>' + row.CHEMBL_ID + '</td>';
+              newRow += '<td>' + row.MAX_PHASE + '</td>';
+              newRow += '<td>' + row.RRID + '</td>';
+              newRow += '<td>' + row.ONCOTREE_LINEAGE + '</td>';
+              newRow += '<td>' + row.ONCOTREE_PRIMARY_DISEASE + '</td>';
+              newRow += '<td>' + row.Disease_class + '</td>';
+              newRow += '<td>' + row.Disease_name + '</td>';
+              newRow += '<td>' + row.Phase + '</td>';
+              newRow += '</tr>';
+              tableBody.append(newRow);
+            });
+            $(document).ready(function () {
+            $('#example').dataTable({
+              "scrollX": true, 
+              // "paging": false 
+            "searching": true,
+            });
+          });
 
         },
         error: function(xhr, status, error) {
