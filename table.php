@@ -204,7 +204,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div id="loader_id">
         <div class="loader" id="loader"></div>
       </div>
-      
+
+      <button id="fetch_more_data" onclick="fetchdata()" >fetch_more_data</button>
         <!-- <div class="container m-5"  ><h2>Drug Target Network</h2></div> -->
 
         <div class="container mt-5" id = 'complete_table'>
@@ -271,6 +272,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   console.log('Array 3:', DataPlatform);
   console.log('Single Value:', pic50);
 
+  function fetchdata(){
+         
+    count_increment +=1 ; 
+    var table = $('#example').DataTable(); // Initialize DataTable
+table.destroy();
+  
+    ajax();
+
+
+  }
+
+
+
+
+
 
     function ajax() {
 
@@ -278,7 +294,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       let bodyElement = document.body;
       let y_graph = 350;
       let x_graph = bodyElement.clientWidth / 2 ;
-      console.log(y_graph);
+     
 
       // Assuming 'loader' is the ID of your loader element
       let loaderElement = document.getElementById('loader');
@@ -304,8 +320,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           DataPlatform: DataPlatform,
           disease_class1: disease_class1,
           pic50: pic50
-
-        },
+           },
         success: function(response) {
 
           jsondata2 = response;
@@ -318,7 +333,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // console.log(row ,"here is row ")
               var newRow = '<tr>';
               newRow += `<td> <a href=>${row.COMPOUND_NAME}</a></td>`;
-              
               newRow += `<td> <a href=>${row.CELL_LINE_NAME}</a></td>`;
               newRow += '<td>' + row.VALUE + '</td>';
               newRow += '<td>' + row.METRIC + '</td>';
@@ -358,14 +372,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
       });
     }
-
     ajax();
   </script>
-
-
-
 </body>
-
-
-
 </html>
