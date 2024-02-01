@@ -197,6 +197,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   width: 180%;
 } */
 /* loader ended  */
+
+
+.selection_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(231 226 226 / 50%);
+  padding: 0.5rem;
+}
+.btn1 {
+  background-color: #28a5fb;
+  /* Background color */
+  color: white;
+  /* Text color */
+  border: none;
+  /* Remove the border */
+  padding: 10px 20px;
+  /* Add padding to the button */
+  text-align: center;
+  /* Center the text horizontally */
+  text-decoration: none;
+  /* Remove underlines from links */
+  display: inline-block;
+  /* Make it an inline block element */
+  font-size: 0.888rem;
+  /* Font size */
+  margin: 4px 2px;
+  /* Add margin to the button */
+  cursor: pointer;
+  /* Add a pointer cursor on hover */
+  border-radius: 4px;
+  /* Rounded corners */
+}
+.dataTables_filter {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.dataTables_filter {
+  float: right; /* You can adjust this property */
+  margin-right: 10px; /* You can adjust this property */
+}
 </style>
 <body>
 
@@ -205,7 +247,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="loader" id="loader"></div>
       </div>
 
-      <button id="fetch_more_data" onclick="fetchdata()" >fetch_more_data</button>
+<div class="selection_box">
+
+  <button id="fetch_more_data" class="btn1" onclick="fetchdata()" >fetch_more_data</button>
+<div id="search-container"></div>
+</div>
+
+
+
+
+      
         <!-- <div class="container m-5"  ><h2>Drug Target Network</h2></div> -->
 
         <div class="container mt-5" id = 'complete_table'>
@@ -358,6 +409,7 @@ table.destroy();
             "lengthMenu": [1000, 2000, 3000, 5000], // Specify your custom paging options
    
             });
+            
           });
  
           document.getElementById('loader').style.display = 'none';
