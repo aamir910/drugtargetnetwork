@@ -143,14 +143,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <title>DrugTargetNetwork</title>
+
+
+
 </head>
+
+<style>
+   .container {
+    margin-left: 20px; /* Adjust the left margin as needed */
+    margin-right: 20px;
+    width: 140%; /* Adjust the right margin as needed */
+  }
+  #example {
+      /* width: 100%; Set the width to 100% or adjust it as needed */
+    }
+ /* loader started  */
+
+    .loader {
+  position: absolute;
+  display: none;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #28a5fb;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.dataTables_scroll{
+  width: 180%;
+}
+/* .row{
+  width: 180%;
+} */
+/* loader ended  */
+</style>
 <body>
 
 <!-- here will add the navbar -->
+<div id="loader_id">
+        <div class="loader" id="loader"></div>
+      </div>
+      
+        <!-- <div class="container m-5"  ><h2>Drug Target Network</h2></div> -->
 
-        <div class="container m-5" ><h2>Drug Target Network</h2></div>
-
-        <div class="container">
+        <div class="container mt-5" id = 'complete_table'>
           <table id="example" class="table table-striped" style="width:100%">
             <thead>
               <tr>
@@ -182,86 +239,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </table>
       </div>
   
-  <!-- <footer class="footer text-lg-start text-muted ">
-
-    <section class="">
-      <div class="container text-center text-md-start  p-4">
-
-        <div class="row mt-3">
-
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto  ">
-
-            <h6 class=" mb-4">
-              CONTACT US
-            </h6>
-            <p class="para">
-              <i class="bi bi-geo-alt-fill" style="color: #04DBFD;"></i> Hammurabi insurance
-            </p>
-            <p class="para">
-              Services,Inc san Francisco
-            </p>
-            <p class="para">
-              CA,94118 United State
-            </p>
-            <div>
-              <p class="para">
-                info@askhammurabi.com
-              </p>
-            </div>
-          </div>
-
-          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto ">
-
-            <h6 class=" fw-bold mb-4">
-              USEFUL LINKS
-            </h6>
-            <p class="para">
-              <a href="#!" class="text-reset">Terms of Services</a>
-            </p>
-            <p class="para">
-              <a href="#!" class="text-reset">Privacy Policy</a>
-            </p>
-            <p class="para">
-              <a href="#!" class="text-reset">Legal</a>
-            </p>
-            <p class="para">
-              <a href="#!" class="text-reset">Marketing Partners</a>
-            </p>
-          </div>
-
-          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto ">
-
-            <h6 class="fw-bold mb-4">OUR SERVICES</h6>
-            <p class="para">
-              <a href="#!" class="text-reset">Employers</a>
-            </p>
-            <p class="para">
-              <a href="#!" class="text-reset">Producers</a>
-            </p>
-            <p class="para">
-              <a href="#!" class="text-reset">Carier</a>
-            </p>
-            <p class="para">
-              <a href="#!" class="text-reset">Marketing Partners</a>
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-    <hr>
-    </hr>
-
-
-    <div class="text-center ">
-      <span class="spanf"> © Copyright Hammurabi. All Rights Reserverd</span>
-
-    </div>
-    <hr>
-    </hr>
-  </footer> -->
-
   
 <script>
   // Function to parse query parameters from the URL
@@ -296,6 +273,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     function ajax() {
+
+
+      let bodyElement = document.body;
+      let y_graph = 350;
+      let x_graph = bodyElement.clientWidth / 2 ;
+      console.log(y_graph);
+
+      // Assuming 'loader' is the ID of your loader element
+      let loaderElement = document.getElementById('loader');
+
+      // Set the position of the loader
+      loaderElement.style.display = 'block';
+      loaderElement.style.top = y_graph + 'px';
+      loaderElement.style.left = x_graph + 'px';
+
+      document.getElementById('complete_table').style.display = 'none';
+
+
+
+
       $.ajax({
         type: "POST",
         url: "", // Leave it empty to target the current page
@@ -320,8 +317,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $.each(response, function (index, row) {
             // console.log(row ,"here is row ")
               var newRow = '<tr>';
-              newRow += '<td>' + row.COMPOUND_NAME + '</td>';
-              newRow += '<td>' + row.CELL_LINE_NAME + '</td>';
+              newRow += `<td> <a href=>${row.COMPOUND_NAME}</a></td>`;
+              
+              newRow += `<td> <a href=>${row.CELL_LINE_NAME}</a></td>`;
               newRow += '<td>' + row.VALUE + '</td>';
               newRow += '<td>' + row.METRIC + '</td>';
               newRow += '<td>' + row.DATASET + '</td>';
@@ -343,11 +341,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               "scrollX": true, 
               // "paging": false 
             "searching": true,
+            "lengthMenu": [1000, 2000, 3000, 5000], // Specify your custom paging options
+   
             });
           });
-
+ 
+          document.getElementById('loader').style.display = 'none';
+          
+      document.getElementById('complete_table').style.display = 'block';
         },
         error: function(xhr, status, error) {
+          
+          document.getElementById('loader').style.display = 'none';
+          alert("data not fetch")
           console.error("AJAX Error: " + status + " - close-btn" + error);
         }
       });
