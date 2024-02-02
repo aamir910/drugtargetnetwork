@@ -75,20 +75,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $count_increment = intval($_POST['count_increment']);
-
+    $drugresponse_id  = intval($_POST['drugresponse_id']);
     if (!empty($conditions)) {
+
       // $sql = "SELECT * FROM drugresponse WHERE " . implode(" AND ", $conditions) ;
-
-      if ($count_increment != 1) {
-
-        $sql .= " " . implode(" AND ", $conditions);
-      } else {
-        $sql .= " " . implode(" AND ", $conditions) . " AND drugresponse.MAX_PHASE NOT IN ('Preclinical', 'Unknown')";
-      }
+      $sql .= " " . implode(" AND ", $conditions) . "  AND drugresponse_id >" . $drugresponse_id ;
+      // if ($count_increment != 1) {
+        
+      //   $sql .= " " . implode(" AND ", $conditions) . "  AND drugresponse_id > 5000";
+      // } else {
+      //   $sql .= " " . implode(" AND ", $conditions) . "  AND drugresponse_id >";
+      // }
     }
 
-    // Limit the result to 400 rows
-    $limit = 5000 * $count_increment;
+    // Limit the result to 400 rows0
+    $limit = 500;
 
     // Append the LIMIT clause to your SQL query
     $sql .= " LIMIT " . $limit;
@@ -488,10 +489,12 @@ if (isset($_POST['drugName'])) {
 
   <!-- <div class="container m-5"  ><h2>Drug Target Network</h2></div> -->
 
-  <div class="container mt-5" id='complete_table'>
+  <div class="container mt-5 mb-5" id='complete_table'>
     <table id="example" class="table table-striped" style="width:100%">
       <thead>
         <tr>
+          <th>row_count</th>
+          <th>drugresponse_id</th>
           <th>COMPOUND_NAME</th>
           <th>CELL_LINE_NAME</th>
           <th>VALUE</th>
@@ -588,8 +591,8 @@ if (isset($_POST['drugName'])) {
       function fetchdata() {
 
         count_increment += 1;
-        var table = $('#example').DataTable(); // Initialize DataTable
-        table.destroy();
+    
+        
 
         ajax();
 
@@ -599,11 +602,13 @@ if (isset($_POST['drugName'])) {
 
 
 
-
+      let drugresponse_id = 0;
+      let maxDrugResponseId = 0; 
+      var tableBody = $('#tableBody');
+      let flag = true ;
+    let count_row = 1 ; 
 
       function ajax() {
-
-
         let bodyElement = document.body;
         let y_graph = 350;
         let x_graph = bodyElement.clientWidth / 2;
@@ -621,7 +626,6 @@ if (isset($_POST['drugName'])) {
 
 
 
-
         $.ajax({
           type: "POST",
           url: "", // Leave it empty to target the current page
@@ -632,22 +636,23 @@ if (isset($_POST['drugName'])) {
             oncotree_change1: oncotree_change1,
             DataPlatform: DataPlatform,
             disease_class1: disease_class1,
-            pic50: pic50
+            pic50: pic50 , 
+            drugresponse_id : drugresponse_id
           },
           success: function(response) {
 
             jsondata2 = response;
             console.log("newData", jsondata2);
-
-            var tableBody = $('#tableBody');
-            tableBody.empty();
+       
 
             $.each(response, function(index, row) {
               // console.log(row ,"here is row ")
               var newRow = '<tr>';
+              count_row++;
+              newRow += '<td>' + count_row + '</td>';
+              newRow += '<td>' + row.drugresponse_id + '</td>';
               newRow += `<td> <a href="#" onclick="fetchData3('${row.COMPOUND_NAME}')">${row.COMPOUND_NAME}</a></td>`;
-              newRow += `<td> <a href="#" onclick="fetchData2('${row.CELL_LINE_NAME}')">${row.CELL_LINE_NAME}</a></td>`;
-
+              newRow += `<td> <a href="#" onclick="fetchData2('${row.CELL_LINE_NAME}')">${row.CELL_LINE_NAME}</a></td>`;             
               newRow += '<td>' + row.VALUE + '</td>';
               newRow += '<td>' + row.METRIC + '</td>';
               newRow += '<td>' + row.DATASET + '</td>';
@@ -663,17 +668,29 @@ if (isset($_POST['drugName'])) {
               newRow += '<td>' + row.Phase + '</td>';
               newRow += '</tr>';
               tableBody.append(newRow);
-            });
-            $(document).ready(function() {
-              $('#example').dataTable({
-                "scrollX": true,
-                // "paging": false 
-                "searching": true,
-                "lengthMenu": [1000, 2000, 3000, 5000], // Specify your custom paging options
 
+              drugresponse_id=row.drugresponse_id;
+              if (row.drugresponse_id > maxDrugResponseId) {
+        maxDrugResponseId = row.drugresponse_id;
+                  }
+              
+            });
+            
+
+      console.log(drugresponse_id , "drugresponse_id" ,maxDrugResponseId )
+            if(flag)
+            {
+              $(document).ready(function() {
+                $('#example').dataTable({
+                  "scrollX": true,
+                  // "paging": false 
+                  "searching": true,
+                  "lengthMenu": [1000, 2000, 3000, 5000], // Specify your custom paging options
+  
+                });
               });
-
-            });
+               flag = false;   
+            }
 
             document.getElementById('loader').style.display = 'none';
 
@@ -686,9 +703,39 @@ if (isset($_POST['drugName'])) {
             console.error("AJAX Error: " + status + " - close-btn" + error);
           }
         });
+        
+if(!flag){
+  var currentPage = 1;  // Change this as needed
+
+// Make an AJAX request
+fetch('/your-api-endpoint?page=' + currentPage)
+   .then(response => response.json())
+   .then(data => {
+      // Update the content container with the new data
+      var contentContainer = document.getElementById('content-container');
+      data.forEach(item => {
+         // Append each item to the content container
+         var newItem = document.createElement('div');
+         newItem.textContent = item.title;  // Adjust this based on your data structure
+         contentContainer.appendChild(newItem);
+      });
+
+      // Update the current page for the next request
+      currentPage++;
+
+      // Add logic to hide the "Load More" button when there's no more data
+      if (data.length === 0) {
+         document.getElementById('load-more-btn').style.display = 'none';
+      }
+   })
+   .catch(error => console.error('Error fetching data:', error));
+}
+
+
+
       }
       ajax();
-
+  
 
 
 

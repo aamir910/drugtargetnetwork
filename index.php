@@ -2360,6 +2360,9 @@ if (isset($_POST['drugName2'])) {
           div.classList.remove('show');
         });
       }
+     
+
+      
       //  create childnode here
 
       let degree;
