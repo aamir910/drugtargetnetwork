@@ -637,7 +637,7 @@ if (isset($_POST['drugName'])) {
             DataPlatform: DataPlatform,
             disease_class1: disease_class1,
             pic50: pic50 , 
-            drugresponse_id : drugresponse_id
+            drugresponse_id : maxDrugResponseId
           },
           success: function(response) {
 
