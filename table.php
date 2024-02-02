@@ -239,6 +239,154 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   float: right; /* You can adjust this property */
   margin-right: 10px; /* You can adjust this property */
 }
+
+/* here is the css of the table */
+
+.parent_description {
+  /* width: 90%;
+    height: 60%; */
+  display: none;
+  position: absolute;
+
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.blur_the_background {
+  display: none;
+  width: 100%;
+  top: 0%;
+  
+  z-index: 999;
+
+  height: 100vh;
+  backdrop-filter: blur(10px);
+  position: absolute;
+
+  
+  z-index: 999;
+}
+
+.blur_the_background.show {
+  display: block;
+}
+
+.parent_description.show {
+  display: block;
+}
+
+.toggle {
+  list-style: none;
+  /* Remove default list styles */
+  padding: 0;
+}
+
+.toggle input[type="radio"] {
+  display: none;
+  /* Hide the default radio buttons */
+}
+
+.toggle label {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.toggle input[type="radio"]:checked + label {
+  background-color: #3498db;
+  /* Change background color for the selected option */
+  color: #ffffff;
+  /* Change text color for the selected option */
+}
+
+#parent_des_close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  max-height: 100px;
+  overflow: auto;
+}
+
+/* table css  */
+
+table {
+  border-collapse: collapse;
+  width: 90%;
+  margin-top: 20px;
+  max-height: 500px;
+  overflow: auto;
+}
+
+th,
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  height: 10px !important;
+
+  overflow: auto;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Apply bolder style to the left-side (key) cells */
+td:first-child {
+  font-weight: bold;
+}
+
+.table-container {
+  max-height: 400px;
+  /* Set the maximum height for the container */
+  overflow-y: auto;
+  /* Enable vertical scrollbar when content overflows */
+}
+
+td {
+  white-space: pre-line;
+  /* Preserve newline characters */
+}
+
+b {
+  font-weight: bold;
+}
+
+.wrapper {
+  width: 22%;
+}
+
+.forcenetwork {
+  width: 78%;
+  background-color: white;
+}
+
+.slider2size {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* width: 21rem; */
+  margin-bottom: 2rem;
+}
+
+.form-select {
+  width: 100%;
+}
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+
+/* here is the css of the table ended */
 </style>
 <body>
 
@@ -292,6 +440,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
   
   
+
+
+      <div class="blur_the_background">
+    <div class="parent_description ">
+      <!-- heading  -->
+      <p id="drugname">name</p>
+      <div class="container">
+
+        <form class="toggle">
+
+          <!-- <input type="radio" id="choice2" name="choice" value="productive" checked>
+          <label for="choice2">Biologics Structure </label>
+          <input type="radio" id="choice1" name="choice" value="creative">
+          <label for="choice1">Properties</label> -->
+
+        </form>
+      </div>
+      <div class="table-container">
+        <table>
+          <tbody id="compoundTableBody">
+            <!-- Data will be dynamically inserted here using JavaScript -->
+          </tbody>
+          <!-- <img src="image_not_available.png" alt="Structure Image" class="structure-image"> -->
+        </table>
+      </div>
+      <button style="background:none " id='parent_des_close'><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
+
+    </div>
+ 
+
+
 <script>
   // Function to parse query parameters from the URL
   function getQueryVariable(variable) {
@@ -425,6 +604,116 @@ table.destroy();
       });
     }
     ajax();
+// here are the functions to add the click on the lnk of tables 
+
+
+
+function generate_table() {
+
+var div = document.querySelector('.parent_description');
+div.classList.toggle('show');
+var div = document.querySelector('.blur_the_background');
+div.classList.toggle('show');
+
+var name = document.querySelector('#drugname');
+name.innerHTML = clickedData.id;
+
+let dataobject = drug_des_parent['0'];
+
+// Function to populate the table
+function populateTable() {
+  const tableBody = document.getElementById('compoundTableBody');
+  tableBody.innerHTML = '';
+
+  Object.entries(dataobject).forEach(([key, value]) => {
+    const row = document.createElement('tr');
+
+    const keyCell = document.createElement('td');
+    keyCell.textContent = key;
+    row.appendChild(keyCell);
+
+    const valueCell = document.createElement('td');
+    row.appendChild(valueCell);
+    valueCell.textContent = value;
+
+    if (keyCell.innerText === 'CROSS_REFERENCES_CELL_LINES') {
+      let text_change = valueCell.innerHTML;
+      var formattedData = formatData(text_change);
+      // Use innerHTML instead of textContent to render HTML tags
+      valueCell.innerHTML = formattedData;
+
+    } else if (keyCell.innerText === 'COMMENTS') {
+      let text_change = valueCell.innerHTML;
+      var formattedData = formatData2(text_change);
+      // Use innerHTML instead of textContent to render HTML tags
+      valueCell.innerHTML = formattedData;
+
+    } else
+    if (keyCell.innerText === 'REFERENCE_ID') {
+      let text_change = valueCell.innerHTML;
+      var formattedData = formatData3(text_change);
+      // Use innerHTML instead of textContent to render HTML tags
+      valueCell.innerHTML = formattedData;
+    }
+
+    tableBody.appendChild(row);
+  });
+}
+
+function formatData(data) {
+  var lines = data.split('|');
+  var formattedLines = [];
+
+  for (var i = 0; i < lines.length - 1; i++) {
+    var parts = lines[i].split(';');
+    var formattedText = '<b>' + parts[0] + '</b>' + '<a href="https://cancer.sanger.ac.uk/cosmic" target="_blank">' + parts[1] + '</a>';
+    formattedLines.push(formattedText);
+  }
+
+
+  return formattedLines.join('<br>');
+}
+
+function formatData2(data) {
+  var lines = data.split('|');
+  var formattedLines = [];
+
+
+  for (var i = 0; i < lines.length - 1; i++) {
+    var parts = lines[i].split(':');
+    var formattedText = '<b>' + parts[0] + '</b>' + ':' + parts[1];
+    formattedLines.push(formattedText);
+  }
+
+
+
+  return formattedLines.join('<br>');
+}
+
+function formatData3(data) {
+
+  var lines = data.split('|');
+  var formattedLines = [];
+
+  for (var i = 0; i < lines.length - 1; i++) {
+    var parts = lines[i].split('=');
+    var formattedText = '<b>' + parts[0] + '</b>' + '=' + parts[1];
+    formattedLines.push(formattedText);
+  }
+
+
+
+  return formattedLines.join('<br>');
+}
+// Call the function to populate the table
+populateTable();
+// const toggleForm = document.querySelector('.toggle');
+const compoundTable = document.querySelector('table');
+}
+
+
+
+
   </script>
 </body>
 </html>

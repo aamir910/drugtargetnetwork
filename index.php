@@ -170,10 +170,9 @@ if (isset($_POST['drugName2'])) {
   $conn->close();
   exit();
 }
-
 // Close the database connection
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -528,7 +527,7 @@ if (isset($_POST['drugName2'])) {
                display: flex;
                justify-content: center;
                align-items: center;
-               height:100%;
+               height:100%; 
                width:63%;" class=" forcenetwork  ">
         <!-- Loader embedded inside SVG -->
       </svg>
@@ -2002,6 +2001,7 @@ if (isset($_POST['drugName2'])) {
         }
       });
     }
+
 
     function fetchData3(drugName2) {
       // Make AJAX request to PHP script
