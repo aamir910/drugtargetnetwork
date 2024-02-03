@@ -219,16 +219,21 @@ if (isset($_POST['drugName'])) {
 
 <style>
   .container {
-    margin-left: 20px;
+    /* margin-left: 20px; */
     /* Adjust the left margin as needed */
-    margin-right: 20px;
-    width: 140%;
+    /* margin-right: 20px; */
+    /* width: 140%; */
     /* Adjust the right margin as needed */
   }
 
   #example {
     /* width: 100%; Set the width to 100% or adjust it as needed */
   }
+
+  .container, .container-lg, .container-md, 
+  .container-sm, .container-xl, .container-xxl {
+    max-width: 1662px;
+}
 
   /* loader started  */
 
@@ -264,9 +269,9 @@ if (isset($_POST['drugName'])) {
     }
   }
 
-  .dataTables_scroll {
+  /* .dataTables_scroll {
     width: 180%;
-  }
+  } */
 
   /* .row{
   width: 180%;
@@ -276,11 +281,22 @@ if (isset($_POST['drugName'])) {
 
   .selection_box {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
+    /* align-items: center; */
     background-color: rgb(231 226 226 / 50%);
     padding: 0.5rem;
   }
+
+
+  .btn_left{
+    position: absolute;
+margin-right: 10px;
+  /* display: flex;
+  justify-content: flex-end;
+  align-items: end; */
+  right: 0;
+}
+
 
   .btn1 {
     background-color: #28a5fb;
@@ -396,7 +412,7 @@ if (isset($_POST['drugName'])) {
 
   /* table css  */
 
-  table {
+  .table-container table {
     border-collapse: collapse;
     width: 90%;
     margin-top: 20px;
@@ -404,7 +420,7 @@ if (isset($_POST['drugName'])) {
     overflow: auto;
   }
 
-  th,
+  .table-container  th,
   td {
     border: 1px solid #dddddd;
     text-align: left;
@@ -414,12 +430,12 @@ if (isset($_POST['drugName'])) {
     overflow: auto;
   }
 
-  th {
+ .table-container th {
     background-color: #f2f2f2;
   }
 
   /* Apply bolder style to the left-side (key) cells */
-  td:first-child {
+   td:first-child {
     font-weight: bold;
   }
 
@@ -430,7 +446,7 @@ if (isset($_POST['drugName'])) {
     /* Enable vertical scrollbar when content overflows */
   }
 
-  td {
+  .table-container td {
     white-space: pre-line;
     /* Preserve newline characters */
   }
@@ -465,9 +481,15 @@ if (isset($_POST['drugName'])) {
     display: inline-block;
     position: relative;
   }
-
+#complete_table th {
+  background-color: #051d33;
+  color: white
+}
 
   /* here is the css of the table ended */
+
+ 
+
 </style>
 
 <body>
@@ -477,11 +499,18 @@ if (isset($_POST['drugName'])) {
     <div class="loader" id="loader"></div>
   </div>
 
-  <div class="selection_box">
+  <nav class="selection_box">
+    <div style="display: flex; " >
+      <img src="drugtarget.jpg" width="80px" height="50px" alt="">
+      <h5 style="padding: 0.5rem;">Drug Target Network</h5>
 
-    <button id="fetch_more_data" class="btn1" onclick="fetchdata()">fetch_more_data</button>
+    </div>
+    <div class="btn_left" >
+      <button id="fetch_more_data" class="btn1" onclick="fetchdata()">fetch_more_data</button>
+
+    </div>
     <div id="search-container"></div>
-  </div>
+  </nav>
 
 
 
@@ -493,7 +522,7 @@ if (isset($_POST['drugName'])) {
     <table id="example" class="table table-striped" style="width:100%">
       <thead>
         <tr>
-          <th>row_count</th>
+          <th style="background-color: 051d33;" >row_count</th>
           <th>drugresponse_id</th>
           <th>COMPOUND_NAME</th>
           <th>CELL_LINE_NAME</th>
@@ -683,9 +712,9 @@ if (isset($_POST['drugName'])) {
               $(document).ready(function() {
                 $('#example').dataTable({
                   "scrollX": true,
-                  // "paging": false 
+                  "paging": true ,
                   "searching": true,
-                  "lengthMenu": [1000, 2000, 3000, 5000], // Specify your custom paging options
+                  // "lengthMenu":[1000, 2000, 3000, 5000], // Specify your custom paging options
   
                 });
               });
