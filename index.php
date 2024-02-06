@@ -122,7 +122,7 @@ if (isset($_POST['drugName'])) {
   $drugName = $_POST['drugName'];
 
   // Use prepared statement to prevent SQL injection
-  $stmt = $conn->prepare("SELECT * FROM compounds WHERE COMPOUND_NAME = ?");
+  $stmt = $conn->prepare("SELECT * FROM compounds_updated1 WHERE COMPOUND_NAME = ?");
   $stmt->bind_param("s", $drugName);
   $stmt->execute();
 
@@ -314,7 +314,8 @@ if (isset($_POST['drugName2'])) {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      width: 220px;
+      width: auto;
+      min-width: 160px;
       max-width: 100%;
       /* Adjust the width as needed */
       position: relative;
@@ -348,6 +349,9 @@ if (isset($_POST['drugName2'])) {
       width: 100%;
       height: auto;
       min-height: 200px;
+    }
+    #dropdownBtn2{
+        min-width: 191px;
     }
   </style>
 
@@ -491,11 +495,7 @@ if (isset($_POST['drugName2'])) {
               <span class="alert alert-danger">please select option</span>
             </div>
 
-
           </div>
-
-
-
 
 
         </div>
@@ -504,7 +504,7 @@ if (isset($_POST['drugName2'])) {
       <div style = "display : flex">
         
       <button class="btn btn-success" onclick="tableData()"><i class="das fa-table"></i></button>
-        <button class="btn btn-success" id="submitButton" type='submit' style="width:11rem">
+        <button class="btn btn-success" id="submitButton" type='submit' style="width:7rem">
           <i class="bi bi-search"></i> Apply Filter</button>
 
         </div>
@@ -512,7 +512,7 @@ if (isset($_POST['drugName2'])) {
     <!-- end of the navbar -->
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
       <!-- here is the disease legend  -->
-      <div>
+      <div style=" width:15%">
 
         <div class="legend1" id="legend1" style="width: 13%; min-width : 250px ; margin-left: 12px">
 
@@ -521,6 +521,7 @@ if (isset($_POST['drugName2'])) {
           <legend class="legenddata ">Disease Class </legend>
           <ul id="disease_Class" class="legend_inner"></ul>
         </div>
+
       </div>
 
       <svg id="forcenetwork" width="100%" style="
@@ -528,7 +529,7 @@ if (isset($_POST['drugName2'])) {
                justify-content: center;
                align-items: center;
                height:100%; 
-               width:63%;" class=" forcenetwork  ">
+               width:60%;" class=" forcenetwork  ">
         <!-- Loader embedded inside SVG -->
       </svg>
       <div id="loader_id">

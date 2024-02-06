@@ -123,7 +123,7 @@ if (isset($_POST['drugName2'])) {
   $drugName = $_POST['drugName2'];
 
   // Use prepared statement to prevent SQL injection
-  $stmt = $conn->prepare("SELECT * FROM compounds WHERE COMPOUND_NAME = ?");
+  $stmt = $conn->prepare("SELECT * FROM compounds_updated1 WHERE COMPOUND_NAME = ?");
   $stmt->bind_param("s", $drugName);
   $stmt->execute();
 
@@ -538,7 +538,7 @@ if (isset($_POST['drugName'])) {
 
       <thead>
         <tr>
-          <th style="background-color: 051d33;">row_count</th>
+          <th style="background-color: 051d33;">indexs</th>
           <th>drugresponse_id</th>
           <th>COMPOUND_NAME</th>
           <th>CELL_LINE_NAME</th>

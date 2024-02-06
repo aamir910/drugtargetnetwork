@@ -420,7 +420,7 @@ ul {
   /* Text color */
   border: none;
   /* Remove the border */
-  padding: 10px 20px;
+  padding: 10px 10px;
   /* Add padding to the button */
   text-align: center;
   /* Center the text horizontally */
@@ -566,9 +566,9 @@ section.active .modal-box {
 .alignitems {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  /* margin: 20px; */
+  margin-left: 20px;
   gap: 20px;
 }
 
@@ -708,7 +708,7 @@ b {
 }
 
 .wrapper {
-  width: 22%;
+  width: 25%;
 }
 
 .forcenetwork {
