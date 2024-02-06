@@ -346,7 +346,7 @@ if (isset($_POST['drugName2'])) {
       margin-top: 1rem;
       border-radius: 1rem;
       background-color: white;
-      width: 100%;
+      width: 95%;
       height: auto;
       min-height: 200px;
     }
@@ -503,9 +503,9 @@ if (isset($_POST['drugName2'])) {
       </div>
       <div style = "display : flex">
         
-      <button class="btn btn-success" onclick="tableData()"><i class="das fa-table"></i></button>
+      <button class="btn btn-success" onclick="tableData()"><img width="30px" height="30px" src="tableimg_white.png" alt=""></button>
         <button class="btn btn-success" id="submitButton" type='submit' style="width:7rem">
-          <i class="bi bi-search"></i> Apply Filter</button>
+             Apply Filter</button>
 
         </div>
     </form>
@@ -514,7 +514,7 @@ if (isset($_POST['drugName2'])) {
       <!-- here is the disease legend  -->
       <div style=" width:15%">
 
-        <div class="legend1" id="legend1" style="width: 13%; min-width : 250px ; margin-left: 12px">
+        <div class="legend1" id="legend1" style=" margin-left: 12px">
 
           <legend class="legenddata ">Phase </legend>
           <ul id="phases_disease" class="legend_inner"></ul>
