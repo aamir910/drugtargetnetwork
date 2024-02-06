@@ -492,6 +492,17 @@ if (isset($_POST['drugName'])) {
     font-weight: 500;
     letter-spacing: 1.5px;
   }
+  @media (min-width: 768px) {
+    .col-md-6 {
+        /* flex: 0 0 auto; */
+        width: 100%;
+        right: 0;
+        z-index: 9999;
+        margin-bottom: 3rem;
+        margin-top: -44px;
+    }
+}
+
 
   /* here is the css of the table ended */
 </style>
@@ -716,7 +727,7 @@ if (isset($_POST['drugName'])) {
               }
 
               var newRow = '<tr>';
-              count_row++;
+             
               newRow += '<td>' + count_row + '</td>';
               newRow += '<td>' + row.drugresponse_id + '</td>';
               newRow += `<td> <a href="#" onclick="fetchData3('${row.COMPOUND_NAME}')">${row.COMPOUND_NAME}</a></td>`;
@@ -738,7 +749,7 @@ if (isset($_POST['drugName'])) {
               previousdata.push(newRow); 
               tableBody.append(newRow);
 
-
+              count_row++;
               drugresponse_id = row.drugresponse_id;
               if (row.drugresponse_id > maxDrugResponseId) {
                 maxDrugResponseId = row.drugresponse_id;
