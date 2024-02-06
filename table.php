@@ -79,9 +79,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($conditions)) {
 
       // $sql = "SELECT * FROM drugresponse WHERE " . implode(" AND ", $conditions) ;
-      $sql .= " " . implode(" AND ", $conditions) . "  AND drugresponse_id >" . $drugresponse_id ;
+      $sql .= " " . implode(" AND ", $conditions) . "  AND drugresponse_id >" . $drugresponse_id;
       // if ($count_increment != 1) {
-        
+
       //   $sql .= " " . implode(" AND ", $conditions) . "  AND drugresponse_id > 5000";
       // } else {
       //   $sql .= " " . implode(" AND ", $conditions) . "  AND drugresponse_id >";
@@ -230,10 +230,14 @@ if (isset($_POST['drugName'])) {
     /* width: 100%; Set the width to 100% or adjust it as needed */
   }
 
-  .container, .container-lg, .container-md, 
-  .container-sm, .container-xl, .container-xxl {
-    max-width: 1662px;
-}
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+    max-width: 1792px;
+  }
 
   /* loader started  */
 
@@ -288,14 +292,14 @@ if (isset($_POST['drugName'])) {
   }
 
 
-  .btn_left{
+  .btn_left {
     position: absolute;
-margin-right: 10px;
-  /* display: flex;
+    margin-right: 10px;
+    /* display: flex;
   justify-content: flex-end;
   align-items: end; */
-  right: 0;
-}
+    right: 0;
+  }
 
 
   .btn1 {
@@ -420,7 +424,7 @@ margin-right: 10px;
     overflow: auto;
   }
 
-  .table-container  th,
+  .table-container th,
   td {
     border: 1px solid #dddddd;
     text-align: left;
@@ -430,12 +434,12 @@ margin-right: 10px;
     overflow: auto;
   }
 
- .table-container th {
+  .table-container th {
     background-color: #f2f2f2;
   }
 
   /* Apply bolder style to the left-side (key) cells */
-   td:first-child {
+  td:first-child {
     font-weight: bold;
   }
 
@@ -481,15 +485,15 @@ margin-right: 10px;
     display: inline-block;
     position: relative;
   }
-#complete_table th {
-  background-color: #051d33;
-  color: white
-}
+
+  #complete_table th {
+    background-color: #051d33;
+    color: white;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+  }
 
   /* here is the css of the table ended */
-
- 
-
 </style>
 
 <body>
@@ -500,12 +504,12 @@ margin-right: 10px;
   </div>
 
   <nav class="selection_box">
-    <div style="display: flex; " >
+    <div style="display: flex; ">
       <img src="drugtarget.jpg" width="80px" height="50px" alt="">
       <h5 style="padding: 0.5rem;">Drug Target Network</h5>
 
     </div>
-    <div class="btn_left" >
+    <div class="btn_left">
       <button id="fetch_more_data" class="btn1" onclick="fetchdata()">fetch_more_data</button>
 
     </div>
@@ -520,9 +524,10 @@ margin-right: 10px;
 
   <div class="container mt-5 mb-5" id='complete_table'>
     <table id="example" class="table table-striped" style="width:100%">
+
       <thead>
         <tr>
-          <th style="background-color: 051d33;" >row_count</th>
+          <th style="background-color: 051d33;">row_count</th>
           <th>drugresponse_id</th>
           <th>COMPOUND_NAME</th>
           <th>CELL_LINE_NAME</th>
@@ -620,9 +625,10 @@ margin-right: 10px;
       function fetchdata() {
 
         count_increment += 1;
-    
-        
 
+        var table = $('#example').DataTable(); // Initialize DataTable
+              table.destroy();
+              flag = true ; 
         ajax();
 
 
@@ -632,10 +638,13 @@ margin-right: 10px;
 
 
       let drugresponse_id = 0;
-      let maxDrugResponseId = 0; 
+      let maxDrugResponseId = 0;
       var tableBody = $('#tableBody');
-      let flag = true ;
-    let count_row = 1 ; 
+      let dataTable;
+      console.log(tableBody, "data in the table ");
+      let flag = true;
+      let count_row = 1;
+      let previousdata = [];
 
       function ajax() {
         let bodyElement = document.body;
@@ -654,6 +663,27 @@ margin-right: 10px;
         document.getElementById('complete_table').style.display = 'none';
 
 
+        var response2 = [{
+            "drugresponse_id": 1,
+            "COMPOUND_NAME": "Compound1",
+            "CELL_LINE_NAME": "CellLine1",
+            "VALUE": "Value1",
+            "METRIC": "Metric1",
+            "DATASET": "Dataset1",
+            "Pubmed_ID": "PubmedID1",
+            "PUBCHEM_ID": "PubchemID1",
+            "CHEMBL_ID": "ChEMBLID1",
+            "MAX_PHASE": "MaxPhase1",
+            "RRID": "RRID1",
+            "ONCOTREE_LINEAGE": "OncotreeLineage1",
+            "ONCOTREE_PRIMARY_DISEASE": "OncotreePrimaryDisease1",
+            "Disease_class": "DiseaseClass1",
+            "Disease_name": "DiseaseName1",
+            "Phase": "Phase1"
+          },
+          // Add more dummy data as needed
+        ];
+
 
         $.ajax({
           type: "POST",
@@ -665,23 +695,32 @@ margin-right: 10px;
             oncotree_change1: oncotree_change1,
             DataPlatform: DataPlatform,
             disease_class1: disease_class1,
-            pic50: pic50 , 
-            drugresponse_id : maxDrugResponseId
+            pic50: pic50,
+            drugresponse_id: maxDrugResponseId
           },
           success: function(response) {
 
             jsondata2 = response;
             console.log("newData", jsondata2);
-       
+
+          
+            tableBody.empty();
 
             $.each(response, function(index, row) {
               // console.log(row ,"here is row ")
+              if(flag){
+                if(previousdata){
+                  previousdata.forEach((data)=> tableBody.append(data))
+                }
+                flag = false ; 
+              }
+
               var newRow = '<tr>';
               count_row++;
               newRow += '<td>' + count_row + '</td>';
               newRow += '<td>' + row.drugresponse_id + '</td>';
               newRow += `<td> <a href="#" onclick="fetchData3('${row.COMPOUND_NAME}')">${row.COMPOUND_NAME}</a></td>`;
-              newRow += `<td> <a href="#" onclick="fetchData2('${row.CELL_LINE_NAME}')">${row.CELL_LINE_NAME}</a></td>`;             
+              newRow += `<td> <a href="#" onclick="fetchData2('${row.CELL_LINE_NAME}')">${row.CELL_LINE_NAME}</a></td>`;
               newRow += '<td>' + row.VALUE + '</td>';
               newRow += '<td>' + row.METRIC + '</td>';
               newRow += '<td>' + row.DATASET + '</td>';
@@ -695,34 +734,31 @@ margin-right: 10px;
               newRow += '<td>' + row.Disease_class + '</td>';
               newRow += '<td>' + row.Disease_name + '</td>';
               newRow += '<td>' + row.Phase + '</td>';
-              newRow += '</tr>';
+              newRow += '</tr>';;
+              previousdata.push(newRow); 
               tableBody.append(newRow);
 
-              drugresponse_id=row.drugresponse_id;
-              if (row.drugresponse_id > maxDrugResponseId) {
-        maxDrugResponseId = row.drugresponse_id;
-                  }
-              
-            });
-            
 
-      console.log(drugresponse_id , "drugresponse_id" ,maxDrugResponseId )
-            if(flag)
-            {
+              drugresponse_id = row.drugresponse_id;
+              if (row.drugresponse_id > maxDrugResponseId) {
+                maxDrugResponseId = row.drugresponse_id;
+              }
+            });
+
+
+            console.log(drugresponse_id, "drugresponse_id", maxDrugResponseId)
+
               $(document).ready(function() {
-                $('#example').dataTable({
+                // Initialize DataTable only once
+                dataTable = $('#example').DataTable({
                   "scrollX": true,
-                  "paging": true ,
+                  "paging": true,
                   "searching": true,
-                  // "lengthMenu":[1000, 2000, 3000, 5000], // Specify your custom paging options
-  
+                  "lengthMenu": [1000, 2000, 3000, 5000],
                 });
               });
-               flag = false;   
-            }
 
             document.getElementById('loader').style.display = 'none';
-
             document.getElementById('complete_table').style.display = 'block';
           },
           error: function(xhr, status, error) {
@@ -732,39 +768,10 @@ margin-right: 10px;
             console.error("AJAX Error: " + status + " - close-btn" + error);
           }
         });
-        
-if(!flag){
-  var currentPage = 1;  // Change this as needed
-
-// Make an AJAX request
-fetch('/your-api-endpoint?page=' + currentPage)
-   .then(response => response.json())
-   .then(data => {
-      // Update the content container with the new data
-      var contentContainer = document.getElementById('content-container');
-      data.forEach(item => {
-         // Append each item to the content container
-         var newItem = document.createElement('div');
-         newItem.textContent = item.title;  // Adjust this based on your data structure
-         contentContainer.appendChild(newItem);
-      });
-
-      // Update the current page for the next request
-      currentPage++;
-
-      // Add logic to hide the "Load More" button when there's no more data
-      if (data.length === 0) {
-         document.getElementById('load-more-btn').style.display = 'none';
       }
-   })
-   .catch(error => console.error('Error fetching data:', error));
-}
 
-
-
-      }
       ajax();
-  
+
 
 
 
@@ -773,22 +780,22 @@ fetch('/your-api-endpoint?page=' + currentPage)
 
 
       let drug_des_parent;
-    let clickedData ;
-    let name_of_drug;
+      let clickedData;
+      let name_of_drug;
 
-    var closeButton = document.getElementById('parent_des_close');
-        closeButton.addEventListener('click', function() {
+      var closeButton = document.getElementById('parent_des_close');
+      closeButton.addEventListener('click', function() {
 
-          // document.getElementById('choice2').checked = true;
-          // document.getElementById('choice1').checked = false;
+        // document.getElementById('choice2').checked = true;
+        // document.getElementById('choice1').checked = false;
 
-          // const structureImage = document.querySelector('.structure-image');
-          // structureImage.style.display = 'block'; // Show the image
-          var div = document.querySelector('.parent_description');
-          div.classList.remove('show');
-          var div = document.querySelector('.blur_the_background');
-          div.classList.remove('show');
-        });
+        // const structureImage = document.querySelector('.structure-image');
+        // structureImage.style.display = 'block'; // Show the image
+        var div = document.querySelector('.parent_description');
+        div.classList.remove('show');
+        var div = document.querySelector('.blur_the_background');
+        div.classList.remove('show');
+      });
 
 
 
@@ -918,7 +925,7 @@ fetch('/your-api-endpoint?page=' + currentPage)
 
 
       function fetchData3(drugName2) {
-        console.log(drugName2 ,"here is the data ") ; 
+        console.log(drugName2, "here is the data ");
         // Make AJAX request to PHP script
         $.ajax({
           type: "POST",
@@ -931,7 +938,7 @@ fetch('/your-api-endpoint?page=' + currentPage)
 
             drug_des_parent = JSON.parse(data);
 
-            console.log(data , "here is the data " ,drug_des_parent);
+            console.log(data, "here is the data ", drug_des_parent);
 
             generate_table(drugName2);
             // You can do further processing here
