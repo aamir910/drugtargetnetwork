@@ -1255,6 +1255,8 @@ if (isset($_POST['drugName2'])) {
   </script>
   <!-- JavaScript for handling form submission and AJAX -->
   <script>
+    let flag3 = true
+
     function ajax() {
       // Prevent the default form submission
       event.preventDefault();
@@ -1280,6 +1282,36 @@ if (isset($_POST['drugName2'])) {
 
       document.getElementById('buttonbar').style.dispajaxfetchdatalay = 'none';
 
+if(flag3){
+
+  fetchData(jsondata2);
+
+          document.getElementById('wrapper').style.display = 'block';
+
+
+          document.getElementById('legend1').style.display = 'block';
+
+          document.getElementById('buttonbar').style.display = 'block';
+
+          document.getElementById('loader').style.display = 'none';
+
+          force_network_grapgh();
+
+          range_of_links(minValue, maxValue, slider_range);
+
+          pax_phasecliked.on("click", onclickmax_phase);
+
+          datasettext_click.on("click", onclick_dataSet);
+
+          matric_click.on("click", onclick_dataSet);
+
+          phase_click.on("click", onclick_dataSet);
+
+          child_clicked.on("click", onclick_childnodes);
+
+          disease_clicked.on("click", onclick_childnodes);
+
+}
       // Make an AJAX request to the current PHP script
       $.ajax({
         type: "POST",
