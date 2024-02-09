@@ -316,7 +316,7 @@ if (isset($_POST['drugName2'])) {
       text-overflow: ellipsis;
       width: auto;
       min-width: 160px;
-      max-width: 100%;
+      max-width: 195px;
       /* Adjust the width as needed */
       position: relative;
     }
@@ -765,7 +765,7 @@ if (isset($_POST['drugName2'])) {
       "High Grade Ovarian Serous Adenocarcinoma", "Salivary Gland Squamous Cell Carcinoma",
       "Childhood B Acute Lymphoblastic Leukemia", "Breast Carcinoma",
       "Epstein-Barr Virus-Related Burkitt's Lymphoma", "Diffuse Large B-Cell Lymphoma", "Medulloblastoma",
-      "Burkitt's Lymphoma", "Skin Squamous Cell Carcinoma", "Gastric Small Cell Neuroendocrine Carcinoma",
+      "Burkitt's Lymphoma", "Skin Squamous Cell Carincrementcinoma", "Gastric Small Cell Neuroendocrine Carcinoma",
       "Chronic Eosinophilic Leukemia", "Intrahepatic Cholangiocarcinoma", "Gastric Adenocarcinoma",
       "Mycosis Fungoides and Sezary Syndrome", "Hairy Cell Leukemia", "Erythroleukemia", "Duodenal Adenocarcinoma",
       "Gestational Choriocarcinoma", "Mantle Cell Lymphoma", "B-Cell Prolymphocytic Leukemia",
@@ -2162,30 +2162,20 @@ if (isset($_POST['drugName2'])) {
           "link",
           d3.forceLink(links)
           .id((d) => d.id)
-          .distance((link, index) => (index % 2 === 0 ? 250 : 300))
-        )
+          // .distance(link => link.value * 200 ))
 
+          .distance((link, index) => (index % 2 === 0 ? 500 : 50)))
+                   
+              
         // .force("charge", d3.forceManyBody().strength(-100))
         .force("x", d3.forceX(x_graph))
         .force("y", d3.forceY(y_graph))
       // .force("center", d3.forceCenter(x_graph, y_graph))
       // .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
-      ;
+      
 
 
-
-      // if(links.length >300){
-      //   simulation = d3
-      // .forceSimulation(nodes)
-      // .force(
-      //   "link",
-      //   d3.forceLink(links)
-      //   .id((d) => d.id)
-      //   .distance((link, index) => (index % 2 === 0 ? 650 : 800))
-      // )
-
-      // .force("charge", d3.forceManyBody().strength(-200))
-      // }
+   
       legendinfo();
       // Manually set colors based on the dataset value
       link = g
@@ -2389,13 +2379,13 @@ if (isset($_POST['drugName2'])) {
         }
 
         if (min_degree !== max_degree) {
-          x_value = 16 / (max_degree - min_degree);
+          x_value = 8 / (max_degree - min_degree);
         }
 
         if (min_degree === max_degree) {
-          return 4;
+          return 2.5;
         } else {
-          linksize = (degree - min_degree) * x_value + 4;
+          linksize = (degree - min_degree) * x_value + 2.5;
           return linksize;
         }
       }
