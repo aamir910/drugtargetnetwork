@@ -183,7 +183,7 @@ if (isset($_POST['drugName2'])) {
   <!-- Include Bootstrap 5 CSS and JavaScript -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="./css/styles.css">
- 
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
@@ -350,8 +350,9 @@ if (isset($_POST['drugName2'])) {
       height: auto;
       min-height: 200px;
     }
-    #dropdownBtn2{
-        min-width: 191px;
+
+    #dropdownBtn2 {
+      min-width: 191px;
     }
   </style>
 
@@ -496,18 +497,16 @@ if (isset($_POST['drugName2'])) {
             </div>
 
           </div>
-
-
         </div>
         <!-- button  -->
       </div>
-      <div style = "display : flex">
-        
-      <button class="btn btn-success" onclick="tableData()"><img width="30px" height="30px" src="tableimg_white.png" alt=""></button>
-        <button class="btn btn-success" id="submitButton" type='submit' style="width:7rem">
-             Apply Filter</button>
+      <div style="display : flex">
 
-        </div>
+        <button class="btn btn-success" onclick="tableData()"><img width="30px" height="30px" src="tableimg_white.png" alt=""></button>
+        <button class="btn btn-success" id="submitButton" type='submit' style="width:7rem">
+          Apply Filter</button>
+
+      </div>
     </form>
     <!-- end of the navbar -->
     <main class="graph_div  flex  col-12 col-sm-12  " id="div2">
@@ -543,7 +542,7 @@ if (isset($_POST['drugName2'])) {
           <!-- heading  -->
           <div>
             <p>Drug response (pIC50)</p>
-            </div>
+          </div>
 
 
           <div id="dialog-container" style='max-width:500px; min-width: 350px;'>
@@ -731,19 +730,19 @@ if (isset($_POST['drugName2'])) {
       event.preventDefault();
       // Specify the URL of the new page (e.g., https://www.example.com) in the window.open() function
       // window.open('table.html', '_blank');
-    // Construct the URL with query parameters
-    var url = 'table.php?arr1=' + JSON.stringify(oncotree_change1) +
-                      '&arr2=' + JSON.stringify(MaxPhase1) +
-                      '&arr3=' + JSON.stringify(DataPlatform) +
-                      
-                      '&arr4=' + JSON.stringify(disease_class1) +
-                      '&singleValue=' + pic50;
+      // Construct the URL with query parameters
+      var url = 'table.php?arr1=' + JSON.stringify(oncotree_change1) +
+        '&arr2=' + JSON.stringify(MaxPhase1) +
+        '&arr3=' + JSON.stringify(DataPlatform) +
 
-            // Redirect to index2.html
+        '&arr4=' + JSON.stringify(disease_class1) +
+        '&singleValue=' + pic50;
 
-            window.open(url, '_blank');
+      // Redirect to index2.html
 
-            
+      window.open(url, '_blank');
+
+
     }
   </script>
 
@@ -1280,90 +1279,123 @@ if (isset($_POST['drugName2'])) {
 
       document.getElementById('legend1').style.display = 'none';
 
-      document.getElementById('buttonbar').style.dispajaxfetchdatalay = 'none';
+      document.getElementById('buttonbar').style.display = 'none';
 
-if(flag3){
-
-  fetchData(jsondata2);
-
-          document.getElementById('wrapper').style.display = 'block';
+      if (flag3) {
 
 
-          document.getElementById('legend1').style.display = 'block';
+        flag3 =false ;
 
-          document.getElementById('buttonbar').style.display = 'block';
+        fetch('jsonfile.json')
+  .then(response => {
+    // Check if the response is successful
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    // Parse the JSON response
+    return response.json();
+  })
+  .then(data => {
 
-          document.getElementById('loader').style.display = 'none';
 
-          force_network_grapgh();
+console.log(data) ;
+    processData(data);
 
-          range_of_links(minValue, maxValue, slider_range);
+document.getElementById('wrapper').style.display = 'block';
 
-          pax_phasecliked.on("click", onclickmax_phase);
 
-          datasettext_click.on("click", onclick_dataSet);
+document.getElementById('legend1').style.display = 'block';
 
-          matric_click.on("click", onclick_dataSet);
+document.getElementById('buttonbar').style.display = 'block';
 
-          phase_click.on("click", onclick_dataSet);
+document.getElementById('loader').style.display = 'none';
 
-          child_clicked.on("click", onclick_childnodes);
+force_network_grapgh();
 
-          disease_clicked.on("click", onclick_childnodes);
+range_of_links(minValue, maxValue, slider_range);
 
-}
+pax_phasecliked.on("click", onclickmax_phase);
+
+datasettext_click.on("click", onclick_dataSet);
+
+matric_click.on("click", onclick_dataSet);
+
+phase_click.on("click", onclick_dataSet);
+
+child_clicked.on("click", onclick_childnodes);
+
+disease_clicked.on("click", onclick_childnodes);
+
+  })
+  .catch(error => {
+    // Handle any errors that occur during the fetch operation
+    console.error('There was a problem with the fetch operation:', error);
+  });
+
+
+
+  
+
+      }
+       else {
+        $.ajax({
+          type: "POST",
+          url: "", // Leave it empty to target the current page
+          data: {
+            count_increment: count_increment,
+            Chembl_id1: Chembl_id1,
+            MaxPhase1: MaxPhase1,
+            oncotree_change1: oncotree_change1,
+            DataPlatform: DataPlatform,
+            disease_class1: disease_class1,
+            pic50: pic50
+          },
+          success: function(response) {
+
+            jsondata2 = response;
+            console.log("newData", jsondata2);
+
+            fetchData(jsondata2);
+
+            document.getElementById('wrapper').style.display = 'block';
+
+
+            document.getElementById('legend1').style.display = 'block';
+
+            document.getElementById('buttonbar').style.display = 'block';
+
+            document.getElementById('loader').style.display = 'none';
+
+            force_network_grapgh();
+
+            range_of_links(minValue, maxValue, slider_range);
+
+            pax_phasecliked.on("click", onclickmax_phase);
+
+            datasettext_click.on("click", onclick_dataSet);
+
+            matric_click.on("click", onclick_dataSet);
+
+            phase_click.on("click", onclick_dataSet);
+
+            child_clicked.on("click", onclick_childnodes);
+
+            disease_clicked.on("click", onclick_childnodes);
+
+            // processData(jsondata2);
+            // You can parse the JSON and use the data as needed
+          },
+          error: function(xhr, status, error) {
+            console.error("AJAX Error: " + status + " - close-btn" + error);
+          }
+        });
+
+
+
+
+      }
       // Make an AJAX request to the current PHP script
-      $.ajax({
-        type: "POST",
-        url: "", // Leave it empty to target the current page
-        data: {
-          count_increment: count_increment,
-          Chembl_id1: Chembl_id1,
-          MaxPhase1: MaxPhase1,
-          oncotree_change1: oncotree_change1,
-          DataPlatform: DataPlatform,
-          disease_class1: disease_class1,
-          pic50: pic50
-        },
-        success: function(response) {
 
-          jsondata2 = response;
-          console.log("newData", jsondata2);
-
-          fetchData(jsondata2);
-
-          document.getElementById('wrapper').style.display = 'block';
-
-
-          document.getElementById('legend1').style.display = 'block';
-
-          document.getElementById('buttonbar').style.display = 'block';
-
-          document.getElementById('loader').style.display = 'none';
-
-          force_network_grapgh();
-
-          range_of_links(minValue, maxValue, slider_range);
-
-          pax_phasecliked.on("click", onclickmax_phase);
-
-          datasettext_click.on("click", onclick_dataSet);
-
-          matric_click.on("click", onclick_dataSet);
-
-          phase_click.on("click", onclick_dataSet);
-
-          child_clicked.on("click", onclick_childnodes);
-
-          disease_clicked.on("click", onclick_childnodes);
-
-          // processData(jsondata2);
-          // You can parse the JSON and use the data as needed
-        },
-        error: function(xhr, status, error) {
-          console.error("AJAX Error: " + status + " - close-btn" + error);
-        }
-      });
 
 
       MaxPhase1 = [];
@@ -2197,17 +2229,17 @@ if(flag3){
           // .distance(link => link.value * 200 ))
 
           .distance((link, index) => (index % 2 === 0 ? 500 : 50)))
-                   
-              
+
+
         // .force("charge", d3.forceManyBody().strength(-100))
         .force("x", d3.forceX(x_graph))
         .force("y", d3.forceY(y_graph))
       // .force("center", d3.forceCenter(x_graph, y_graph))
       // .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
-      
 
 
-   
+
+
       legendinfo();
       // Manually set colors based on the dataset value
       link = g
@@ -2383,9 +2415,9 @@ if(flag3){
           div.classList.remove('show');
         });
       }
-     
 
-      
+
+
       //  create childnode here
 
       let degree;
