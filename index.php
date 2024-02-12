@@ -1284,59 +1284,56 @@ if (isset($_POST['drugName2'])) {
       if (flag3) {
 
 
-        flag3 =false ;
+        flag3 = false;
 
         fetch('jsonfile.json')
-  .then(response => {
-    // Check if the response is successful
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    // Parse the JSON response
-    return response.json();
-  })
-  .then(data => {
+          .then(response => {
+            // Check if the response is successful
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            // Parse the JSON response
+            return response.json();
+          })
+          .then(data => {
 
 
-console.log(data) ;
-    processData(data);
+            console.log(data);
+            processData(data);
 
-document.getElementById('wrapper').style.display = 'block';
-
-
-document.getElementById('legend1').style.display = 'block';
-
-document.getElementById('buttonbar').style.display = 'block';
-
-document.getElementById('loader').style.display = 'none';
-
-force_network_grapgh();
-
-range_of_links(minValue, maxValue, slider_range);
-
-pax_phasecliked.on("click", onclickmax_phase);
-
-datasettext_click.on("click", onclick_dataSet);
-
-matric_click.on("click", onclick_dataSet);
-
-phase_click.on("click", onclick_dataSet);
-
-child_clicked.on("click", onclick_childnodes);
-
-disease_clicked.on("click", onclick_childnodes);
-
-  })
-  .catch(error => {
-    // Handle any errors that occur during the fetch operation
-    console.error('There was a problem with the fetch operation:', error);
-  });
+            document.getElementById('wrapper').style.display = 'block';
 
 
-      }
+            document.getElementById('legend1').style.display = 'block';
+
+            document.getElementById('buttonbar').style.display = 'block';
+
+            document.getElementById('loader').style.display = 'none';
+
+            force_network_grapgh();
+
+            range_of_links(minValue, maxValue, slider_range);
+
+            pax_phasecliked.on("click", onclickmax_phase);
+
+            datasettext_click.on("click", onclick_dataSet);
+
+            matric_click.on("click", onclick_dataSet);
+
+            phase_click.on("click", onclick_dataSet);
+
+            child_clicked.on("click", onclick_childnodes);
+
+            disease_clicked.on("click", onclick_childnodes);
+
+          })
+          .catch(error => {
+            // Handle any errors that occur during the fetch operation
+            console.error('There was a problem with the fetch operation:', error);
+          });
 
 
-       else {
+      } else {
         $.ajax({
           type: "POST",
           url: "", // Leave it empty to target the current page
@@ -2217,19 +2214,19 @@ disease_clicked.on("click", onclick_childnodes);
 
 
       function calculateDistance(link, index) {
-  // Return distance based on the index
+        // Return distance based on the index
 
 
-  
-  if (index % 2 === 0) {
-    
-    // Even index links have a distance of 200
-    return link.value * 40 ;
-  } else {
-    // Odd index links have a distance of 100
-    return 300;
-  }
-}
+
+        if (index % 2 === 0) {
+
+          // Even index links have a distance of 200
+          return link.value * 40;
+        } else {
+          // Odd index links have a distance of 100
+          return 300;
+        }
+      }
 
 
       const g = svg.append("g");
@@ -2242,8 +2239,8 @@ disease_clicked.on("click", onclick_childnodes);
           .id((d) => d.id)
           // .distance(link => link.value * 200 ))
 
-           .distance((link, index) => calculateDistance(link, index))
-  )
+          .distance((link, index) => calculateDistance(link, index))
+        )
 
 
         // .force("charge", d3.forceManyBody().strength(-100))
@@ -2362,6 +2359,7 @@ disease_clicked.on("click", onclick_childnodes);
 
 
       node.filter(function(node) {
+
         if (node.type === "childnode") {
           child = child + 1;
         }
@@ -2384,18 +2382,67 @@ disease_clicked.on("click", onclick_childnodes);
 
 
       }
+      var linksHidden = true;
 
+      function handle_visibilty_compound(parentCompound) {
+        if (linksHidden) {
+
+          link.filter(function(item) {
+
+
+
+
+            
+              if(item.source.id === parentCompound){
+                node.filter(function(node)
+                {
+                  return item.target.id ===node.id 
+
+                }).style("display" , "none");
+              }
+
+            return item.source.id === parentCompound;
+
+          }).style("display", "none");
+
+
+
+          linksHidden = false
+
+        } else {
+
+
+          link.filter(function(item) {
+              if(item.source.id === parentCompound){
+                node.filter(function(node)
+                {
+               
+                  return item.target.id ===node.id 
+
+
+                }).style("display" , "inline");
+              }
+              
+            return item.source.id === parentCompound;
+
+          }).style("display", "inline");
+
+          linksHidden = true
+        }
+
+
+      }
 
 
       function handleClick(event) {
 
 
 
-
-
         console.log("check ")
         clickedData = event.target.__data__;
         name_of_drug = clickedData.id;
+
+        handle_visibilty_compound(name_of_drug);
 
 
         let compoundData = {
