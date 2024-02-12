@@ -473,7 +473,7 @@ if (isset($_POST['drugName2'])) {
         <!-- forth Dropdown -->
         <div class="dropdown" id="dropdown4" style=" z-index:3">
 
-          <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Select desease</label>
+          <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Disease lineage</label>
           <div id="dropdownContent3" class="dropdown-content">
             <!-- Add more options as needed -->
             <input type="text" id="searchInput" onkeyup="filterOptions()" placeholder="Search...">
@@ -1809,7 +1809,7 @@ disease_clicked.on("click", onclick_childnodes);
     // phase disease entry 
 
 
-    let phase_legend_data = ["phase 1", "phase 2", "phase 3", "phase 4"];
+    let phase_legend_data = ["Phase 1", "Phase 2", "Phase 3", "Phase 4"];
     let phase_categories;
 
 
@@ -1999,7 +1999,7 @@ disease_clicked.on("click", onclick_childnodes);
           value: "temp",
           max_range_link: "temp2",
           dataset: "temp3",
-          link_matric: `phase ${item.Phase}`,
+          link_matric: `Phase ${item.Phase}`,
         },
       ]);
       console.log("nodes", nodes)
@@ -2224,10 +2224,10 @@ disease_clicked.on("click", onclick_childnodes);
   if (index % 2 === 0) {
     
     // Even index links have a distance of 200
-    return link.value *35 ;
+    return link.value * 40 ;
   } else {
     // Odd index links have a distance of 100
-    return 100;
+    return 300;
   }
 }
 
@@ -2389,6 +2389,11 @@ disease_clicked.on("click", onclick_childnodes);
 
       function handleClick(event) {
 
+
+
+
+
+        console.log("check ")
         clickedData = event.target.__data__;
         name_of_drug = clickedData.id;
 
@@ -2405,16 +2410,16 @@ disease_clicked.on("click", onclick_childnodes);
 
 
 
-        if (clickedData.type === "parentnode") {
+        // if (clickedData.type === "parentnode") {
 
 
-          fetchData2(name_of_drug);
+        //   fetchData2(name_of_drug);
 
-        } else if (clickedData.type === "childnode") {
+        // } else if (clickedData.type === "childnode") {
 
-          fetchData3(name_of_drug);
+        //   fetchData3(name_of_drug);
 
-        }
+        // }
 
         var closeButton = document.getElementById('parent_des_close');
         closeButton.addEventListener('click', function() {
