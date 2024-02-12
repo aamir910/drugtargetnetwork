@@ -2224,7 +2224,7 @@ disease_clicked.on("click", onclick_childnodes);
   if (index % 2 === 0) {
     
     // Even index links have a distance of 200
-    return 200;
+    return link.value *35 ;
   } else {
     // Odd index links have a distance of 100
     return 100;
