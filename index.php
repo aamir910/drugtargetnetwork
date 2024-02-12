@@ -1333,10 +1333,9 @@ disease_clicked.on("click", onclick_childnodes);
   });
 
 
-
-  
-
       }
+
+
        else {
         $.ajax({
           type: "POST",
@@ -2217,6 +2216,21 @@ disease_clicked.on("click", onclick_childnodes);
       checkbox_saves_child = [];
 
 
+      function calculateDistance(link, index) {
+  // Return distance based on the index
+
+
+  
+  if (index % 2 === 0) {
+    
+    // Even index links have a distance of 200
+    return 200;
+  } else {
+    // Odd index links have a distance of 100
+    return 100;
+  }
+}
+
 
       const g = svg.append("g");
       // simulationtag
@@ -2228,7 +2242,8 @@ disease_clicked.on("click", onclick_childnodes);
           .id((d) => d.id)
           // .distance(link => link.value * 200 ))
 
-          .distance((link, index) => (index % 2 === 0 ? 500 : 50)))
+           .distance((link, index) => calculateDistance(link, index))
+  )
 
 
         // .force("charge", d3.forceManyBody().strength(-100))
