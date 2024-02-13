@@ -1909,7 +1909,6 @@ if (isset($_POST['drugName2'])) {
       try {
         response = data;
 
-        // console.log('data coming from the', response);
 
         processData(response);
       } catch (error) {
@@ -2383,16 +2382,10 @@ if (isset($_POST['drugName2'])) {
 
       }
       var linksHidden = true;
-
+let childconnected ; 
       function handle_visibilty_compound(parentCompound) {
-        if (linksHidden) {
 
-          link.filter(function(item) {
-
-
-
-
-            
+        link.filter(function(item) {
               if(item.source.id === parentCompound){
                 node.filter(function(node)
                 {
@@ -2403,42 +2396,92 @@ if (isset($_POST['drugName2'])) {
 
             return item.source.id === parentCompound;
 
-          }).style("display", "none");
+          }).style("display", "none");        
+          
+              legendinfo();
 
 
 
-          linksHidden = false
 
-        } else {
-
-
-          link.filter(function(item) {
-              if(item.source.id === parentCompound){
-                node.filter(function(node)
-                {
-               
-                  return item.target.id ===node.id 
+      //     node.filter(function(node) {
+      //   if (node.type === "parentnode") {
+      //     let maxnode = d3.select(this).style("display");
+      //     if (maxnode === "inline") {
+      //       filterlinks2.filter(link => {
+      //         if (link.source === node) {
+      //           visiblenode.push(link.target.id);
+      //           // tag4 
 
 
-                }).style("display" , "inline");
-              }
-              
-            return item.source.id === parentCompound;
+      //           if (!phases.includes(node.MAX_PHASE)) {
+      //             if (node.MAX_PHASE === "" || node.MAX_PHASE === null) {
+      //               if (!phases.includes("Unknown")) {
+      //                 phases.push("Unknown");
+      //               }
+      //             } else {
+      //               phases.push(node.MAX_PHASE);
+      //             }
 
-          }).style("display", "inline");
+      //           }
 
-          linksHidden = true
-        }
+      //           let uniquedataset = ['GDSC1', 'GDSC2', 'CCLE_NP24', 'NCI-60', 'gCSI', 'FIMM'];
+      //           if (!dataset_legend.includes(link.dataset) && uniquedataset.includes(link.dataset)) {
 
+      //             dataset_legend.push(link.dataset);
+      //           }
+      //           if (!matric_legend.includes(link.link_matric)) {
+
+      //             matric_legend.push(link.link_matric);
+      //           }
+      //           // if (!disease_Class_legend.includes(link.target.Disease_class)) {
+
+      //           //   disease_Class_legend.push(link.target.Disease_class);
+      //           // }
+
+      //           if (!disease_phase_legend.includes(link.target.phase)) {
+
+      //             disease_phase_legend.push(link.target.phase);
+      //           }
+
+      //           if (!ONCOTREE_LINEAGE_legend.includes(link.target.oncotree_change)) {
+      //             if (link.target.oncotree_change === "") {
+      //               if (!ONCOTREE_LINEAGE_legend.includes("Unknown")) {
+      //                 ONCOTREE_LINEAGE_legend.push("Unknown")
+
+      //               }
+      //             } else {
+      //               ONCOTREE_LINEAGE_legend.push(link.target.oncotree_change);
+      //             }
+      //           }
+      //         }
+
+      //       })
+      //     }
+      //   }
+      // })
+          
+
+
+        // link.filter(function(item) {
+
+        //   if (item.source.id === parentCompound) {
+          
+        //     var linkdisplay = d3.select(this).style("display");
+        //     if (linkdisplay === "inline") {
+        //       d3.select(this).style("display", "none");
+        //     } else if (linkdisplay === "none") {
+
+        //       d3.select(this).style("display", "inline");
+        //     }
+
+           
+        //   }
+        // })
 
       }
 
 
       function handleClick(event) {
-
-
-
-        console.log("check ")
         clickedData = event.target.__data__;
         name_of_drug = clickedData.id;
 
@@ -2896,6 +2939,8 @@ if (isset($_POST['drugName2'])) {
       })
 
       if (not_remove) {
+  
+
         legendinfo();
       }
 
@@ -2920,7 +2965,9 @@ if (isset($_POST['drugName2'])) {
         }
       })
       // ended    
-      //    child nodes will be filter here 
+      //    child nodes will be filter here
+
+
       let childnodefilteration = node.filter(function(childNode) {
         if (list_hidden_childnode.includes(childNode.oncotree_change) || checkbox_names.includes(childNode.id)) {
           return childNode;
@@ -3053,12 +3100,9 @@ if (isset($_POST['drugName2'])) {
     // legenddata
     function legendinfo() {
       colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
-
+console.log(phases, "phases" , matric_legend , "matric legend" , dataset_legend , "dataset_legend"  )
       function createMaxPhaseCategories() {
-
         phases.push(...list_hidden);
-
-
         const maxPhaseCategories = phases.map((category, index) => {
           let color;
           if (category === "Approved") {
@@ -3365,7 +3409,6 @@ if (isset($_POST['drugName2'])) {
       matric_categories = generateMatricCategories();
       child_categories = generateChildCategories();
       disease_categories = GenerateDisease_class();
-      console.log(matric_categories, "here are the matric CategoriesWithColors")
       //  appenging the maxphses
 
       const ul = d3.select("#myList");
@@ -3550,31 +3593,6 @@ if (isset($_POST['drugName2'])) {
 
       //appending the data of the disease nodes
 
-      // const ul6 = d3.select("#disease_Class");
-
-      // ul6.selectAll("li").remove();
-      // diseaseClass_child = ul6
-      //   .selectAll("li")
-      //   .data(disease_categories)
-      //   .enter()
-      //   .append("li")
-      //   .style("display", "flex");
-
-      // // tagtriangle 
-      // // Append the triangle directly
-      // child_triangle = diseaseClass_child
-      //   .append("div")
-      //   .attr("class", "triangle")
-      //   .style("border-left", "10px solid transparent")
-      //   .style("border-right", "10px solid transparent")
-      //   .style("border-bottom", (d) => `17px solid ${d.color}`)
-      //   .style("border-radius", "0").style("width", "0")
-      //   .style("height", "0");
-
-      // diseaseClass_child.append("span")
-      //   .text((d) => d.category)
-      //   .style("font-size", "14.208px").style("font-family", "Arial");
-
 
 
       // appending the data of the matric 
@@ -3673,7 +3691,6 @@ if (isset($_POST['drugName2'])) {
       matric_legend = [];
       disease_Class_legend = [];
       disease_phase_legend = [];
-
 
     }
 
