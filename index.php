@@ -2379,17 +2379,17 @@ if (isset($_POST['drugName2'])) {
       } else {
         simulation.force("charge", d3.forceManyBody().strength(-50))
 
-
       }
       var linksHidden = true;
-let childconnected ; 
+      
       function handle_visibilty_compound(parentCompound) {
-
+    
         link.filter(function(item) {
               if(item.source.id === parentCompound){
                 node.filter(function(node)
                 {
                   return item.target.id ===node.id 
+                  aamir
 
                 }).style("display" , "none");
               }
@@ -2398,86 +2398,6 @@ let childconnected ;
 
           }).style("display", "none");        
           
-              legendinfo();
-
-
-
-
-      //     node.filter(function(node) {
-      //   if (node.type === "parentnode") {
-      //     let maxnode = d3.select(this).style("display");
-      //     if (maxnode === "inline") {
-      //       filterlinks2.filter(link => {
-      //         if (link.source === node) {
-      //           visiblenode.push(link.target.id);
-      //           // tag4 
-
-
-      //           if (!phases.includes(node.MAX_PHASE)) {
-      //             if (node.MAX_PHASE === "" || node.MAX_PHASE === null) {
-      //               if (!phases.includes("Unknown")) {
-      //                 phases.push("Unknown");
-      //               }
-      //             } else {
-      //               phases.push(node.MAX_PHASE);
-      //             }
-
-      //           }
-
-      //           let uniquedataset = ['GDSC1', 'GDSC2', 'CCLE_NP24', 'NCI-60', 'gCSI', 'FIMM'];
-      //           if (!dataset_legend.includes(link.dataset) && uniquedataset.includes(link.dataset)) {
-
-      //             dataset_legend.push(link.dataset);
-      //           }
-      //           if (!matric_legend.includes(link.link_matric)) {
-
-      //             matric_legend.push(link.link_matric);
-      //           }
-      //           // if (!disease_Class_legend.includes(link.target.Disease_class)) {
-
-      //           //   disease_Class_legend.push(link.target.Disease_class);
-      //           // }
-
-      //           if (!disease_phase_legend.includes(link.target.phase)) {
-
-      //             disease_phase_legend.push(link.target.phase);
-      //           }
-
-      //           if (!ONCOTREE_LINEAGE_legend.includes(link.target.oncotree_change)) {
-      //             if (link.target.oncotree_change === "") {
-      //               if (!ONCOTREE_LINEAGE_legend.includes("Unknown")) {
-      //                 ONCOTREE_LINEAGE_legend.push("Unknown")
-
-      //               }
-      //             } else {
-      //               ONCOTREE_LINEAGE_legend.push(link.target.oncotree_change);
-      //             }
-      //           }
-      //         }
-
-      //       })
-      //     }
-      //   }
-      // })
-          
-
-
-        // link.filter(function(item) {
-
-        //   if (item.source.id === parentCompound) {
-          
-        //     var linkdisplay = d3.select(this).style("display");
-        //     if (linkdisplay === "inline") {
-        //       d3.select(this).style("display", "none");
-        //     } else if (linkdisplay === "none") {
-
-        //       d3.select(this).style("display", "inline");
-        //     }
-
-           
-        //   }
-        // })
-
       }
 
 
@@ -2535,7 +2455,7 @@ let childconnected ;
       let max_degree = 0;
       let x_value;
       let linksize;
-
+       let visiblenode = []
 
       //  here we are calculating the link 
 
@@ -2873,7 +2793,7 @@ let childconnected ;
       })
       childNode2.style("display", "none");
 
-      let visiblenode = [];
+       visiblenode = [];
 
       let maxphase = ['Approved',
         'Phase I',
@@ -3100,7 +3020,6 @@ let childconnected ;
     // legenddata
     function legendinfo() {
       colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
-console.log(phases, "phases" , matric_legend , "matric legend" , dataset_legend , "dataset_legend"  )
       function createMaxPhaseCategories() {
         phases.push(...list_hidden);
         const maxPhaseCategories = phases.map((category, index) => {
