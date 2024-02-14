@@ -2411,11 +2411,11 @@ if (isset($_POST['drugName2'])) {
           hidden_compound.splice(index, 1); // Remove the element from the array
         }
         console.log("hidden_compound", hidden_compound);
-      
+
         range_of_links(minValue, maxValue, slider_range);
 
 
-        
+
         let compoundData = {
           "COMPOUND_NAME": "Compound1",
           "PREFERRED_COMPOUND_NAME": "Preferred1",
@@ -2866,21 +2866,20 @@ if (isset($_POST['drugName2'])) {
         }
       })
 
-// tag2 
-link.filter(function(item) {
-          if(hidden_compound.includes(item.source.id)) {
-          d3.select(this).style("display" , "none")
-          
-          }
-          // return hidden_compound.includes(item.source.id) ;
-        })
+      // tag2 
+      //  remove the link of the selected nodes
+      link.filter(function(item) {
+        if (hidden_compound.includes(item.source.id)) {
+          d3.select(this).style("display", "none")
+        }
+
+      })
 
 
-    
+
+
 
       if (not_remove) {
-
-
         legendinfo();
       }
 
@@ -3037,18 +3036,27 @@ link.filter(function(item) {
 
       generateNameList();
 
-    //  tag3 
+      //  tag3 
+      // this will not remove the compound which do not have the visible node 
+      node.filter(function(node) {
+   
+        if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
+          console.log("check type")
+          d3.select(this).style("display", "inline")
+        } })
 
-    node.filter(function(node){
-          
-          if(node.type === "parentnode" &&  hidden_compound.includes(node.id)){
-            console.log("check type")
-            d3.select(this).style("display" , "inline")
-          }
-        })
+ // Filter out isolated nodes
+ const connectedNodes2 = new Set();
+    links.forEach(link => {
+      if (hidden_compound.includes(link.source.id)) {
+        connectedNodes2.add(link.target.id);
+      }
+    });
 
-
-
+    node.filter(function(d) {
+    return connectedNodes2.has(d.id);
+}).style("display", "none");
+       
 
     }
     // legenddata
@@ -3874,7 +3882,7 @@ link.filter(function(item) {
 
     function logSliderValues() {
       not_remove = true;
-    
+
       rangeValue.textContent = slider2.value;
       minValue = parseFloat(minSlider.value);
       maxValue = parseFloat(maxSlider.value);
