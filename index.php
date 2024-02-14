@@ -2816,9 +2816,6 @@ if (isset($_POST['drugName2'])) {
             filterlinks2.filter(link => {
               if (link.source === node) {
                 visiblenode.push(link.target.id);
-                // tag4 
-
-
                 if (!phases.includes(node.MAX_PHASE)) {
                   if (node.MAX_PHASE === "" || node.MAX_PHASE === null) {
                     if (!phases.includes("Unknown")) {
@@ -2872,12 +2869,7 @@ if (isset($_POST['drugName2'])) {
         if (hidden_compound.includes(item.source.id)) {
           d3.select(this).style("display", "none")
         }
-
       })
-
-
-
-
 
       if (not_remove) {
         legendinfo();
@@ -3039,25 +3031,58 @@ if (isset($_POST['drugName2'])) {
       //  tag3 
       // this will not remove the compound which do not have the visible node 
       node.filter(function(node) {
-   
+
         if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
           console.log("check type")
           d3.select(this).style("display", "inline")
-        } })
+        }
 
- // Filter out isolated nodes
- const connectedNodes2 = new Set();
-    links.forEach(link => {
-      if (hidden_compound.includes(link.source.id)) {
-        connectedNodes2.add(link.target.id);
-      }
-    });
 
-    node.filter(function(d) {
-    return connectedNodes2.has(d.id);
-}).style("display", "none");
-       
 
+      })
+
+
+      let connectedchild2 = []
+      node.each(function(d) {
+        link.filter(function(item) {
+          if (hidden_compound.includes(item.source.id)) {
+
+            if (d.id === item.target.id && !connectedchild2.includes(d.id)) {
+
+              connectedchild2.push(d.id);
+            }
+
+          }
+        })
+      })
+      console.log(connectedchild2, " connectedchild2")
+      let sources =[] ;
+
+      node.filter(function(nodeId) {
+        if (connectedchild2.includes(nodeId.id)) {
+            
+        
+           link.filter(function(templink){
+                if(templink.target.id === nodeId.id && !sources.includes(templink.source.id))
+                {
+                  console.log( templink.source.id )
+                  sources.push(templink.source.id) ;      
+                }
+              })
+
+console.log("sources" ,  sources)
+            let flag4 = sources.every(source => hidden_compound.includes(source))
+             
+            if(flag4){  
+            d3.select(this).style("display", "none")
+            }
+
+
+        }
+
+      })
+
+      // Filter out isolated nodes
     }
     // legenddata
     function legendinfo() {
