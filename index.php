@@ -3056,31 +3056,56 @@ if (isset($_POST['drugName2'])) {
         })
       })
       console.log(connectedchild2, " connectedchild2")
-      let sources =[] ;
 
-      node.filter(function(nodeId) {
-        if (connectedchild2.includes(nodeId.id)) {
-            
-        
-           link.filter(function(templink){
-                if(templink.target.id === nodeId.id && !sources.includes(templink.source.id))
-                {
-                  console.log( templink.source.id )
-                  sources.push(templink.source.id) ;      
-                }
-              })
+      // node.filter(function(nodeId) {
+      //   let sources = [];
+      //   if (connectedchild2.includes(nodeId.id)) {
+      //     //here get the one node to be use  
 
-console.log("sources" ,  sources)
-            let flag4 = sources.every(source => hidden_compound.includes(source))
-             
-            if(flag4){  
-            d3.select(this).style("display", "none")
+      //     link.filter(function(templink) {
+
+      //       if (templink.target.id === nodeId.id && !sources.includes(templink.source.id)) {
+
+      //         sources.push(templink.source.id);
+      //       }
+      //     })
+      //     console.log("sources", sources)
+      //     let flag4 = sources.every(source1 => hidden_compound.includes(source1))
+
+      //     if (flag4) {
+      //       d3.select(this).style("display", "none")
+      //     }
+
+      //   }
+      // })
+
+      let connectedNodes3 = [];
+      let isolatedNodes = [];
+
+      // Step 1: Find connected nodes
+      node.each(function(d) {
+          let visible1 =  d3.select(this).style("display")   // play with this tomorrow       
+        link.filter(function(item) {
+          if (hidden_compound.includes(item.source.id)) {
+            if (d.id === item.target.id && !connectedNodes3.includes(d.id) && visible1 === "inline") {
+                  console.log(visible1)
+              connectedNodes3.push(d.id);
             }
+          }
+        });
+      });
 
-
+      // Step 2: Find isolated nodes
+      node.each(function(d) {
+        if (!connectedNodes3.includes(d.id)) {
+          isolatedNodes.push(d.id);
         }
+      });
 
-      })
+      // Step 3: Hide isolated nodes
+      isolatedNodes.forEach(function(isolatedNodeId) {
+        d3.select("#" + isolatedNodeId).style("display", "none");
+      });
 
       // Filter out isolated nodes
     }
