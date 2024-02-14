@@ -1849,7 +1849,9 @@ if (isset($_POST['drugName2'])) {
       'Skin and connective tissue', 'Stomatognathic', 'Wounds and injuries'
     ];
 
+    // here are the variable of removing and showing the node of parent compound 
 
+    let hidden_compound = [];
 
 
     // disease_class entry ended 
@@ -2381,33 +2383,39 @@ if (isset($_POST['drugName2'])) {
 
       }
       var linksHidden = true;
-      
+
       function handle_visibilty_compound(parentCompound) {
-    
+
         link.filter(function(item) {
-              if(item.source.id === parentCompound){
-                node.filter(function(node)
-                {
-                  return item.target.id ===node.id 
-                  aamir
+          if (item.source.id === parentCompound) {
+            node.filter(function(node) {
+              return item.target.id === node.id
 
-                }).style("display" , "none");
-              }
+            }).style("display", "none");
+          }
 
-            return item.source.id === parentCompound;
+          return item.source.id === parentCompound;
 
-          }).style("display", "none");        
-          
+        }).style("display", "none");
+
       }
-
+      // tag1  
 
       function handleClick(event) {
         clickedData = event.target.__data__;
         name_of_drug = clickedData.id;
+        var index = hidden_compound.indexOf(name_of_drug);
+        if (index === -1) { // Element not found in the array
+          hidden_compound.push(name_of_drug);
+        } else { // Element found in the array
+          hidden_compound.splice(index, 1); // Remove the element from the array
+        }
+        console.log("hidden_compound", hidden_compound);
+      
+        range_of_links(minValue, maxValue, slider_range);
 
-        handle_visibilty_compound(name_of_drug);
 
-
+        
         let compoundData = {
           "COMPOUND_NAME": "Compound1",
           "PREFERRED_COMPOUND_NAME": "Preferred1",
@@ -2455,7 +2463,7 @@ if (isset($_POST['drugName2'])) {
       let max_degree = 0;
       let x_value;
       let linksize;
-       let visiblenode = []
+      let visiblenode = []
 
       //  here we are calculating the link 
 
@@ -2793,7 +2801,7 @@ if (isset($_POST['drugName2'])) {
       })
       childNode2.style("display", "none");
 
-       visiblenode = [];
+      visiblenode = [];
 
       let maxphase = ['Approved',
         'Phase I',
@@ -2858,8 +2866,20 @@ if (isset($_POST['drugName2'])) {
         }
       })
 
+// tag2 
+link.filter(function(item) {
+          if(hidden_compound.includes(item.source.id)) {
+          d3.select(this).style("display" , "none")
+          
+          }
+          // return hidden_compound.includes(item.source.id) ;
+        })
+
+
+    
+
       if (not_remove) {
-  
+
 
         legendinfo();
       }
@@ -3016,10 +3036,25 @@ if (isset($_POST['drugName2'])) {
 
 
       generateNameList();
+
+    //  tag3 
+
+    node.filter(function(node){
+          
+          if(node.type === "parentnode" &&  hidden_compound.includes(node.id)){
+            console.log("check type")
+            d3.select(this).style("display" , "inline")
+          }
+        })
+
+
+
+
     }
     // legenddata
     function legendinfo() {
       colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
+
       function createMaxPhaseCategories() {
         phases.push(...list_hidden);
         const maxPhaseCategories = phases.map((category, index) => {
@@ -3839,7 +3874,7 @@ if (isset($_POST['drugName2'])) {
 
     function logSliderValues() {
       not_remove = true;
-      // tag2
+    
       rangeValue.textContent = slider2.value;
       minValue = parseFloat(minSlider.value);
       maxValue = parseFloat(maxSlider.value);
@@ -3987,7 +4022,7 @@ if (isset($_POST['drugName2'])) {
       overlay = document.querySelector(".overlay"),
       showBtn = document.querySelector("#export"),
       closeBtn = document.querySelector(".close-btn");
-    // tag1
+
     showBtn.addEventListener("click", () => section.classList.add("active"));
     overlay.addEventListener("click", () =>
       section.classList.remove("active")
