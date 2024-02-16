@@ -3031,23 +3031,22 @@ if (isset($_POST['drugName2'])) {
       //  tag3 
       // this will not remove the compound which do not have the visible node 
       node.filter(function(node) {
-
         if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
           console.log("check type")
           d3.select(this).style("display", "inline")
         }
-
-
-
       })
-
-
-      let connectedchild2 = []
+      // ended 
+      
+      
+      let connectedchild2 = [];
+ let connectedLinks2 = [] ; 
       node.each(function(d) {
+        let visible = d3.select(this).style("display") ;
         link.filter(function(item) {
           if (hidden_compound.includes(item.source.id)) {
 
-            if (d.id === item.target.id && !connectedchild2.includes(d.id)) {
+            if (d.id === item.target.id && !connectedchild2.includes(d.id) && visible === "inline") {
 
               connectedchild2.push(d.id);
             }
@@ -3055,7 +3054,8 @@ if (isset($_POST['drugName2'])) {
           }
         })
       })
-      console.log(connectedchild2, " connectedchild2")
+      // console.log(connectedchild2, " connectedchild2")
+
 
       // node.filter(function(nodeId) {
       //   let sources = [];
@@ -3079,33 +3079,44 @@ if (isset($_POST['drugName2'])) {
       //   }
       // })
 
-      let connectedNodes3 = [];
-      let isolatedNodes = [];
 
-      // Step 1: Find connected nodes
-      node.each(function(d) {
-          let visible1 =  d3.select(this).style("display")   // play with this tomorrow       
-        link.filter(function(item) {
-          if (hidden_compound.includes(item.source.id)) {
-            if (d.id === item.target.id && !connectedNodes3.includes(d.id) && visible1 === "inline") {
-                  console.log(visible1)
-              connectedNodes3.push(d.id);
-            }
-          }
+      // 2nd attempt to delete the child nodes 
+      
+      // point to craete then logic 
+      
+
+   node.each(function(d){
+    if(connectedchild2.includes(d.id)){
+      let connectedLinks2 = [] ; 
+      let connectedLinks3 =   link.filter(function(templink){
+               if(templink.target.id === d.id)
+               {
+                 connectedLinks2.push(templink);
+                 return templink ; 
+               }
+
+      })
+      console.log("push" , connectedLinks2 , " connectedLinks3" , connectedLinks3 );
+
+      
+      let flag5 =true ;
+       connectedLinks3.each(function(link) {
+        let visible = d3.select(this).style("display")
+    if(visible === "inline"){
+      flag5 =false; 
+      return false;
+    }
+
         });
-      });
+        connectedLinks3 = []  ;
 
-      // Step 2: Find isolated nodes
-      node.each(function(d) {
-        if (!connectedNodes3.includes(d.id)) {
-          isolatedNodes.push(d.id);
-        }
-      });
+ if(flag5){
+  d3.select(this).style("display"  , "none");
+ }
 
-      // Step 3: Hide isolated nodes
-      isolatedNodes.forEach(function(isolatedNodeId) {
-        d3.select("#" + isolatedNodeId).style("display", "none");
-      });
+    }
+   })
+
 
       // Filter out isolated nodes
     }
@@ -3902,6 +3913,9 @@ if (isset($_POST['drugName2'])) {
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
 
+      
+      hidden_compound = [];  
+      connectedchild2 = [] ; 
       not_remove = true;
       nodes = [];
       links = [];
@@ -3964,7 +3978,7 @@ if (isset($_POST['drugName2'])) {
 
     document.getElementById("submitButton").addEventListener("click", function(event) {
 
-
+      
       // Reset error messages
       document.querySelector(".in_de_Crement").style.visibility = "visible";
 
