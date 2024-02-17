@@ -2088,7 +2088,7 @@ if (isset($_POST['drugName2'])) {
 
     function generate_table() {
 
-
+      var globalCode;
       var div = document.querySelector('.parent_description');
       div.classList.toggle('show');
       var div = document.querySelector('.blur_the_background');
@@ -2102,7 +2102,19 @@ if (isset($_POST['drugName2'])) {
       // Function to populate the table
       function populateTable() {
         const tableBody = document.getElementById('compoundTableBody');
+
+
         tableBody.innerHTML = '';
+
+        Object.entries(dataobject).forEach(([key, value]) => {
+            let keyCell= key;
+         let  valueCell = value;
+          if (keyCell === 'TARGETS_UNIPROT') {
+            
+            globalCode = valueCell;
+          
+          }
+        });
 
         Object.entries(dataobject).forEach(([key, value]) => {
           const row = document.createElement('tr');
@@ -2114,7 +2126,7 @@ if (isset($_POST['drugName2'])) {
           const valueCell = document.createElement('td');
           row.appendChild(valueCell);
           valueCell.textContent = value;
-
+         
           if (keyCell.innerText === 'CROSS_REFERENCES_CELL_LINES') {
             let text_change = valueCell.innerHTML;
             var formattedData = formatData(text_change);
@@ -2133,6 +2145,15 @@ if (isset($_POST['drugName2'])) {
             var formattedData = formatData3(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
+          } else if (keyCell.innerHTML === 'TARGETS') {
+
+            let text_change = valueCell.innerHTML;
+
+            console.log('text_change', globalCode)
+
+            var formattedData = formatData4_compound(text_change, globalCode)
+            valueCell.innerHTML = formattedData;
+
           }
 
           tableBody.appendChild(row);
@@ -2184,6 +2205,29 @@ if (isset($_POST['drugName2'])) {
 
         return formattedLines.join('<br>');
       }
+
+      function formatData4_compound(data, data2) {
+        var lines = data.split(', ');
+        var lines2 =  data2.split(', ')
+        var formattedLines = [];
+      
+
+        for (var i = 0; i < lines.length; i++) {
+          var parts = lines[i].split(' (PChEMBL=');
+          var entityName = parts[0];
+          var pChembl = parts[1].slice(0, -1); // Removing the closing parenthesis
+
+
+          var formattedText = '<a href="https://www.uniprot.org/uniprotkb/' + lines2[i].substring(1, lines2[i].length - 1) + '/entry" target="_blank">' + entityName + '</a> (PChEMBL=' + pChembl + ')';
+
+          formattedLines.push(formattedText);
+
+        }
+
+        return formattedLines.join('<br>');
+
+      }
+
       // Call the function to populate the table
       populateTable();
       // const toggleForm = document.querySelector('.toggle');
@@ -2330,7 +2374,7 @@ if (isset($_POST['drugName2'])) {
         .attr("class", "tooltip2")
         .style("opacity", 0);
 
-    
+
 
 
 
@@ -2340,13 +2384,13 @@ if (isset($_POST['drugName2'])) {
         .enter()
         .append("g")
         .attr("class", "node").call(customDrag(simulation));
-        
+
       node
-      // .on("click", )
-      
-      .on("click", handleClick) 
-      .on("contextmenu", handleDblClick);
-    
+        // .on("click", )
+
+        .on("click", handleClick)
+        .on("contextmenu", handleDblClick);
+
 
       let parentnodes2 = node.filter(function(node) {
         if (node.type === "parentnode") {
@@ -2394,10 +2438,10 @@ if (isset($_POST['drugName2'])) {
       }
       var linksHidden = true;
 
-  
+
       // tag1  
 
-      function handleClick(event ) {
+      function handleClick(event) {
         clickedData = event.target.__data__;
         name_of_drug = clickedData.id;
         var index = hidden_compound.indexOf(name_of_drug);
@@ -2411,13 +2455,13 @@ if (isset($_POST['drugName2'])) {
         range_of_links(minValue, maxValue, slider_range);
 
       }
-  //  handle the double click here 
+      //  handle the double click here 
 
-function handleDblClick(event , d){
-  event.preventDefault();
-  clickedData = event.target.__data__;
+      function handleDblClick(event, d) {
+        event.preventDefault();
+        clickedData = event.target.__data__;
         name_of_drug = clickedData.id;
-  let compoundData = {
+        let compoundData = {
           "COMPOUND_NAME": "Compound1",
           "PREFERRED_COMPOUND_NAME": "Preferred1",
           "PUBCHEM_ID": 1,
@@ -2453,7 +2497,7 @@ function handleDblClick(event , d){
           var div = document.querySelector('.blur_the_background');
           div.classList.remove('show');
         });
-}
+      }
 
       //  create childnode here
 
@@ -3036,12 +3080,12 @@ function handleDblClick(event , d){
         }
       })
       // ended 
-      
-      
+
+
       let connectedchild2 = [];
- let connectedLinks2 = [] ; 
+      let connectedLinks2 = [];
       node.each(function(d) {
-        let visible = d3.select(this).style("display") ;
+        let visible = d3.select(this).style("display");
         link.filter(function(item) {
           if (hidden_compound.includes(item.source.id)) {
 
@@ -3080,41 +3124,40 @@ function handleDblClick(event , d){
 
 
       // 2nd attempt to delete the child nodes 
-      
+
       // point to craete then logic 
-      
 
-   node.each(function(d){
-    if(connectedchild2.includes(d.id)){
-      let connectedLinks2 = [] ; 
-      let connectedLinks3 =   link.filter(function(templink){
-               if(templink.target.id === d.id)
-               {
-                 connectedLinks2.push(templink);
-                 return templink ; 
-               }
 
+      node.each(function(d) {
+        if (connectedchild2.includes(d.id)) {
+          let connectedLinks2 = [];
+          let connectedLinks3 = link.filter(function(templink) {
+            if (templink.target.id === d.id) {
+              connectedLinks2.push(templink);
+              return templink;
+            }
+
+          })
+          console.log("push", connectedLinks2, " connectedLinks3", connectedLinks3);
+
+
+          let flag5 = true;
+          connectedLinks3.each(function(link) {
+            let visible = d3.select(this).style("display")
+            if (visible === "inline") {
+              flag5 = false;
+              return false;
+            }
+
+          });
+          connectedLinks3 = [];
+
+          if (flag5) {
+            d3.select(this).style("display", "none");
+          }
+
+        }
       })
-      console.log("push" , connectedLinks2 , " connectedLinks3" , connectedLinks3 );
-
-      
-      let flag5 =true ;
-       connectedLinks3.each(function(link) {
-        let visible = d3.select(this).style("display")
-    if(visible === "inline"){
-      flag5 =false; 
-      return false;
-    }
-
-        });
-        connectedLinks3 = []  ;
-
- if(flag5){
-  d3.select(this).style("display"  , "none");
- }
-
-    }
-   })
 
 
       // Filter out isolated nodes
@@ -3912,9 +3955,9 @@ function handleDblClick(event , d){
       const svg = d3.select("#forcenetwork");
       svg.selectAll("*").remove();
 
-      
-      hidden_compound = [];  
-      connectedchild2 = [] ; 
+
+      hidden_compound = [];
+      connectedchild2 = [];
       not_remove = true;
       nodes = [];
       links = [];
@@ -3977,7 +4020,7 @@ function handleDblClick(event , d){
 
     document.getElementById("submitButton").addEventListener("click", function(event) {
 
-      
+
       // Reset error messages
       document.querySelector(".in_de_Crement").style.visibility = "visible";
 
