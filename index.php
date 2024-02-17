@@ -2054,7 +2054,7 @@ if (isset($_POST['drugName2'])) {
         },
         success: function(data) {
           drug_des_parent = JSON.parse(data);
-
+    
           generate_table();
           // You can do further processing here
         },
@@ -2098,7 +2098,7 @@ if (isset($_POST['drugName2'])) {
       name.innerHTML = clickedData.id;
 
       let dataobject = drug_des_parent['0'];
-
+console.log(dataobject ,"here is dataobject")
       // Function to populate the table
       function populateTable() {
         const tableBody = document.getElementById('compoundTableBody');
@@ -2115,6 +2115,14 @@ if (isset($_POST['drugName2'])) {
           
           }
         });
+
+        var keyToRemove = "TARGETS_UNIPROT";
+
+// Remove the key-value pair
+delete dataobject[keyToRemove];
+
+console.log(dataobject ,"here is dataobject")
+
 
         Object.entries(dataobject).forEach(([key, value]) => {
           const row = document.createElement('tr');
@@ -2145,16 +2153,17 @@ if (isset($_POST['drugName2'])) {
             var formattedData = formatData3(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
-          } else if (keyCell.innerHTML === 'TARGETS') {
+          } else if (keyCell.innerHTML === 'TARGETS'  ) {
 
             let text_change = valueCell.innerHTML;
 
-            console.log('text_change', globalCode)
+     
 
             var formattedData = formatData4_compound(text_change, globalCode)
             valueCell.innerHTML = formattedData;
 
           }
+        
 
           tableBody.appendChild(row);
         });
@@ -2218,7 +2227,7 @@ if (isset($_POST['drugName2'])) {
           var pChembl = parts[1].slice(0, -1); // Removing the closing parenthesis
 
 
-          var formattedText = '<a href="https://www.uniprot.org/uniprotkb/' + lines2[i].substring(1, lines2[i].length - 1) + '/entry" target="_blank">' + entityName + '</a> (PChEMBL=' + pChembl + ')';
+          var formattedText = '<a href="https://www.uniprot.org/uniprotkb/' + lines2[i].substring(1, lines2[i].length - 1) + '/entry"target="_blank">' + entityName + '</a> (PChEMBL=' + pChembl + ')';
 
           formattedLines.push(formattedText);
 
