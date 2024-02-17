@@ -2330,13 +2330,23 @@ if (isset($_POST['drugName2'])) {
         .attr("class", "tooltip2")
         .style("opacity", 0);
 
+    
+
+
+
       node = g
         .selectAll(".node")
         .data(nodes)
         .enter()
         .append("g")
         .attr("class", "node").call(customDrag(simulation));
-      node.on("click", handleClick);
+        
+      node
+      // .on("click", )
+      
+      .on("click", handleClick) 
+      .on("contextmenu", handleDblClick);
+    
 
       let parentnodes2 = node.filter(function(node) {
         if (node.type === "parentnode") {
@@ -2384,24 +2394,10 @@ if (isset($_POST['drugName2'])) {
       }
       var linksHidden = true;
 
-      function handle_visibilty_compound(parentCompound) {
-
-        link.filter(function(item) {
-          if (item.source.id === parentCompound) {
-            node.filter(function(node) {
-              return item.target.id === node.id
-
-            }).style("display", "none");
-          }
-
-          return item.source.id === parentCompound;
-
-        }).style("display", "none");
-
-      }
+  
       // tag1  
 
-      function handleClick(event) {
+      function handleClick(event ) {
         clickedData = event.target.__data__;
         name_of_drug = clickedData.id;
         var index = hidden_compound.indexOf(name_of_drug);
@@ -2414,9 +2410,14 @@ if (isset($_POST['drugName2'])) {
 
         range_of_links(minValue, maxValue, slider_range);
 
+      }
+  //  handle the double click here 
 
-
-        let compoundData = {
+function handleDblClick(event , d){
+  event.preventDefault();
+  clickedData = event.target.__data__;
+        name_of_drug = clickedData.id;
+  let compoundData = {
           "COMPOUND_NAME": "Compound1",
           "PREFERRED_COMPOUND_NAME": "Preferred1",
           "PUBCHEM_ID": 1,
@@ -2428,16 +2429,16 @@ if (isset($_POST['drugName2'])) {
 
 
 
-        // if (clickedData.type === "parentnode") {
+        if (clickedData.type === "parentnode") {
 
 
-        //   fetchData2(name_of_drug);
+          fetchData2(name_of_drug);
 
-        // } else if (clickedData.type === "childnode") {
+        } else if (clickedData.type === "childnode") {
 
-        //   fetchData3(name_of_drug);
+          fetchData3(name_of_drug);
 
-        // }
+        }
 
         var closeButton = document.getElementById('parent_des_close');
         closeButton.addEventListener('click', function() {
@@ -2452,9 +2453,7 @@ if (isset($_POST['drugName2'])) {
           var div = document.querySelector('.blur_the_background');
           div.classList.remove('show');
         });
-      }
-
-
+}
 
       //  create childnode here
 
