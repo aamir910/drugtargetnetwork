@@ -516,7 +516,7 @@ if (isset($_POST['drugName'])) {
 
   <nav class="selection_box">
     <div style="display: flex; ">
-      <img src="drugtarget.jpg" width="80px" height="50px" alt="">
+      <img src="drugtargetprofiler.png" width="auto" height="50px" alt="">
       <h5 style="padding: 0.5rem;">Drug Target Network</h5>
 
     </div>

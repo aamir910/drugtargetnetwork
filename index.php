@@ -2098,7 +2098,6 @@ if (isset($_POST['drugName2'])) {
       name.innerHTML = clickedData.id;
 
       let dataobject = drug_des_parent['0'];
-console.log(dataobject ,"here is dataobject")
       // Function to populate the table
       function populateTable() {
         const tableBody = document.getElementById('compoundTableBody');
@@ -2121,7 +2120,6 @@ console.log(dataobject ,"here is dataobject")
 // Remove the key-value pair
 delete dataobject[keyToRemove];
 
-console.log(dataobject ,"here is dataobject")
 
 
         Object.entries(dataobject).forEach(([key, value]) => {
@@ -2269,8 +2267,6 @@ console.log(dataobject ,"here is dataobject")
 
       function calculateDistance(link, index) {
         // Return distance based on the index
-
-
 
         if (index % 2 === 0) {
 
@@ -2459,7 +2455,6 @@ console.log(dataobject ,"here is dataobject")
         } else { // Element found in the array
           hidden_compound.splice(index, 1); // Remove the element from the array
         }
-        console.log("hidden_compound", hidden_compound);
 
         range_of_links(minValue, maxValue, slider_range);
 
@@ -2667,7 +2662,8 @@ console.log(dataobject ,"here is dataobject")
         .attr("rx", 5) // Set the x-axis border radius
         .attr("ry", 5) // Set the y-axis border radius
         .attr("stroke", "#fff")
-        .attr("stroke-width", 1.5);
+        .attr("stroke-width", 1.5)
+     ;
 
 
 
@@ -3082,12 +3078,32 @@ console.log(dataobject ,"here is dataobject")
 
       //  tag3 
       // this will not remove the compound which do not have the visible node 
+
       node.filter(function(node) {
         if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
-          console.log("check type")
-          d3.select(this).style("display", "inline")
-        }
-      })
+        console.log("check type")
+        d3.select(this)
+            .style("display", "inline")
+            .selectAll("circle") // Select all circles within this node
+            .data([node]) // Bind data to the selection
+            .enter() // Enter selection
+            .append("circle") // Append circle if it doesn't exist
+            .attr("r", 16) // Adjust the radius as needed
+            .style("fill", "none") // Adjust fill color
+            .style("stroke", "red") // Adjust stroke color
+            .attr("cx", 2) // Move 2 pixels to the right
+            .attr("cy", -2)
+            .style("stroke-dasharray", "5,5"); ; // Move 2 pixels up
+
+        return true; // Keep this node in the selection
+    } else if(node.type === "parentnode") {
+        d3.select(this)
+            .selectAll("circle")
+            .remove(); // Remove circle if it exists
+
+        return false; // Exclude this node from the selection
+    }
+})
       // ended 
 
 
@@ -3106,36 +3122,7 @@ console.log(dataobject ,"here is dataobject")
           }
         })
       })
-      // console.log(connectedchild2, " connectedchild2")
-
-
-      // node.filter(function(nodeId) {
-      //   let sources = [];
-      //   if (connectedchild2.includes(nodeId.id)) {
-      //     //here get the one node to be use  
-
-      //     link.filter(function(templink) {
-
-      //       if (templink.target.id === nodeId.id && !sources.includes(templink.source.id)) {
-
-      //         sources.push(templink.source.id);
-      //       }
-      //     })
-      //     console.log("sources", sources)
-      //     let flag4 = sources.every(source1 => hidden_compound.includes(source1))
-
-      //     if (flag4) {
-      //       d3.select(this).style("display", "none")
-      //     }
-
-      //   }
-      // })
-
-
-      // 2nd attempt to delete the child nodes 
-
-      // point to craete then logic 
-
+  
 
       node.each(function(d) {
         if (connectedchild2.includes(d.id)) {
@@ -3147,7 +3134,6 @@ console.log(dataobject ,"here is dataobject")
             }
 
           })
-          console.log("push", connectedLinks2, " connectedLinks3", connectedLinks3);
 
 
           let flag5 = true;
