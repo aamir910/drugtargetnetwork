@@ -725,533 +725,8 @@ if (isset($_POST['drugName2'])) {
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <!-- here is the script of the table to be load  -->
 
-  <script>
-    function tableData() {
-      event.preventDefault();
-      // Specify the URL of the new page (e.g., https://www.example.com) in the window.open() function
-      // window.open('table.html', '_blank');
-      // Construct the URL with query parameters
-      var url = 'table.php?arr1=' + JSON.stringify(oncotree_change1) +
-        '&arr2=' + JSON.stringify(MaxPhase1) +
-        '&arr3=' + JSON.stringify(DataPlatform) +
+<script src="dropdown_Code.js"></script>
 
-        '&arr4=' + JSON.stringify(disease_class1) +
-        '&singleValue=' + pic50;
-
-      // Redirect to index2.html
-
-      window.open(url, '_blank');
-
-
-    }
-  </script>
-
-
-
-
-  <script>
-    const diseases = [
-
-      "Ewing's Sarcoma", "Melanoma", "Glioblastoma", "Lung Carcinoid Tumor",
-      "Lung Adenocarcinoma", "Bronchiolo-Alveolar Lung Carcinoma", "Non-Small Cell Lung Carcinoma",
-      "Small Cell Lung Carcinoma", "Neuroblastoma", "Epithelioid Sarcoma", "Giant Cell Lung Carcinoma",
-      "Esophageal Squamous Cell Carcinoma", "Ductal Breast Carcinoma", "Head and Neck Squamous Cell Carcinoma",
-      "Adult T Acute Lymphoblastic Leukemia", "Bladder Carcinoma", "Renal Cell Carcinoma", "Non-Cancerous",
-      "Chronic Myelogenous Leukemia", "Pancreatic Ductal Adenocarcinoma", "Plasma Cell Myeloma",
-      "Adult Acute Myeloid Leukemia", "Pleural Epithelioid Mesothelioma", "Childhood T Acute Lymphoblastic Leukemia",
-      "Anaplastic Large Cell Lymphoma", "Colon Adenocarcinoma", "Amelanotic Melanoma",
-      "Clear Cell Renal Cell Carcinoma", "Gliosarcoma", "Astrocytoma", "Colon Carcinoma",
-      "High Grade Ovarian Serous Adenocarcinoma", "Salivary Gland Squamous Cell Carcinoma",
-      "Childhood B Acute Lymphoblastic Leukemia", "Breast Carcinoma",
-      "Epstein-Barr Virus-Related Burkitt's Lymphoma", "Diffuse Large B-Cell Lymphoma", "Medulloblastoma",
-      "Burkitt's Lymphoma", "Skin Squamous Cell Carincrementcinoma", "Gastric Small Cell Neuroendocrine Carcinoma",
-      "Chronic Eosinophilic Leukemia", "Intrahepatic Cholangiocarcinoma", "Gastric Adenocarcinoma",
-      "Mycosis Fungoides and Sezary Syndrome", "Hairy Cell Leukemia", "Erythroleukemia", "Duodenal Adenocarcinoma",
-      "Gestational Choriocarcinoma", "Mantle Cell Lymphoma", "B-Cell Prolymphocytic Leukemia",
-      "Childhood Acute Myeloid Leukemia with Maturation", "Anaplastic Astrocytoma", "Chondrosarcoma",
-      "Acute Myelomonocytic Leukemia", "Hodgkin's Lymphoma", "Prostate Carcinoma", "Cecum Adenocarcinoma",
-      "B-Cell Non-Hodgkin's Lymphoma", "B Acute Lymphoblastic Leukemia", "Adult Acute Monocytic Leukemia",
-      "Pleural Biphasic Mesothelioma", "Childhood Acute Differentiated Monocytic Leukemia",
-      "Adult B Acute Lymphoblastic Leukemia", "Testicular Embryonal Carcinoma", "Gastric Carcinoma",
-      "Large Cell Lung Carcinoma", "Acute Myeloid Leukemia", "Lymphoma", "Gastric Choriocarcinoma",
-      "Osteosarcoma", "Vulvar Leiomyosarcoma", "Primitive Neuroectodermal Tumor", "Uterine Corpus Leiomyosarcoma",
-      "Childhood Precursor T Lymphoblastic Lymphoma", "Fibrosarcoma", "Liposarcoma", "Vulvar Carcinoma",
-      "Undifferentiated Gallbladder Carcinoma", "Precursor Lymphoblastic Lymphoma", "Follicular Lymphoma",
-      "Pancreatic Adenocarcinoma", "Thyroid Gland Anaplastic Carcinoma Squamous Cell",
-      "Endometrial Adenocarcinoma", "Adrenal Gland Neuroblastoma",
-      "Invasive Ductal Carcinoma Not Otherwise Specified", "Tongue Squamous Cell Carcinoma",
-      "Primary Effusion Lymphoma", "Ovarian Granulosa Cell Tumor", "Follicular Thyroid Carcinoma",
-      "Vulvar Squamous Cell Carcinoma", "Rhabdomyosarcoma", "Undifferentiated Pleomorphic Sarcoma",
-      "Adenosquamous Endometrial Carcinoma", "Natural Killer Cell Lymphoblastic Leukemia or Lymphoma",
-      "Ovarian Clear Cell Adenocarcinoma", "Signet Ring Cell Gastric Adenocarcinoma",
-      "Acute Promyelocytic Leukemia", "Acute Biphenotypic Leukemia", "ONCOTREE_PRIMARY_DISEASE",
-      "Splenic Marginal Zone B-Cell Lymphoma with Villous", "Hereditary Spherocytosis",
-      "Gastric Tubular Adenocarcinoma", "Gallbladder Carcinoma", "Vulvar Melanoma",
-      "Cervical Small Cell Carcinoma", "Alveolar Rhabdomyosarcoma", "Synovial Sarcoma",
-      "Cervical Squamous Cell Carcinoma", "Human Papilloma Virus-Related Cervical Squamous Cell Carcinoma",
-      "Bronchogenic Carcinoma", "Squamous Cell Lung Carcinoma", "Pleural Sarcomatoid Mesothelioma",
-      "Gingival Squamous Cell Carcinoma", "Lung Mucoepidermoid Carcinoma", "Oral Cavity Squamous Cell Carcinoma",
-      "Pancreatic Carcinoma", "Papillary Renal Cell Carcinoma", "Cutaneous Melanoma",
-      "Ovarian Serous Cystadenocarcinoma", "Breast Adenocarcinoma", "Ovarian Endometrioid Adenocarcinoma",
-      "Thyroid Gland Anaplastic Carcinoma", "Pharyngeal Squamous Cell Carcinoma", "Cervical Carcinoma",
-      "Ovarian Mucinous Adenocarcinoma", "Hypopharyngeal Squamous Cell Carcinoma",
-      "Endometrial Stromal Sarcoma", "Squamous Cell Breast Carcinoma Acantholytic Variant",
-      "Hepatocellular Carcinoma", "Epithelioid Cell Type Gastrointestinal Stromal Tumor",
-      "Rhabdoid Tumour of the Kidney", "Askin's Tumor", "Uterine Corpus Sarcoma",
-      "Gastric Adenosquamous Carcinoma", "Adenosquamous Lung Carcinoma", "Papillary Lung Adenocarcinoma",
-      "Ovarian Mixed Germ Cell Tumor", "Ovarian Serous Adenocarcinoma", "Embryonal Rhabdomyosarcoma",
-      "Adrenal Cortex Carcinoma", "Rectal Adenocarcinoma", "Esophageal Adenocarcinoma", "Barrett's Adenocarcinoma",
-      "Renal Pelvis Urothelial Carcinoma", "Hepatoblastoma", "Oral Dysplasia", "Papillary Thyroid Carcinoma",
-      "Benign Prostatic Hyperplasia", "Hereditary Thyroid Gland Medullary Carcinoma", "Endometrial Carcinoma",
-      "Malignant Pleural Mesothelioma", "Parotid Gland Mucoepidermoid Carcinoma", "Oligodendroglioma",
-      "Laryngeal Squamous Cell Carcinoma", "Ovarian Adenocarcinoma", "Pyriform Fossa Squamous Cell Carcinoma",
-      "Cervical Adenocarcinoma", "Pancreatic Adenosquamous Carcinoma", "Ovarian Leiomyosarcoma",
-      "Pancreatic Somatostatinoma", "Lung Carcinoma", "Ovarian Carcinoma", "Ovarian Cystadenocarcinoma",
-      "Childhood Acute Megakaryoblastic Leukemia", "Mediastinal Thymic Large B-Cell Cell Lymphoma",
-      "Gastric Fundus Carcinoma", "Colorectal Carcinoma", "Sacral Chordoma", "Myelodysplastic syndrome",
-      "Squamous Papilloma", "Mucinous Gastric Adenocarcinoma", "Cutaneous T-Cell Lymphoma",
-      "Chronic Lymphocytic Leukemia", "Adult Acute Megakaryoblastic Leukemia"
-    ];
-
-
-
-
-
-    const dropdownContent = document.getElementById('dropdownContent3');
-
-    // Loop through the diseases array and create checkboxes and labels
-    for (let i = 0; i < diseases.length; i++) {
-      // Create a label element
-      const label = document.createElement('label');
-      label.title = diseases[i];
-      // Create an input element with type 'checkbox'
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.value = diseases[i]; // Set the value attribute to the disease name
-
-      // Add the checkbox to the label
-      label.appendChild(checkbox);
-
-      // Add the disease name as text content to the label
-      label.appendChild(document.createTextNode(diseases[i]));
-
-      // Append the label to the dropdownContent div
-      dropdownContent.appendChild(label);
-    }
-
-    // fitleration for the dropdown 
-    function filterOptions() {
-      var input, filter, options, i, noMatchesMessage;
-      input = document.getElementById("searchInput");
-      filter = input.value.toUpperCase();
-      options = document.getElementById("dropdownContent3").getElementsByTagName("label");
-      noMatchesMessage = document.getElementById("noMatchesMessage");
-
-      for (i = 0; i < options.length; i++) {
-        var optionText = options[i].innerText || options[i].textContent;
-        if (optionText.toUpperCase().indexOf(filter) > -1) {
-          options[i].style.display = "";
-        } else {
-          options[i].style.display = "none";
-        }
-      }
-
-      // Check if there are no matching options
-      var noMatches = true;
-      for (i = 0; i < options.length; i++) {
-        if (options[i].style.display !== "none") {
-          noMatches = false;
-          break;
-        }
-      }
-
-      // Display or hide the "No matches found" message
-      if (noMatches) {
-        if (!noMatchesMessage) {
-          noMatchesMessage = document.createElement("span");
-          noMatchesMessage.id = "noMatchesMessage";
-          noMatchesMessage.innerText = "No match found";
-          document.getElementById("dropdownContent3").appendChild(noMatchesMessage);
-        }
-        noMatchesMessage.style.display = "block";
-      } else {
-        if (noMatchesMessage) {
-          noMatchesMessage.style.display = "none";
-        }
-      }
-    }
-
-    const Drug_class_Categories = [
-      'Behavior mechanisms',
-      'Cardiovascular',
-      'Chemically-Induced disorders', 'Congenital and neonatal', 'Digestive system', 'Endocrine system', 'Eye', 'Female urogenital',
-      'Genetic inborn',
-      'Hemic and lymphatic', 'Immune system', 'Infections', 'Male urogenital',
-      'Mental disorders', 'Musculoskeletal', 'Neoplasm',
-      'Nervous system', 'Nutritional and Metabolic',
-      'Occupational diseases', 'Otorhinolaryngologic',
-      'Pathological conditions', 'Respiratory tract',
-      'Skin and connective tissue', 'Stomatognathic', 'Wounds and injuries'
-    ];
-
-    const dropdownContent2 = document.getElementById('dropdownContent6');
-
-    // Loop through the diseases array and create checkboxes and labels
-    for (let i = 0; i < Drug_class_Categories.length; i++) {
-      // Create a label element
-      const label = document.createElement('label');
-      label.title = Drug_class_Categories[i];
-      // Create an input element with type 'checkbox'
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.value = Drug_class_Categories[i]; // Set the value attribute to the disease name
-
-      // Add the checkbox to the label
-      label.appendChild(checkbox);
-
-      // Add the disease name as text content to the label
-      label.appendChild(document.createTextNode(Drug_class_Categories[i]));
-
-      // Append the label to the dropdownContent div
-      dropdownContent2.appendChild(label);
-    }
-  </script>
-  <!-- Dragable div  -->
-
-
-  <script>
-    // function to close the other dropdown 
-    function Close_other_dropdown(drophere) {
-
-      for (let i = 1; i <= 6; i++) {
-        let dropdownContent = document.getElementById(`dropdownContent${i}`);
-
-
-        if (dropdownContent != drophere) {
-
-          if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-          }
-        }
-      }
-
-    }
-
-    // dropdown 1 
-
-    let oncotree_change1 = [];
-
-
-
-
-    // Function to toggle the display of the dropdown content
-    function toggleDropdown(event) {
-
-      // event.preventDefault();
-      var dropdownContent = document.getElementById("dropdownContent1");
-      var dropdownBtn = document.getElementById("dropdownBtn");
-
-      if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
-
-      } else {
-        dropdownContent.style.display = "block";
-        event.stopPropagation();
-      }
-      Close_other_dropdown(dropdownContent);
-    }
-
-    // Function to handle checkbox changes and update the button text
-    function handleCheckboxChange() {
-      oncotree_change1 = [];
-
-      // Get all checkboxes within the dropdown
-      var checkboxes = document.querySelectorAll('#dropdownContent1 input[type="checkbox"]:checked');
-      // Update the array with the selected values
-      checkboxes.forEach(function(checkbox) {
-        oncotree_change1.push(checkbox.value);
-      });
-
-      // Update the button text with selected values
-      var dropdownBtn = document.getElementById("dropdownBtn");
-      dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Select tissues";
-
-
-    }
-
-    // Add event listeners to the checkboxes
-    var checkboxList = document.querySelectorAll('#dropdownContent1 input[type="checkbox"]');
-    checkboxList.forEach(function(checkbox) {
-      checkbox.addEventListener('change', function() {
-
-        handleCheckboxChange();
-      });
-    });
-
-
-    let MaxPhase1 = ["Approved", "Phase II"];
-
-    function toggleDropdown2(event) {
-      MaxPhase1 = [];
-      var dropdownContent = document.getElementById("dropdownContent2");
-      var dropdownBtn = document.getElementById("dropdownBtn2");
-      if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
-      } else {
-        dropdownContent.style.display = "block";
-        event.stopPropagation();
-      }
-      Close_other_dropdown(dropdownContent);
-    }
-
-
-    function handleCheckboxChange2() {
-      MaxPhase1 = [];
-      // Get all checkboxes within the dropdown
-      var checkboxes = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]:checked');
-      // Update the array with the selected values
-      checkboxes.forEach(function(checkbox) {
-        MaxPhase1.push(checkbox.value);
-      });
-
-      // Update the button text with selected values
-      var dropdownBtn = document.getElementById("dropdownBtn2");
-      dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Select max clinical phase";
-
-    }
-
-    var checkboxList2 = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]');
-    checkboxList2.forEach(function(checkbox) {
-      checkbox.addEventListener('change', function() {
-        handleCheckboxChange2();
-      });
-    });
-
-    // 4th data platform 
-    let DataPlatform = [];
-
-    function toggleDropdown4(event) {
-
-      var dropdownContent = document.getElementById("dropdownContent4");
-      var dropdownBtn = document.getElementById("dropdownBtn4");
-
-      if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
-      } else {
-        dropdownContent.style.display = "block";
-        event.stopPropagation();
-      }
-
-      Close_other_dropdown(dropdownContent);
-    }
-
-
-    function handleCheckboxChange4() {
-      DataPlatform = [];
-
-      // Get all checkboxes within the dropdown
-      var checkboxes = document.querySelectorAll('#dropdownContent4 input[type="checkbox"]:checked');
-      // Update the array with the selected values
-      checkboxes.forEach(function(checkbox) {
-        DataPlatform.push(checkbox.value);
-      });
-
-      // Update the button text with selected values
-      var dropdownBtn = document.getElementById("dropdownBtn4");
-      dropdownBtn.textContent = DataPlatform.length > 0 ? DataPlatform.join(', ') : "Select data platform";
-
-
-      // Close the dropdown
-      // var dropdownContent = document.getElementById("dropdownContent4");
-      // dropdownContent.style.display = "none";
-    }
-
-    var checkboxList4 = document.querySelectorAll('#dropdownContent4 input[type="checkbox"]');
-    checkboxList4.forEach(function(checkbox) {
-      checkbox.addEventListener('change', function() {
-        handleCheckboxChange4();
-      });
-    });
-
-
-    // 5th dropdown pic50 
-    let pic50;
-
-    function toggleDropdown5(event) {
-      var dropdownContent = document.getElementById("dropdownContent5");
-      var dropdownBtn = document.getElementById("dropdownBtn5");
-
-      if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
-      } else {
-        dropdownContent.style.display = "block";
-        event.stopPropagation();
-      }
-
-      Close_other_dropdown(dropdownContent);
-    }
-
-    function handleCheckboxChange5(value) {
-      pic50 = value;
-      // Update the button text with selected value
-      var dropdownBtn = document.getElementById("dropdownBtn5");
-      dropdownBtn.textContent = pic50 !== undefined ? pic50 : "Select pIC50";
-
-      // Close the dropdown
-      var dropdownContent = document.getElementById("dropdownContent5");
-      dropdownContent.style.display = "none";
-    }
-
-    var checkboxList5 = document.querySelectorAll('#dropdownContent5 input[type="checkbox"]');
-    checkboxList5.forEach(function(checkbox) {
-      checkbox.addEventListener('change', function() {
-        if (this.checked) {
-          // Uncheck other checkboxes
-          checkboxList5.forEach(function(otherCheckbox) {
-            if (otherCheckbox !== checkbox) {
-              otherCheckbox.checked = false;
-            }
-          });
-          handleCheckboxChange5(checkbox.value);
-        } else {
-          // If a checkbox is unchecked, clear the selection
-          handleCheckboxChange5(undefined);
-        }
-      });
-
-    });
-
-
-    // Close dropdown on document click
-    document.addEventListener('click', function() {
-      var dropdownContent = document.getElementById("dropdownContent5");
-      dropdownContent.style.display = "none";
-    });
-
-    function Close_other_dropdown(currentDropdown) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      for (var i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown !== currentDropdown) {
-          openDropdown.style.display = 'none';
-        }
-      }
-    }
-
-
-
-    // Add script for the third dropdown
-    let Chembl_id1 = [];
-
-    function toggleDropdown3(event) {
-
-      var dropdownContent = document.getElementById("dropdownContent3");
-      var dropdownBtn = document.getElementById("dropdownBtn3");
-
-      if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
-      } else {
-        dropdownContent.style.display = "block";
-        event.stopPropagation();
-      }
-
-      Close_other_dropdown(dropdownContent);
-    }
-
-    function handleCheckboxChange3() {
-      Chembl_id1 = [];
-      // Get all checkboxes within the dropdown
-      var checkboxes = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]:checked');
-      // Update the array with the selected values
-      checkboxes.forEach(function(checkbox) {
-        Chembl_id1.push(checkbox.value);
-      });
-      // Update the button text with selected values
-      var dropdownBtn = document.getElementById("dropdownBtn3");
-      dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Select decease";
-
-
-    }
-    // Close the dropdown
-    var checkboxList3 = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]');
-    checkboxList3.forEach(function(checkbox) {
-      checkbox.addEventListener('change', function() {
-        handleCheckboxChange3();
-      });
-    });
-
-    // sixth dropdown 
-
-    let disease_class1 = [];
-
-    function toggleDropdown6(event) {
-
-      var dropdownContent = document.getElementById("dropdownContent6");
-      var dropdownBtn = document.getElementById("dropdownBtn6");
-
-      if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
-      } else {
-        dropdownContent.style.display = "block";
-        event.stopPropagation();
-      }
-
-      Close_other_dropdown(dropdownContent);
-    }
-
-    function handleCheckboxChange6() {
-      disease_class1 = [];
-      // Get all checkboxes within the dropdown
-      var checkboxes = document.querySelectorAll('#dropdownContent6 input[type="checkbox"]:checked');
-      // Update the array with the selected values
-      checkboxes.forEach(function(checkbox) {
-        disease_class1.push(checkbox.value);
-      });
-      // Update the button text with selected values
-      var dropdownBtn = document.getElementById("dropdownBtn6");
-      dropdownBtn.textContent = disease_class1.length > 0 ? disease_class1.join(', ') : "Select decease class ";
-
-
-    }
-    // Close the dropdown
-    var checkboxList6 = document.querySelectorAll('#dropdownContent6 input[type="checkbox"]');
-    checkboxList6.forEach(function(checkbox) {
-      checkbox.addEventListener('change', function() {
-        handleCheckboxChange6();
-      });
-    });
-
-    // sixth dropdown closes 
-
-
-
-    function closeAllDropdowns() {
-      var dropdowns = document.querySelectorAll('.dropdown-content');
-      dropdowns.forEach(function(dropdown) {
-        dropdown.style.display = 'none';
-      });
-    }
-
-    // Click event handler for the window
-    window.onclick = function(event) {
-      // Check if the clicked element is a dropdown button or its content
-
-      // var cardshow = document.getElementById("cardid");
-
-      //   if (cardshow.style.display === "block") {
-      //     cardshow.style.display = "none";
-      // }
-
-      if (
-        !event.target.matches('.dropdown') &&
-        !event.target.matches('.dropdown-content') &&
-        !event.target.closest('.dropdown-content')
-      ) {
-        // Close all dropdowns
-        closeAllDropdowns();
-      }
-    };
-  </script>
   <!-- JavaScript for handling form submission and AJAX -->
   <script>
     let flag3 = true
@@ -1332,7 +807,6 @@ if (isset($_POST['drugName2'])) {
             console.error('There was a problem with the fetch operation:', error);
           });
 
-
       } else {
         $.ajax({
           type: "POST",
@@ -1385,339 +859,14 @@ if (isset($_POST['drugName2'])) {
             console.error("AJAX Error: " + status + " - close-btn" + error);
           }
         });
-
-
-
-
       }
       // Make an AJAX request to the current PHP script
-
-
-
       MaxPhase1 = [];
     }
   </script>
-
-
-
-  <script>
-    let checkbox_names = [];
-
-    let checkbox_saves = [];
-
-    let checkbox_saves_child = [];
-
-
-
-    // function ton show the alert MessageEvent of apply filteration 
-    function showSuccessAlert() {
-      // Make sure to hide the existing alert
-
-      // Show the new alert
-      var successAlert = document.getElementById('applyfilter');
-      successAlert.style.display = 'block';
-
-      // Set a timeout to start the fade-out effect after 3 seconds
-      setTimeout(function() {
-        successAlert.style.opacity = '0';
-
-        // Hide the alert after the fade-out effect completes
-        setTimeout(function() {
-          successAlert.style.display = 'none';
-          // Reset opacity for future use
-          successAlert.style.opacity = '1';
-        }, 1000); // 1 second matches the duration of the fade-out transition
-      }, 3000);
-    }
-    // ENDED    
-
-
-
-    // Make the dialog draggable
-    dragElement(document.getElementById("dialog-container"));
-
-    function dragElement(elmnt) {
-      var pos1 = 0,
-        pos2 = 0,
-        pos3 = 0,
-        pos4 = 0;
-      var header = document.getElementById("dialog-header");
-      header.onmousedown = dragMouseDown;
-
-      function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-      }
-
-      function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-      }
-
-      function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-      }
-    }
-    // drag ended here 
-    // Initial generation of the name list
-
-    function toggleDialog() {
-
-      var dialog = document.getElementById("dialog-container");
-      dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
-
-    }
-
-    function toggleDialog2() {
-
-      var dialog = document.getElementById("dialog-container");
-      dialog.style.display = (dialog.style.display === "block") ? "none" : "block";
-
-      create_it = true;
-    }
-
-    function focusSearch(search_val) {
-      document.getElementById(search_val).focus();
-    }
-
-    // ENDED 
-
-
-    var nameList = document.getElementById("name-list");
-    nameList.innerHTML = ''; // Clear existing list
-
-    var nameList2 = document.getElementById("name-list2");
-    nameList2.innerHTML = ''; // Clear existing list
-
-    // filter the select All 
-    function toggleCheckboxes(listname, id) {
-      var checkboxes = document.querySelectorAll(`#${listname} input[type="checkbox"]`);
-      var selectAllLink = document.querySelector(`#${id}`);
-
-      checkboxes.forEach(function(checkbox) {
-        checkbox.checked = !checkbox.checked;
-      });
-
-      selectAllLink.textContent = checkboxes[0].checked ? 'UnselectAll' : 'SelectAll';
-    }
-    // ended 
-
-
-    function generateNameList() {
-
-      //  HERE REMOVE  THE UNCHECKBOX THAT DISAPPEARS 
-
-      for (var i = 0; i < visible_parentnode.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem = document.createElement('li');
-        let name1 = visible_parentnode[i];
-        if (checkbox_saves.includes(name1)) {
-          var index = checkbox_saves.indexOf(name1);
-          if (index !== -1) {
-            checkbox_saves.splice(index, 1);
-          }
-        }
-      }
-      for (var i = 0; i < visible_childnode.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem = document.createElement('li');
-        let name1 = visible_childnode[i];
-        if (checkbox_saves_child.includes(name1)) {
-          var index = checkbox_saves_child.indexOf(name1);
-          if (index !== -1) {
-            checkbox_saves_child.splice(index, 1);
-          }
-        }
-      }
-      // ENDED 
-
-      // CLEAR THE LIST  
-
-      nameList.innerHTML = '';
-      nameList2.innerHTML = '';
-
-      // ENDED 
-      //  UPDATED THE LIST WITH THE CHECK BOX 
-
-      for (var i = 0; i < checkbox_saves.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem = document.createElement('li');
-        let name1 = checkbox_saves[i];
-        listItem.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
-
-        nameList.appendChild(listItem);
-      }
-
-      for (var i = 0; i < checkbox_saves_child.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem2 = document.createElement('li');
-        let name1 = checkbox_saves_child[i];
-        listItem2.innerHTML = `<input type="checkbox" id="${name1}" > <label for="${name1}">${name1}</label>`;
-        nameList2.appendChild(listItem2);
-      }
-      // ENDED 
-
-      // LIST OF THE COMPOUND_NAME 
-      for (var i = 0; i < visible_parentnode.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem = document.createElement('li');
-        let name1 = visible_parentnode[i];
-        listItem.innerHTML = `<input type="checkbox" id="${name1}" checked > <label for="${name1}">${name1}</label>`;
-        nameList.appendChild(listItem);
-
-      }
-      // ENDED 
-
-      // LIST OF CELL_LINE_NAME 
-      for (var i = 0; i < visible_childnode.length; i++) {
-        var nameId = 'name' + (i + 1);
-        var listItem = document.createElement('li');
-        let name1 = visible_childnode[i];
-        listItem.innerHTML = `<input type="checkbox" id="${name1}" checked  > <label for="${name1}">${name1}</label>`;
-        nameList2.appendChild(listItem);
-
-      }
-      // ENDED
-
-    }
-    // generateNameList ENDED 
-
-    // Function to filter names based on the search bar input
-    //  FILTERNAMES 
-
-    function filterNames(id_vlaue) {
-      var input, filter, checkboxes, names, i;
-      input = document.getElementById("search-bar");
-      filter = input.value.toLowerCase();
-      checkboxes = document.getElementById(id_vlaue).getElementsByTagName("input");
-
-      var noMatches = document.getElementById("no-matches");
-      var matchesFound = false;
-
-
-      for (i = 0; i < checkboxes.length; i++) {
-        names = checkboxes[i].id;
-
-        var label = document.querySelector('label[for=' + names + ']');
-
-        // Check if the names contain the filter string
-        var containsFilter = names.toLowerCase().indexOf(filter) > -1;
-
-        // Check if the label text contains the filter string
-        var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
-
-        // Display or hide based on filter conditions
-        if (containsFilter || labelContainsFilter) {
-          checkboxes[i].style.display = "";
-          label.style.display = "";
-          matchesFound = true;
-        } else {
-          checkboxes[i].style.display = "none";
-          label.style.display = "none";
-        }
-
-      }
-      // Show or hide the entire list based on matches
-      var nameList = document.getElementById("name-list");
-      nameList.style.display = matchesFound ? "block" : "none";
-      // Show or hide "No matches" message
-      noMatches.style.display = matchesFound ? "none" : "block";
-    }
-
-
-    // first filteration ended here 
-    // ENDED 
-
-
-
-    function filterNames2(id_vlaue) {
-
-      var input, filter, checkboxes3, names, i;
-      input = document.getElementById("search-bar2");
-      filter = input.value.toLowerCase();
-      checkboxes3 = document.getElementById(id_vlaue).getElementsByTagName("input");
-
-      var noMatches = document.getElementById("no-matches2");
-      var matchesFound = false;
-
-
-      for (i = 0; i < checkboxes3.length; i++) {
-        names = checkboxes3[i].id;
-
-        var label = document.querySelector('label[for=' + names + ']');
-
-        // Check if the names contain the filter string
-        var containsFilter = names.toLowerCase().indexOf(filter) > -1;
-
-        // Check if the label text contains the filter string
-        var labelContainsFilter = label.innerText.toLowerCase().indexOf(filter) > -1;
-
-        // Display or hide based on filter conditions
-        if (containsFilter || labelContainsFilter) {
-          checkboxes3[i].style.display = "";
-          label.style.display = "";
-          matchesFound = true;
-        } else {
-          checkboxes3[i].style.display = "none";
-          label.style.display = "none";
-        }
-
-      }
-      // Show or hide the entire list based on matches
-      var nameList2 = document.getElementById("name-list2");
-      nameList2.style.display = matchesFound ? "block" : "none";
-      // Show or hide "No matches" message
-      noMatches.style.display = matchesFound ? "none" : "block";
-
-    }
-
-
-    var checkboxes2;
-    // Function to save selected names in an array
-    function saveNames() {
-      showSuccessAlert();
-      create_it = false;
-      var checkboxes = document.getElementById("name-list").getElementsByTagName("input");
-
-      checkboxes2 = document.getElementById("name-list2").getElementsByTagName("input");
-      checkbox_names = [];
-
-      for (var i = 0; i < checkboxes.length; i++) {
-        if (!checkboxes[i].checked) {
-
-          checkbox_names.push(checkboxes[i].id);
-
-          if (!checkbox_saves.includes(checkboxes[i].id))
-            checkbox_saves.push(checkboxes[i].id);
-        }
-      }
-      // namelist2
-      for (var i = 0; i < checkboxes2.length; i++) {
-        if (!checkboxes2[i].checked) {
-
-          checkbox_names.push(checkboxes2[i].id);
-
-          if (!checkbox_saves_child.includes(checkboxes2[i].id))
-            checkbox_saves_child.push(checkboxes2[i].id);
-        }
-      }
-      range_of_links(minValue, maxValue, slider_range);
-    }
-  </script>
-
-
-
+<script src="filter_single_code_by_search.js"></script>
+ 
+<script src="legendFunction.js"></script>
 
   <script>
     let nodes = []; // unique nodes   
@@ -1981,7 +1130,7 @@ if (isset($_POST['drugName2'])) {
       });
 
       //  creating the links  
-      // tag5
+     
       links = data.flatMap((item) => [{
           source: item.COMPOUND_NAME,
           target: item.CELL_LINE_NAME,
@@ -2248,6 +1397,17 @@ delete dataobject[keyToRemove];
     const svg = d3.select("#forcenetwork");
     const svgWidth = +svg.node().getBoundingClientRect().width - 100;
     const svgHeight = +svg.node().getBoundingClientRect().height - 100;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2777,15 +1937,20 @@ delete dataobject[keyToRemove];
 
       // slider2.max = parentnodes.size();
       let filternodes3 = parentnodes.each(function(drugNode, i) {
-        if (i < valueofslider) {
-          d3.select(this).style("display", null);
-        } else {
+        if (i < valueofslider ) {
+    
+
+            d3.select(this).style("display", null);
+          
+          console.log(hidden_compound , "hidden compound")
+        } else  {
           d3.select(this).style("display", "none");
           link.filter(function(linktemp) {
             if (linktemp.source === drugNode) {
               d3.select(this).style("display", "none")
             }
           })
+
 
         }
 
@@ -2977,6 +2142,55 @@ delete dataobject[keyToRemove];
           }
         }
       });
+  
+  // tagCompound here see the the issue it will filter 
+  let connectedchild2 = [];
+      let connectedLinks2 = [];
+      node.each(function(d) {
+        let visible = d3.select(this).style("display");
+        link.filter(function(item) {
+          if (hidden_compound.includes(item.source.id)) {
+
+            if (d.id === item.target.id && !connectedchild2.includes(d.id) && visible === "inline") {
+
+              connectedchild2.push(d.id);
+            }
+
+          }
+        })
+      })
+  
+
+  node.each(function(d) {
+        if (connectedchild2.includes(d.id)) {
+          let connectedLinks2 = [];
+          let connectedLinks3 = link.filter(function(templink) {
+            if (templink.target.id === d.id) {
+              connectedLinks2.push(templink);
+              return templink;
+            }
+
+          })
+
+
+          let flag5 = true;
+          connectedLinks3.each(function(link) {
+            let visible = d3.select(this).style("display")
+            if (visible === "inline") {
+              flag5 = false;
+              return false;
+            }
+
+          });
+          connectedLinks3 = [];
+
+          if (flag5) {
+            d3.select(this).style("display", "none");
+          }
+
+        }
+      })
+  
       node.each(function(d) {
         if (d.type === "parentnode") {
           var nodestyle = d3.select(this).style("display");
@@ -2991,12 +2205,13 @@ delete dataobject[keyToRemove];
           });
           // Check if every style in the array is "none"
           var allLinksNone = linkStyles.every(style => style === "none");
-          if (allLinksNone) {
+          if (allLinksNone && !hidden_compound.includes(d.id)) {
             // Set node style to "display: none"
             d3.select(this).style("display", "none");
           }
         }
       });
+
       // link filter nodes here 
       link.filter(function(templink) {
         if (list_hidden_dataset.includes(templink.dataset) || list_hidden_dataset.includes(templink.link_matric)) {
@@ -3059,7 +2274,7 @@ delete dataobject[keyToRemove];
           if (node.type === "childnode") {
             visible_childnode.push(node.id);
           }
-        }
+        } 
 
       });
       let child_count = visible_childnode.length;
@@ -3079,872 +2294,43 @@ delete dataobject[keyToRemove];
       //  tag3 
       // this will not remove the compound which do not have the visible node 
 
-      node.filter(function(node) {
-        if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
-        console.log("check type")
-        d3.select(this)
-            .style("display", "inline")
-            .selectAll("circle") // Select all circles within this node
-            .data([node]) // Bind data to the selection
-            .enter() // Enter selection
-            .append("circle") // Append circle if it doesn't exist
-            .attr("r", 16) // Adjust the radius as needed
-            .style("fill", "none") // Adjust fill color
-            .style("stroke", "red") // Adjust stroke color
-            .attr("cx", 2) // Move 2 pixels to the right
-            .attr("cy", -2)
-            .style("stroke-dasharray", "5,5"); ; // Move 2 pixels up
+//       node.filter(function(node) {
+//         if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
+//         console.log("check type")
+//         d3.select(this)
+//             .style("display", "inline")
+//             .selectAll("circle") // Select all circles within this node
+//             .data([node]) // Bind data to the selection
+//             .enter() // Enter selection
+//             .append("circle") // Append circle if it doesn't exist
+//             .attr("r", 17) // Adjust the radius as needed
+//             .style("fill", "none") // Adjust fill color
+//             .style("stroke", "black") // Adjust stroke color
+//             .attr("cx", 2) // Move 2 pixels to the right
+//             .attr("cy", -2)
+//             .style("stroke-dasharray", "5,5"); ; // Move 2 pixels up
 
-        return true; // Keep this node in the selection
-    } else if(node.type === "parentnode") {
-        d3.select(this)
-            .selectAll("circle")
-            .remove(); // Remove circle if it exists
+//         return true; // Keep this node in the selection
+//     } else if(node.type === "parentnode") {
+//         d3.select(this)
+//             .selectAll("circle")
+//             .remove(); // Remove circle if it exists
 
-        return false; // Exclude this node from the selection
-    }
-})
+//         return false; // Exclude this node from the selection
+//     }
+// })
       // ended 
 
 
-      let connectedchild2 = [];
-      let connectedLinks2 = [];
-      node.each(function(d) {
-        let visible = d3.select(this).style("display");
-        link.filter(function(item) {
-          if (hidden_compound.includes(item.source.id)) {
-
-            if (d.id === item.target.id && !connectedchild2.includes(d.id) && visible === "inline") {
-
-              connectedchild2.push(d.id);
-            }
-
-          }
-        })
-      })
   
 
-      node.each(function(d) {
-        if (connectedchild2.includes(d.id)) {
-          let connectedLinks2 = [];
-          let connectedLinks3 = link.filter(function(templink) {
-            if (templink.target.id === d.id) {
-              connectedLinks2.push(templink);
-              return templink;
-            }
-
-          })
-
-
-          let flag5 = true;
-          connectedLinks3.each(function(link) {
-            let visible = d3.select(this).style("display")
-            if (visible === "inline") {
-              flag5 = false;
-              return false;
-            }
-
-          });
-          connectedLinks3 = [];
-
-          if (flag5) {
-            d3.select(this).style("display", "none");
-          }
-
-        }
-      })
+    
 
 
       // Filter out isolated nodes
     }
+   
     // legenddata
-    function legendinfo() {
-      colors = ["#4372c4", "#fe0000", "#9B35C8", "#0bc00f", "#fe8f01", "#f99cc8"];
-
-      function createMaxPhaseCategories() {
-        phases.push(...list_hidden);
-        const maxPhaseCategories = phases.map((category, index) => {
-          let color;
-          if (category === "Approved") {
-            color = colors[3];
-          } else if (category === "Phase I") {
-            color = colors[0];
-          } else if (category === "Phase II") {
-            color = colors[1]
-          } else if (category === "Phase III") {
-            color = colors[2];
-          } else if (category === "Preclinical") {
-            color = colors[5]; // Fixed index for "Preclinical"
-          } else if (category === "Unknown" || category === "") {
-            color = colors[4];
-          }
-
-          return {
-            category,
-            color
-          };
-        });
-        return maxPhaseCategories;
-      }
-
-      function generateDataSet() {
-
-        // dataset_legend.push(...list_hidden_dataset);
-        const dataSet_legend_color = dataset_legend.map((category, index) => {
-          let color;
-
-          if (category === "GDSC1") {
-            color = colors[0];
-          } else if (category === "GDSC2") {
-            color = colors[1];
-          } else if (category === "CCLE_NP24") {
-            color = colors[2];
-          } else if (category === "NCI-60") {
-            color = colors[3];
-          } else if (category === "gCSI") {
-            color = colors[4];
-          } else if (category === "FIMM") {
-            color = colors[5];
-          }
-
-          return {
-            category,
-            color
-          };
-
-        });
-        return dataSet_legend_color;
-      }
-
-      function generateMatricCategories() {
-        return matric_legend.map((category) => ({
-          category
-        }));
-      }
-
-      function GenerateDisease_class() {
-        const categoryColorMap = {
-          'Behavior mechanisms': 'steelblue',
-          'Cardiovascular': 'red',
-          'Chemically-Induced disorders': 'orange',
-          'Congenital and neonatal': 'yellow',
-          'Digestive system': 'green',
-          'Endocrine system': 'blue',
-          'Eye': 'indigo',
-          'Female urogenital': 'violet',
-          'Genetic inborn': 'brown',
-          'Hemic and lymphatic': 'pink',
-          'Immune system': 'cyan',
-          'Infections': 'purple',
-          'Male urogenital': 'teal',
-          'Mental disorders': 'gray',
-          'Musculoskeletal': 'lime',
-          'Neoplasm': 'maroon',
-          'Nervous system': 'navy',
-          'Nutritional and Metabolic': 'olive',
-          'Occupational diseases': 'pink',
-          'Otorhinolaryngologic': 'salmon',
-          'Pathological conditions': 'turquoise',
-          'Respiratory tract': 'sienna',
-          'Skin and connective tissue': 'gold',
-          'Stomatognathic': 'plum',
-          'Wounds and injuries': 'coral',
-        };
-
-        return disease_Class_legend.map((category) => ({
-          category,
-          color: categoryColorMap[category] || "black",
-        }));
-      }
-
-      function generateChildCategories() {
-        const categoryColorMap = {
-          'Bone': child_colors[0],
-          'Skin': child_colors[1],
-          'Central Nervous System': child_colors[2],
-          'Lung': child_colors[3],
-          'Peripheral Nervous System': child_colors[4],
-          'Soft Tissue': child_colors[5],
-          'Esophagus': child_colors[6],
-          'Breast': child_colors[7],
-          'Head and Neck': child_colors[8],
-          'Haematopoietic and Lymphoid': child_colors[9],
-          'Bladder': child_colors[10],
-          'Kidney': child_colors[11],
-          'Endometrium': child_colors[12],
-          'Lymphoid': child_colors[13],
-          'Adrenal Gland': child_colors[14],
-          'Bowel': child_colors[15],
-          'Pancreas': child_colors[0], // Repeat the color for category 11
-          'Large Intestine': child_colors[1],
-          'Ovary': child_colors[2],
-          'Stomach': child_colors[3],
-          'Biliary Tract': child_colors[4],
-          'Small Intestine': child_colors[5],
-          'Placenta': child_colors[6],
-          'Prostate': child_colors[7],
-          'Testis': child_colors[8],
-          'Uterus': child_colors[9],
-          'Vulva': child_colors[10],
-          'Thyroid': child_colors[11],
-          'Cervix': child_colors[12],
-          'Liver': child_colors[13],
-        };
-
-        return ONCOTREE_LINEAGE_legend.map((category) => ({
-          category,
-          color: categoryColorMap[category] || "black",
-        }));
-      }
-
-
-      child_colors = [
-        '#1f77b4', // blue
-        '#ff7f0e', // orange
-        '#2ca02c', // green
-        '#d62728', // red
-        '#9467bd', // purple
-        '#8c564b', // brown
-        '#e377c2', // pink
-        '#7f7f7f', // gray
-        '#17becf', // cyan
-        '#E75480', // light blue (replacing yellow-green)
-        '#ff9896', // light red
-        '#98df8a', // light green
-        '#aec7e8', // light purple
-        '#ffbb78', // light orange
-        '#FFD700', // gold
-        '#00CED1' // dark turquoise
-      ];
-
-
-      child_categories_border = [
-        'Pancreas',
-        'Large Intestine',
-        'Ovary',
-        'Stomach',
-        'Biliary Tract',
-        'Small Intestine',
-        'Placenta',
-        'Prostate',
-        'Testis',
-        'Uterus',
-        'Vulva',
-        'Thyroid',
-        'Cervix',
-        'Liver'
-      ];
-
-
-
-
-      const disease_classColors = [
-        'red',
-        'orange',
-        'yellow', 'green',
-        'blue', 'indigo',
-        'violet', 'brown',
-        'pink', 'cyan',
-        'purple', 'teal',
-        'gray',
-        'lime',
-        'maroon',
-        'navy',
-        'olive',
-        'pink',
-        'salmon',
-        'turquoise',
-        'sienna',
-        'gold',
-        'plum',
-        'coral'
-      ];
-
-      healthCategoriesWithColors = [{
-
-          category: 'Behavior mechanisms',
-          color: 'steelblue'
-        },
-        {
-          category: 'Cardiovascular',
-          color: 'red'
-        },
-        {
-          category: 'Chemically-Induced disorders',
-          color: 'orange'
-        },
-        {
-          category: 'Congenital and neonatal',
-          color: 'yellow'
-        },
-        {
-          category: 'Digestive system',
-          color: 'green'
-        },
-        {
-          category: 'Endocrine system',
-          color: 'blue'
-        },
-        {
-          category: 'Eye',
-          color: 'indigo'
-        },
-        {
-          category: 'Female urogenital',
-          color: 'violet'
-        },
-        {
-          category: 'Genetic inborn',
-          color: 'brown'
-        },
-        {
-          category: 'Hemic and lymphatic',
-          color: 'pink'
-        },
-        {
-          category: 'Immune system',
-          color: 'cyan'
-        },
-        {
-          category: 'Infections',
-          color: 'purple'
-        },
-        {
-          category: 'Male urogenital',
-          color: 'teal'
-        },
-        {
-          category: 'Mental disorders',
-          color: 'gray'
-        },
-        {
-          category: 'Musculoskeletal',
-          color: 'lime'
-        },
-        {
-          category: 'Neoplasm',
-          color: 'maroon'
-        },
-        {
-          category: 'Nervous system',
-          color: 'navy'
-        },
-        {
-          category: 'Nutritional and Metabolic',
-          color: 'olive'
-        },
-        {
-          category: 'Occupational diseases',
-          color: 'pink'
-        },
-        {
-          category: 'Otorhinolaryngologic',
-          color: 'salmon'
-        },
-        {
-          category: 'Pathological conditions',
-          color: 'turquoise'
-        },
-        {
-          category: 'Respiratory tract',
-          color: 'sienna'
-        },
-        {
-          category: 'Skin and connective tissue',
-          color: 'gold'
-        },
-        {
-          category: 'Stomatognathic',
-          color: 'plum'
-        },
-        {
-          category: 'Wounds and injuries',
-          color: 'coral'
-        }
-      ];
-
-      //  gererating the dynamic nodes 
-      data_Set = generateDataSet();
-      max_phase_categories = createMaxPhaseCategories();
-      matric_categories = generateMatricCategories();
-      child_categories = generateChildCategories();
-      disease_categories = GenerateDisease_class();
-      //  appenging the maxphses
-
-      const ul = d3.select("#myList");
-
-      ul.selectAll("li").remove();
-
-      listItems = ul
-        .selectAll("li")
-        .data(max_phase_categories)
-        .enter()
-        .append("li");
-
-      let check2 = true;
-
-      max_phase_color = listItems
-        .append("div")
-        .attr("class", "rect")
-        .style("background-color", (d) => {
-          // Check if the category is "Unknown" or an empty string
-          if (d.category === "Unknown" || d.category === "") {
-
-            // Set the background color for "Unknown" or an empty string
-            if (check2) {
-              check2 = false;
-              return "#fe8f01"
-
-            }
-          } else {
-            // Iterate through 'max_phase_categories' to find a matching category
-            for (const categoryObj of max_phase_categories) {
-              if (d.category === categoryObj.category) {
-                return categoryObj.color; // Use the color from 'max_phase_categories'
-              }
-            }
-
-          }
-        })
-        .on("click", color_click_onchange);
-
-
-      let unknownDisplayed = false;
-
-
-      pax_phasecliked = listItems
-        .append("span")
-        .text((d) => {
-          if (d.category === "" || d.category === "Unknown") {
-            if (!unknownDisplayed) {
-              unknownDisplayed = true;
-              return "Unknown";
-            }
-          } else {
-            return d.category;
-          }
-        })
-        .style("font-size", "14.208px")
-        .style("font-family", "Arial")
-        .classed("marked", (d) => {
-
-          return list_hidden.includes(d.category);
-        });
-
-
-
-
-      // appending the data of the dataset
-
-      const ul2 = d3.select("#dataset");
-
-      ul2.selectAll("li").remove();
-
-      dataSet_link = ul2
-        .selectAll("li")
-        .data(data_Set)
-        .enter()
-        .append("li");
-      data_set_color = dataSet_link
-        .append("div")
-        .attr("class", "line")
-        .style("background-color", (d) => {
-          for (const categoryObj of data_Set) {
-            if (d.category === categoryObj.category) {
-              return categoryObj.color;
-            }
-          }
-          return "#6a329f";
-        }).on("click", color_click_onchange);
-
-
-      datasettext_click = dataSet_link.append("span")
-        .text((d) => d.category)
-        .style("font-size", "14.208px")
-        .style("font-family", "Arial")
-        .classed("marked", (d) => {
-
-          return list_hidden_dataset.includes(d.category);
-        });
-
-
-
-      //appending the data of the child nodes
-      const ul4 = d3.select("#child_node");
-      // added the disease to the disease phase 
-
-      const ul5 = d3.select("#disease_Class");
-
-      ul5.selectAll("li").remove();
-      ul4.selectAll("li").remove();
-      dataSet_child = ul4
-        .selectAll("li")
-        .data(child_categories)
-        .enter()
-        .append("li");
-
-      // Append elements to ul5 (disease class)
-      const dataSet_disease = ul5
-        .selectAll("li")
-        .data(child_categories)
-        .enter()
-        .append("li")
-        .style('display', 'flex');;
-
-
-      //aamir
-      child_color = dataSet_child;
-      dataSet_child.filter((d) => ONCOTREE_LINEAGE_Data.includes(d.category))
-        .append("div")
-        .attr("class", "circle")
-        .style("background-color", (d) => {
-          for (const categoryObj of child_categories) {
-            if (d.category === categoryObj.category) {
-              return categoryObj.color;
-            }
-          }
-          return "#6a329f";
-        }).style("border", (d) => {
-          for (const categoryObj of child_categories) {
-            if (d.category === categoryObj.category) {
-              let borderColor;
-              if (child_categories_border.includes(d.category)) {
-                borderColor = '3px solid black';
-                return borderColor;
-              }
-
-            }
-          }
-          return "#6a329f";
-        })
-
-      dataSet_disease.filter((d) => disease_Class_Data.includes(d.category))
-        .append("div")
-        .attr("class", "triangle")
-        .style("position", "relative")
-        .style("width", "0")
-        .style("height", "0")
-        .style("border-left", "10px solid transparent")
-        .style("border-right", "10px solid transparent")
-        .style("border-bottom", function(d) {
-          var color = healthCategoriesWithColors.find(category => category.category === d.category)?.color || "black";
-          return "17px solid " + color
-        })
-        .style("border-radius", "0")
-      // append the disease class 
-      child_clicked = dataSet_child
-        .filter((d) => ONCOTREE_LINEAGE_Data.includes(d.category))
-        .append("span")
-        .text((d) => d.category)
-        .style("font-size", "14.208px").style("font-family", "Arial")
-        .classed("marked", (d) => {
-          return list_hidden_childnode.includes(d.category);
-        });
-
-      disease_clicked = dataSet_disease.filter((d) => disease_Class_Data.includes(d.category))
-        .append("span")
-        .text((d) => d.category)
-        .style("font-size", "14.208px").style("font-family", "Arial")
-        .classed("marked", (d) => {
-
-          return list_hidden_childnode.includes(d.category);
-        });;
-
-
-      //appending the data of the disease nodes
-
-
-
-      // appending the data of the matric 
-      const ul3 = d3.select('#matric_set');
-
-      const ul3part2 = d3.select('#phases_disease');
-
-      ul3.selectAll("li").remove();
-      ul3part2.selectAll("li").remove();
-
-      matric_link = ul3
-        .selectAll("li")
-        .data(matric_categories)
-        .enter()
-        .append("li");
-
-      phase_link = ul3part2
-        .selectAll("li")
-        .data(matric_categories)
-        .enter()
-        .append("li");
-
-
-      matric_color = matric_link
-        .filter((d) => !phase_legend_data.includes(d.category))
-        .append("div")
-        .attr("class", "line")
-        .style("background", function(d) {
-          if (d.category === 'pIC50') {
-            return "tranparent";
-          } else if (d.category === 'pEC50') {
-            return "tranparent";
-          } else if (d.category === 'pGI50') {
-            return "black";
-          }
-        })
-        .style("height", "2px");
-
-
-
-      matric_color
-        .append("h6")
-        // .text(".......");
-        .text(function(d) {
-          if (d.category === 'pIC50') {
-            return ".......";
-          } else if (d.category === 'pEC50') {
-            return "-----";
-          } else if (d.category === 'pGI50') {
-            return " ";
-          }
-        });
-      matric_click = matric_link
-        .filter((d) => !phase_legend_data.includes(d.category))
-        .append("span").text((d) => d.category)
-        .style("font-size", "14.208px").style("font-family", "Arial").classed("marked", (d) => {
-          return list_hidden_dataset.includes(d.category);
-        });
-
-      // appending the phases 
-
-
-      phase_link
-        .filter((d) => phase_legend_data.includes(d.category))
-        .append("div")
-        .attr("class", "line")
-        .style("background", "black")
-        .style("height", "2px");
-
-
-      phase_click = phase_link
-        .filter((d) => phase_legend_data.includes(d.category))
-        .append("span").text((d) => d.category)
-        .style("font-size", "14.208px").style("font-family", "Arial").classed("marked", (d) => {
-          return list_hidden_dataset.includes(d.category);
-        });
-
-      // color picker
-
-      let check3_color = true;
-      for (const categoryObj of max_phase_categories) {
-        if (categoryObj.category === "Unknown" || categoryObj.category === "") {
-          if (check3_color) {
-            addColor(categoryObj.color);
-            check3_color = false;
-          }
-        } else {
-          addColor(categoryObj.color);
-        }
-      }
-
-      phases = [];
-      dataset_legend = [];
-      max_phase_categories = []
-      ONCOTREE_LINEAGE_legend = [];
-      matric_legend = [];
-      disease_Class_legend = [];
-      disease_phase_legend = [];
-
-    }
-
-    //colorpicker 
-
-    var colorpick;
-    let li;
-    let ul_color;
-    let count = 0;
-    let count1 = 0;
-    let cardshow;
-    let clickedDiv = '';
-    ul_color = document.getElementById('colorList');
-    let selected_maxphase;
-
-    function addColor(color) {
-      // Check if an element with the same id already exists
-      var existingLi = document.getElementById(color);
-
-      // If it exists, remove it
-      if (existingLi) {
-        existingLi.remove();
-      }
-
-      // Create a new li element
-      var li = document.createElement('li');
-      li.className = 'color-item';
-      li.id = color;
-      li.style.backgroundColor = color; // Set background color
-
-      // Append the new li element to the ul
-      ul_color.appendChild(li);
-    }
-
-
-    function color_click_onchange(event, d) {
-      // Check if the click occurred on the max_phase_color or line elements or their descendants
-      if (event.target.closest('.rect') || event.target.closest('.line')) {
-
-        selected_maxphase = d.category;
-        clickedDiv = d3.select(this);
-
-        var clickX = event.clientX;
-        var clickY = event.clientY;
-
-        cardshow = document.getElementById("cardid");
-        cardshow.style.display = "block";
-        cardshow.style.left = clickX + "px";
-        cardshow.style.top = clickY + "px";
-        count = 0;
-
-
-
-
-
-        return; // Ignore the click on max_phase_color or line elements
-      }
-
-      // Rest of your code for color_click_onchange
-
-      // Add a click event listener to the document body
-
-    }
-
-    document.body.addEventListener('click', function(e) {
-      // Check if the click is outside the cardid
-      if (event.target.closest('.rect') || event.target.closest('.line')) {} else {
-
-        var cardshow = document.getElementById("cardid");
-        cardshow.style.display = "none";
-
-      }
-    });
-
-
-    ul_color.addEventListener("click", function(event) {
-
-      let clickedLi = "";
-
-      clickedLi = event.target;
-
-      if (clickedLi.tagName === 'LI') {
-        colorpick = clickedLi.style.backgroundColor;
-
-        clickedDiv.style("background-color", colorpick || "#6a329f");
-        cardshow.style.display = "none";
-
-      }
-
-      //error 
-      node.each(function(node) {
-
-        if (selected_maxphase === "Unknown" || selected_maxphase === "") {
-          if ((node.MAX_PHASE === "Unknown" || node.MAX_PHASE === "") && node.type === "parentnode") {
-            d3.select(this).select("rect").attr("fill", colorpick);
-          }
-        } else if (node.MAX_PHASE === selected_maxphase && node.type === "parentnode") {
-          d3.select(this).select("rect").attr("fill", colorpick);
-
-        }
-      });
-
-
-      link.filter(function(templink) {
-        if (templink.dataset === selected_maxphase) {
-          d3.select(this).style("stroke", colorpick);
-        }
-      });
-      node.filter((d) => d.type === 'parentnode')
-        .select('image')
-        .attr('xlink:href', (d) => d.image);
-    });
-
-    function onclickmax_phase(event) {
-      not_remove = false;
-      d3.select(this)
-        .classed("marked", function() {
-          return !d3.select(this).classed("marked");
-        });
-
-      clicked = event.target.textContent;
-      const index = list_hidden.indexOf(clicked);
-
-      if (clicked === "Unknown") {
-        // If 'clicked' is "unknown", check if an empty string ("") is in 'list_hidden'
-        const emptyStringIndex = list_hidden.indexOf("");
-        if (emptyStringIndex === -1) {
-          // If an empty string is not in the array, push it
-          list_hidden.push("");
-          list_hidden.push("Unknown")
-        } else {
-          // If an empty string is already in the array, splice it (remove)
-          list_hidden.splice(emptyStringIndex, 2);
-        }
-      } else if (index === -1) {
-        // If 'clicked' is not in 'list_hidden', push it
-        list_hidden.push(clicked);
-      } else {
-        // If 'clicked' is already in 'list_hidden', splice it
-        list_hidden.splice(index, 1);
-      }
-      range_of_links(minValue, maxValue, slider_range);
-    }
-
-    function onclick_dataSet(event) {
-      d3.select(this)
-        .classed("marked", function() {
-          return !d3.select(this).classed("marked");
-        });
-
-      clicked2 = event.target.textContent;
-
-      const index = list_hidden_dataset.indexOf(clicked2);
-
-
-      if (index === -1) {
-        list_hidden_dataset.push(clicked2);
-      } else {
-        list_hidden_dataset.splice(index, 1);
-      }
-      range_of_links(minValue, maxValue, slider_range);
-    }
-
-    function onclick_childnodes(event) {
-
-      d3.select(this)
-        .classed("marked", function() {
-          return !d3.select(this).classed("marked");
-        });
-
-      clicked3 = event.target.textContent;
-
-      const index = list_hidden_childnode.indexOf(clicked3);
-      if (clicked3 === "Unknown") {
-        // If 'clicked' is "unknown", check if an empty string ("") is in 'list_hidden'
-        const emptyStringIndex = list_hidden_childnode.indexOf("");
-        if (emptyStringIndex === -1) {
-          // If an empty string is not in the array, push it
-          list_hidden_childnode.push("");
-          list_hidden_childnode.push("Unknown")
-        } else {
-          // If an empty string is already in the array, splice it (remove)
-          list_hidden_childnode.splice(emptyStringIndex, 2);
-        }
-      } else
-
-      if (index === -1) {
-        list_hidden_childnode.push(clicked3);
-      } else {
-        list_hidden_childnode.splice(index, 1);
-      }
-      range_of_links(minValue, maxValue, slider_range);
-
-    }
 
     function clearGraph() {
       const svg = d3.select("#forcenetwork");
@@ -4122,142 +2508,12 @@ delete dataobject[keyToRemove];
       });
     });
   </script>
-
-
-
   <!-- overlayascript?  -->
-  <script>
-    const section = document.querySelector("section"),
-      overlay = document.querySelector(".overlay"),
-      showBtn = document.querySelector("#export"),
-      closeBtn = document.querySelector(".close-btn");
-
-    showBtn.addEventListener("click", () => section.classList.add("active"));
-    overlay.addEventListener("click", () =>
-      section.classList.remove("active")
-    );
-    closeBtn.addEventListener("click", () =>
-      section.classList.remove("active")
-    );
-
-    const redraw = () => {
-      // Restart the simulation
-
-
-
-      if (simulation.alpha() < 0.01) {
-        // Manually restart the simulation
-        simulation.alpha(1).restart();
-
-        nodes.forEach(function(d) {
-          d.fx = null;
-          d.fy = null;
-        });
-      } else {
-        simulation.alpha(1).restart();
-
-        nodes.forEach(function(d) {
-          d.fx = null;
-          d.fy = null;
-        });
-      }
-      dropdown3
-
-
-
-    };
-
-    // Event listener for the redraw button
-    d3.select("#redraw").on("click", redraw);
-  </script>
+  <script src="redraw.js"></script>
   <!-- // capture picture  -->
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script> -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-
-
-  <script>
-    // downlaodPNG
-    document.getElementById('png').addEventListener('click', function() {
-
-      document.getElementById('buttonbar').style.display = 'none';
-      section.classList.remove("active")
-      //  tag5
-      var dialog = document.getElementById("dialog-container");
-      let check1 = false;
-      if (dialog.style.display === "block") {
-
-        dialog.style.display = "none";
-        check = true;
-
-      }
-
-
-      downlaodPNG("png");
-      document.getElementById('buttonbar').style.display = 'block';
-
-      if (check1) {
-        dialog.style.display = "block";
-      }
-
-
-
-    });
-    // downlaodJPEG
-    document.getElementById('jpeg').addEventListener('click', function() {
-
-      document.getElementById('buttonbar').style.display = 'none';
-      section.classList.remove("active")
-      downlaodPNG("jpeg");
-
-      document.getElementById('buttonbar').style.display = 'block';
-    });
-
-    //  downloadCSV 
-    document.getElementById('csv').addEventListener('click', function() {
-      section.classList.remove("active")
-
-      range_of_links(minValue, maxValue, slider_range);
-      // downloadCSV(csvfile);  
-      cenvertxlsx(csvfile);
-    });
-
-    function downlaodPNG(typeochart) {
-      html2canvas(document.body, {
-        allowTaint: true,
-        useCors: true,
-        windowWidth: window.innerWidth,
-        windowHeight: window.innerHeight,
-        scrollX: window.scrollX,
-        scrollY: window.scrollY
-      }).then(function(canvas) {
-        var link = document.createElement('a');
-        link.href = canvas.toDataURL();
-        link.download = `chart.${typeochart}`;
-
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
-    }
-    //downloadxlxs
-    function cenvertxlsx(dataArray) {
-      const ws = XLSX.utils.json_to_sheet(dataArray);
-
-      // Create a workbook
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
-
-      // Save the workbook to an XLSX file
-      XLSX.writeFile(wb, 'DrugTargetNetwork_exported.xlsx');
-
-      alert('XLSX file created successfully');
-
-    }
-  </script>
-
-
-
+<script src="export_to_diffrentForm.js"></script>
 </body>
-
 </html>
