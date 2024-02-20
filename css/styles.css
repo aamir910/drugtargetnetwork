@@ -850,6 +850,173 @@ b {
   color: red;
   font-weight: 500;
 }
+footer {
+
+  color: #fff;
+  /* Choose your preferred text color */
+  text-align: center;
+  padding: 10px;
+  /* Adjust as needed */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Style for the dropdown button */
+.dropdownBtn {
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  position: relative;
+  user-select: none;
+}
+
+/* Style for the arrow icon */
+.dropdownBtn::after {
+  content: '\25BC';
+  /* Unicode character for a downward-pointing triangle */
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+/* Style for the dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Style for the checkboxes within the dropdown content */
+.dropdown-content label {
+  display: block;
+  padding: 8px 16px;
+  white-space: nowrap;
+}
+
+/* Show the dropdown content when the dropdown button is clicked */
+.dropdownBtn:focus+.dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+
+.filter_cell_cmd {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+
+}
+
+#name-list li {
+  margin-bottom: 5px;
+}
+
+#name-list2 {
+  max-height: 200px;
+  overflow-y: auto;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#search-bar2 {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+/* Your existing alert styles */
+
+
+
+/* New alert styles with a different background color */
+#applyfilter {
+  display: none;
+  position: fixed;
+  font-weight: 700;
+  bottom: 20px;
+  right: 20px;
+  /* border: 2px solid green; */
+  text-align: center;
+  transition: opacity 1s ease-in-out;
+  width: 300px;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #00a600;
+  z-index: 999;
+
+}
+
+#applyfilter span {
+  color: black;
+}
+
+#parent_count,
+#child_count {
+  font-weight: 50;
+}
+
+/* Style for the dropdown button */
+.dropdown label {
+  padding: 10px;
+  font-size: 0.888rem;
+  /* border: 1px solid #ccc; */
+  cursor: pointer;
+  background-color: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: auto;
+  min-width: 160px;
+  max-width: 195px;
+  /* Adjust the width as needed */
+  position: relative;
+}
+
+/* here is the dropdown search css  */
+
+#searchInput {
+  width: 95%;
+  padding: 8px;
+  margin-bottom: 8px;
+  margin-top: 5px;
+  margin-left: 5px;
+  box-sizing: border-box;
+}
+
+/* No matches found message styles */
+#noMatchesMessage {
+  display: none;
+  padding: 8px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.legend1 {
+  /* display: flex; */
+  border: 2px solid black;
+  margin-top: 1rem;
+  border-radius: 1rem;
+  background-color: white;
+  width: 95%;
+  height: auto;
+  min-height: 200px;
+}
+
+#dropdownBtn2 {
+  min-width: 191px;
+}
+
 
 /* MULTISELCT FORM  */
 

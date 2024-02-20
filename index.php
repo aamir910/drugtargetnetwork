@@ -187,174 +187,6 @@ if (isset($_POST['drugName2'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-  <style>
-    footer {
-
-      color: #fff;
-      /* Choose your preferred text color */
-      text-align: center;
-      padding: 10px;
-      /* Adjust as needed */
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-
-    /* Style for the dropdown button */
-    .dropdownBtn {
-      cursor: pointer;
-      padding: 10px;
-      border: 1px solid #ccc;
-      display: inline-block;
-      position: relative;
-      user-select: none;
-    }
-
-    /* Style for the arrow icon */
-    .dropdownBtn::after {
-      content: '\25BC';
-      /* Unicode character for a downward-pointing triangle */
-      font-size: 12px;
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-    }
-
-    /* Style for the dropdown content */
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-    }
-
-    /* Style for the checkboxes within the dropdown content */
-    .dropdown-content label {
-      display: block;
-      padding: 8px 16px;
-      white-space: nowrap;
-    }
-
-    /* Show the dropdown content when the dropdown button is clicked */
-    .dropdownBtn:focus+.dropdown-content,
-    .dropdown-content:hover {
-      display: block;
-    }
-
-    .filter_cell_cmd {
-      display: flex;
-      gap: 20px;
-      margin-top: 10px;
-
-    }
-
-    #name-list li {
-      margin-bottom: 5px;
-    }
-
-    #name-list2 {
-      max-height: 200px;
-      overflow-y: auto;
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    #search-bar2 {
-      margin-bottom: 10px;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      width: 100%;
-    }
-
-    /* Your existing alert styles */
-
-
-
-    /* New alert styles with a different background color */
-    #applyfilter {
-      display: none;
-      position: fixed;
-      font-weight: 700;
-      bottom: 20px;
-      right: 20px;
-      /* border: 2px solid green; */
-      text-align: center;
-      transition: opacity 1s ease-in-out;
-      width: 300px;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-      border-radius: 5px;
-      padding: 15px;
-      margin-bottom: 20px;
-      background-color: #00a600;
-      z-index: 999;
-
-    }
-
-    #applyfilter span {
-      color: black;
-    }
-
-    #parent_count,
-    #child_count {
-      font-weight: 50;
-    }
-
-    /* Style for the dropdown button */
-    .dropdown label {
-      padding: 10px;
-      font-size: 0.888rem;
-      /* border: 1px solid #ccc; */
-      cursor: pointer;
-      background-color: #fff;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      width: auto;
-      min-width: 160px;
-      max-width: 195px;
-      /* Adjust the width as needed */
-      position: relative;
-    }
-
-    /* here is the dropdown search css  */
-
-    #searchInput {
-      width: 95%;
-      padding: 8px;
-      margin-bottom: 8px;
-      margin-top: 5px;
-      margin-left: 5px;
-      box-sizing: border-box;
-    }
-
-    /* No matches found message styles */
-    #noMatchesMessage {
-      display: none;
-      padding: 8px;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-
-    .legend1 {
-      /* display: flex; */
-      border: 2px solid black;
-      margin-top: 1rem;
-      border-radius: 1rem;
-      background-color: white;
-      width: 95%;
-      height: auto;
-      min-height: 200px;
-    }
-
-    #dropdownBtn2 {
-      min-width: 191px;
-    }
-  </style>
 
 
 </head>
@@ -725,148 +557,14 @@ if (isset($_POST['drugName2'])) {
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <!-- here is the script of the table to be load  -->
 
-<script src="dropdown_Code.js"></script>
+  <script src="js_scripts/dropdown_Code.js"></script>
 
   <!-- JavaScript for handling form submission and AJAX -->
-  <script>
-    let flag3 = true
+  <script src="js_scripts/Get_the_data.js"></script>
 
-    function ajax() {
-      // Prevent the default form submission
-      event.preventDefault();
+  <script src="js_scripts/filter_single_code_by_search.js"></script>
 
-      let bodyElement = document.body;
-      let y_graph = bodyElement.clientHeight / 2 - 90;
-      let x_graph = bodyElement.clientWidth / 2 - 85;
-
-      // Assuming 'loader' is the ID of your loader element
-      let loaderElement = document.getElementById('loader');
-
-      // Set the position of the loader
-      loaderElement.style.display = 'block';
-      loaderElement.style.top = y_graph + 'px';
-      loaderElement.style.left = x_graph + 'px';
-
-
-      clearGraph();
-
-      document.getElementById('wrapper').style.display = 'none';
-
-      document.getElementById('legend1').style.display = 'none';
-
-      document.getElementById('buttonbar').style.display = 'none';
-
-      if (flag3) {
-
-
-        flag3 = false;
-
-        fetch('jsonfile.json')
-          .then(response => {
-            // Check if the response is successful
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            // Parse the JSON response
-            return response.json();
-          })
-          .then(data => {
-
-
-            console.log(data);
-            processData(data);
-
-            document.getElementById('wrapper').style.display = 'block';
-
-
-            document.getElementById('legend1').style.display = 'block';
-
-            document.getElementById('buttonbar').style.display = 'block';
-
-            document.getElementById('loader').style.display = 'none';
-
-            force_network_grapgh();
-
-            range_of_links(minValue, maxValue, slider_range);
-
-            pax_phasecliked.on("click", onclickmax_phase);
-
-            datasettext_click.on("click", onclick_dataSet);
-
-            matric_click.on("click", onclick_dataSet);
-
-            phase_click.on("click", onclick_dataSet);
-
-            child_clicked.on("click", onclick_childnodes);
-
-            disease_clicked.on("click", onclick_childnodes);
-
-          })
-          .catch(error => {
-            // Handle any errors that occur during the fetch operation
-            console.error('There was a problem with the fetch operation:', error);
-          });
-
-      } else {
-        $.ajax({
-          type: "POST",
-          url: "", // Leave it empty to target the current page
-          data: {
-            count_increment: count_increment,
-            Chembl_id1: Chembl_id1,
-            MaxPhase1: MaxPhase1,
-            oncotree_change1: oncotree_change1,
-            DataPlatform: DataPlatform,
-            disease_class1: disease_class1,
-            pic50: pic50
-          },
-          success: function(response) {
-
-            jsondata2 = response;
-            console.log("newData", jsondata2);
-
-            fetchData(jsondata2);
-
-            document.getElementById('wrapper').style.display = 'block';
-
-
-            document.getElementById('legend1').style.display = 'block';
-
-            document.getElementById('buttonbar').style.display = 'block';
-
-            document.getElementById('loader').style.display = 'none';
-
-            force_network_grapgh();
-
-            range_of_links(minValue, maxValue, slider_range);
-
-            pax_phasecliked.on("click", onclickmax_phase);
-
-            datasettext_click.on("click", onclick_dataSet);
-
-            matric_click.on("click", onclick_dataSet);
-
-            phase_click.on("click", onclick_dataSet);
-
-            child_clicked.on("click", onclick_childnodes);
-
-            disease_clicked.on("click", onclick_childnodes);
-
-            // processData(jsondata2);
-            // You can parse the JSON and use the data as needed
-          },
-          error: function(xhr, status, error) {
-            console.error("AJAX Error: " + status + " - close-btn" + error);
-          }
-        });
-      }
-      // Make an AJAX request to the current PHP script
-      MaxPhase1 = [];
-    }
-  </script>
-<script src="filter_single_code_by_search.js"></script>
- 
-<script src="legendFunction.js"></script>
+  <script src="js_scripts/legendFunction.js"></script>
 
   <script>
     let nodes = []; // unique nodes   
@@ -928,15 +626,9 @@ if (isset($_POST['drugName2'])) {
     let name_of_drug;
     // fetching the json file  
     let curentnodes = 400;
-
-
-
-
     // legend entry 
     let colors;
-
     let child_colors;
-
 
     // max_phses 
     let phases = [];
@@ -1085,11 +777,7 @@ if (isset($_POST['drugName2'])) {
             flag: true
           });
 
-
-
         }
-
-
 
       })
       data.forEach((item) => {
@@ -1130,7 +818,7 @@ if (isset($_POST['drugName2'])) {
       });
 
       //  creating the links  
-     
+
       links = data.flatMap((item) => [{
           source: item.COMPOUND_NAME,
           target: item.CELL_LINE_NAME,
@@ -1203,7 +891,7 @@ if (isset($_POST['drugName2'])) {
         },
         success: function(data) {
           drug_des_parent = JSON.parse(data);
-    
+
           generate_table();
           // You can do further processing here
         },
@@ -1255,19 +943,19 @@ if (isset($_POST['drugName2'])) {
         tableBody.innerHTML = '';
 
         Object.entries(dataobject).forEach(([key, value]) => {
-            let keyCell= key;
-         let  valueCell = value;
+          let keyCell = key;
+          let valueCell = value;
           if (keyCell === 'TARGETS_UNIPROT') {
-            
+
             globalCode = valueCell;
-          
+
           }
         });
 
         var keyToRemove = "TARGETS_UNIPROT";
 
-// Remove the key-value pair
-delete dataobject[keyToRemove];
+        // Remove the key-value pair
+        delete dataobject[keyToRemove];
 
 
 
@@ -1281,7 +969,7 @@ delete dataobject[keyToRemove];
           const valueCell = document.createElement('td');
           row.appendChild(valueCell);
           valueCell.textContent = value;
-         
+
           if (keyCell.innerText === 'CROSS_REFERENCES_CELL_LINES') {
             let text_change = valueCell.innerHTML;
             var formattedData = formatData(text_change);
@@ -1300,17 +988,17 @@ delete dataobject[keyToRemove];
             var formattedData = formatData3(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
-          } else if (keyCell.innerHTML === 'TARGETS'  ) {
+          } else if (keyCell.innerHTML === 'TARGETS') {
 
             let text_change = valueCell.innerHTML;
 
-     
+
 
             var formattedData = formatData4_compound(text_change, globalCode)
             valueCell.innerHTML = formattedData;
 
           }
-        
+
 
           tableBody.appendChild(row);
         });
@@ -1364,9 +1052,9 @@ delete dataobject[keyToRemove];
 
       function formatData4_compound(data, data2) {
         var lines = data.split(', ');
-        var lines2 =  data2.split(', ')
+        var lines2 = data2.split(', ')
         var formattedLines = [];
-      
+
 
         for (var i = 0; i < lines.length; i++) {
           var parts = lines[i].split(' (PChEMBL=');
@@ -1400,17 +1088,6 @@ delete dataobject[keyToRemove];
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     function force_network_grapgh() {
       // tag
 
@@ -1419,11 +1096,9 @@ delete dataobject[keyToRemove];
       let y_graph = bodyElement.clientHeight / 2 - 90;
       let x_graph = bodyElement.clientWidth / 2 - 300;
 
-
       checkbox_names = [];
       checkbox_saves = [];
       checkbox_saves_child = [];
-
 
       function calculateDistance(link, index) {
         // Return distance based on the index
@@ -1438,7 +1113,6 @@ delete dataobject[keyToRemove];
         }
       }
 
-
       const g = svg.append("g");
       // simulationtag
       simulation = d3
@@ -1452,16 +1126,11 @@ delete dataobject[keyToRemove];
           .distance((link, index) => calculateDistance(link, index))
         )
 
-
         // .force("charge", d3.forceManyBody().strength(-100))
         .force("x", d3.forceX(x_graph))
         .force("y", d3.forceY(y_graph))
       // .force("center", d3.forceCenter(x_graph, y_graph))
       // .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
-
-
-
-
       legendinfo();
       // Manually set colors based on the dataset value
       link = g
@@ -1539,10 +1208,6 @@ delete dataobject[keyToRemove];
         .attr("class", "tooltip2")
         .style("opacity", 0);
 
-
-
-
-
       node = g
         .selectAll(".node")
         .data(nodes)
@@ -1568,10 +1233,6 @@ delete dataobject[keyToRemove];
       const rangetext = document.getElementById("rangeValue");
 
       rangetext.textContent = parentnodes2.size();
-
-
-
-
 
       let child = 0;
       let parent = 0;
@@ -1822,8 +1483,7 @@ delete dataobject[keyToRemove];
         .attr("rx", 5) // Set the x-axis border radius
         .attr("ry", 5) // Set the y-axis border radius
         .attr("stroke", "#fff")
-        .attr("stroke-width", 1.5)
-     ;
+        .attr("stroke-width", 1.5);
 
 
 
@@ -1937,13 +1597,12 @@ delete dataobject[keyToRemove];
 
       // slider2.max = parentnodes.size();
       let filternodes3 = parentnodes.each(function(drugNode, i) {
-        if (i < valueofslider ) {
-    
+        if (i < valueofslider) {
 
-            d3.select(this).style("display", null);
-          
-          console.log(hidden_compound , "hidden compound")
-        } else  {
+
+          d3.select(this).style("display", null);
+
+        } else {
           d3.select(this).style("display", "none");
           link.filter(function(linktemp) {
             if (linktemp.source === drugNode) {
@@ -2142,9 +1801,9 @@ delete dataobject[keyToRemove];
           }
         }
       });
-  
-  // tagCompound here see the the issue it will filter 
-  let connectedchild2 = [];
+
+      // tagCompound here see the the issue it will filter 
+      let connectedchild2 = [];
       let connectedLinks2 = [];
       node.each(function(d) {
         let visible = d3.select(this).style("display");
@@ -2159,9 +1818,9 @@ delete dataobject[keyToRemove];
           }
         })
       })
-  
 
-  node.each(function(d) {
+
+      node.each(function(d) {
         if (connectedchild2.includes(d.id)) {
           let connectedLinks2 = [];
           let connectedLinks3 = link.filter(function(templink) {
@@ -2190,7 +1849,7 @@ delete dataobject[keyToRemove];
 
         }
       })
-  
+
       node.each(function(d) {
         if (d.type === "parentnode") {
           var nodestyle = d3.select(this).style("display");
@@ -2274,7 +1933,7 @@ delete dataobject[keyToRemove];
           if (node.type === "childnode") {
             visible_childnode.push(node.id);
           }
-        } 
+        }
 
       });
       let child_count = visible_childnode.length;
@@ -2292,44 +1951,39 @@ delete dataobject[keyToRemove];
       generateNameList();
 
       //  tag3 
+
       // this will not remove the compound which do not have the visible node 
 
-//       node.filter(function(node) {
-//         if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
-//         console.log("check type")
-//         d3.select(this)
-//             .style("display", "inline")
-//             .selectAll("circle") // Select all circles within this node
-//             .data([node]) // Bind data to the selection
-//             .enter() // Enter selection
-//             .append("circle") // Append circle if it doesn't exist
-//             .attr("r", 17) // Adjust the radius as needed
-//             .style("fill", "none") // Adjust fill color
-//             .style("stroke", "black") // Adjust stroke color
-//             .attr("cx", 2) // Move 2 pixels to the right
-//             .attr("cy", -2)
-//             .style("stroke-dasharray", "5,5"); ; // Move 2 pixels up
+      //       node.filter(function(node) {
+      //         if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
+      //         console.log("check type")
+      //         d3.select(this)
+      //             .style("display", "inline")
+      //             .selectAll("circle") // Select all circles within this node
+      //             .data([node]) // Bind data to the selection
+      //             .enter() // Enter selection
+      //             .append("circle") // Append circle if it doesn't exist
+      //             .attr("r", 17) // Adjust the radius as needed
+      //             .style("fill", "none") // Adjust fill color
+      //             .style("stroke", "black") // Adjust stroke color
+      //             .attr("cx", 2) // Move 2 pixels to the right
+      //             .attr("cy", -2)
+      //             .style("stroke-dasharray", "5,5"); ; // Move 2 pixels up
 
-//         return true; // Keep this node in the selection
-//     } else if(node.type === "parentnode") {
-//         d3.select(this)
-//             .selectAll("circle")
-//             .remove(); // Remove circle if it exists
+      //         return true; // Keep this node in the selection
+      //     } else if(node.type === "parentnode") {
+      //         d3.select(this)
+      //             .selectAll("circle")
+      //             .remove(); // Remove circle if it exists
 
-//         return false; // Exclude this node from the selection
-//     }
-// })
+      //         return false; // Exclude this node from the selection
+      //     }
+      // })
       // ended 
-
-
-  
-
-    
-
 
       // Filter out isolated nodes
     }
-   
+
     // legenddata
 
     function clearGraph() {
@@ -2509,11 +2163,12 @@ delete dataobject[keyToRemove];
     });
   </script>
   <!-- overlayascript?  -->
-  <script src="redraw.js"></script>
+  <script src="js_scripts/redraw.js"></script>
   <!-- // capture picture  -->
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script> -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-<script src="export_to_diffrentForm.js"></script>
+  <script src="export_to_diffrentForm.js"></script>
 </body>
+
 </html>
