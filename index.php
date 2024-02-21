@@ -1633,7 +1633,9 @@ if (isset($_POST['drugName2'])) {
 
 
 
+      
 // here added the logic of removing the link 
+
 
  // tag2 
       //  remove the link of the selected nodes
@@ -1642,7 +1644,6 @@ if (isset($_POST['drugName2'])) {
           d3.select(this).style("display", "none")
         }
       })
-
 
 
       var filterlinks2 = link.filter(function(templink) {
