@@ -596,7 +596,7 @@ if (isset($_POST['drugName'])) {
           <!-- <img src="image_not_available.png" alt="Structure Image" class="structure-image"> -->
         </table>
       </div>
-      <button style="background:none " id='parent_des_close'><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
+      <!-- <button style="background:none " id='parent_des_close'><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button> -->
 
     </div>
 
