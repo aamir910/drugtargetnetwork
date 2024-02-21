@@ -1958,21 +1958,21 @@ if (isset($_POST['drugName2'])) {
 
       // this will not remove the compound which do not have the visible node 
 
-      node.filter(function(node) {
-        if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
-          console.log("check type")
-          d3.select(this)
+      // node.filter(function(node) {
+      //   if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
+      //     console.log("check type")
+      //     d3.select(this)
 
-            .selectAll("circle") // Select all circles within this node
-            .data([node]) // Bind data to the selection
-            .enter() // Enter selection
-            .append("circle") // Append circle if it doesn't exist
-            .attr("r", 17) // Adjust the radius as needed
-            .style("fill", "none") // Adjust fill color
-            .style("stroke", "black") // Adjust stroke color
-            .attr("cx", 2) // Move 2 pixels to the right
-            .attr("cy", -2)
-            .style("stroke-dasharray", "5,5");; // Move 2 pixels up
+      //       .selectAll("circle") // Select all circles within this node
+      //       .data([node]) // Bind data to the selection
+      //       .enter() // Enter selection
+      //       .append("circle") // Append circle if it doesn't exist
+      //       .attr("r", 17) // Adjust the radius as needed
+      //       .style("fill", "none") // Adjust fill color
+      //       .style("stroke", "black") // Adjust stroke color
+      //       .attr("cx", 2) // Move 2 pixels to the right
+      //       .attr("cy", -2)
+      //       .style("stroke-dasharray", "5,5");; // Move 2 pixels up
 
       //         return true; // Keep this node in the selection
       //     } else if(node.type === "parentnode") {
