@@ -206,9 +206,9 @@ if (isset($_POST['drugName2'])) {
 
         <div class="dropdown" id="dropdown1">
 
-          <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)"> Select tissues</label>
+          <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)">Bone</label>
           <div id="dropdownContent1" class="dropdown-content">
-            <label><input type="checkbox" value="Bone">Bone</label>
+            <label><input type="checkbox" value="Bone"  >Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
             <label><input type="checkbox" value="Central Nervous System">Central Nervous System</label>
             <label><input type="checkbox" value="Lung">Lung</label>
@@ -334,7 +334,7 @@ if (isset($_POST['drugName2'])) {
       </div>
       <div style="display : flex">
 
-        <button class="btn btn-success" onclick="tableData()"><img width="30px" height="30px" src="tableimg_white.png" alt=""></button>
+        <button class="btn btn-success" onclick="tableData()"><img width="30px" height="30px" src="images/tableimg_white.png" alt=""></button>
         <button class="btn btn-success" id="submitButton" type='submit' style="width:7rem">
           Apply Filter</button>
 
@@ -347,9 +347,9 @@ if (isset($_POST['drugName2'])) {
 
         <div class="legend1" id="legend1" style=" margin-left: 12px">
 
-          <legend class="legenddata ">Phase </legend>
+          <legend class="legenddata ">Drug_disease phase</legend>
           <ul id="phases_disease" class="legend_inner"></ul>
-          <legend class="legenddata ">Disease Class </legend>
+          <legend class="legenddata ">Disease class</legend>
           <ul id="disease_Class" class="legend_inner"></ul>
         </div>
 
@@ -381,7 +381,7 @@ if (isset($_POST['drugName2'])) {
             <div id="dialog-header">
               <button onclick="toggleDialog2()" class="close-btn-search" style="background:none   ;  position: absolute;
                 top: 10px;right: 3px;cursor: pointer;max-height: 100px;overflow: auto;
-"><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
+"><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button>
               <!-- heading  -->
               <p>Filter Compounds/Celline</p>
             </div>
@@ -437,7 +437,7 @@ if (isset($_POST['drugName2'])) {
         </div>
         <div class="legend">
           <div style="width :40%">
-            <legend class="legenddata">Max clinical phase</legend>
+            <legend class="legenddata">Drug's max clinical phase</legend>
             <ul id="myList" class="legend_inner"></ul>
             <legend class="legenddata">Data platform</legend>
             <ul id="dataset" class="legend_inner"></ul>
@@ -445,7 +445,7 @@ if (isset($_POST['drugName2'])) {
             <ul id="matric_set" class="legend_inner"></ul>
           </div>
           <div style="width : 60%">
-            <legend class="legenddata">Tissues</legend>
+            <legend class="legenddata">Tissue</legend>
             <ul id="child_node" class="legend_inner"></ul>
           </div>
         </div>
@@ -565,6 +565,10 @@ if (isset($_POST['drugName2'])) {
   <script src="js_scripts/filter_single_code_by_search.js"></script>
 
   <script src="js_scripts/legendFunction.js"></script>
+
+
+
+
 
   <script>
     let nodes = []; // unique nodes   
@@ -1616,10 +1620,6 @@ if (isset($_POST['drugName2'])) {
       });
 
 
-
-
-
-
       filteredLinks = link.filter(link => {
         // Filter links with a value greater than 5
         return link.value < min_range || link.value > max_range
@@ -1630,6 +1630,21 @@ if (isset($_POST['drugName2'])) {
       });
       // Hide the filtered links
       filteredLinks.style("display", "none");
+
+
+
+// here added the logic of removing the link 
+
+ // tag2 
+      //  remove the link of the selected nodes
+      link.filter(function(item) {
+        if (hidden_compound.includes(item.source.id)) {
+          d3.select(this).style("display", "none")
+        }
+      })
+
+
+
       var filterlinks2 = link.filter(function(templink) {
         // Filter links with a value greater than 5
         let visible = d3.select(this).style("display");
@@ -1691,7 +1706,9 @@ if (isset($_POST['drugName2'])) {
         if (node.type === "parentnode") {
           let maxnode = d3.select(this).style("display");
           if (maxnode === "inline") {
+            console.log("check2")
             filterlinks2.filter(link => {
+              
               if (link.source === node) {
                 visiblenode.push(link.target.id);
                 if (!phases.includes(node.MAX_PHASE)) {
@@ -1741,15 +1758,10 @@ if (isset($_POST['drugName2'])) {
         }
       })
 
-      // tag2 
-      //  remove the link of the selected nodes
-      link.filter(function(item) {
-        if (hidden_compound.includes(item.source.id)) {
-          d3.select(this).style("display", "none")
-        }
-      })
+     
 
       if (not_remove) {
+        console.log("check")
         legendinfo();
       }
 
@@ -1946,19 +1958,7 @@ if (isset($_POST['drugName2'])) {
         }
 
       });
-      let child_count = visible_childnode.length;
-      let parent_count = visible_parentnode.length;
-      let child_count_D = document.getElementById("child_count")
-      child_count_D.innerHTML = child_count;
-      let parent_count_D = document.getElementById("parent_count")
-
-      let parent_count_D2 = document.getElementById("parent_count2")
-      parent_count_D.innerHTML = parent_count;
-
-      parent_count_D2.innerHTML = parent_count;
-
-
-      generateNameList();
+      
 
       //  tag3 
 
@@ -1966,9 +1966,8 @@ if (isset($_POST['drugName2'])) {
 
       node.filter(function(node) {
         if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
-          console.log("check type")
+          
           d3.select(this)
-
             .selectAll("circle") // Select all circles within this node
             .data([node]) // Bind data to the selection
             .enter() // Enter selection
@@ -2001,8 +2000,25 @@ if (isset($_POST['drugName2'])) {
 
 
       // ended 
+      // count the number of the child
+      let child_count = visible_childnode.length;
+      let parent_count = visible_parentnode.length;
+      let child_count_D = document.getElementById("child_count")
+      child_count_D.innerHTML = child_count;
+      let parent_count_D = document.getElementById("parent_count")
 
-      // Filter out isolated nodes
+      let parent_count_D2 = document.getElementById("parent_count2")
+      parent_count_D.innerHTML = parent_count;
+
+      parent_count_D2.innerHTML = parent_count;
+
+
+      generateNameList();
+
+
+      
+
+
     }
 
     // legenddata

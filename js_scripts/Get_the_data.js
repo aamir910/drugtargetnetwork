@@ -30,7 +30,7 @@ function ajax() {
 
     flag3 = false;
 
-    fetch('jsonfile.json')
+    fetch('jsonfile2.json')
       .then(response => {
         // Check if the response is successful
         if (!response.ok) {
@@ -41,8 +41,7 @@ function ajax() {
       })
       .then(data => {
 
-
-        console.log(data);
+        console.log(data ,"here");
         processData(data);
 
         document.getElementById('wrapper').style.display = 'block';
