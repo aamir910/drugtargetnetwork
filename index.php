@@ -206,9 +206,9 @@ if (isset($_POST['drugName2'])) {
 
         <div class="dropdown" id="dropdown1">
 
-          <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)">Bone</label>
+          <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)"> Select tissues</label>
           <div id="dropdownContent1" class="dropdown-content">
-            <label><input type="checkbox" value="Bone"  >Bone</label>
+            <label><input type="checkbox" value="Bone">Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
             <label><input type="checkbox" value="Central Nervous System">Central Nervous System</label>
             <label><input type="checkbox" value="Lung">Lung</label>
@@ -347,9 +347,9 @@ if (isset($_POST['drugName2'])) {
 
         <div class="legend1" id="legend1" style=" margin-left: 12px">
 
-          <legend class="legenddata ">Drug_disease phase</legend>
+          <legend class="legenddata ">Drug_disease phase </legend>
           <ul id="phases_disease" class="legend_inner"></ul>
-          <legend class="legenddata ">Disease class</legend>
+          <legend class="legenddata ">Disease class </legend>
           <ul id="disease_Class" class="legend_inner"></ul>
         </div>
 
@@ -381,7 +381,7 @@ if (isset($_POST['drugName2'])) {
             <div id="dialog-header">
               <button onclick="toggleDialog2()" class="close-btn-search" style="background:none   ;  position: absolute;
                 top: 10px;right: 3px;cursor: pointer;max-height: 100px;overflow: auto;
-"><img height="20px" width="20px" src="" alt="no image"></button>
+"><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button>
               <!-- heading  -->
               <p>Filter Compounds/Celline</p>
             </div>
@@ -494,6 +494,7 @@ if (isset($_POST['drugName2'])) {
     <span class="alertfilter">filtering applied </span>
   </div>
 
+
   <!-- overlay  -->
   <section style="background-color : white;  z-index : 5">
     <span class='overlay'></span>
@@ -511,7 +512,7 @@ if (isset($_POST['drugName2'])) {
 
           <button class="close-btn" style="background:none   ;  position: absolute;
                 top: 10px;right: 10px;cursor: pointer;max-height: 100px;overflow: auto;
-"><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
+"><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button>
 
         </div>
       </div>
@@ -542,7 +543,7 @@ if (isset($_POST['drugName2'])) {
           <!-- <img src="image_not_available.png" alt="Structure Image" class="structure-image"> -->
         </table>
       </div>
-      <button style="background:none " id='parent_des_close'><img height="20px" width="20px" src="icons8-close-60.png" alt=""></button>
+      <button style="background:none " id='parent_des_close'><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button>
 
     </div>
   </div>
@@ -564,7 +565,6 @@ if (isset($_POST['drugName2'])) {
   <script src="js_scripts/filter_single_code_by_search.js"></script>
 
   <script src="js_scripts/legendFunction.js"></script>
-
 
   <script>
     let nodes = []; // unique nodes   
@@ -1276,9 +1276,9 @@ if (isset($_POST['drugName2'])) {
         } else { // Element found in the array
           hidden_compound.splice(index, 1); // Remove the element from the array
         }
-
         range_of_links(minValue, maxValue, slider_range);
-
+        
+        
       }
       //  handle the double click here 
 
@@ -1596,22 +1596,25 @@ if (isset($_POST['drugName2'])) {
       })
 
       // slider2.max = parentnodes.size();
-      let filternodes3 = parentnodes.each(function(drugNode, i) {
+      let filternodes3 = [];
+
+      parentnodes.each(function(drugNode, i) {
         if (i < valueofslider) {
 
 
           d3.select(this).style("display", null);
 
         } else {
-          d3.select(this).style("display", "none");
+          console.log("drugnode", drugNode)
+          filternodes3.push(drugNode.id);
           link.filter(function(linktemp) {
             if (linktemp.source === drugNode) {
               d3.select(this).style("display", "none")
             }
           })
         }
+      });
 
-});
 
 
 
@@ -1629,18 +1632,16 @@ if (isset($_POST['drugName2'])) {
       filteredLinks.style("display", "none");
 
 
-
-      
-// here added the logic of removing the link 
-
-
- // tag2 
+  // tag2 
       //  remove the link of the selected nodes
       link.filter(function(item) {
         if (hidden_compound.includes(item.source.id)) {
           d3.select(this).style("display", "none")
         }
-      })
+      });
+
+
+
 
 
       var filterlinks2 = link.filter(function(templink) {
@@ -1704,9 +1705,7 @@ if (isset($_POST['drugName2'])) {
         if (node.type === "parentnode") {
           let maxnode = d3.select(this).style("display");
           if (maxnode === "inline") {
-            console.log("check2")
             filterlinks2.filter(link => {
-              
               if (link.source === node) {
                 visiblenode.push(link.target.id);
                 if (!phases.includes(node.MAX_PHASE)) {
@@ -1756,10 +1755,9 @@ if (isset($_POST['drugName2'])) {
         }
       })
 
-     
+    
 
       if (not_remove) {
-        console.log("check")
         legendinfo();
       }
 
@@ -1792,6 +1790,8 @@ if (isset($_POST['drugName2'])) {
           return childNode;
         }
       });
+
+
       childnodefilteration.style("display", "none");
       let source_node = [];
       let matchinglinkpart = link.filter(function(link) {
@@ -1802,6 +1802,8 @@ if (isset($_POST['drugName2'])) {
           );
         }
       });
+
+
       matchinglinkpart.style("display", "none");
       node.each(function(d) {
         // d3.select(this).style("display", "none");   
@@ -1866,26 +1868,26 @@ if (isset($_POST['drugName2'])) {
         }
       })
 
-      node.each(function(d) {
-        if (d.type === "parentnode") {
-          var nodestyle = d3.select(this).style("display");
-          const connectedLinks = link.filter(link => link.source.id === d.id);
-          // Array to store styles of connected links
-          var linkStyles = [];
+      // node.each(function(d) {
+      //   if (d.type === "parentnode") {
+      //     var nodestyle = d3.select(this).style("display");
+      //     const connectedLinks = link.filter(link => link.source.id === d.id);
+      //     // Array to store styles of connected links
+      //     var linkStyles = [];
 
-          connectedLinks.each(function(link) {
-            var linkStyle = d3.select(this).style("display");
+      //     connectedLinks.each(function(link) {
+      //       var linkStyle = d3.select(this).style("display");
 
-            linkStyles.push(linkStyle);
-          });
-          // Check if every style in the array is "none"
-          var allLinksNone = linkStyles.every(style => style === "none");
-          if (allLinksNone && !hidden_compound.includes(d.id)) {
-            // Set node style to "display: none"
-            d3.select(this).style("display", "none");
-          }
-        }
-      });
+      //       linkStyles.push(linkStyle);
+      //     });
+      //     // Check if every style in the array is "none"
+      //     var allLinksNone = linkStyles.every(style => style === "none");
+      //     if (allLinksNone && !hidden_compound.includes(d.id)) {
+      //       // Set node style to "display: none"
+      //       d3.select(this).style("display", "none");
+      //     }
+      //   }
+      // });
 
       // link filter nodes here 
       link.filter(function(templink) {
@@ -1952,39 +1954,6 @@ if (isset($_POST['drugName2'])) {
         }
 
       });
-      
-
-      //  tag3 
-
-      // this will not remove the compound which do not have the visible node 
-
-      // node.filter(function(node) {
-      //   if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
-      //     console.log("check type")
-      //     d3.select(this)
-
-      //       .selectAll("circle") // Select all circles within this node
-      //       .data([node]) // Bind data to the selection
-      //       .enter() // Enter selection
-      //       .append("circle") // Append circle if it doesn't exist
-      //       .attr("r", 17) // Adjust the radius as needed
-      //       .style("fill", "none") // Adjust fill color
-      //       .style("stroke", "black") // Adjust stroke color
-      //       .attr("cx", 2) // Move 2 pixels to the right
-      //       .attr("cy", -2)
-      //       .style("stroke-dasharray", "5,5");; // Move 2 pixels up
-
-      //         return true; // Keep this node in the selection
-      //     } else if(node.type === "parentnode") {
-      //         d3.select(this)
-      //             .selectAll("circle")
-      //             .remove(); // Remove circle if it exists
-
-      //         return false; // Exclude this node from the selection
-      //     }
-      // })
-      // ended 
-      // count the number of the child
       let child_count = visible_childnode.length;
       let parent_count = visible_parentnode.length;
       let child_count_D = document.getElementById("child_count")
@@ -1999,10 +1968,49 @@ if (isset($_POST['drugName2'])) {
 
       generateNameList();
 
+      //  tag3 
 
-      
+      // this will not remove the compound which do not have the visible node 
+
+      node.filter(function(node) {
+        if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
+          console.log("check type")
+          d3.select(this)
+
+            .selectAll("circle") // Select all circles within this node
+            .data([node]) // Bind data to the selection
+            .enter() // Enter selection
+            .append("circle") // Append circle if it doesn't exist
+            .attr("r", 17) // Adjust the radius as needed
+            .style("fill", "none") // Adjust fill color
+            .style("stroke", "black") // Adjust stroke color
+            .attr("cx", 2) // Move 2 pixels to the right
+            .attr("cy", -2)
+            .style("stroke-dasharray", "5,5");; // Move 2 pixels up
+
+          return true; // Keep this node in the selection
+        } else if (node.type === "parentnode") {
+          d3.select(this)
+            .selectAll("circle")
+            .remove(); // Remove circle if it exists
+
+          return false; // Exclude this node from the selection
+        }
+      })
+
+      node.each(function(d) {
+        if (filternodes3.includes(d.id)) {
+          console.log("checkc", d3.select(this).style("display"))
+          d3.select(this).style("display", "none");
+
+          console.log("check", d3.select(this).style("display"))
+        }
+      });
 
 
+      // ended 
+
+      // Filter out isolated nodes
     }
 
     // legenddata
@@ -2189,10 +2197,7 @@ if (isset($_POST['drugName2'])) {
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script> -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-
-
-
-  <script src="js_scripts/export_to_diffrentForm.js"></script>
+  <script src="export_to_diffrentForm.js"></script>
 </body>
 
 </html>

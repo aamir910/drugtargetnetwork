@@ -260,8 +260,8 @@ checkboxList.forEach(function(checkbox) {
 });
 
 
-// let MaxPhase1 = ["Approved", "Phase II"];
-let MaxPhase1 = [];
+let MaxPhase1 = ["Approved", "Phase II"];
+
 function toggleDropdown2(event) {
   MaxPhase1 = [];
   var dropdownContent = document.getElementById("dropdownContent2");

@@ -40,8 +40,9 @@ function ajax() {
         return response.json();
       })
       .then(data => {
+response = data ; 
 
-        console.log(data ,"here");
+        console.log(data);
         processData(data);
 
         document.getElementById('wrapper').style.display = 'block';
