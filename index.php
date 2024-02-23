@@ -347,9 +347,9 @@ if (isset($_POST['drugName2'])) {
 
         <div class="legend1" id="legend1" style=" margin-left: 12px">
 
-          <legend class="legenddata ">Drug_disease phase </legend>
+          <legend class="legenddata" id="Drug_disease_phase" >Drug_disease phase </legend>
           <ul id="phases_disease" class="legend_inner"></ul>
-          <legend class="legenddata ">Disease class </legend>
+          <legend class="legenddata "   id="Disease_class" >Disease class </legend>
           <ul id="disease_Class" class="legend_inner"></ul>
         </div>
 
@@ -441,13 +441,13 @@ if (isset($_POST['drugName2'])) {
           <div style="width :40%">
             <legend class="legenddata" id="max_clinical_phase" >Drug's max clinical phase</legend>
             <ul id="myList" class="legend_inner"></ul>
-            <legend class="legenddata">Data platform</legend>
+            <legend class="legenddata" id="Data_platform" >Data platform</legend>
             <ul id="dataset" class="legend_inner"></ul>
             <legend class="legenddata" id="Metric" >Metric</legend>
             <ul id="matric_set" class="legend_inner"></ul>
           </div>
           <div style="width : 60%">
-            <legend class="legenddata">Tissue</legend>
+            <legend class="legenddata" id="Tissue" >Tissue</legend>
             <ul id="child_node" class="legend_inner"></ul>
           </div>
         </div>

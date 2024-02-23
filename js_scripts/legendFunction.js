@@ -583,31 +583,49 @@ function legendinfo() {
 
 
 
-
-    var legendContent1 = d3.select("#max_clinical_phase");
    
     // Check if all list items are hidden
-    var allHidden = true;
-    listItems.each(function() {
-        if (this.style.display !== "none") {
-            allHidden = false;
-            return false; // Exit loop early if any item is visible
-        }
-    });
-    
-    // Select the legend content
-    var legendContent1 = d3.select("#max_clinical_phase");
-    
-    // Update display property based on the visibility of list items
-    if (allHidden) {
-        legendContent1.style("display", "none");
-        console.log("list none");
-    } else {
-        legendContent1.style("display", "block");
-        console.log("list block");
-    }
 
+    
+// here hide the legend entires if there is no data there 
+
+    // Select the legend content
+    let max_clinical_phase = d3.select("#max_clinical_phase");
+    // let legendContent1 = d3.select("#max_clinical_phase");
+    // let legendContent1 = d3.select("#max_clinical_phase");
+    // let legendContent1 = d3.select("#max_clinical_phase");
+    // let legendContent1 = d3.select("#max_clinical_phase");
+    // let legendContent1 = d3.select("#max_clinical_phase");
+  
+    // Update display property based on the visibility of list items
+ 
+    remove_heading(max_clinical_phase , listItems);
+
+   
   }
+
+
+
+
+function remove_heading(legend_heading_ID , list_to_check){
+  var allHidden = true;
+  list_to_check.each(function() {
+      if (this.style.display !== "none") {
+          allHidden = false;
+          return false; // Exit loop early if any item is visible
+      }
+  });
+
+  if (allHidden) {
+    legend_heading_ID.style("display", "none");
+      console.log("list none");
+  } else {
+    legend_heading_ID.style("display", "block");
+  }
+
+}
+
+
 
   //colorpicker 
 
@@ -790,7 +808,6 @@ function legendinfo() {
 
 
 
-// here hide the legend entires if there is no data there 
 
 
     range_of_links(minValue, maxValue, slider_range);
