@@ -412,8 +412,10 @@ if (isset($_POST['drugName2'])) {
 
             </div>
 
+<div style="margin: 14px 0px 9px;width: 100%;justify-content: center;align-items: center;display: flex;"  >
 
-            <button style=" margin: 12px 38px 0px; " class="sliderbtn" onclick="saveNames()">Filter</button>
+  <button class="sliderbtn" onclick="saveNames()">Filter</button>
+</div>
           </div>
 
         </header>
