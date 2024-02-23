@@ -349,7 +349,7 @@ if (isset($_POST['drugName2'])) {
 
           <legend class="legenddata" id="Drug_disease_phase" >Drug_disease phase </legend>
           <ul id="phases_disease" class="legend_inner"></ul>
-          <legend class="legenddata "   id="Disease_class" >Disease class </legend>
+          <legend class="legenddata "   id="Disease_class_heading" >Disease class </legend>
           <ul id="disease_Class" class="legend_inner"></ul>
         </div>
 
@@ -1759,8 +1759,8 @@ if (isset($_POST['drugName2'])) {
 
     
 
+      legendinfo();
       if (not_remove) {
-        legendinfo();
       }
 
       pax_phasecliked.on("click", onclickmax_phase);

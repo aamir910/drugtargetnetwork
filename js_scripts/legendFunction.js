@@ -591,17 +591,27 @@ function legendinfo() {
 
     // Select the legend content
     let max_clinical_phase = d3.select("#max_clinical_phase");
-    // let legendContent1 = d3.select("#max_clinical_phase");
-    // let legendContent1 = d3.select("#max_clinical_phase");
-    // let legendContent1 = d3.select("#max_clinical_phase");
-    // let legendContent1 = d3.select("#max_clinical_phase");
-    // let legendContent1 = d3.select("#max_clinical_phase");
+    let Data_platform = d3.select("#Data_platform");
+    let Metric = d3.select("#Metric");
+    let Tissue = d3.select("#Tissue");
+    let Drug_disease_phase = d3.select("#Drug_disease_phase");
+    let Disease_class_heading = d3.select("#Disease_class_heading");
+
+    
   
     // Update display property based on the visibility of list items
  
-    remove_heading(max_clinical_phase , listItems);
+    remove_heading(max_clinical_phase , listItems);  
+    remove_heading(Data_platform , dataSet_link);        
+    remove_heading(Metric , matric_link);   
+    remove_heading(Tissue , dataSet_child);   
+    remove_heading(Drug_disease_phase , phase_link);   
+    remove_heading(Disease_class_heading , dataSet_disease);   
+  
 
    
+
+
   }
 
 
