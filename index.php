@@ -439,11 +439,11 @@ if (isset($_POST['drugName2'])) {
         </div>
         <div class="legend">
           <div style="width :40%">
-            <legend class="legenddata">Drug's max clinical phase</legend>
+            <legend class="legenddata" id="max_clinical_phase" >Drug's max clinical phase</legend>
             <ul id="myList" class="legend_inner"></ul>
             <legend class="legenddata">Data platform</legend>
             <ul id="dataset" class="legend_inner"></ul>
-            <legend class="legenddata">Metric</legend>
+            <legend class="legenddata" id="Metric" >Metric</legend>
             <ul id="matric_set" class="legend_inner"></ul>
           </div>
           <div style="width : 60%">

@@ -360,6 +360,7 @@ function legendinfo() {
       });
 
 
+     
 
 
     // appending the data of the dataset
@@ -502,8 +503,8 @@ function legendinfo() {
       .data(matric_categories)
       .enter()
       .append("li");
-
-
+      
+     
     matric_color = matric_link
       .filter((d) => !phase_legend_data.includes(d.category))
       .append("div")
@@ -579,6 +580,32 @@ function legendinfo() {
     matric_legend = [];
     disease_Class_legend = [];
     disease_phase_legend = [];
+
+
+
+
+    var legendContent1 = d3.select("#max_clinical_phase");
+   
+    // Check if all list items are hidden
+    var allHidden = true;
+    listItems.each(function() {
+        if (this.style.display !== "none") {
+            allHidden = false;
+            return false; // Exit loop early if any item is visible
+        }
+    });
+    
+    // Select the legend content
+    var legendContent1 = d3.select("#max_clinical_phase");
+    
+    // Update display property based on the visibility of list items
+    if (allHidden) {
+        legendContent1.style("display", "none");
+        console.log("list none");
+    } else {
+        legendContent1.style("display", "block");
+        console.log("list block");
+    }
 
   }
 
@@ -760,6 +787,12 @@ function legendinfo() {
     } else {
       list_hidden_childnode.splice(index, 1);
     }
+
+
+
+// here hide the legend entires if there is no data there 
+
+
     range_of_links(minValue, maxValue, slider_range);
 
   }
