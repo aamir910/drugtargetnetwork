@@ -585,7 +585,8 @@ function legendinfo() {
   let Disease_class_heading = d3.select("#Disease_class_heading");
 
   let main_disease_box = d3.select("#legend1");
-
+   let main_legend_box = d3.select("#legend_main2");
+  
   // Update display property based on the visibility of list items
 
   remove_heading(max_clinical_phase, listItems);
@@ -593,9 +594,14 @@ function legendinfo() {
   remove_heading(Metric, matric_link);
   remove_heading(Tissue, dataSet_child);
 
+  remove_box(main_legend_box ,  listItems , dataSet_link , matric_link , dataSet_child)
+
+
+
   remove_heading(Drug_disease_phase, phase_link);
   remove_heading(Disease_class_heading, dataSet_disease);
- remove_box(main_disease_box ,  phase_link , dataSet_disease)
+  
+  remove_box(main_disease_box ,  phase_link , dataSet_disease)
 
 
 }
@@ -618,29 +624,30 @@ function remove_heading(legend_heading_ID, list_to_check) {
     legend_heading_ID.style("display", "block");
   }
 }
-function remove_box(box, list_to_check, list_to_check2) {
-  var anyVisible = false;
 
-  list_to_check.each(function () {
-    if (this.style.display !== "none") {
-      anyVisible = true;
-      return false; // Exit loop early if any item is visible
-    }
-  });
 
-  list_to_check2.each(function () {
-    if (this.style.display !== "none") {
-      anyVisible = true;
-      return false; // Exit loop early if any item is visible
-    }
+
+function remove_box(box, ...lists_to_check) {
+  let anyVisible = lists_to_check.some(list => {
+    let visible = false;
+    list.each(function () {
+      if (this.style.display !== "none") {
+        visible = true;
+        return false; // Exit loop early if any item is visible
+      }
+    });
+    return visible;
   });
 
   if (anyVisible) {
-    box.style("display", "block"); // Show the box if any item is visible
+    box.style("visibility", "visible"); // Show the box if any item is visible
   } else {
-    box.style("display", "none"); // Hide the box if no item is visible
+    box.style("visibility", "hidden"); // Hide the box if no item is visible
   }
 }
+
+
+
 
 
 //colorpicker

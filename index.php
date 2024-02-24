@@ -437,7 +437,7 @@ if (isset($_POST['drugName2'])) {
           <input id="min_slider" type="range" class="range-min" min="4.0" max="9.0" step="0.1" value="6.0">
           <input id="max_slider" type="range" class="range-max" min="4.0" max="9.0" step="0.1" value="9.0">
         </div>
-        <div class="legend">
+        <div class="legend" id="legend_main2">
           <div style="width :40%">
             <legend class="legenddata" id="max_clinical_phase" >Drug's max clinical phase</legend>
             <ul id="myList" class="legend_inner"></ul>
