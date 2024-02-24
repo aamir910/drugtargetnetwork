@@ -368,7 +368,7 @@ if (isset($_POST['drugName2'])) {
       </div>
 
 
-      <div class="wrapper" id='wrapper'>
+      <div class="wrapper" id='wrapper' >
         <header style="justify-content: space-between;">
           <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
           <!-- heading  -->

@@ -585,8 +585,9 @@ function legendinfo() {
   let Disease_class_heading = d3.select("#Disease_class_heading");
 
   let main_disease_box = d3.select("#legend1");
-   let main_legend_box = d3.select("#legend_main2");
+  //  let main_legend_box = d3.select("#legend_main2");
   
+   let main_legend_box = d3.select("#wrapper");
   // Update display property based on the visibility of list items
 
   remove_heading(max_clinical_phase, listItems);
