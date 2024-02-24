@@ -1870,26 +1870,26 @@ if (isset($_POST['drugName2'])) {
         }
       })
 
-      // node.each(function(d) {
-      //   if (d.type === "parentnode") {
-      //     var nodestyle = d3.select(this).style("display");
-      //     const connectedLinks = link.filter(link => link.source.id === d.id);
-      //     // Array to store styles of connected links
-      //     var linkStyles = [];
+      node.each(function(d) {
+        if (d.type === "parentnode") {
+          var nodestyle = d3.select(this).style("display");
+          const connectedLinks = link.filter(link => link.source.id === d.id);
+          // Array to store styles of connected links
+          var linkStyles = [];
 
-      //     connectedLinks.each(function(link) {
-      //       var linkStyle = d3.select(this).style("display");
+          connectedLinks.each(function(link) {
+            var linkStyle = d3.select(this).style("display");
 
-      //       linkStyles.push(linkStyle);
-      //     });
-      //     // Check if every style in the array is "none"
-      //     var allLinksNone = linkStyles.every(style => style === "none");
-      //     if (allLinksNone && !hidden_compound.includes(d.id)) {
-      //       // Set node style to "display: none"
-      //       d3.select(this).style("display", "none");
-      //     }
-      //   }
-      // });
+            linkStyles.push(linkStyle);
+          });
+          // Check if every style in the array is "none"
+          var allLinksNone = linkStyles.every(style => style === "none");
+          if (allLinksNone && !hidden_compound.includes(d.id)) {
+            // Set node style to "display: none"
+            d3.select(this).style("display", "none");
+          }
+        }
+      });
 
       // link filter nodes here 
       link.filter(function(templink) {
