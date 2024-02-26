@@ -237,7 +237,14 @@ if (isset($_POST['drugName2'])) {
   display: block;
 }
 
+.search-bar3 {
 
+  margin-top: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
 </style>
 <body>
   <div class=" searchBar">
@@ -611,8 +618,11 @@ if (isset($_POST['drugName2'])) {
 <div id="customOverlay" onclick="toggleDiv()"></div>
 
 <div id="customInteractiveDiv">
+  <div>
+  <p>Search Smiles</p>
+  </div>
   <button id="customCloseButton" onclick="toggleDiv()"><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button>
-  <input type="text" id="customSearchBar" placeholder="Search">
+  <input class="search-bar3" type="text" id="customSearchBar" placeholder="Search">
   <button class="sliderbtn" id="customSubmitButton" onclick="submitCommand()">Submit</button>
 </div>
 
