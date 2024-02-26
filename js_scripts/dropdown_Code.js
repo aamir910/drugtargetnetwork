@@ -242,7 +242,7 @@ function handleCheckboxChange() {
   checkboxes.forEach(function(checkbox) {
     oncotree_change1.push(checkbox.value);
   });
-
+  console.log("bone" ,  oncotree_change1)
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn");
   dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Select tissues";
@@ -258,8 +258,7 @@ checkboxList.forEach(function(checkbox) {
     handleCheckboxChange();
   });
 });
-
-
+handleCheckboxChange();
 let MaxPhase1 = ["Approved", "Phase II"];
 
 function toggleDropdown2(event) {
@@ -343,7 +342,9 @@ checkboxList4.forEach(function(checkbox) {
     handleCheckboxChange4();
   });
 });
+// assign the value in advance  
 
+handleCheckboxChange4();
 
 // 5th dropdown pic50 
 let pic50;

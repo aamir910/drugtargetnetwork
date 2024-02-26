@@ -582,7 +582,7 @@ function legendinfo() {
   let Tissue = d3.select("#Tissue");
   let Drug_disease_phase = d3.select("#Drug_disease_phase");
   let Disease_class_heading = d3.select("#Disease_class_heading");
- 
+
   let main_disease_box = d3.select("#legend1");
   //  let main_legend_box = d3.select("#legend_main2");
 
@@ -594,7 +594,6 @@ function legendinfo() {
 
   remove_heading(Metric, matric_link);
 
-  console.log(phase_legend_data, "phase_legend_data");
 
   remove_heading(Tissue, dataSet_child);
 
@@ -612,100 +611,70 @@ function legendinfo() {
   remove_box(main_disease_box, phase_link, dataSet_disease);
 }
 
-
-
 function remove_heading(legend_heading_ID, list_to_check) {
-
   let text = legend_heading_ID.text();
 
-if(text === "Tissue"){
-// console.log(text)
-  var allHidden = true;
-  list_to_check.each(function() {
+  if (text === "Tissue") {
+    var allHidden = true;
+    list_to_check.each(function () {
+      let category = d3.select(this)._groups[0][0].__data__.category;
 
-    let category = d3.select(this)._groups[0][0].__data__.category;
-
-    if (!Drug_class_Categories.includes(category)) {
-
-
-      console.log(text , "not here " ,list_to_check , category , "category")
+      if (!Drug_class_Categories.includes(category)) {
         // Check if the style.display is not "none"
         if (this.style.display !== "none") {
-            allHidden = false;
-            return false; // Exit loop early if any item is visible
+          allHidden = false;
+          return false; // Exit loop early if any item is visible
         }
-    }
-});
- 
-}
-else if(text === "Disease class"){
-  var allHidden = true;
-  list_to_check.each(function() {
+      }
+    });
+  } else if (text === "Disease class") {
+    var allHidden = true;
+    list_to_check.each(function () {
+      let category = d3.select(this)._groups[0][0].__data__.category;
 
-    let category = d3.select(this)._groups[0][0].__data__.category;
-
-    if (Drug_class_Categories.includes(category)) {
-
-
-      console.log(text , "not here " ,list_to_check , category , "category")
+      if (Drug_class_Categories.includes(category)) {
         // Check if the style.display is not "none"
         if (this.style.display !== "none") {
-            allHidden = false;
-            return false; // Exit loop early if any item is visible
+          allHidden = false;
+          return false; // Exit loop early if any item is visible
         }
-    }
-});
-}
-else if(text === "Drug_disease phase"){
-  var allHidden = true;
-  list_to_check.each(function() {
+      }
+    });
+  } else if (text === "Drug_disease phase") {
+    var allHidden = true;
+    list_to_check.each(function () {
+      let category = d3.select(this)._groups[0][0].__data__.category;
 
-    let category = d3.select(this)._groups[0][0].__data__.category;
-
-    if (phase_legend_data.includes(category)) {
-
-
-      console.log(text , "not here " ,list_to_check , category , "category")
+      if (phase_legend_data.includes(category)) {
         // Check if the style.display is not "none"
         if (this.style.display !== "none") {
-            allHidden = false;
-            return false; // Exit loop early if any item is visible
+          allHidden = false;
+          return false; // Exit loop early if any item is visible
         }
-    }
-});
+      }
+    });
+  } else if (text === "Metric") {
+    var allHidden = true;
+    list_to_check.each(function () {
+      let category = d3.select(this)._groups[0][0].__data__.category;
 
-}
-else if(text === "Metric"){
-  var allHidden = true;
-  list_to_check.each(function() {
-
-    let category = d3.select(this)._groups[0][0].__data__.category;
-
-    if (!phase_legend_data.includes(category)) {
-
-
-      console.log(text , "not here " ,list_to_check , category , "category")
+      if (!phase_legend_data.includes(category)) {
         // Check if the style.display is not "none"
         if (this.style.display !== "none") {
-            allHidden = false;
-            return false; // Exit loop early if any item is visible
+          allHidden = false;
+          return false; // Exit loop early if any item is visible
         }
-    }
-});
-
-}
-
-else
-{
-  var allHidden = true;
-  list_to_check.each(function () {
-    if (this.style.display !== "none") {
-      allHidden = false;
-      return false; // Exit loop early if any item is visible
-    }
-  });
-}
-  
+      }
+    });
+  } else {
+    var allHidden = true;
+    list_to_check.each(function () {
+      if (this.style.display !== "none") {
+        allHidden = false;
+        return false; // Exit loop early if any item is visible
+      }
+    });
+  }
 
   if (allHidden) {
     legend_heading_ID.style("display", "none");
@@ -713,7 +682,6 @@ else
     legend_heading_ID.style("display", "block");
   }
 }
-
 
 function remove_box(box, ...lists_to_check) {
   let anyVisible = lists_to_check.some((list) => {

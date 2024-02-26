@@ -208,21 +208,21 @@ if (isset($_POST['drugName2'])) {
 
           <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)"> Select tissues</label>
           <div id="dropdownContent1" class="dropdown-content">
-            <label><input type="checkbox" value="Bone">Bone</label>
+            <label><input type="checkbox" value="Bone" >Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
             <label><input type="checkbox" value="Central Nervous System">Central Nervous System</label>
-            <label><input type="checkbox" value="Lung">Lung</label>
+            <label><input type="checkbox" value="Lung"checked >Lung</label>
             <label><input type="checkbox" value="Peripheral Nervous System">Peripheral Nervous System</label>
             <label><input type="checkbox" value="Soft Tissue">Soft Tissue</label>
             <label><input type="checkbox" value="Esophagus">Esophagus</label>
-            <label><input type="checkbox" value="Breast">Breast</label>
+            <label><input type="checkbox" value="Breast" checked >Breast</label>
             <label><input type="checkbox" value="Head and Neck">Head and Neck</label>
             <label><input type="checkbox" value="Haematopoietic and Lymphoid">Haematopoietic and Lymphoid</label>
             <label><input type="checkbox" value="Bladder">Bladder</label>
             <label><input type="checkbox" value="Kidney">Kidney</label>
             <label><input type="checkbox" value="Pancreas">Pancreas</label>
             <label><input type="checkbox" value="Large Intestine">Large Intestine</label>
-            <label><input type="checkbox" value="Ovary">Ovary</label>
+            <label><input type="checkbox" value="Ovary" checked >Ovary</label>
             <label><input type="checkbox" value="Stomach">Stomach</label>
             <label><input type="checkbox" value="Biliary Tract">Biliary Tract</label>
             <label><input type="checkbox" value="Small Intestine">Small Intestine</label>
@@ -269,7 +269,7 @@ if (isset($_POST['drugName2'])) {
 
           <label class="dropdownBtn" id="dropdownBtn4" onclick="toggleDropdown4(event)">Select data platform</label>
           <div id="dropdownContent4" class="dropdown-content">
-            <label><input type="checkbox" value="GDSC1">GDSC1</label>
+            <label><input type="checkbox" value="GDSC1" checked  >GDSC1</label>
             <label><input type="checkbox" value="GDSC2">GDSC2</label>
             <label><input type="checkbox" value="CCLE_NP24">CCLE_NP24</label>
             <label><input type="checkbox" value="NCI-60">NCI-60</label>
@@ -1607,7 +1607,6 @@ if (isset($_POST['drugName2'])) {
           d3.select(this).style("display", null);
 
         } else {
-          console.log("drugnode", drugNode)
           filternodes3.push(drugNode.id);
           link.filter(function(linktemp) {
             if (linktemp.source === drugNode) {
@@ -1976,7 +1975,7 @@ if (isset($_POST['drugName2'])) {
 
       node.filter(function(node) {
         if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
-          console.log("check type")
+        
           d3.select(this)
 
             .selectAll("circle") // Select all circles within this node
@@ -2002,10 +2001,7 @@ if (isset($_POST['drugName2'])) {
 
       node.each(function(d) {
         if (filternodes3.includes(d.id)) {
-          console.log("checkc", d3.select(this).style("display"))
           d3.select(this).style("display", "none");
-
-          console.log("check", d3.select(this).style("display"))
         }
       });
 
