@@ -199,11 +199,13 @@ if (isset($_POST['drugName2'])) {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Increased blur effect */
+  backdrop-filter: blur(10px);/* Increased blur effect */
   z-index: 9999; /* Higher z-index */
 }
 
 #customInteractiveDiv {
+  width: 500px;
+  height: 500px;
   display: none;
   position: fixed;
   top: 50%;
@@ -217,6 +219,7 @@ if (isset($_POST['drugName2'])) {
 }
 
 #customCloseButton {
+  background-color: white;
   position: absolute;
   top: 5px;
   right: 5px;
@@ -610,7 +613,7 @@ if (isset($_POST['drugName2'])) {
 <div id="customInteractiveDiv">
   <button id="customCloseButton" onclick="toggleDiv()"><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button>
   <input type="text" id="customSearchBar" placeholder="Search">
-  <button id="customSubmitButton" onclick="submitCommand()">Submit</button>
+  <button class="sliderbtn" id="customSubmitButton" onclick="submitCommand()">Submit</button>
 </div>
 
 
