@@ -229,8 +229,13 @@ if (isset($_POST['drugName2'])) {
 
 #customSearchBar {
   display: block;
+  margin-top: 10px;
   margin-bottom: 10px;
-  margin-right: 30px; /* Increased margin to create space for the close button */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: calc(100% - 30px); /* Adjusted width to accommodate for the close button */
+  height: 100px; /* Increase the height as desired */
+  resize: vertical; /* Increased margin to create space for the close button */
 }
 
 #customSubmitButton {
@@ -238,12 +243,17 @@ if (isset($_POST['drugName2'])) {
 }
 
 .search-bar3 {
-
   margin-top: 10px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
+}
+
+#customSearchBar:focus,
+#customSearchBar:active {
+  border-color: #28a5fb; /* Change the border color on focus */
+  box-shadow: 0 0 5px #28a5fb; /* Add a shadow effect on focus */
 }
 </style>
 <body>
@@ -619,11 +629,11 @@ if (isset($_POST['drugName2'])) {
 
 <div id="customInteractiveDiv">
   <div>
-  <p>Search Smiles</p>
+  <p>Enter Smiles</p>
   </div>
   <button id="customCloseButton" onclick="toggleDiv()"><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button>
-  <input class="search-bar3" type="text" id="customSearchBar" placeholder="Search">
-  <button class="sliderbtn" id="customSubmitButton" onclick="submitCommand()">Submit</button>
+  <textarea id="customSearchBar" class="search-bar3" placeholder="Search"></textarea>
+ <button class="sliderbtn" id="customSubmitButton" onclick="submitCommand()">Submit</button>
 </div>
 
 
