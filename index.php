@@ -190,7 +190,52 @@ if (isset($_POST['drugName2'])) {
 
 
 </head>
+<style>
+  body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
+#customOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  z-index: 1;
+}
+
+#customInteractiveDiv {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 2;
+}
+
+#customCloseButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+#customSearchBar {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#customSubmitButton {
+  display: block;
+}
+
+</style>
 <body>
   <div class=" searchBar">
     <form class="selection_box flex" id="searchForm">
@@ -334,6 +379,7 @@ if (isset($_POST['drugName2'])) {
       </div>
       <div style="display : flex">
 
+      <button class="btn btn-success" id="openButton" onclick="toggleDiv()" >SMILES</button>
         <button class="btn btn-success" onclick="tableData()"><img width="30px" height="30px" src="images/tableimg_white.png" alt=""></button>
         <button class="btn btn-success" id="submitButton" type='submit' style="width:7rem">
           Apply Filter</button>
@@ -475,7 +521,7 @@ if (isset($_POST['drugName2'])) {
         </div>
         <!-- btntag -->
         <button class="sliderbtn" id="redraw" title="move the nodes to tis default position">redraw</button>
-        <button class="sliderbtn " id="export" title="(PNG , JPEG , XLSX">Export</button>
+        <button class="sliderbtn " id="export" title="(PNG , JPEG , XLSX)">Export</button>
 
       </div>
     </footer>
@@ -498,6 +544,11 @@ if (isset($_POST['drugName2'])) {
 
 
   <!-- overlay  -->
+
+
+
+
+
   <section style="background-color : white;  z-index : 5">
     <span class='overlay'></span>
     <div class="modal-box">
@@ -519,9 +570,11 @@ if (isset($_POST['drugName2'])) {
         </div>
       </div>
 
+
     </div>
   </section>
 
+  
   <div class="blur_the_background">
     <div class="parent_description ">
       <!-- heading  -->
@@ -551,23 +604,34 @@ if (isset($_POST['drugName2'])) {
   </div>
 
 
+ <!-- here is the model to check the smiles  -->
+
+
+<div id="customOverlay" onclick="toggleDiv()"></div>
+
+<div id="customInteractiveDiv">
+  <button id="customCloseButton" onclick="toggleDiv()">Close</button>
+  <input type="text" id="customSearchBar" placeholder="Search">
+  <button id="customSubmitButton" onclick="submitCommand()">Submit</button>
+</div>
+
+
+
+
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://d3js.org/d3-force.v3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
+
+  <script src="js_scripts/smiles.js"></script>
   <!---Script to fetch data  from php script --->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <!-- here is the script of the table to be load  -->
-
   <script src="js_scripts/dropdown_Code.js"></script>
-
   <!-- JavaScript for handling form submission and AJAX -->
   <script src="js_scripts/Get_the_data.js"></script>
-
   <script src="js_scripts/filter_single_code_by_search.js"></script>
-
   <script src="js_scripts/legendFunction.js"></script>
-
   <script>
     let nodes = []; // unique nodes   
     let links = []; // links  from the json files

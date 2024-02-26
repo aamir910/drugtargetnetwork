@@ -9,7 +9,7 @@
     if (dialog.style.display === "block") {
 
       dialog.style.display = "none";
-      check = true;
+      check1 = true; // change is here 
 
     }
 
