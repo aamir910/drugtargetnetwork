@@ -191,11 +191,6 @@ if (isset($_POST['drugName2'])) {
 
 </head>
 <style>
-  body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
 
 #customOverlay {
   display: none;
@@ -204,8 +199,8 @@ if (isset($_POST['drugName2'])) {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
-  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.7); /* Increased blur effect */
+  z-index: 9999; /* Higher z-index */
 }
 
 #customInteractiveDiv {
@@ -217,23 +212,28 @@ if (isset($_POST['drugName2'])) {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  z-index: 2;
+  z-index: 9999; /* Higher z-index */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Added box-shadow */
 }
 
 #customCloseButton {
   position: absolute;
   top: 5px;
   right: 5px;
+  margin-top: -5px; /* Adjusted margin to make the close button closer */
+  margin-right: -5px; /* Adjusted margin to make the close button closer */
 }
 
 #customSearchBar {
   display: block;
   margin-bottom: 10px;
+  margin-right: 30px; /* Increased margin to create space for the close button */
 }
 
 #customSubmitButton {
   display: block;
 }
+
 
 </style>
 <body>
@@ -536,8 +536,6 @@ if (isset($_POST['drugName2'])) {
 
   </div>
   </div>
-
-
   <div id="applyfilter">
     <span class="alertfilter">filtering applied </span>
   </div>
@@ -610,7 +608,7 @@ if (isset($_POST['drugName2'])) {
 <div id="customOverlay" onclick="toggleDiv()"></div>
 
 <div id="customInteractiveDiv">
-  <button id="customCloseButton" onclick="toggleDiv()">Close</button>
+  <button id="customCloseButton" onclick="toggleDiv()"><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button>
   <input type="text" id="customSearchBar" placeholder="Search">
   <button id="customSubmitButton" onclick="submitCommand()">Submit</button>
 </div>
