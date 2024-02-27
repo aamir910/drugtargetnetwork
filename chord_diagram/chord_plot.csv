@@ -1,0 +1,16 @@
+;Target based DR;Phenotypic DR;Toxicity assessment;Design new clinical trials;Mapping of diseases pathways;Disease-specific;Disease-agnostic;Biomarker identification;Predict adverse reactions
+Patients data;0;7;0;5;0;6;1;1;0
+Cell lines data;6;13;0;0;1;18;1;3;0
+Drug combinations;0;4;0;0;0;4;0;0;0
+Drug-target interactions;25;0;0;0;8;4;21;0;4
+Drug-disease links;0;12;0;10;0;3;9;0;3
+Gene-disease links;5;0;0;0;0;1;4;0;0
+Cancer mutations;3;0;0;0;0;3;0;0;0
+Chemical structures;3;0;0;0;0;0;3;0;0
+Protein structures;4;0;0;0;0;0;4;0;0
+Toxicities;0;8;8;0;0;0;8;0;0
+Pathways;10;0;0;0;10;1;9;0;0
+Docking;23;0;0;0;0;0;23;0;0
+Homology modelling;8;0;0;0;0;0;8;0;0
+Binding sites;7;0;0;0;0;0;7;0;0
+Combination web-tools;0;3;0;0;0;3;0;0;0

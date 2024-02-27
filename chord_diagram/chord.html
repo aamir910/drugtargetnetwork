@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chord Diagram</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <svg width="600" height="600"></svg>
+
+  <script>
+    // Load data from CSV file
+    d3.csv("chord_plot.csv").then(function(data) {
+  // Log the data array to the console
+  console.log("Data array:", data);
+  
+  // Extract matrix from CSV data
+  const matrix = data.map(d => Object.values(d)[0].split(';').slice(1).map(Number).slice(1));
+  console.log("Data matric:", matrix);
+
+  
+// Setup canvas dimensions
+const width = 600;
+const height = 600;
+const outerRadius = Math.min(width, height) * 0.5 - 40;
+const innerRadius = outerRadius - 30;
+
+// Setup chord layout
+const chord = d3.chord()
+  .padAngle(0.05)
+  .sortSubgroups(d3.descending)
+  .sortChords(d3.descending);
+
+// Setup arc generator
+const arc = d3.arc()
+  .innerRadius(innerRadius)
+  .outerRadius(outerRadius);
+
+// Setup ribbon generator
+const ribbon = d3.ribbon()
+  .radius(innerRadius);
+
+// Setup SVG canvas
+const svg = d3.select('svg')
+  .attr('width', width)
+  .attr('height', height)
+  .append('g')
+  .attr('transform', `translate(${width / 2},${height / 2})`);
+
+// Convert matrix to chord layout
+const chords = chord(matrix);
+
+// Render chords
+svg.append('g')
+  .selectAll('path')
+  .data(chords)
+  .join('path')
+  .attr('d', ribbon)
+  .attr('fill', d => d3.schemeCategory10[d.source.index])
+  .attr('stroke', d => d3.schemeCategory10[d.source.index]);
+
+// Render labels
+// Render labels
+svg.append('g')
+  .selectAll('text')
+  .data(chords.groups)
+  .join('text')
+  .each(d => {
+    d.angle = (d.startAngle + d.endAngle) / 2;
+  })
+  .attr('dy', '.35em')
+  .attr('transform', d => `
+    rotate(${(d.angle * 180 / Math.PI - 90)})
+    translate(${innerRadius + 26})
+    ${d.angle > Math.PI ? 'rotate(180)' : ''}
+  `)
+  .attr('text-anchor', d => d.angle > Math.PI ? 'end' : null)
+  .text((d, i) => `Node ${i}`); // Use the index i to label nodes
+
+}).catch(function(error) {
+  console.log(error);
+});
+  </script>
+</body>
+</html>

@@ -255,6 +255,7 @@ if (isset($_POST['drugName2'])) {
   border-color: #28a5fb; /* Change the border color on focus */
   box-shadow: 0 0 5px #28a5fb; /* Add a shadow effect on focus */
 }
+
 </style>
 <body>
   <div class=" searchBar">
