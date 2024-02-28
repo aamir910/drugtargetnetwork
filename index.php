@@ -205,7 +205,7 @@ if (isset($_POST['drugName2'])) {
 
 #customInteractiveDiv {
   width: 500px;
-  height: 500px;
+  /* height: 500px; */
   display: none;
   position: fixed;
   top: 50%;
