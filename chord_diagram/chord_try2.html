@@ -14,21 +14,24 @@
     <script>
         // Sample data for the chord diagram
         const matrix = [
-            [0, 5, 10, 15,2,1],
-            [5, 0, 5, 10,4 ,1],
-            [10, 5, 0, 5,4 ,1],
-            [15, 10, 5, 0,0,15],
-            [14, 55, 1, 5,3,1],
-            [14, 55, 1, 5,3,1]
-        
+            [5, 5, 10, 5, 2, 5],
+            [5, 0, 5, 10, 4, 1],
+            [10, 5, 0, 5, 4, 1],
+            [5, 0, 5, 0, 0, 15],
+            [14, 5, 1, 5, 3, 1]
+
         ];
 
-   
+
         // Setup canvas dimensions
         const width = 600;
         const height = 600;
         const outerRadius = Math.min(width, height) * 0.5 - 40;
-        const innerRadius = outerRadius - 30;
+        const innerRadius = outerRadius - 20;
+
+        const ribbonInnerRadius = innerRadius - 5; // Adjust the gap between arc and ribbons
+        const ribbonOuterRadius = outerRadius - 10; // Adjust the gap between arc and ribbons
+
 
         // Setup chord layout
         const chord = d3.chord()
@@ -43,7 +46,7 @@
 
         // Setup ribbon generator
         const ribbon = d3.ribbon()
-            .radius(innerRadius);
+            .radius(ribbonInnerRadius, ribbonOuterRadius);
 
         // Setup SVG canvas
         const svg = d3.select('svg')
@@ -56,8 +59,10 @@
         const chords = chord(matrix);
 
 
+        console.log("Chord data : ", chords);
 
-console.log("Chord data : ",chords) 
+        
+
         // Render chords
         svg.append('g')
             .selectAll('path')
@@ -65,7 +70,8 @@ console.log("Chord data : ",chords)
             .join('path')
             .attr('d', ribbon)
             .attr('fill', d => d3.schemeCategory10[d.source.index])
-            .attr('stroke', d => d3.schemeCategory10[d.source.index]);
+            .attr('stroke', d => d3.schemeCategory10[d.source.index])
+            .style('opacity', 0.7); // Add opacity here;;
 
         // Render labels
         svg.append('g')
@@ -73,7 +79,7 @@ console.log("Chord data : ",chords)
             .data(chords.groups)
             .join('text')
             .each(d => {
-                console.log("data d :" , chords.groups)
+                console.log("data d :", chords.groups)
                 d.angle = (d.startAngle + d.endAngle) / 2;
                 console.log(d.angle)
             })
@@ -84,7 +90,16 @@ console.log("Chord data : ",chords)
         ${d.angle > Math.PI ? 'rotate(180)' : ''}
       `)
             .attr('text-anchor', d => d.angle > Math.PI ? 'end' : null)
-            .text(d => `Node ${d.index}`);
+            .text(d => `Node ${d.index}`)
+
+
+        // Render arcs (groups)
+        svg.append('g')
+            .selectAll('path')
+            .data(chords.groups)
+            .join('path')
+            .style('fill', (d, i) => d3.schemeCategory10[i]) // Assign color based on group index
+            .attr('d', arc);
 
     </script>
 </body>

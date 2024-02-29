@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chord Plot</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .chord path {
+            fill-opacity: 0.7;
+            stroke: #000;
+            stroke-width: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Data
+        const categories = [
+            "Target based DR", "Phenotypic DR", "Toxicity assessment", "Design new clinical trials",
+            "Mapping of diseases pathways", "Disease-specific", "Disease-agnostic", "Biomarker identification",
+            "Predict adverse reactions", "Patients data", "Cell lines data", "Drug combinations",
+            "Drug-target interactions", "Drug-disease links", "Gene-disease links", "Cancer mutations",
+            "Chemical structures", "Protein structures", "Toxicities", "Pathways", "Docking",
+            "Homology modelling", "Binding sites", "Combination web-tools"
+        ];
+
+        const matrix = [
+            [0, 7, 0, 5, 0, 6, 1, 1, 0],
+            [6, 13, 0, 0, 1, 18, 1, 3, 0],
+            [0, 4, 0, 0, 0, 4, 0, 0, 0],
+            [25, 0, 0, 0, 8, 4, 21, 0, 4],
+            [0, 12, 0, 10, 0, 3, 9, 0, 3],
+            [5, 0, 0, 0, 0, 1, 4, 0, 0],
+            [3, 0, 0, 0, 0, 3, 0, 0, 0],
+            [3, 0, 0, 0, 0, 0, 3, 0, 0],
+            [4, 0, 0, 0, 0, 0, 4, 0, 0],
+            [0, 8, 8, 0, 0, 0, 8, 0, 0],
+            [10, 0, 0, 0, 10, 1, 9, 0, 0],
+            [23, 0, 0, 0, 0, 0, 23, 0, 0],
+            [8, 0, 0, 0, 0, 0, 8, 0, 0],
+            [7, 0, 0, 0, 0, 0, 7, 0, 0],
+            [0, 3, 0, 0, 0, 3, 0, 0, 0]
+        ];
+
+        // Set up
+        const width = 800;
+        const height = 800;
+        const outerRadius = Math.min(width, height) * 0.5 - 40;
+        const innerRadius = outerRadius - 30;
+
+        const chord = d3.chord()
+            .padAngle(0.05)
+            .sortSubgroups(d3.descending);
+
+        const arc = d3.arc()
+            .innerRadius(innerRadius)
+            .outerRadius(outerRadius);
+
+        const ribbon = d3.ribbon()
+            .radius(innerRadius);
+
+        const color = d3.scaleOrdinal()
+            .domain(d3.range(categories.length))
+            .range(d3.schemeCategory10);
+
+        const svg = d3.select("body").append("svg")
+            .attr("viewBox", [-width / 2, -height / 2, width, height])
+            .attr("width", "100%")
+            .attr("height", "auto")
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        const chords = chord(matrix);
+
+        const group = svg.append("g")
+            .selectAll("g")
+            .data(chords.groups)
+            .join("g");
+
+        group.append("path")
+            .attr("fill", d => color(d.index))
+            .attr("stroke", d => color(d.index))
+            .attr("d", arc);
+
+        group.append("title")
+            .text(d => categories[d.index]);
+
+        svg.append("g")
+            .attr("fill-opacity", 0.67)
+            .selectAll("path")
+            .data(chords)
+            .join("path")
+            .attr("d", ribbon)
+            .attr("fill", d => color(d.target.index))
+            .append("title")
+            .text(d => `${categories[d.source.index]} → ${categories[d.target.index]}: ${d.source.value}`);
+
+        </script>
+</body>
+</html>
