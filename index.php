@@ -1164,10 +1164,11 @@ if (isset($_POST['drugName2'])) {
       }
 
       function formatData4_compound(data, data2) {
-        var lines = data.split(', ');
-        var lines2 = data2.split(', ')
+var lines = data.substring(1).split(', ');
+   var lines2 = data2.split(', ')
         var formattedLines = [];
-
+        
+        console.log(data , "data data2" ,data2 )
 
         for (var i = 0; i < lines.length; i++) {
           var parts = lines[i].split(' (PChEMBL=');
@@ -1175,7 +1176,7 @@ if (isset($_POST['drugName2'])) {
           var pChembl = parts[1].slice(0, -1); // Removing the closing parenthesis
 
 
-          var formattedText = '<a href="https://www.uniprot.org/uniprotkb/' + lines2[i].substring(1, lines2[i].length - 1) + '/entry"target="_blank">' + entityName + '</a> (PChEMBL=' + pChembl + ')';
+          var formattedText = '<a href="https://www.uniprot.org/uniprotkb/' + lines2[i].substring(1, lines2[i].length - 1) + '/entry"target="_blank">' + entityName + '</a> (PChEMBL=' + pChembl + ',';
 
           formattedLines.push(formattedText);
 
