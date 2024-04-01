@@ -10,7 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['oncotree_change1']) ||
     isset($_POST['DataPlatform']) ||
     isset($_POST['pic50']) ||
-    isset($_POST['disease_class1'])
+    isset($_POST['disease_class1']).
+    isset($_POST['compound_class1'])
 
 
   ) {
@@ -18,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conditions = array();
 
 
-    $sql = "SELECT drugresponse.*, compounds_updated1.INCHI_KEY, drug_disease.Disease_class, 
+    $sql = "SELECT drugresponse.*, compounds_updated1.INCHI_KEY ,	compounds_updated1.COMPOUND_CLASS, drug_disease.Disease_class, 
     drug_disease.Disease_name , drug_disease.Phase FROM drugresponse";
 
     // Join with compounds_updated1 table
@@ -72,6 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $disease_class1 = $_POST['disease_class1'];
       $disease_class1_condition = implode("','", $disease_class1);
       $conditions[] = "drug_disease.Disease_class IN ('$disease_class1_condition')";
+    }
+     // for the data of the compound class   
+
+    if (isset($_POST['compound_class1']) && !empty($_POST['compound_class1'])) {
+      $compound_class1 = $_POST['compound_class1'];
+      $compound_class1_condition = implode("','", $compound_class1);
+      $conditions[] = "compounds_updated1.COMPOUND_CLASS IN ('$compound_class1_condition')";
     }
 
     $count_increment = intval($_POST['count_increment']);
@@ -2205,7 +2213,7 @@ var lines = data.substring(1).split(', ');
         element.classList.remove("error-border");
       });
 
-      if (Chembl_id1.length === 0 && DataPlatform.length === 0 && MaxPhase1.length === 0 && oncotree_change1.length === 0 && pic50.length === 0 && disease_class1.length === 0) {
+      if (Chembl_id1.length === 0 && DataPlatform.length === 0 && MaxPhase1.length === 0 && oncotree_change1.length === 0 && pic50.length === 0 && disease_class1.length === 0 && compound_class1.length === 0 ) {
         // Show error messages for the empty dropdowns
         event.preventDefault();
 

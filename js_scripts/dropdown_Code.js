@@ -597,7 +597,8 @@ function handleCheckboxChange7() {
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn7");
   dropdownBtn.textContent = compound_class1.length > 0 ? compound_class1.join(', ') : "Compound class ";
-console.log(compound_class1 , 'compound_class1')
+
+  console.log(compound_class1 , 'compound_class1')
 
 }
 // Close the dropdown

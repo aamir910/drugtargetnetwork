@@ -86,8 +86,11 @@ response = data ;
         MaxPhase1: MaxPhase1,
         oncotree_change1: oncotree_change1,
         DataPlatform: DataPlatform,
+        pic50: pic50 , 
         disease_class1: disease_class1,
-        pic50: pic50
+        compound_class1:compound_class1 
+
+
       },
       success: function(response) {
 
