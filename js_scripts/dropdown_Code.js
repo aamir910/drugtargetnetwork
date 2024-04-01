@@ -523,3 +523,90 @@ window.onclick = function(event) {
     closeAllDropdowns();
   }
 };
+
+// compound class code 
+var Compound_class_categories = [
+    "Kinase inhibitors",
+    "Transporter inhibitors",
+    "Protease inhibitors",
+    "Transcription factor inhibitors",
+    "Cytosolic inhibitors",
+    "Other inhibitors",
+    "Ion channel inhibitors",
+    "Epigenetic regulator inhibitors",
+    "Phosphodiesterase inhibitors",
+    "Enzyme inhibitors",
+    "GPCR inhibitors",
+    "Nuclear receptor inhibitors",
+    "Cytochrome inhibitors",
+    "Secreted protein inhibitors",
+    "Membrane receptor inhibitors",
+    "Phosphatase inhibitors",
+    "Structural protein inhibitors",
+    "Adhesion inhibitors",
+    "Surface antigen inhibitors"
+];
+const dropdownContent7 = document.getElementById('dropdownContent7');
+
+// Loop through the diseases array and create checkboxes and labels
+for (let i = 0; i <Compound_class_categories.length; i++) {
+  // Create a label element
+  const label = document.createElement('label');
+  label.title = Compound_class_categories[i];
+  // Create an input element with type 'checkbox'
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.value = Compound_class_categories[i]; // Set the value attribute to the disease name
+
+  // Add the checkbox to the label
+  label.appendChild(checkbox);
+
+  // Add the disease name as text content to the label
+  label.appendChild(document.createTextNode(Compound_class_categories[i]));
+
+  // Append the label to the dropdownContent div
+  dropdownContent7.appendChild(label);
+}
+// seventh dropdown
+
+let compound_class1 = [];
+
+function toggleDropdown7(event) {
+
+  var dropdownContent = document.getElementById("dropdownContent7");
+  var dropdownBtn = document.getElementById("dropdownBtn7");
+
+  if (dropdownContent.style.display === "block") {
+    dropdownContent.style.display = "none";
+  } else {
+    dropdownContent.style.display = "block";
+    event.stopPropagation();
+  }
+
+  Close_other_dropdown(dropdownContent);
+}
+
+function handleCheckboxChange7() {
+  compound_class1 = [];
+  // Get all checkboxes within the dropdown
+  var checkboxes = document.querySelectorAll('#dropdownContent7 input[type="checkbox"]:checked');
+  // Update the array with the selected values
+  checkboxes.forEach(function(checkbox) {
+    compound_class1.push(checkbox.value);
+  });
+  // Update the button text with selected values
+  var dropdownBtn = document.getElementById("dropdownBtn7");
+  dropdownBtn.textContent = compound_class1.length > 0 ? compound_class1.join(', ') : "Compound class ";
+
+
+}
+// Close the dropdown
+var checkboxList6 = document.querySelectorAll('#dropdownContent7 input[type="checkbox"]');
+checkboxList6.forEach(function(checkbox) {
+  checkbox.addEventListener('change', function() {
+    handleCheckboxChange7();
+  });
+});
+
+// ened seventh
+
