@@ -204,7 +204,9 @@ if (isset($_POST['drugName2'])) {
 }
 
 #customInteractiveDiv {
-  width: 500px;
+    width: 90%;
+    height: 90%;
+  /*width: 500px;*/
   /* height: 500px; */
   display: none;
   position: fixed;
@@ -233,9 +235,11 @@ if (isset($_POST['drugName2'])) {
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: calc(100% - 30px); /* Adjusted width to accommodate for the close button */
-  height: 100px; /* Increase the height as desired */
+  width: calc(100% - 30px); /* Adjusted width to accommodate for the close button 
+   /* Increase the height as desired */
   resize: vertical; /* Increased margin to create space for the close button */
+  width: 100% ; 
+  height: 80%;
 }
 
 #customSubmitButton {
@@ -371,7 +375,7 @@ if (isset($_POST['drugName2'])) {
         <!-- forth Dropdown -->
         <div class="dropdown" id="dropdown4" style=" z-index:3">
 
-          <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Disease lineage</label>
+          <label class="dropdownBtn" id="dropdownBtn3" onclick="toggleDropdown3(event)">Cell line lineage</label>
           <div id="dropdownContent3" class="dropdown-content">
             <!-- Add more options as needed -->
             <input type="text" id="searchInput" onkeyup="filterOptions()" placeholder="Search...">
@@ -381,10 +385,11 @@ if (isset($_POST['drugName2'])) {
             <span class="alert alert-danger">please select option</span>
           </div>
 
+        </div>
           <!-- sixth Dropdown -->
-          <div class="dropdown" id="dropdown6" style=" z-index:3 ; display: none;">
+          <div class="dropdown" id="dropdown6" style=" z-index:3 ; ">
 
-            <label class="dropdownBtn" id="dropdownBtn6" onclick="toggleDropdown6(event)">Select desease class</label>
+            <label class="dropdownBtn" id="dropdownBtn6" onclick="toggleDropdown6(event)">Desease class</label>
             <div id="dropdownContent6" class="dropdown-content">
 
               <!-- Add more options as needed -->
@@ -395,12 +400,28 @@ if (isset($_POST['drugName2'])) {
             </div>
 
           </div>
-        </div>
+          
+            <!-- seventh Dropdown -->
+          <div class="dropdown" id="dropdown6" style=" z-index:3 ; ">
+
+            <label class="dropdownBtn" id="dropdownBtn7" onclick="toggleDropdown7(event)">Compound class</label>
+            <div id="dropdownContent7" class="dropdown-content">
+
+              <!-- Add more options as needed -->
+
+            </div>
+            <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
+              <span class="alert alert-danger">please select option</span>
+            </div>
+
+          </div>
+          
+          
         <!-- button  -->
       </div>
       <div style="display : flex">
 
-      <button class="btn btn-success" id="openButton" onclick="toggleDiv()" >SMILES</button>
+      <button class="btn btn-success" id="openButton" onclick="toggleDiv()" >Predict</button>
         <button class="btn btn-success" onclick="tableData()"><img width="30px" height="30px" src="images/tableimg_white.png" alt=""></button>
         <button class="btn btn-success" id="submitButton" type='submit' style="width:7rem">
           Apply Filter</button>
@@ -633,7 +654,11 @@ if (isset($_POST['drugName2'])) {
   <p>Enter Smiles</p>
   </div>
   <button id="customCloseButton" onclick="toggleDiv()"><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button>
-  <textarea id="customSearchBar" class="search-bar3" placeholder="Search"></textarea>
+  <textarea id="customSearchBar" class="search-bar3" placeholder="Enter the Smiles with the new line format:
+  CCC1=C(C(=NC(=N1)N)N)C2=CC=C(C=C2)Cl
+  CN1CCN(CCOc2cc(OC3CCOCC3)c3c(Nc4c(Cl)ccc5c4OCO5)ncnc3c2)CC1
+  CCC1=C(C(=NC(=N1)N)N)C2=CC=C(C=C2)Cl
+  "></textarea>
  <button class="sliderbtn" id="customSubmitButton" onclick="submitCommand()">Submit</button>
 </div>
 
@@ -735,7 +760,7 @@ if (isset($_POST['drugName2'])) {
     // phase disease entry 
 
 
-    let phase_legend_data = ["Phase 1", "Phase 2", "Phase 3", "Phase 4"];
+    let phase_legend_data = [ "Phase 0","Phase 1", "Phase 2", "Phase 3", "Phase 4"];
     let phase_categories;
 
 
