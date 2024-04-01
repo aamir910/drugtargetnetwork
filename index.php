@@ -327,7 +327,7 @@ if (isset($_POST['drugName2'])) {
 
         <div class="dropdown" id="dropdown2">
 
-          <label class="dropdownBtn" id="dropdownBtn2" onclick="toggleDropdown2(event)"> Select max clinical phase</label>
+          <label tyle=" min-width: 120px;" class="dropdownBtn" id="dropdownBtn2" onclick="toggleDropdown2(event)"> Max clinical phase</label>
           <div id="dropdownContent2" class="dropdown-content">
             <label><input type="checkbox" value="Approved">Approved drugs</label>
             <label><input type="checkbox" value="Phase I">Phase I</label>
@@ -345,7 +345,7 @@ if (isset($_POST['drugName2'])) {
 
         <div class="dropdown" id="dropdown3">
 
-          <label class="dropdownBtn" id="dropdownBtn4" onclick="toggleDropdown4(event)">Select data platform</label>
+          <label class="dropdownBtn"  style=" min-width: 120px;" id="dropdownBtn4" onclick="toggleDropdown4(event)">Data platform</label>
           <div id="dropdownContent4" class="dropdown-content">
             <label><input type="checkbox" value="GDSC1" checked  >GDSC1</label>
             <label><input type="checkbox" value="GDSC2">GDSC2</label>
@@ -364,8 +364,8 @@ if (isset($_POST['drugName2'])) {
         <!-- 5th dropdown  -->
         <div class="dropdown" id="dropdown5">
 
-          <label class="dropdownBtn" id="dropdownBtn5" onclick="toggleDropdown5(event)">Select pIC50</label>
-          <div id="dropdownContent5" class="dropdown-content">
+          <label style=" min-width: 86px;" class="dropdownBtn" id="dropdownBtn5" onclick="toggleDropdown5(event)">PIC50</label>
+          <div  id="dropdownContent5" class="dropdown-content">
             <label><input type="checkbox" value="4">4-9</label>
             <label><input type="checkbox" value="5">5-9</label>
             <label><input type="checkbox" value="6">6-9</label>
@@ -429,7 +429,8 @@ if (isset($_POST['drugName2'])) {
       </div>
       <div style="display : flex">
 
-      <button class="btn btn-success" id="openButton" onclick="toggleDiv()" >Predict</button>
+      <button disabled class="btn btn-success" id="openButton" onclick="toggleDiv()" >Predict</button>
+ 
         <button class="btn btn-success" onclick="tableData()"><img width="30px" height="30px" src="images/tableimg_white.png" alt=""></button>
         <button class="btn btn-success" id="submitButton" type='submit' style="width:7rem">
           Apply Filter</button>
@@ -443,7 +444,7 @@ if (isset($_POST['drugName2'])) {
 
         <div class="legend1" id="legend1" style=" margin-left: 12px">
 
-          <legend class="legenddata" id="Drug_disease_phase" >Drug_disease phase </legend>
+          <legend class="legenddata" id="Drug_disease_phase" >Disease clinical phase</legend>
           <ul id="phases_disease" class="legend_inner"></ul>
           <legend class="legenddata "   id="Disease_class_heading" >Disease class </legend>
           <ul id="disease_Class" class="legend_inner"></ul>

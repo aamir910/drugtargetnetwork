@@ -245,7 +245,7 @@ function handleCheckboxChange() {
   console.log("bone" ,  oncotree_change1)
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn");
-  dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Select tissues";
+  dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Tissues";
 
 
 }
@@ -286,7 +286,7 @@ function handleCheckboxChange2() {
 
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn2");
-  dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Select max clinical phase";
+  dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Max clinical phase";
 
 }
 
@@ -328,7 +328,7 @@ function handleCheckboxChange4() {
 
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn4");
-  dropdownBtn.textContent = DataPlatform.length > 0 ? DataPlatform.join(', ') : "Select data platform";
+  dropdownBtn.textContent = DataPlatform.length > 0 ? DataPlatform.join(', ') : "Data platform";
 
 
   // Close the dropdown
@@ -367,7 +367,7 @@ function handleCheckboxChange5(value) {
   pic50 = value;
   // Update the button text with selected value
   var dropdownBtn = document.getElementById("dropdownBtn5");
-  dropdownBtn.textContent = pic50 !== undefined ? pic50 : "Select pIC50";
+  dropdownBtn.textContent = pic50 !== undefined ? pic50 : "PIC50";
 
   // Close the dropdown
   var dropdownContent = document.getElementById("dropdownContent5");
@@ -440,7 +440,7 @@ function handleCheckboxChange3() {
   });
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn3");
-  dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Select decease";
+  dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Decease";
 
 
 }
@@ -481,7 +481,7 @@ function handleCheckboxChange6() {
   });
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn6");
-  dropdownBtn.textContent = disease_class1.length > 0 ? disease_class1.join(', ') : "Select decease class ";
+  dropdownBtn.textContent = disease_class1.length > 0 ? disease_class1.join(', ') : "Decease class ";
 
 
 }
