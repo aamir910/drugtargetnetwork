@@ -284,7 +284,7 @@ if (isset($_POST['drugName2'])) {
 
         <div class="dropdown" id="dropdown1">
 
-          <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)"> Select tissues</label>
+          <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)"> Tissues</label>
           <div id="dropdownContent1" class="dropdown-content">
             <label><input type="checkbox" value="Bone" >Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
@@ -397,7 +397,7 @@ if (isset($_POST['drugName2'])) {
           <!-- sixth Dropdown -->
           <div class="dropdown" id="dropdown6" style=" z-index:3 ; ">
 
-            <label class="dropdownBtn" id="dropdownBtn6" onclick="toggleDropdown6(event)">Desease class</label>
+            <label class="dropdownBtn" id="dropdownBtn6" onclick="toggleDropdown6(event)">Disease class</label>
             <div id="dropdownContent6" class="dropdown-content">
 
               <!-- Add more options as needed -->
@@ -1341,8 +1341,8 @@ var lines = data.substring(1).split(', ');
       node
         // .on("click", )
 
-        .on("click", handleClick)
-        .on("contextmenu", handleDblClick);
+        .on("click", handleDblClick)
+        .on("contextmenu", handleClick);
 
 
       let parentnodes2 = node.filter(function(node) {
