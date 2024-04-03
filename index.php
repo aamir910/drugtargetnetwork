@@ -1075,7 +1075,6 @@ if (isset($_POST['drugName2'])) {
 
         Object.entries(dataobject).forEach(([key, value]) => {
           let keyCell = key;
-          console.log(key, 'here are the keys')
           let valueCell = value;
           if (keyCell === 'TARGETS_UNIPROT') {
 
@@ -1108,7 +1107,7 @@ if (isset($_POST['drugName2'])) {
           valueCell.textContent = value;
 
           // to the top 
-          keyCell.style.whiteSpace = 'nowrap';
+             keyCell.style.whiteSpace = 'nowrap';
           keyCell.style.verticalAlign = 'top';
           if (keyCell.innerText === 'CROSS_REFERENCES_CELL_LINES') {
             let text_change = valueCell.innerHTML;
@@ -1168,8 +1167,55 @@ if (isset($_POST['drugName2'])) {
           } else if (keyCell.innerHTML === 'INCHI_KEY') {
 
             keyCell.innerHTML = 'Standard InChiKey'
+           
+          }else if (keyCell.innerHTML === 'INCHI_KEY') {
 
-          }
+keyCell.innerHTML = 'Standard InChiKey'
+
+}else if (keyCell.innerHTML === 'CELL_LINE_NAME') {
+
+keyCell.innerHTML = 'Cell line name'
+
+}else if (keyCell.innerHTML === 'CELL_LINE_SYNONYM') {
+
+keyCell.innerHTML = 'Cell line synonym'
+
+}else if (keyCell.innerHTML === 'COSMIC_ID') {
+
+keyCell.innerHTML = 'Cosmic ID'
+
+}else if (keyCell.innerHTML === 'SANGER_MODEL_ID') {
+
+keyCell.innerHTML = 'Sanger model ID'
+
+}else if (keyCell.innerHTML === 'Source_DB_CL_ID') {
+
+keyCell.innerHTML = 'Source DB CL ID'
+
+}else if (keyCell.innerHTML === 'TCGA_STUDY_CODE') {
+
+keyCell.innerHTML = 'TCGA study code'
+
+}else if (keyCell.innerHTML === 'ONCOTREE_CODE') {
+
+keyCell.innerHTML = 'Oncotree code'
+
+}else if (keyCell.innerHTML === 'ONCOTREE_LINEAGE') {
+
+keyCell.innerHTML = 'Oncotree lineage'
+
+}else if (keyCell.innerHTML === 'ONCOTREE_PRIMARY_DISEASE') {
+
+keyCell.innerHTML = 'Oncotree primary disease'
+
+}else if (keyCell.innerHTML === 'CELLOSAURUS_DISEASE') {
+
+keyCell.innerHTML = 'Cellosaurus disease'
+
+}
+
+
+
 
           tableBody.appendChild(row);
         });
@@ -1323,10 +1369,28 @@ if (isset($_POST['drugName2'])) {
               return "#fe8f01";
             case "FIMM":
               return "#f99cc8";
-            default:
+          
               // Default color if the dataset doesn't match any specific case
-              return "black";
+          
           }
+        
+          switch(d.link_matric) {
+    case 'Phase 0':
+        return "red";
+    case 'Phase 1':
+        // handle Phase 1
+        return "blue"; // or any other color you desire
+    case 'Phase 2':
+        // handle Phase 2
+        return "green"; // or any other color you desire
+    case 'Phase 3':
+        // handle Phase 3
+        return "grey"; // or any other color you desire
+    case 'Phase 4':
+        // handle Phase 4
+        return "orange"; // or any other color you desire
+}
+
         })
         .attr("stroke-width", function(d) {
 
@@ -1440,6 +1504,7 @@ if (isset($_POST['drugName2'])) {
       // tag1  
 
       function handleClick(event) {
+        event.preventDefault();
         clickedData = event.target.__data__;
         name_of_drug = clickedData.id;
         var index = hidden_compound.indexOf(name_of_drug);
@@ -1667,9 +1732,6 @@ if (isset($_POST['drugName2'])) {
         .attr("dx", 6)
         .attr("dy", 0)
         .style("font-size", "12.208px").style("font-family", "Arial")
-
-
-
         .attr("text-anchor", "middle")
         .style("fill", "black")
         .style("z-index", 999)
@@ -2194,7 +2256,7 @@ if (isset($_POST['drugName2'])) {
       links = [];
       slider_range = 100;
       slider2.max = 100;
-      minValue = 6;
+      minValue = 4;
       // minSlider.min = 6 
       var inputElement = document.querySelector('.input-min');
       // Get the value of the input element
@@ -2202,9 +2264,9 @@ if (isset($_POST['drugName2'])) {
         inputElement.value = pic50;
         minSlider.value = pic50;
       } else {
-        inputElement.value = 6;
+        inputElement.value = 4;
 
-        minSlider.value = 6;
+        minSlider.value = 4;
 
       }
 

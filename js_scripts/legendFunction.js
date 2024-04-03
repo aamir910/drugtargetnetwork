@@ -537,8 +537,25 @@ function legendinfo() {
     .filter((d) => phase_legend_data.includes(d.category))
     .append("div")
     .attr("class", "line")
-    .style("background", "red")
-    .style("height", "2px");
+    .style("height", "2px")
+    .style("background", function(d) {
+      console.log(d ,"here is d")
+        switch (d.category) {
+            case 'Phase 0':
+                return "red";
+            case 'Phase 1':
+                return "blue";
+            case 'Phase 2':
+                return "green";
+            case 'Phase 3':
+                return "grey";
+            case 'Phase 4':
+                return "orange";
+            default:
+                return "black"; // default color if category not found
+        }
+    });
+
 
   phase_click = phase_link
     .filter((d) => phase_legend_data.includes(d.category))
