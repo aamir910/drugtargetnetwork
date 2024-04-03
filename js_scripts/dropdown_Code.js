@@ -526,26 +526,27 @@ window.onclick = function(event) {
 
 // compound class code 
 var Compound_class_categories = [
-    "Kinase inhibitors",
-    "Transporter inhibitors",
-    "Protease inhibitors",
-    "Transcription factor inhibitors",
-    "Cytosolic inhibitors",
-    "Other inhibitors",
-    "Ion channel inhibitors",
-    "Epigenetic regulator inhibitors",
-    "Phosphodiesterase inhibitors",
-    "Enzyme inhibitors",
-    "GPCR inhibitors",
-    "Nuclear receptor inhibitors",
-    "Cytochrome inhibitors",
-    "Secreted protein inhibitors",
-    "Membrane receptor inhibitors",
-    "Phosphatase inhibitors",
-    "Structural protein inhibitors",
-    "Adhesion inhibitors",
-    "Surface antigen inhibitors"
+  "Kinase inhibitor",
+  "Transporter inhibitor",
+  "Protease inhibitor",
+  "Transcription factor inhibitor",
+  "Cytosolic inhibitor",
+  "Other inhibitor",
+  "Ion channel inhibitor",
+  "Epigenetic regulator inhibitor",
+  "Phosphodiesterase inhibitor",
+  "Enzyme inhibitor",
+  "GPCR inhibitor",
+  "Nuclear receptor inhibitor",
+  "Cytochrome inhibitor",
+  "Secreted protein inhibitor",
+  "Membrane receptor inhibitor",
+  "Phosphatase inhibitor",
+  "Structural protein inhibitor",
+  "Adhesion inhibitor",
+  "Surface antigen inhibitor"
 ];
+
 const dropdownContent7 = document.getElementById('dropdownContent7');
 
 // Loop through the diseases array and create checkboxes and labels

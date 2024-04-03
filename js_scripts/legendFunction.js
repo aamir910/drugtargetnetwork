@@ -537,7 +537,7 @@ function legendinfo() {
     .filter((d) => phase_legend_data.includes(d.category))
     .append("div")
     .attr("class", "line")
-    .style("background", "black")
+    .style("background", "red")
     .style("height", "2px");
 
   phase_click = phase_link

@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     isset($_POST['oncotree_change1']) ||
     isset($_POST['DataPlatform']) ||
     isset($_POST['pic50']) ||
-    isset($_POST['disease_class1']).
+    isset($_POST['disease_class1']) .
     isset($_POST['compound_class1'])
 
 
@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $disease_class1_condition = implode("','", $disease_class1);
       $conditions[] = "drug_disease.Disease_class IN ('$disease_class1_condition')";
     }
-     // for the data of the compound class   
+    // for the data of the compound class   
 
     if (isset($_POST['compound_class1']) && !empty($_POST['compound_class1'])) {
       $compound_class1 = $_POST['compound_class1'];
@@ -199,76 +199,85 @@ if (isset($_POST['drugName2'])) {
 
 </head>
 <style>
+  #customOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(10px);
+    /* Increased blur effect */
+    z-index: 9999;
+    /* Higher z-index */
+  }
 
-#customOverlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(10px);/* Increased blur effect */
-  z-index: 9999; /* Higher z-index */
-}
-
-#customInteractiveDiv {
+  #customInteractiveDiv {
     width: 90%;
     height: 90%;
-  /*width: 500px;*/
-  /* height: 500px; */
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  z-index: 9999; /* Higher z-index */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Added box-shadow */
-}
+    /*width: 500px;*/
+    /* height: 500px; */
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 9999;
+    /* Higher z-index */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    /* Added box-shadow */
+  }
 
-#customCloseButton {
-  background-color: white;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  margin-top: -5px; /* Adjusted margin to make the close button closer */
-  margin-right: -5px; /* Adjusted margin to make the close button closer */
-}
+  #customCloseButton {
+    background-color: white;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    margin-top: -5px;
+    /* Adjusted margin to make the close button closer */
+    margin-right: -5px;
+    /* Adjusted margin to make the close button closer */
+  }
 
-#customSearchBar {
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: calc(100% - 30px); /* Adjusted width to accommodate for the close button 
+  #customSearchBar {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: calc(100% - 30px);
+    /* Adjusted width to accommodate for the close button 
    /* Increase the height as desired */
-  resize: vertical; /* Increased margin to create space for the close button */
-  width: 100% ; 
-  height: 80%;
-}
+    resize: vertical;
+    /* Increased margin to create space for the close button */
+    width: 100%;
+    height: 80%;
+  }
 
-#customSubmitButton {
-  display: block;
-}
+  #customSubmitButton {
+    display: block;
+  }
 
-.search-bar3 {
-  margin-top: 10px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 100%;
-}
+  .search-bar3 {
+    margin-top: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+  }
 
-#customSearchBar:focus,
-#customSearchBar:active {
-  border-color: #28a5fb; /* Change the border color on focus */
-  box-shadow: 0 0 5px #28a5fb; /* Add a shadow effect on focus */
-}
-
+  #customSearchBar:focus,
+  #customSearchBar:active {
+    border-color: #28a5fb;
+    /* Change the border color on focus */
+    box-shadow: 0 0 5px #28a5fb;
+    /* Add a shadow effect on focus */
+  }
 </style>
+
 <body>
   <div class=" searchBar">
     <form class="selection_box flex" id="searchForm">
@@ -286,21 +295,21 @@ if (isset($_POST['drugName2'])) {
 
           <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)"> Tissues</label>
           <div id="dropdownContent1" class="dropdown-content">
-            <label><input type="checkbox" value="Bone" >Bone</label>
+            <label><input type="checkbox" value="Bone">Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
             <label><input type="checkbox" value="Central Nervous System">Central Nervous System</label>
-            <label><input type="checkbox" value="Lung"checked >Lung</label>
+            <label><input type="checkbox" value="Lung" checked>Lung</label>
             <label><input type="checkbox" value="Peripheral Nervous System">Peripheral Nervous System</label>
             <label><input type="checkbox" value="Soft Tissue">Soft Tissue</label>
             <label><input type="checkbox" value="Esophagus">Esophagus</label>
-            <label><input type="checkbox" value="Breast" checked >Breast</label>
+            <label><input type="checkbox" value="Breast" checked>Breast</label>
             <label><input type="checkbox" value="Head and Neck">Head and Neck</label>
             <label><input type="checkbox" value="Haematopoietic and Lymphoid">Haematopoietic and Lymphoid</label>
             <label><input type="checkbox" value="Bladder">Bladder</label>
             <label><input type="checkbox" value="Kidney">Kidney</label>
             <label><input type="checkbox" value="Pancreas">Pancreas</label>
             <label><input type="checkbox" value="Large Intestine">Large Intestine</label>
-            <label><input type="checkbox" value="Ovary" checked >Ovary</label>
+            <label><input type="checkbox" value="Ovary" checked>Ovary</label>
             <label><input type="checkbox" value="Stomach">Stomach</label>
             <label><input type="checkbox" value="Biliary Tract">Biliary Tract</label>
             <label><input type="checkbox" value="Small Intestine">Small Intestine</label>
@@ -345,9 +354,9 @@ if (isset($_POST['drugName2'])) {
 
         <div class="dropdown" id="dropdown3">
 
-          <label class="dropdownBtn"  style=" min-width: 120px;" id="dropdownBtn4" onclick="toggleDropdown4(event)">Data platform</label>
+          <label class="dropdownBtn" style=" min-width: 120px;" id="dropdownBtn4" onclick="toggleDropdown4(event)">Data platform</label>
           <div id="dropdownContent4" class="dropdown-content">
-            <label><input type="checkbox" value="GDSC1" checked  >GDSC1</label>
+            <label><input type="checkbox" value="GDSC1" checked>GDSC1</label>
             <label><input type="checkbox" value="GDSC2">GDSC2</label>
             <label><input type="checkbox" value="CCLE_NP24">CCLE_NP24</label>
             <label><input type="checkbox" value="NCI-60">NCI-60</label>
@@ -365,7 +374,7 @@ if (isset($_POST['drugName2'])) {
         <div class="dropdown" id="dropdown5">
 
           <label style=" min-width: 86px;" class="dropdownBtn" id="dropdownBtn5" onclick="toggleDropdown5(event)">PIC50</label>
-          <div  id="dropdownContent5" class="dropdown-content">
+          <div id="dropdownContent5" class="dropdown-content">
             <label><input type="checkbox" value="4">4-9</label>
             <label><input type="checkbox" value="5">5-9</label>
             <label><input type="checkbox" value="6">6-9</label>
@@ -394,43 +403,43 @@ if (isset($_POST['drugName2'])) {
           </div>
 
         </div>
-          <!-- sixth Dropdown -->
-          <div class="dropdown" id="dropdown6" style=" z-index:3 ; ">
+        <!-- sixth Dropdown -->
+        <div class="dropdown" id="dropdown6" style=" z-index:3 ; ">
 
-            <label class="dropdownBtn" id="dropdownBtn6" onclick="toggleDropdown6(event)">Disease class</label>
-            <div id="dropdownContent6" class="dropdown-content">
+          <label class="dropdownBtn" id="dropdownBtn6" onclick="toggleDropdown6(event)">Disease class</label>
+          <div id="dropdownContent6" class="dropdown-content">
 
-              <!-- Add more options as needed -->
-
-            </div>
-            <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
-              <span class="alert alert-danger">please select option</span>
-            </div>
+            <!-- Add more options as needed -->
 
           </div>
-          
-            <!-- seventh Dropdown -->
-          <div class="dropdown" id="dropdown6" style=" z-index:3 ; ">
+          <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
+            <span class="alert alert-danger">please select option</span>
+          </div>
 
-            <label class="dropdownBtn" id="dropdownBtn7" onclick="toggleDropdown7(event)">Compound class</label>
-            <div id="dropdownContent7" class="dropdown-content">
+        </div>
 
-              <!-- Add more options as needed -->
+        <!-- seventh Dropdown -->
+        <div class="dropdown" id="dropdown6" style=" z-index:3 ; ">
 
-            </div>
-            <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
-              <span class="alert alert-danger">please select option</span>
-            </div>
+          <label class="dropdownBtn" id="dropdownBtn7" onclick="toggleDropdown7(event)">Compound class</label>
+          <div id="dropdownContent7" class="dropdown-content">
+
+            <!-- Add more options as needed -->
 
           </div>
-          
-          
+          <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
+            <span class="alert alert-danger">please select option</span>
+          </div>
+
+        </div>
+
+
         <!-- button  -->
       </div>
       <div style="display : flex">
 
-      <button disabled class="btn btn-success" id="openButton" onclick="toggleDiv()" >Predict</button>
- 
+        <button disabled class="btn btn-success" id="openButton" onclick="toggleDiv()">Predict</button>
+
         <button class="btn btn-success" onclick="tableData()"><img width="30px" height="30px" src="images/tableimg_white.png" alt=""></button>
         <button class="btn btn-success" id="submitButton" type='submit' style="width:7rem">
           Apply Filter</button>
@@ -444,9 +453,9 @@ if (isset($_POST['drugName2'])) {
 
         <div class="legend1" id="legend1" style=" margin-left: 12px">
 
-          <legend class="legenddata" id="Drug_disease_phase" >Disease clinical phase</legend>
+          <legend class="legenddata" id="Drug_disease_phase">Disease clinical phase</legend>
           <ul id="phases_disease" class="legend_inner"></ul>
-          <legend class="legenddata "   id="Disease_class_heading" >Disease class </legend>
+          <legend class="legenddata " id="Disease_class_heading">Disease class </legend>
           <ul id="disease_Class" class="legend_inner"></ul>
         </div>
 
@@ -465,7 +474,7 @@ if (isset($_POST['drugName2'])) {
       </div>
 
 
-      <div class="wrapper" id='wrapper' >
+      <div class="wrapper" id='wrapper'>
         <header style="justify-content: space-between;">
           <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
           <!-- heading  -->
@@ -509,10 +518,10 @@ if (isset($_POST['drugName2'])) {
 
             </div>
 
-<div style="margin: 14px 0px 9px;width: 100%;justify-content: center;align-items: center;display: flex;"  >
+            <div style="margin: 14px 0px 9px;width: 100%;justify-content: center;align-items: center;display: flex;">
 
-  <button class="sliderbtn" onclick="saveNames()">Filter</button>
-</div>
+              <button class="sliderbtn" onclick="saveNames()">Filter</button>
+            </div>
           </div>
 
         </header>
@@ -536,15 +545,15 @@ if (isset($_POST['drugName2'])) {
         </div>
         <div class="legend" id="legend_main2">
           <div style="width :40%">
-            <legend class="legenddata" id="max_clinical_phase" >Drug's max clinical phase</legend>
+            <legend class="legenddata" id="max_clinical_phase">Drug's max clinical phase</legend>
             <ul id="myList" class="legend_inner"></ul>
-            <legend class="legenddata" id="Data_platform" >Data platform</legend>
+            <legend class="legenddata" id="Data_platform">Data platform</legend>
             <ul id="dataset" class="legend_inner"></ul>
-            <legend class="legenddata" id="Metric" >Metric</legend>
+            <legend class="legenddata" id="Metric">Metric</legend>
             <ul id="matric_set" class="legend_inner"></ul>
           </div>
           <div style="width : 60%">
-            <legend class="legenddata" id="Tissue" >Tissue</legend>
+            <legend class="legenddata" id="Tissue">Tissue</legend>
             <ul id="child_node" class="legend_inner"></ul>
           </div>
         </div>
@@ -623,7 +632,7 @@ if (isset($_POST['drugName2'])) {
     </div>
   </section>
 
-  
+
   <div class="blur_the_background">
     <div class="parent_description ">
       <!-- heading  -->
@@ -653,23 +662,23 @@ if (isset($_POST['drugName2'])) {
   </div>
 
 
- <!-- here is the model to check the smiles  -->
+  <!-- here is the model to check the smiles  -->
 
 
-<div id="customOverlay" onclick="toggleDiv()"></div>
+  <div id="customOverlay" onclick="toggleDiv()"></div>
 
-<div id="customInteractiveDiv">
-  <div>
-  <p>Enter Smiles</p>
-  </div>
-  <button id="customCloseButton" onclick="toggleDiv()"><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button>
-  <textarea id="customSearchBar" class="search-bar3" placeholder="Enter the Smiles with the new line format:
+  <div id="customInteractiveDiv">
+    <div>
+      <p>Enter Smiles</p>
+    </div>
+    <button id="customCloseButton" onclick="toggleDiv()"><img height="20px" width="20px" src="images/icons8-close-60.png" alt=""></button>
+    <textarea id="customSearchBar" class="search-bar3" placeholder="Enter the Smiles with the new line format:
   CCC1=C(C(=NC(=N1)N)N)C2=CC=C(C=C2)Cl
   CN1CCN(CCOc2cc(OC3CCOCC3)c3c(Nc4c(Cl)ccc5c4OCO5)ncnc3c2)CC1
   CCC1=C(C(=NC(=N1)N)N)C2=CC=C(C=C2)Cl
   "></textarea>
- <button class="sliderbtn" id="customSubmitButton" onclick="submitCommand()">Submit</button>
-</div>
+    <button class="sliderbtn" id="customSubmitButton" onclick="submitCommand()">Submit</button>
+  </div>
 
 
 
@@ -769,7 +778,7 @@ if (isset($_POST['drugName2'])) {
     // phase disease entry 
 
 
-    let phase_legend_data = [ "Phase 0","Phase 1", "Phase 2", "Phase 3", "Phase 4"];
+    let phase_legend_data = ["Phase 0", "Phase 1", "Phase 2", "Phase 3", "Phase 4"];
     let phase_categories;
 
 
@@ -1066,6 +1075,7 @@ if (isset($_POST['drugName2'])) {
 
         Object.entries(dataobject).forEach(([key, value]) => {
           let keyCell = key;
+          console.log(key, 'here are the keys')
           let valueCell = value;
           if (keyCell === 'TARGETS_UNIPROT') {
 
@@ -1082,6 +1092,11 @@ if (isset($_POST['drugName2'])) {
 
 
         Object.entries(dataobject).forEach(([key, value]) => {
+        
+            // Skip creating a row for the keys 'COMPOUND_ID', 'PREFERRED_COMPOUND_NAME', and 'Source_DB_DR_ID'
+  if (key === 'COMPOUND_id' || key === 'PREFERRED_COMPOUND_NAME' || key === 'Source_DB_DR_ID') {
+    return; // Skip to the next iteration of the loop
+  }
           const row = document.createElement('tr');
 
           const keyCell = document.createElement('td');
@@ -1092,24 +1107,32 @@ if (isset($_POST['drugName2'])) {
           row.appendChild(valueCell);
           valueCell.textContent = value;
 
+          // to the top 
+          keyCell.style.whiteSpace = 'nowrap';
+          keyCell.style.verticalAlign = 'top';
           if (keyCell.innerText === 'CROSS_REFERENCES_CELL_LINES') {
             let text_change = valueCell.innerHTML;
             var formattedData = formatData(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
 
+            keyCell.innerHTML = 'Cross reference cell lines'
           } else if (keyCell.innerText === 'COMMENTS') {
             let text_change = valueCell.innerHTML;
             var formattedData = formatData2(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
 
+            keyCell.innerHTML = 'Comments'
           } else
           if (keyCell.innerText === 'REFERENCE_ID') {
+
             let text_change = valueCell.innerHTML;
             var formattedData = formatData3(text_change);
             // Use innerHTML instead of textContent to render HTML tags
             valueCell.innerHTML = formattedData;
+            keyCell.innerText
+            keyCell.innerHTML = 'Reference ID'
           } else if (keyCell.innerHTML === 'TARGETS') {
 
             let text_change = valueCell.innerHTML;
@@ -1118,9 +1141,35 @@ if (isset($_POST['drugName2'])) {
 
             var formattedData = formatData4_compound(text_change, globalCode)
             valueCell.innerHTML = formattedData;
+            keyCell.innerHTML = 'Targets'
+          } else if (keyCell.innerHTML === 'COMPOUND_NAME') {
+
+            keyCell.innerHTML = 'Compound name'
+          } else if (keyCell.innerHTML === 'PUBCHEM_ID') {
+
+            keyCell.innerHTML = 'PubChem ID'
+
+          } else if (keyCell.innerHTML === 'CHEMBL_ID') {
+
+            keyCell.innerHTML = 'ChEMBL ID'
+
+          } else if (keyCell.innerHTML === 'MAX_PHASE') {
+
+            keyCell.innerHTML = ' Max clinical phase'
+
+          } else if (keyCell.innerHTML === 'SMILES') {
+
+            keyCell.innerHTML = 'SMILE'
+
+          } else if (keyCell.innerHTML === 'COMPOUND_CLASS') {
+
+            keyCell.innerHTML = 'Compound class'
+
+          } else if (keyCell.innerHTML === 'INCHI_KEY') {
+
+            keyCell.innerHTML = 'Standard InChiKey'
 
           }
-
 
           tableBody.appendChild(row);
         });
@@ -1173,14 +1222,14 @@ if (isset($_POST['drugName2'])) {
       }
 
       function formatData4_compound(data, data2) {
-var lines = data.substring(1).split(', ');
-   var lines2 = data2.split(', ')
+        var lines = data.substring(1).split(', ');
+        var lines2 = data2.split(', ')
         var formattedLines = [];
-        
-        console.log(data , "data data2" ,data2 )
+
+        console.log(data, "data data2", data2)
 
         for (var i = 0; i < lines.length; i++) {
-          var parts = lines[i].split(' (PChEMBL=');
+          var parts =  lines[i].substring(1).split(' (PChEMBL=');
           var entityName = parts[0];
           var pChembl = parts[1].slice(0, -1); // Removing the closing parenthesis
 
@@ -1400,8 +1449,8 @@ var lines = data.substring(1).split(', ');
           hidden_compound.splice(index, 1); // Remove the element from the array
         }
         range_of_links(minValue, maxValue, slider_range);
-        
-        
+
+
       }
       //  handle the double click here 
 
@@ -1754,7 +1803,7 @@ var lines = data.substring(1).split(', ');
       filteredLinks.style("display", "none");
 
 
-  // tag2 
+      // tag2 
       //  remove the link of the selected nodes
       link.filter(function(item) {
         if (hidden_compound.includes(item.source.id)) {
@@ -1877,11 +1926,10 @@ var lines = data.substring(1).split(', ');
         }
       })
 
-    
+
 
       legendinfo();
-      if (not_remove) {
-      }
+      if (not_remove) {}
 
       pax_phasecliked.on("click", onclickmax_phase);
 
@@ -2096,7 +2144,7 @@ var lines = data.substring(1).split(', ');
 
       node.filter(function(node) {
         if (node.type === "parentnode" && hidden_compound.includes(node.id)) {
-        
+
           d3.select(this)
 
             .selectAll("circle") // Select all circles within this node
@@ -2214,7 +2262,7 @@ var lines = data.substring(1).split(', ');
         element.classList.remove("error-border");
       });
 
-      if (Chembl_id1.length === 0 && DataPlatform.length === 0 && MaxPhase1.length === 0 && oncotree_change1.length === 0 && pic50.length === 0 && disease_class1.length === 0 && compound_class1.length === 0 ) {
+      if (Chembl_id1.length === 0 && DataPlatform.length === 0 && MaxPhase1.length === 0 && oncotree_change1.length === 0 && pic50.length === 0 && disease_class1.length === 0 && compound_class1.length === 0) {
         // Show error messages for the empty dropdowns
         event.preventDefault();
 
