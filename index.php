@@ -1174,11 +1174,11 @@ keyCell.innerHTML = 'Standard InChiKey'
 
 }else if (keyCell.innerHTML === 'CELL_LINE_NAME') {
 
-keyCell.innerHTML = 'Cell line name'
+keyCell.innerHTML = 'Celline name'
 
 }else if (keyCell.innerHTML === 'CELL_LINE_SYNONYM') {
 
-keyCell.innerHTML = 'Cell line synonym'
+keyCell.innerHTML = 'Celline synonym'
 
 }else if (keyCell.innerHTML === 'COSMIC_ID') {
 
