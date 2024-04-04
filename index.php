@@ -295,6 +295,8 @@ if (isset($_POST['drugName2'])) {
 
           <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)"> Tissues</label>
           <div id="dropdownContent1" class="dropdown-content">
+          <label><a  style="text-align: left;" href="#"  id="unselectAll">Unselect All</a></label> 
+
             <label><input type="checkbox" value="Bone">Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
             <label><input type="checkbox" value="Central Nervous System">Central Nervous System</label>
@@ -698,6 +700,9 @@ if (isset($_POST['drugName2'])) {
   <script src="js_scripts/filter_single_code_by_search.js"></script>
   <script src="js_scripts/legendFunction.js"></script>
   <script>
+      
+
+
     let nodes = []; // unique nodes   
     let links = []; // links  from the json files
     let node = []; // DOM element    

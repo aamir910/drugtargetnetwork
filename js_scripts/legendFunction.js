@@ -539,7 +539,7 @@ function legendinfo() {
     .attr("class", "line")
     .style("height", "2px")
     .style("background", function(d) {
-      console.log(d ,"here is d")
+ 
         switch (d.category) {
             case 'Phase 0':
                 return "red";
@@ -551,8 +551,7 @@ function legendinfo() {
                 return "grey";
             case 'Phase 4':
                 return "orange";
-            default:
-                return "black"; // default color if category not found
+          // default color if category not found
         }
     });
 

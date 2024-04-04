@@ -1,3 +1,21 @@
+// here is the code to unselect all the boxes there 
+
+
+document.getElementById('unselectAll').style.display = "none";
+
+document.getElementById('unselectAll').addEventListener('click', function() {
+  var checkboxes = document.querySelectorAll('#dropdownContent1 input[type="checkbox"]');
+  checkboxes.forEach(function(checkbox) {
+      checkbox.checked = false;
+  });
+  console.log(oncotree_change1 , "oncotree_change1")
+  oncotree_change1 = []; 
+  var dropdownBtn = document.getElementById("dropdownBtn");
+  dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Tissues";
+   
+document.getElementById('unselectAll').style.display = "none ";
+});
+
 
 function tableData() {
   event.preventDefault();
@@ -83,7 +101,6 @@ const diseases = [
   "Squamous Papilloma", "Mucinous Gastric Adenocarcinoma", "Cutaneous T-Cell Lymphoma",
   "Chronic Lymphocytic Leukemia", "Adult Acute Megakaryoblastic Leukemia"
 ];
-
 
 
 
@@ -246,7 +263,14 @@ function handleCheckboxChange() {
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn");
   dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Tissues";
-
+  if (oncotree_change1.length > 4){
+   
+document.getElementById('unselectAll').style.display = "block ";
+  }
+  else{
+    
+document.getElementById('unselectAll').style.display = "none ";
+  }
 
 }
 
