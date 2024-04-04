@@ -360,6 +360,8 @@ if (isset($_POST['drugName2'])) {
 
           <label class="dropdownBtn" style=" min-width: 120px;" id="dropdownBtn4" onclick="toggleDropdown4(event)">Data platform</label>
           <div id="dropdownContent4" class="dropdown-content">
+          <label><a  style="text-align: left;" href="#"  id="unselectAll3">Unselect All</a></label> 
+
             <label><input type="checkbox" value="GDSC1" checked>GDSC1</label>
             <label><input type="checkbox" value="GDSC2">GDSC2</label>
             <label><input type="checkbox" value="CCLE_NP24">CCLE_NP24</label>
@@ -400,6 +402,7 @@ if (isset($_POST['drugName2'])) {
           <div id="dropdownContent3" class="dropdown-content">
             <!-- Add more options as needed -->
             <input type="text" id="searchInput" onkeyup="filterOptions()" placeholder="Search...">
+            <label><a  style="text-align: left;" href="#"  id="unselectAll4">Unselect All</a></label> 
 
           </div>
           <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">

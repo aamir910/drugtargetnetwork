@@ -30,6 +30,19 @@ document.getElementById('unselectAll2').addEventListener('click', function() {
 document.getElementById('unselectAll2').style.display = "none ";
 });
 
+// dropdown unselect  3
+document.getElementById('unselectAll3').addEventListener('click', function() {
+  var checkboxes = document.querySelectorAll('#dropdownContent4 input[type="checkbox"]');
+  checkboxes.forEach(function(checkbox) {
+      checkbox.checked = false;
+  });
+  DataPlatform = []; 
+  var dropdownBtn = document.getElementById("dropdownBtn4");
+  dropdownBtn.textContent = DataPlatform.length > 0 ? DataPlatform.join(', ') : "Data platform";
+  
+document.getElementById('unselectAll3').style.display = "none ";
+});
+
 
 
 
