@@ -447,8 +447,7 @@ if (isset($_POST['drugName2'])) {
       </div>
       <div style="display : flex">
 
-        <button disabled class="btn btn-success" id="openButton" onclick="toggleDiv()">Predict</button>
-
+        <button style="display: none;" disabled class="btn btn-success" id="openButton" onclick="toggleDiv()">Predict</button>
         <button class="btn btn-success" onclick="tableData()"><img width="30px" height="30px" src="images/tableimg_white.png" alt=""></button>
         <button class="btn btn-success" id="submitButton" type='submit' style="width:7rem">
           Apply Filter</button>
@@ -1157,8 +1156,9 @@ if (isset($_POST['drugName2'])) {
 
             keyCell.innerHTML = 'Compound name'
           } else if (keyCell.innerHTML === 'PUBCHEM_ID') {
-
+ 
             keyCell.innerHTML = 'PubChem ID'
+            valueCell.innerHTML = Math.floor(value)
 
           } else if (keyCell.innerHTML === 'CHEMBL_ID') {
 

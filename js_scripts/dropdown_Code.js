@@ -334,11 +334,10 @@ function handleCheckboxChange() {
   checkboxes.forEach(function(checkbox) {
     oncotree_change1.push(checkbox.value);
   });
-  console.log("bone" ,  oncotree_change1)
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn");
   dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Tissues";
-  if (oncotree_change1.length > 4){
+  if (oncotree_change1.length > 2){
    
 document.getElementById('unselectAll').style.display = "block ";
   }
