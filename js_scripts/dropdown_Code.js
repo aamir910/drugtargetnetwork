@@ -3,6 +3,8 @@
 
 document.getElementById('unselectAll').style.display = "none";
 
+document.getElementById('unselectAll2').style.display = "none";
+// for dropdown unselect  1 
 document.getElementById('unselectAll').addEventListener('click', function() {
   var checkboxes = document.querySelectorAll('#dropdownContent1 input[type="checkbox"]');
   checkboxes.forEach(function(checkbox) {
@@ -15,6 +17,20 @@ document.getElementById('unselectAll').addEventListener('click', function() {
    
 document.getElementById('unselectAll').style.display = "none ";
 });
+// dropdown unselect  2 
+document.getElementById('unselectAll2').addEventListener('click', function() {
+  var checkboxes = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]');
+  checkboxes.forEach(function(checkbox) {
+      checkbox.checked = false;
+  });
+  MaxPhase1 = []; 
+  var dropdownBtn = document.getElementById("dropdownBtn2");
+  dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Max clinical phase";
+ 
+document.getElementById('unselectAll2').style.display = "none ";
+});
+
+
 
 
 function tableData() {
@@ -311,7 +327,14 @@ function handleCheckboxChange2() {
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn2");
   dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Max clinical phase";
-
+  if (MaxPhase1.length > 2){
+   
+    document.getElementById('unselectAll2').style.display = "block ";
+      }
+      else{
+        
+    document.getElementById('unselectAll2').style.display = "none ";
+      }
 }
 
 var checkboxList2 = document.querySelectorAll('#dropdownContent2 input[type="checkbox"]');
@@ -353,7 +376,14 @@ function handleCheckboxChange4() {
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn4");
   dropdownBtn.textContent = DataPlatform.length > 0 ? DataPlatform.join(', ') : "Data platform";
-
+  if (DataPlatform.length > 2){
+   
+    document.getElementById('unselectAll3').style.display = "block ";
+      }
+      else{
+        
+    document.getElementById('unselectAll3').style.display = "none ";
+      }
 
   // Close the dropdown
   // var dropdownContent = document.getElementById("dropdownContent4");

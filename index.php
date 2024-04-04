@@ -340,6 +340,8 @@ if (isset($_POST['drugName2'])) {
 
           <label tyle=" min-width: 120px;" class="dropdownBtn" id="dropdownBtn2" onclick="toggleDropdown2(event)"> Max clinical phase</label>
           <div id="dropdownContent2" class="dropdown-content">
+          <label><a  style="text-align: left;" href="#"  id="unselectAll2">Unselect All</a></label> 
+
             <label><input type="checkbox" value="Approved">Approved drugs</label>
             <label><input type="checkbox" value="Phase I">Phase I</label>
             <label><input type="checkbox" value="Phase II">Phase II</label>
