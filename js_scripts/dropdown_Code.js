@@ -6,6 +6,7 @@ document.getElementById('unselectAll2').style.display = "none";
 document.getElementById('unselectAll3').style.display = "none";
 document.getElementById('unselectAll4').style.display = "none";
 document.getElementById('unselectAll5').style.display = "none";
+document.getElementById('unselectAll6').style.display = "none";
 
 // for dropdown unselect  1 
 document.getElementById('unselectAll').addEventListener('click', function() {
@@ -75,6 +76,20 @@ document.getElementById('unselectAll5').addEventListener('click', function() {
 document.getElementById('unselectAll5').style.display = "none ";
 });
 
+// dropdown unselectAll6
+document.getElementById('unselectAll6').addEventListener('click', function() {
+  var checkboxes = document.querySelectorAll('#dropdownContent7 input[type="checkbox"]');
+  checkboxes.forEach(function(checkbox) {
+      checkbox.checked = false;
+  });
+
+  compound_class1 = []; 
+  
+  var dropdownBtn = document.getElementById("dropdownBtn7");
+  dropdownBtn.textContent = compound_class1.length > 0 ? compound_class1.join(', ') : "Compound class ";
+
+document.getElementById('unselectAll6').style.display = "none ";
+});
 
 
 function tableData() {
@@ -711,8 +726,13 @@ function handleCheckboxChange7() {
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn7");
   dropdownBtn.textContent = compound_class1.length > 0 ? compound_class1.join(', ') : "Compound class ";
-
-  console.log(compound_class1 , 'compound_class1')
+  
+  if (compound_class1.length > 2){
+    document.getElementById('unselectAll6').style.display = "block ";
+      }
+      else{
+    document.getElementById('unselectAll6').style.display = "none ";
+      }
 
 }
 // Close the dropdown
