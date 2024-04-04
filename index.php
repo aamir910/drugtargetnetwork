@@ -428,9 +428,10 @@ if (isset($_POST['drugName2'])) {
 
         <!-- seventh Dropdown -->
         <div class="dropdown" id="dropdown6" style=" z-index:3 ; ">
-
-          <label class="dropdownBtn" id="dropdownBtn7" onclick="toggleDropdown7(event)">Compound class</label>
-          <div id="dropdownContent7" class="dropdown-content">
+          
+        <label class="dropdownBtn" id="dropdownBtn7" onclick="toggleDropdown7(event)">Compound class</label>
+        <div id="dropdownContent7" class="dropdown-content">
+            <label><a  style="text-align: left;" href="#"  id="unselectAll6">Unselect All</a></label> 
 
             <!-- Add more options as needed -->
 
