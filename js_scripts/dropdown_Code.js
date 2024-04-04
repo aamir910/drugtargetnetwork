@@ -2,8 +2,11 @@
 
 
 document.getElementById('unselectAll').style.display = "none";
-
 document.getElementById('unselectAll2').style.display = "none";
+document.getElementById('unselectAll3').style.display = "none";
+document.getElementById('unselectAll4').style.display = "none";
+document.getElementById('unselectAll5').style.display = "none";
+
 // for dropdown unselect  1 
 document.getElementById('unselectAll').addEventListener('click', function() {
   var checkboxes = document.querySelectorAll('#dropdownContent1 input[type="checkbox"]');
@@ -43,6 +46,34 @@ document.getElementById('unselectAll3').addEventListener('click', function() {
 document.getElementById('unselectAll3').style.display = "none ";
 });
 
+// dropdown unselectAll4  
+document.getElementById('unselectAll4').addEventListener('click', function() {
+  var checkboxes = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]');
+  checkboxes.forEach(function(checkbox) {
+      checkbox.checked = false;
+  });
+
+  Chembl_id1 = []; 
+  
+  var dropdownBtn = document.getElementById("dropdownBtn3");
+  dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Cell line lineage";
+ 
+document.getElementById('unselectAll4').style.display = "none ";
+});
+// dropdown unselectAll5  
+document.getElementById('unselectAll5').addEventListener('click', function() {
+  var checkboxes = document.querySelectorAll('#dropdownContent6 input[type="checkbox"]');
+  checkboxes.forEach(function(checkbox) {
+      checkbox.checked = false;
+  });
+
+  disease_class1 = []; 
+  
+  var dropdownBtn = document.getElementById("dropdownBtn6");
+  dropdownBtn.textContent = disease_class1.length > 0 ? disease_class1.join(', ') : "Dicease class ";
+
+document.getElementById('unselectAll5').style.display = "none ";
+});
 
 
 
@@ -507,9 +538,16 @@ function handleCheckboxChange3() {
   });
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn3");
-  dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Decease";
+  dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Cell line lineage";
 
-
+  if (Chembl_id1.length > 2){
+   
+    document.getElementById('unselectAll4').style.display = "block ";
+      }
+      else{
+        
+    document.getElementById('unselectAll4').style.display = "none ";
+      }
 }
 // Close the dropdown
 var checkboxList3 = document.querySelectorAll('#dropdownContent3 input[type="checkbox"]');
@@ -548,8 +586,14 @@ function handleCheckboxChange6() {
   });
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn6");
-  dropdownBtn.textContent = disease_class1.length > 0 ? disease_class1.join(', ') : "Decease class ";
+  dropdownBtn.textContent = disease_class1.length > 0 ? disease_class1.join(', ') : "Dicease class ";
 
+  if (disease_class1.length > 2){
+    document.getElementById('unselectAll5').style.display = "block ";
+      }
+      else{
+    document.getElementById('unselectAll5').style.display = "none ";
+      }
 
 }
 // Close the dropdown

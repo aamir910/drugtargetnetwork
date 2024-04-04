@@ -404,7 +404,7 @@ if (isset($_POST['drugName2'])) {
             <input type="text" id="searchInput" onkeyup="filterOptions()" placeholder="Search...">
             <label><a  style="text-align: left;" href="#"  id="unselectAll4">Unselect All</a></label> 
 
-          </div>
+          </div> 
           <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
             <span class="alert alert-danger">please select option</span>
           </div>
@@ -415,6 +415,7 @@ if (isset($_POST['drugName2'])) {
 
           <label class="dropdownBtn" id="dropdownBtn6" onclick="toggleDropdown6(event)">Disease class</label>
           <div id="dropdownContent6" class="dropdown-content">
+          <label><a  style="text-align: left;" href="#"  id="unselectAll5">Unselect All</a></label> 
 
             <!-- Add more options as needed -->
 
