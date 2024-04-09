@@ -337,7 +337,7 @@ function handleCheckboxChange() {
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn");
   dropdownBtn.textContent = oncotree_change1.length > 0 ? oncotree_change1.join(', ') : "Tissues";
-  if (oncotree_change1.length > 2){
+  if (oncotree_change1.length > 0){
    
 document.getElementById('unselectAll').style.display = "block ";
   }
@@ -385,7 +385,7 @@ function handleCheckboxChange2() {
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn2");
   dropdownBtn.textContent = MaxPhase1.length > 0 ? MaxPhase1.join(', ') : "Max clinical phase";
-  if (MaxPhase1.length > 2){
+  if (MaxPhase1.length > 0){
    
     document.getElementById('unselectAll2').style.display = "block ";
       }
@@ -434,7 +434,7 @@ function handleCheckboxChange4() {
   // Update the button text with selected values
   var dropdownBtn = document.getElementById("dropdownBtn4");
   dropdownBtn.textContent = DataPlatform.length > 0 ? DataPlatform.join(', ') : "Data platform";
-  if (DataPlatform.length > 2){
+  if (DataPlatform.length > 0){
    
     document.getElementById('unselectAll3').style.display = "block ";
       }
@@ -554,7 +554,7 @@ function handleCheckboxChange3() {
   var dropdownBtn = document.getElementById("dropdownBtn3");
   dropdownBtn.textContent = Chembl_id1.length > 0 ? Chembl_id1.join(', ') : "Cell line lineage";
 
-  if (Chembl_id1.length > 2){
+  if (Chembl_id1.length > 0){
    
     document.getElementById('unselectAll4').style.display = "block ";
       }
@@ -602,7 +602,7 @@ function handleCheckboxChange6() {
   var dropdownBtn = document.getElementById("dropdownBtn6");
   dropdownBtn.textContent = disease_class1.length > 0 ? disease_class1.join(', ') : "Dicease class ";
 
-  if (disease_class1.length > 2){
+  if (disease_class1.length > 0){
     document.getElementById('unselectAll5').style.display = "block ";
       }
       else{
@@ -726,7 +726,7 @@ function handleCheckboxChange7() {
   var dropdownBtn = document.getElementById("dropdownBtn7");
   dropdownBtn.textContent = compound_class1.length > 0 ? compound_class1.join(', ') : "Compound class ";
   
-  if (compound_class1.length > 2){
+  if (compound_class1.length > 0){
     document.getElementById('unselectAll6').style.display = "block ";
       }
       else{

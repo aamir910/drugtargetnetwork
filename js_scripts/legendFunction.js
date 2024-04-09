@@ -541,7 +541,7 @@ function legendinfo() {
     .style("background", function(d) {
  
         switch (d.category) {
-            case 'Phase 0':
+            case 'Preclinical':
                 return "red";
             case 'Phase 1':
                 return "blue";

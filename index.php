@@ -484,14 +484,23 @@ if (isset($_POST['drugName2'])) {
 
       <div class="wrapper" id='wrapper'>
         <header style="justify-content: space-between;">
-          <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
+         <div  style="display: flex;     justify-content: space-between; "  >
+
+           <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
+          <div>
+            <button style="" disabled class="btn btn-success" id="openButton" onclick="toggleDiv()">Predict</button>
+
+          </div>
+        
+         </div>
+          
           <!-- heading  -->
           <div>
             <p>Drug response (pIC50)</p>
           </div>
 
 
-          <div id="dialog-container" style='max-width:500px; min-width: 350px;'>
+          <div id="dialog-container" style='max-width:500px; min-width: 350px; left:18%; top: 68%; '>
             <div id="dialog-header">
               <button onclick="toggleDialog2()" class="close-btn-search" style="background:none   ;  position: absolute;
                 top: 10px;right: 3px;cursor: pointer;max-height: 100px;overflow: auto;
@@ -590,7 +599,7 @@ if (isset($_POST['drugName2'])) {
         <!-- btntag -->
         <button class="sliderbtn" id="redraw" title="move the nodes to tis default position">redraw</button>
         <button class="sliderbtn " id="export" title="(PNG , JPEG , XLSX)">Export</button>
-
+       
       </div>
     </footer>
 
@@ -789,7 +798,7 @@ if (isset($_POST['drugName2'])) {
     // phase disease entry 
 
 
-    let phase_legend_data = ["Phase 0", "Phase 1", "Phase 2", "Phase 3", "Phase 4"];
+    let phase_legend_data = ["Preclinical", "Phase 1", "Phase 2", "Phase 3", "Phase 4"];
     let phase_categories;
 
 
@@ -943,7 +952,7 @@ if (isset($_POST['drugName2'])) {
       data.forEach((item) => {
         if (!uniqueProteins.has(item.Disease_name)) {
           uniqueProteins.add(item.Disease_name);
-
+    item.Phase === 'Preclinical' ? console.log(item.Phase ): null ;
 
           nodes.push({
             id: item.Disease_name,
@@ -952,7 +961,7 @@ if (isset($_POST['drugName2'])) {
             oncotree_change: item.Disease_class,
             dataset: "temp",
             Disease_class: item.Disease_class,
-            phase: `phase ${item.Phase}`
+            phase: item.Phase === 'Preclinical' ? item.Phase : `Phase ${item.Phase}`
 
           });
 
@@ -976,7 +985,7 @@ if (isset($_POST['drugName2'])) {
           value: "temp",
           max_range_link: "temp2",
           dataset: "temp3",
-          link_matric: `Phase ${item.Phase}`,
+          link_matric: item.Phase === 'Preclinical' ? item.Phase : `Phase ${item.Phase}`,
         },
       ]);
       console.log("nodes", nodes)
@@ -1158,10 +1167,12 @@ if (isset($_POST['drugName2'])) {
           } else if (keyCell.innerHTML === 'PUBCHEM_ID') {
  
             keyCell.innerHTML = 'PubChem ID'
-            valueCell.innerHTML = Math.floor(value)
+            valueCell.innerHTML = Math.floor(value) ; 
 
           } else if (keyCell.innerHTML === 'CHEMBL_ID') {
-
+           if(valueCell.innerHTML === "0"){
+            valueCell.innerHTML = ""
+           }
             keyCell.innerHTML = 'ChEMBL ID'
 
           } else if (keyCell.innerHTML === 'MAX_PHASE') {
@@ -1330,36 +1341,25 @@ keyCell.innerHTML = 'Cellosaurus disease'
       checkbox_saves = [];
       checkbox_saves_child = [];
 
-      function calculateDistance(link, index) {
+      function calculateDistance(link, index , count) {
         // Return distance based on the index
 
-        if (index % 2 === 0) {
+        if (index % 2 === 0 && count >1) {
 
           // Even index links have a distance of 200
-          return link.value * 40;
-        } else {
+          return link.value * 65;
+        } else if(index % 2 === 0 && count === 1){
+
+          return link.value *25;
+        }else {
           // Odd index links have a distance of 100
-          return 300;
+          return 400;
         }
       }
 
       const g = svg.append("g");
       // simulationtag
-      simulation = d3
-        .forceSimulation(nodes)
-        .force(
-          "link",
-          d3.forceLink(links)
-          .id((d) => d.id)
-          // .distance(link => link.value * 200 ))
-
-          .distance((link, index) => calculateDistance(link, index))
-        )
-
-        // .force("charge", d3.forceManyBody().strength(-100))
-        .force("x", d3.forceX(x_graph))
-        .force("y", d3.forceY(y_graph))
-      // .force("center", d3.forceCenter(x_graph, y_graph))
+    
       // .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
       legendinfo();
       // Manually set colors based on the dataset value
@@ -1387,7 +1387,7 @@ keyCell.innerHTML = 'Cellosaurus disease'
           }
         
           switch(d.link_matric) {
-    case 'Phase 0':
+    case 'Preclinical' :
         return "red";
     case 'Phase 1':
         // handle Phase 1
@@ -1469,6 +1469,29 @@ keyCell.innerHTML = 'Cellosaurus disease'
         .on("click", handleDblClick)
         .on("contextmenu", handleClick);
 
+        console.log(node , "here is the node ")
+        const parentNodeCount = nodes.filter(node => node.type === "parentnode").length;
+console.log(parentNodeCount, 'here is the parent count');
+        // here is the start of the simulation 
+        simulation = d3
+        .forceSimulation(nodes)
+        .force(
+          "link",
+          d3.forceLink(links)
+          .id((d) => d.id)
+          // .distance(link => link.value * 200 ))
+
+          .distance((link, index) => calculateDistance(link, index ,parentNodeCount ))
+    //       .distance(function(d){
+    //     return (Math.random() * (500) + 2);
+        
+    // })
+        )
+
+        // .force("charge", d3.forceManyBody().strength(-100))
+        // .force("x", d3.forceX(x_graph))
+        // .force("y", d3.forceY(y_graph))
+      .force("center", d3.forceCenter(x_graph, y_graph))
 
       let parentnodes2 = node.filter(function(node) {
         if (node.type === "parentnode") {
