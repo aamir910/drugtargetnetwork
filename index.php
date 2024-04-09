@@ -1342,13 +1342,13 @@ if (isset($_POST['drugName2'])) {
         // Return distance based on the index
 
         if (index % 2 === 0 && count > 1) {
-if(link.value >7){
-  return link.value * 35;
+          if (link.value > 7) {
+            return link.value * 35;
 
-}else{
-  return link.value * 50;
+          } else {
+            return link.value * 50;
 
-}
+          }
           // Even index links have a distance of 200
         } else if (index % 2 === 0 && count === 1) {
 
@@ -1361,7 +1361,28 @@ if(link.value >7){
 
       const g = svg.append("g");
       // simulationtag
+      const parentNodeCount = nodes.filter(node => node.type === "parentnode").length;
+      console.log(parentNodeCount, 'here is the parent count');
+      // here is the start of the simulation 
+      simulation = d3
+        .forceSimulation(nodes)
+        .force(
+          "link",
+          d3.forceLink(links)
+          .id((d) => d.id)
+          // .distance(link => link.value * 200 ))
 
+          .distance((link, index) => calculateDistance(link, index, parentNodeCount))
+          //       .distance(function(d){
+          //     return (Math.random() * (500) + 2);
+
+          // })
+        )
+
+        // .force("charge", d3.forceManyBody().strength(-100))
+        // .force("x", d3.forceX(x_graph))
+        // .force("y", d3.forceY(y_graph))
+        .force("center", d3.forceCenter(x_graph, y_graph))
       // .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
       legendinfo();
       // Manually set colors based on the dataset value
@@ -1471,29 +1492,8 @@ if(link.value >7){
         .on("click", handleDblClick)
         .on("contextmenu", handleClick);
 
+
      
-      const parentNodeCount = nodes.filter(node => node.type === "parentnode").length;
-      console.log(parentNodeCount, 'here is the parent count');
-      // here is the start of the simulation 
-      simulation = d3
-        .forceSimulation(nodes)
-        .force(
-          "link",
-          d3.forceLink(links)
-          .id((d) => d.id)
-          // .distance(link => link.value * 200 ))
-
-          .distance((link, index) => calculateDistance(link, index, parentNodeCount))
-          //       .distance(function(d){
-          //     return (Math.random() * (500) + 2);
-
-          // })
-        )
-
-        // .force("charge", d3.forceManyBody().strength(-100))
-        // .force("x", d3.forceX(x_graph))
-        // .force("y", d3.forceY(y_graph))
-        .force("center", d3.forceCenter(x_graph, y_graph))
 
       let parentnodes2 = node.filter(function(node) {
         if (node.type === "parentnode") {
