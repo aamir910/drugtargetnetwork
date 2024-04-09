@@ -295,7 +295,7 @@ if (isset($_POST['drugName2'])) {
 
           <label class="dropdownBtn" id="dropdownBtn" onclick="toggleDropdown(event)"> Tissues</label>
           <div id="dropdownContent1" class="dropdown-content">
-          <label><a  style="text-align: left;" href="#"  id="unselectAll">Unselect All</a></label> 
+            <label><a style="text-align: left;" href="#" id="unselectAll">Unselect All</a></label>
 
             <label><input type="checkbox" value="Bone">Bone</label>
             <label><input type="checkbox" value="Skin">Skin</label>
@@ -340,7 +340,7 @@ if (isset($_POST['drugName2'])) {
 
           <label tyle=" min-width: 120px;" class="dropdownBtn" id="dropdownBtn2" onclick="toggleDropdown2(event)"> Max clinical phase</label>
           <div id="dropdownContent2" class="dropdown-content">
-          <label><a  style="text-align: left;" href="#"  id="unselectAll2">Unselect All</a></label> 
+            <label><a style="text-align: left;" href="#" id="unselectAll2">Unselect All</a></label>
 
             <label><input type="checkbox" value="Approved">Approved drugs</label>
             <label><input type="checkbox" value="Phase I">Phase I</label>
@@ -360,7 +360,7 @@ if (isset($_POST['drugName2'])) {
 
           <label class="dropdownBtn" style=" min-width: 120px;" id="dropdownBtn4" onclick="toggleDropdown4(event)">Data platform</label>
           <div id="dropdownContent4" class="dropdown-content">
-          <label><a  style="text-align: left;" href="#"  id="unselectAll3">Unselect All</a></label> 
+            <label><a style="text-align: left;" href="#" id="unselectAll3">Unselect All</a></label>
 
             <label><input type="checkbox" value="GDSC1" checked>GDSC1</label>
             <label><input type="checkbox" value="GDSC2">GDSC2</label>
@@ -402,9 +402,9 @@ if (isset($_POST['drugName2'])) {
           <div id="dropdownContent3" class="dropdown-content">
             <!-- Add more options as needed -->
             <input type="text" id="searchInput" onkeyup="filterOptions()" placeholder="Search...">
-            <label><a  style="text-align: left;" href="#"  id="unselectAll4">Unselect All</a></label> 
+            <label><a style="text-align: left;" href="#" id="unselectAll4">Unselect All</a></label>
 
-          </div> 
+          </div>
           <div class="alert-message alert2 " style="position: absolute; top: 80px; " id="dp4">
             <span class="alert alert-danger">please select option</span>
           </div>
@@ -415,7 +415,7 @@ if (isset($_POST['drugName2'])) {
 
           <label class="dropdownBtn" id="dropdownBtn6" onclick="toggleDropdown6(event)">Disease class</label>
           <div id="dropdownContent6" class="dropdown-content">
-          <label><a  style="text-align: left;" href="#"  id="unselectAll5">Unselect All</a></label> 
+            <label><a style="text-align: left;" href="#" id="unselectAll5">Unselect All</a></label>
 
             <!-- Add more options as needed -->
 
@@ -428,10 +428,10 @@ if (isset($_POST['drugName2'])) {
 
         <!-- seventh Dropdown -->
         <div class="dropdown" id="dropdown6" style=" z-index:3 ; ">
-          
-        <label class="dropdownBtn" id="dropdownBtn7" onclick="toggleDropdown7(event)">Compound class</label>
-        <div id="dropdownContent7" class="dropdown-content">
-            <label><a  style="text-align: left;" href="#"  id="unselectAll6">Unselect All</a></label> 
+
+          <label class="dropdownBtn" id="dropdownBtn7" onclick="toggleDropdown7(event)">Compound class</label>
+          <div id="dropdownContent7" class="dropdown-content">
+            <label><a style="text-align: left;" href="#" id="unselectAll6">Unselect All</a></label>
 
             <!-- Add more options as needed -->
 
@@ -484,16 +484,16 @@ if (isset($_POST['drugName2'])) {
 
       <div class="wrapper" id='wrapper'>
         <header style="justify-content: space-between;">
-         <div  style="display: flex;     justify-content: space-between; "  >
+          <div style="display: flex;     justify-content: space-between; ">
 
-           <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
-          <div>
-            <button style="" disabled class="btn btn-success" id="openButton" onclick="toggleDiv()">Predict</button>
+            <button class="fitlerbtn" onclick="toggleDialog()" title="Filter specific Compounds and Celline">Filter Compounds/Celline</button>
+            <div>
+              <button style="" disabled class="btn btn-success" id="openButton" onclick="toggleDiv()">Predict</button>
+
+            </div>
 
           </div>
-        
-         </div>
-          
+
           <!-- heading  -->
           <div>
             <p>Drug response (pIC50)</p>
@@ -599,7 +599,7 @@ if (isset($_POST['drugName2'])) {
         <!-- btntag -->
         <button class="sliderbtn" id="redraw" title="move the nodes to tis default position">redraw</button>
         <button class="sliderbtn " id="export" title="(PNG , JPEG , XLSX)">Export</button>
-       
+
       </div>
     </footer>
 
@@ -715,9 +715,6 @@ if (isset($_POST['drugName2'])) {
   <script src="js_scripts/filter_single_code_by_search.js"></script>
   <script src="js_scripts/legendFunction.js"></script>
   <script>
-      
-
-
     let nodes = []; // unique nodes   
     let links = []; // links  from the json files
     let node = []; // DOM element    
@@ -952,7 +949,7 @@ if (isset($_POST['drugName2'])) {
       data.forEach((item) => {
         if (!uniqueProteins.has(item.Disease_name)) {
           uniqueProteins.add(item.Disease_name);
-    item.Phase === 'Preclinical' ? console.log(item.Phase ): null ;
+          item.Phase === 'Preclinical' ? console.log(item.Phase) : null;
 
           nodes.push({
             id: item.Disease_name,
@@ -1111,11 +1108,11 @@ if (isset($_POST['drugName2'])) {
 
 
         Object.entries(dataobject).forEach(([key, value]) => {
-        
-            // Skip creating a row for the keys 'COMPOUND_ID', 'PREFERRED_COMPOUND_NAME', and 'Source_DB_DR_ID'
-  if (key === 'COMPOUND_id' || key === 'PREFERRED_COMPOUND_NAME' || key === 'Source_DB_DR_ID') {
-    return; // Skip to the next iteration of the loop
-  }
+
+          // Skip creating a row for the keys 'COMPOUND_ID', 'PREFERRED_COMPOUND_NAME', and 'Source_DB_DR_ID'
+          if (key === 'COMPOUND_id' || key === 'PREFERRED_COMPOUND_NAME' || key === 'Source_DB_DR_ID') {
+            return; // Skip to the next iteration of the loop
+          }
           const row = document.createElement('tr');
 
           const keyCell = document.createElement('td');
@@ -1127,7 +1124,7 @@ if (isset($_POST['drugName2'])) {
           valueCell.textContent = value;
 
           // to the top 
-             keyCell.style.whiteSpace = 'nowrap';
+          keyCell.style.whiteSpace = 'nowrap';
           keyCell.style.verticalAlign = 'top';
           if (keyCell.innerText === 'CROSS_REFERENCES_CELL_LINES') {
             let text_change = valueCell.innerHTML;
@@ -1165,14 +1162,14 @@ if (isset($_POST['drugName2'])) {
 
             keyCell.innerHTML = 'Compound name'
           } else if (keyCell.innerHTML === 'PUBCHEM_ID') {
- 
+
             keyCell.innerHTML = 'PubChem ID'
-            valueCell.innerHTML = Math.floor(value) ; 
+            valueCell.innerHTML = Math.floor(value);
 
           } else if (keyCell.innerHTML === 'CHEMBL_ID') {
-           if(valueCell.innerHTML === "0"){
-            valueCell.innerHTML = ""
-           }
+            if (valueCell.innerHTML === "0") {
+              valueCell.innerHTML = ""
+            }
             keyCell.innerHTML = 'ChEMBL ID'
 
           } else if (keyCell.innerHTML === 'MAX_PHASE') {
@@ -1190,52 +1187,52 @@ if (isset($_POST['drugName2'])) {
           } else if (keyCell.innerHTML === 'INCHI_KEY') {
 
             keyCell.innerHTML = 'Standard InChiKey'
-           
-          }else if (keyCell.innerHTML === 'INCHI_KEY') {
 
-keyCell.innerHTML = 'Standard InChiKey'
+          } else if (keyCell.innerHTML === 'INCHI_KEY') {
 
-}else if (keyCell.innerHTML === 'CELL_LINE_NAME') {
+            keyCell.innerHTML = 'Standard InChiKey'
 
-keyCell.innerHTML = 'Celline name'
+          } else if (keyCell.innerHTML === 'CELL_LINE_NAME') {
 
-}else if (keyCell.innerHTML === 'CELL_LINE_SYNONYM') {
+            keyCell.innerHTML = 'Celline name'
 
-keyCell.innerHTML = 'Celline synonym'
+          } else if (keyCell.innerHTML === 'CELL_LINE_SYNONYM') {
 
-}else if (keyCell.innerHTML === 'COSMIC_ID') {
+            keyCell.innerHTML = 'Celline synonym'
 
-keyCell.innerHTML = 'Cosmic ID'
+          } else if (keyCell.innerHTML === 'COSMIC_ID') {
 
-}else if (keyCell.innerHTML === 'SANGER_MODEL_ID') {
+            keyCell.innerHTML = 'Cosmic ID'
 
-keyCell.innerHTML = 'Sanger model ID'
+          } else if (keyCell.innerHTML === 'SANGER_MODEL_ID') {
 
-}else if (keyCell.innerHTML === 'Source_DB_CL_ID') {
+            keyCell.innerHTML = 'Sanger model ID'
 
-keyCell.innerHTML = 'Source DB CL ID'
+          } else if (keyCell.innerHTML === 'Source_DB_CL_ID') {
 
-}else if (keyCell.innerHTML === 'TCGA_STUDY_CODE') {
+            keyCell.innerHTML = 'Source DB CL ID'
 
-keyCell.innerHTML = 'TCGA study code'
+          } else if (keyCell.innerHTML === 'TCGA_STUDY_CODE') {
 
-}else if (keyCell.innerHTML === 'ONCOTREE_CODE') {
+            keyCell.innerHTML = 'TCGA study code'
 
-keyCell.innerHTML = 'Oncotree code'
+          } else if (keyCell.innerHTML === 'ONCOTREE_CODE') {
 
-}else if (keyCell.innerHTML === 'ONCOTREE_LINEAGE') {
+            keyCell.innerHTML = 'Oncotree code'
 
-keyCell.innerHTML = 'Oncotree lineage'
+          } else if (keyCell.innerHTML === 'ONCOTREE_LINEAGE') {
 
-}else if (keyCell.innerHTML === 'ONCOTREE_PRIMARY_DISEASE') {
+            keyCell.innerHTML = 'Oncotree lineage'
 
-keyCell.innerHTML = 'Oncotree primary disease'
+          } else if (keyCell.innerHTML === 'ONCOTREE_PRIMARY_DISEASE') {
 
-}else if (keyCell.innerHTML === 'CELLOSAURUS_DISEASE') {
+            keyCell.innerHTML = 'Oncotree primary disease'
 
-keyCell.innerHTML = 'Cellosaurus disease'
+          } else if (keyCell.innerHTML === 'CELLOSAURUS_DISEASE') {
 
-}
+            keyCell.innerHTML = 'Cellosaurus disease'
+
+          }
 
 
 
@@ -1298,7 +1295,7 @@ keyCell.innerHTML = 'Cellosaurus disease'
         console.log(data, "data data2", data2)
 
         for (var i = 0; i < lines.length; i++) {
-          var parts =  lines[i].substring(1).split(' (PChEMBL=');
+          var parts = lines[i].substring(1).split(' (PChEMBL=');
           var entityName = parts[0];
           var pChembl = parts[1].slice(0, -1); // Removing the closing parenthesis
 
@@ -1341,17 +1338,22 @@ keyCell.innerHTML = 'Cellosaurus disease'
       checkbox_saves = [];
       checkbox_saves_child = [];
 
-      function calculateDistance(link, index , count) {
+      function calculateDistance(link, index, count) {
         // Return distance based on the index
 
-        if (index % 2 === 0 && count >1) {
+        if (index % 2 === 0 && count > 1) {
+if(link.value >7){
+  return link.value * 35;
 
+}else{
+  return link.value * 50;
+
+}
           // Even index links have a distance of 200
-          return link.value * 65;
-        } else if(index % 2 === 0 && count === 1){
+        } else if (index % 2 === 0 && count === 1) {
 
-          return link.value *25;
-        }else {
+          return link.value * 25;
+        } else {
           // Odd index links have a distance of 100
           return 400;
         }
@@ -1359,7 +1361,7 @@ keyCell.innerHTML = 'Cellosaurus disease'
 
       const g = svg.append("g");
       // simulationtag
-    
+
       // .force('collision', d3.forceCollide().radius(15)); // Adjust the radius as needed
       legendinfo();
       // Manually set colors based on the dataset value
@@ -1381,27 +1383,27 @@ keyCell.innerHTML = 'Cellosaurus disease'
               return "#fe8f01";
             case "FIMM":
               return "#f99cc8";
-          
+
               // Default color if the dataset doesn't match any specific case
-          
+
           }
-        
-          switch(d.link_matric) {
-    case 'Preclinical' :
-        return "red";
-    case 'Phase 1':
-        // handle Phase 1
-        return "blue"; // or any other color you desire
-    case 'Phase 2':
-        // handle Phase 2
-        return "green"; // or any other color you desire
-    case 'Phase 3':
-        // handle Phase 3
-        return "grey"; // or any other color you desire
-    case 'Phase 4':
-        // handle Phase 4
-        return "orange"; // or any other color you desire
-}
+
+          switch (d.link_matric) {
+            case 'Preclinical':
+              return "red";
+            case 'Phase 1':
+              // handle Phase 1
+              return "blue"; // or any other color you desire
+            case 'Phase 2':
+              // handle Phase 2
+              return "green"; // or any other color you desire
+            case 'Phase 3':
+              // handle Phase 3
+              return "grey"; // or any other color you desire
+            case 'Phase 4':
+              // handle Phase 4
+              return "orange"; // or any other color you desire
+          }
 
         })
         .attr("stroke-width", function(d) {
@@ -1469,11 +1471,11 @@ keyCell.innerHTML = 'Cellosaurus disease'
         .on("click", handleDblClick)
         .on("contextmenu", handleClick);
 
-        console.log(node , "here is the node ")
-        const parentNodeCount = nodes.filter(node => node.type === "parentnode").length;
-console.log(parentNodeCount, 'here is the parent count');
-        // here is the start of the simulation 
-        simulation = d3
+     
+      const parentNodeCount = nodes.filter(node => node.type === "parentnode").length;
+      console.log(parentNodeCount, 'here is the parent count');
+      // here is the start of the simulation 
+      simulation = d3
         .forceSimulation(nodes)
         .force(
           "link",
@@ -1481,17 +1483,17 @@ console.log(parentNodeCount, 'here is the parent count');
           .id((d) => d.id)
           // .distance(link => link.value * 200 ))
 
-          .distance((link, index) => calculateDistance(link, index ,parentNodeCount ))
-    //       .distance(function(d){
-    //     return (Math.random() * (500) + 2);
-        
-    // })
+          .distance((link, index) => calculateDistance(link, index, parentNodeCount))
+          //       .distance(function(d){
+          //     return (Math.random() * (500) + 2);
+
+          // })
         )
 
         // .force("charge", d3.forceManyBody().strength(-100))
         // .force("x", d3.forceX(x_graph))
         // .force("y", d3.forceY(y_graph))
-      .force("center", d3.forceCenter(x_graph, y_graph))
+        .force("center", d3.forceCenter(x_graph, y_graph))
 
       let parentnodes2 = node.filter(function(node) {
         if (node.type === "parentnode") {
