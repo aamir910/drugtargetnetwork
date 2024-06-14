@@ -24,7 +24,142 @@
 </head>
 <body>
     <script>
+
+// function convertSerialToDate(serialNumberStr) {
+//     // Convert the serial number string to a number
+//     var serialNumber = parseInt(serialNumberStr);
+
+//     // Convert serial number to milliseconds since epoch
+//     var millisecondsSinceEpoch = (serialNumber - 1) * 24 * 60 * 60 * 1000;
+
+//     // Create a new Date object
+//     var date = new Date(millisecondsSinceEpoch + new Date("1899-12-30").getTime());
+
+//     // Extract the date components
+//     var day = date.getDate();
+//     var month = date.getMonth() + 1; // Month is zero-indexed, so add 1
+//     var year = date.getFullYear();
+
+//     // Format the date
+//     var formattedDate = String(day).padStart(2, '0') + "-" + String(month).padStart(2, '0') + "-" + year;
+
+//     return formattedDate;
+// }
+        function convertSerialToDate(serialNumberStr) {
+            // Convert the serial number string to a number
+            var serialNumber = parseInt(serialNumberStr);
+
+            // Convert serial number to milliseconds since epoch
+            var millisecondsSinceEpoch = (serialNumber - 1) * 24 * 60 * 60 * 1000;
+
+            // Create a new Date object
+            var date = new Date(
+                millisecondsSinceEpoch + new Date("1899-12-30").getTime()
+            );
+
+
+            // Extract the date components
+            var day = date.getDate();
+            var month = date.getMonth() +1 ; // Month is zero-indexed, so add 1
+            var year = date.getFullYear();
+
+          if(day > 31){
+              day = 1
+              month = month+1;
+          }
+          if(month >12 ){
+              month =1
+              year = year + 1 ; 
+          }
+
+console.log( day , 'day' , month , 'month' , year , 'year' ,serialNumberStr ,'serialNumberStr' ) ; 
+
+            // Format the date
+            var formattedDate = day + "-" + month + "-" + year;
+
+            return formattedDate;
+        }
+
+
+
+
+// Example usage
+const excelDate = "44986";
+const formattedDate = convertSerialToDate(excelDate);
+console.log(formattedDate); // Outputs: "01-03-2023"
+
+// Additional test case
+const anotherExcelDate = "45323";
+const anotherFormattedDate = convertSerialToDate(anotherExcelDate);
+console.log(anotherFormattedDate); // Outputs: "01-03-2024"
+
+
+
+
+function ExcelDateToJSDate(serial) {
+   var utc_days  = Math.floor(serial - 25569);
+   var utc_value = utc_days * 86400;                                        
+   var date_info = new Date(utc_value * 1000);
+
+   var fractional_day = serial - Math.floor(serial) + 0.0000001;
+
+   var total_seconds = Math.floor(86400 * fractional_day);
+
+   var seconds = total_seconds % 60;
+
+   total_seconds -= seconds;
+
+   var hours = Math.floor(total_seconds / (60 * 60));
+   var minutes = Math.floor(total_seconds / 60) % 60;
+
+   return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate(), hours, minutes, seconds);
+}
+
+// Example usage
+const excelDate2 = "44986";
+const formattedDate2 = ExcelDateToJSDate(excelDate);
+console.log(formattedDate , '2'); // Outputs: "01-03-2023"
+
+// Additional test case
+const anotherExcelDate2 = "45323";
+const anotherFormattedDate2 = ExcelDateToJSDate(anotherExcelDate);
+console.log(anotherFormattedDate ,"2"); // Outputs: "01-03-2024"
+
+function convertDateToSerial(date) {
+    // Ensure the date is a valid Date object
+    if (!(date instanceof Date)) {
+        throw new Error("Invalid Date object");
+    }
+
+    // Excel's base date is January 1, 1900
+    const excelBaseDate = new Date(1900, 0, 1); // 1900-01-01
+
+    // Calculate the number of days between the given date and the base date
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+    let serialNumber = Math.floor((date - excelBaseDate) / millisecondsPerDay) + 1;
+
+    // Adjust for Excel's incorrect leap year handling for 1900
+    if (serialNumber >= 60) {
+        serialNumber += 1;
+    }
+
+    return serialNumber;
+}
+
+// Example usage
+const date1 = new Date(2023, 1, 28); // January 3, 2023 (Months are zero-indexed)
+const excelSerial1 = convertDateToSerial(date1);
+console.log(excelSerial1); // Expected: 44986
+
+const date2 = new Date(2024, 0, 31); // January 2, 2024
+const excelSerial2 = convertDateToSerial(date2);
+console.log(excelSerial2); // Expected: 45323
+
+
+
+
         // Data
+
         const categories = [
             "Patients data", "Cell lines data", "Drug combinations",
             "Drug-target interactions", "Drug-disease links", "Gene-disease links", "Cancer mutations",
